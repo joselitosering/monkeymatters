@@ -1,0 +1,458 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>v4.2.1 — Turtle Shell White Paper — Part 2 (Sections 9–13)</title>
+<style>
+  :root{--ink:#e8efff;--ink-strong:#ffffff;--sub:#b8c4e3;--glass:rgba(18,22,34,.55);--border:rgba(84,101,145,.35);--a1:#7c5cff;--a2:#00d4ff;--risk:#f87171;--good:#34d399;--warn:#fbbf24;--paper:#0b0d12;--card:#0f1424;--line:#23314d;--accent:#7dd3fc;--accent2:#c4b5fd}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+  .aurora{position:fixed;inset:0;background:#0b0d12;z-index:-2}
+  .aurora::before,.aurora::after{content:"";position:absolute;inset:-20%;filter:blur(60px);opacity:.6}
+  .aurora::before{background:radial-gradient(50% 60% at 20% 20%,rgba(124,92,255,.33),transparent 60%),radial-gradient(40% 50% at 78% 30%,rgba(0,212,255,.28),transparent 60%),radial-gradient(30% 40% at 40% 80%,rgba(255,93,115,.18),transparent 68%)}
+  .aurora::after{background:radial-gradient(45% 55% at 10% 85%,rgba(16,185,129,.25),transparent 60%),radial-gradient(40% 45% at 90% 80%,rgba(250,204,21,.16),transparent 60%)}
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.025"/></svg>');mix-blend-mode:soft-light}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px 18px 80px}
+  .topbar{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,rgba(11,13,18,.85),rgba(11,13,18,.55));backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--border)}
+  .brand{display:flex;align-items:center;gap:10px;padding:10px 2px}
+  .pill{padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--a1),#9b5cff);font-size:12px;letter-spacing:.2px;color:#f8faff}
+  h1{margin:4px 0 2px;font-size:34px;line-height:1.2;background:linear-gradient(90deg,#fff,#76e7ff 35%,#cbb2ff 70%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .deck{margin:0;color:var(--sub)}
+  .nav{display:flex;gap:8px;flex-wrap:wrap;padding:8px 0}
+  .nav a{display:inline-block;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:rgba(0,0,0,.25);color:var(--ink);text-decoration:none;font-size:13px}
+  .nav a:hover{border-color:var(--a2)}
+  section{margin-top:18px}
+  .card{background:var(--glass);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:0 10px 26px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05);overflow:visible;break-inside:avoid;page-break-inside:avoid}
+  h2{margin:0 0 8px;font-size:22px}
+  h3{margin:10px 0 6px;font-size:18px}
+  p{margin:10px 0}
+  .k{font-weight:800;color:#eaf2ff}
+  .muted{color:var(--sub)}
+  .box{border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(12,18,34,.55);margin:12px 0}
+  .box.accent{border-left:4px solid var(--a2)}
+  .box.warn{border-left:4px solid var(--warn)}
+  .box.ok{border-left:4px solid var(--good)}
+  .two-col{column-count:2;column-gap:30px}
+  .two-col>*{break-inside:avoid}
+  .span-all{column-span:all;display:block;margin:10px 0}
+  .chart{height:380px}
+  table.table-wide{width:100%;table-layout:auto}
+  @media (max-width:980px){.two-col{column-count:1}}
+  figure{margin:14px 0;border:1px solid var(--line);border-radius:14px;background:#0b1326;padding:12px}
+  figcaption{font-size:12.5px;color:#9fb4de;padding:6px 10px;border-top:1px solid var(--line)}
+  svg{display:block;width:100%;height:360px}
+  .axis{stroke:#9fb4de;stroke-width:1}
+  .grid{stroke:#23314d;stroke-dasharray:4 4}
+  .label{fill:#cfe0ff;font-size:12px}
+  .tick{fill:#9fb4de;font-size:11px}
+  pre{white-space:pre-wrap;word-break:break-word;background:#0a1222;border:1px dashed var(--line);border-radius:12px;padding:10px;color:#e6ecff}
+  .toc{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px;grid-auto-rows:1fr;width:100%;box-sizing:border-box;margin:0;padding:0}
+  .toc a{display:flex;align-items:center;justify-content:flex-start;border:1px solid var(--border);border-radius:12px;padding:10px 12px;background:rgba(8,12,24,.55);text-decoration:none;color:var(--ink);min-height:84px;height:100%;box-sizing:border-box;word-break:break-word}
+  .toc a:hover{border-color:var(--a2)}
+  .toplink{display:inline-block;margin-top:8px;font-size:12px;color:#cfe0ff;text-decoration:none}
+  @page{size:Letter;margin:0.6in}
+  @media print{
+    .topbar{position:static}
+    .nav{display:none}
+    .aurora,.grain{display:none}
+    .two-col{column-count:1}
+    .card,figure,pre,table{break-inside:avoid;page-break-inside:avoid}
+    h2,h3{break-after:avoid;page-break-after:avoid}
+    p,li{orphans:3;widows:3}
+    svg{max-height:6.5in}
+    body{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="aurora"></div><div class="grain"></div>
+<header class="topbar">
+  <div class="wrap brand">
+    <span class="pill">SHADOW MONKEY</span>
+    <div>
+      <h1>v4.2 — Turtle Shell Strategy — Part 2 (Sections 9–13)</h1>
+      <p class="deck">Implementation · Legal/Tax Architecture · KPIs & Governance · Case Studies · Roadmap</p>
+    </div>
+  </div>
+  <nav class="wrap nav">
+    <a href="v_4_1.html" title="Open Part 1 (Sections 0–8)" data-target="part1">Part 1</a>
+    <a href="#toc">Contents</a>
+    <a href="#sec9">9. Implementation</a>
+    <a href="#sec10">10. Legal/Tax</a>
+    <a href="#sec11">11. KPIs</a>
+    <a href="#sec12">12. Case Studies</a>
+    <a href="#sec13">13. Roadmap</a>
+
+    <a href="v_4_3.html" title="Open Part 3 (Appendices)" data-target="part3">Appendices</a>
+  </nav>
+</header>
+<main class="wrap">
+  <section id="toc" class="card">
+    <h2>Table of Contents (Part 2)</h2>
+    <div class="toc">
+      <a href="#sec9">9) Implementation & Automation (Cloud, Brokers, Data)</a>
+      <a href="#sec10">10) Legal & Tax Lens (U.S.): §1256, §988, TTS, §475(f)</a>
+      <a href="#sec11">11) KPIs & Program Governance</a>
+      <a href="#sec12">12) Case Studies (Hypothetical, Parameter‑Accurate)</a>
+      <a href="#sec13">13) Roadmap: 1‑, 5‑, 10‑Year Operating Plan</a>
+    </div>
+  </section>
+
+  <section id="sec9" class="card">
+    <h2>9) Implementation & Automation (Cloud, Brokers, Data)</h2>
+    <div class="two-col">
+          <p><span class="k">Architecture (phased).</span> Separate calculation (rails, Nᵈ/Nⁱ), execution (orders, adds, exits), and oversight (logs, kill‑switches). A daily batch computes rails with offset=1 and Nᵈ; a session daemon consumes 5‑minute bars to maintain Nⁱ, confirm closes, arm/cancel entries, set 2×Nⁱ stops, and stage ±0.5Nⁱ adds. Idempotent actions prevent duplicate orders.Start manual and graduate to automation in three lanes: <strong>(A) Calculation</strong> (rails H20/L20, H55/L55; Nᵈ and Nⁱ), <strong>(B) Execution</strong> (order staging, OCO stops, adds), <strong>(C) Oversight</strong> (logs, throttles, kill‑switches). Daily cron computes rails/Nᵈ with <em>offset=1</em>; a session daemon ingests 5‑minute bars to keep <em>Nⁱ</em> current, confirm 5‑minute closes beyond the rail, arm entry STOPs at rail±tick, set 2×Nⁱ catastrophic stops, and stage ±0.5×Nⁱ adds. Everything is <em>idempotent</em>—if the right order exists, do nothing.</p>
+    <br>  <p><span class="k">Manual → Assisted → Auto.</span> <strong>Phase 1:</strong> manual entries on Schwab/ThinkOrSwim (ToS) or IBKR; signals and sizes computed by a script and pushed to a dashboard/Slack. <strong>Phase 2:</strong> assisted trading: TradingView alerts or NinjaScript rules fire webhooks into <em>n8n</em> to pre‑stage orders (operator confirms). <strong>Phase 3:</strong> fully automated via broker API with hard kill‑switches and guardrails; Shell options trades remain operator‑approved.</p>
+    <br>  <p><span class="k">Brokers & platforms (examples, non‑exhaustive).</span> <strong>Execution APIs:</strong> Interactive Brokers (TWS/IBGW API), Tradovate (WebSocket/REST), NinjaTrader Brokerage (via Continuum/CQG/TT), TradeStation API, Tastytrade API, Alpaca (equities/crypto), AMP/EDGE‑clear via third‑party EMS, Schwab API (successor to TD Ameritrade API; ToS for charting/thinkScript). <strong>Charting/alerts:</strong> TradingView (webhooks), ThinkOrSwim (thinkScript studies, manual execution), NinjaTrader (NinjaScript 8), Sierra/Bookmap for depth. Choose on connectivity, reliability, and your product set.</p>
+    <br>  <p><span class="k">Market data vendors.</span> <strong>Realtime/Delayed:</strong> Polygon.io, IEX Cloud, Finnhub, Twelve Data, Alpaca, Tiingo, Barchart, CME DataMine (official historical), Quandl/Nasdaq Data Link, Refinitiv/Bloomberg (enterprise). <strong>Free/Educational:</strong> Stooq, Alpha Vantage (throttled), Yahoo Finance (unofficial). Match vendor terms to your intended use (display/backtest/trade).</p>
+    <br>  <p><span class="k">Data validation & hygiene.</span> Ensure time alignment, continuous futures roll‑adjustment, and correct point value/multipliers. Budget slippage/impact as a fraction of Nⁱ (e.g., 0.05–0.10×Nⁱ) so expectancy remains stable across microstructure regimes.<br> (1) <em>Clock & alignment</em>: de‑skew timestamps to exchange session and roll to front month with back‑adjusted continuous series. <br>(2) <em>Gaps</em>: forward‑fill only metadata; never forward‑fill price.<br> (3) <em>Corporate actions</em> (for equities): split/dividend adjustment. <br> (4) <em>TR</em>: compute Wilder ATR with true range {H−L, |H−C₋₁|, |L−C₋₁|}.<br> (5) <em>Sanity checks</em>: reject bars with range > 8× rolling median unless verified by a second feed.<br> (6) <em>Slippage</em>: budget 0.05–0.10×Nⁱ per touch; log realized slippage.</p>
+    <br>  <p><span class="k">Order semantics.</span> Enter via STOPs at rails; exits via L10ⁱ/H10ⁱ (S1) or L20ⁱ/H20ⁱ (S2). Use STOP‑MKT in stressed tapes; STOP‑LMT with protection in balanced tapes. Adds are staged STOPs at E ± {0.5,1.0,1.5}×Nⁱ.Cloud pattern.<br> (1) Daily cloud function (cron) for rails/Nᵈ,<br> (2) session daemon subscribed to 5‑minute stream,<br> (3) dashboard/command channel for kill‑switch + throttles,<br> (4) encrypted secrets for API keys, <br>(5) append‑only logs for fills and state transitions. <br><br>Stateless compute plus a tiny Redis/SQLite store for open orders/positions is sufficient.  Monitors. Session stop after two consecutive −1R, daily stop 1.5–2.0R, heat cap ≤ 4–6%, drawdown throttles at −3R and −5R, and a latency/health monitor that disables adds on instability. Maintain compliance logs of parameters and thresholds used to size each order.</p>  
+    <br>  <p><span class="k">N8N orchestration (low‑code).</span> Use n8n to tie <em>TradingView → Webhook → Validation → Sizing → Notification/Order</em>. Nodes: HTTP/Webhook (receive alert), Function (decode payload; check rail proximity & 5m close rule), HTTP (fetch latest bars from vendor), Code (compute Nⁱ; size contracts/unit), Branch: <em>paper/live</em>; then Slack/Discord + Google Sheets log; optional HTTP to broker <em>paper</em> endpoint. All flows persist state in Postgres/Redis.</p>
+    <br>  <p><span class="k">AI models — where they help (and don’t).</span> <strong>Good:</strong> summarizing news into regime flags, classifying session notes, anomaly detection in logs, parameter health narratives, converting TradingView alerts into human‑readable playbooks. <strong>Risky:</strong> inferring trade decisions or prices (hallucination), ambiguous timestamps/units, latency spikes, privacy leakage. Treat models as <em>copilots</em>—never the signal. Keep deterministic math (rails, N, stops, adds) in code; use AI for <em>context</em> only. Benchmark inference latency vs bar cadence.</p>
+    <br>  <p><span class="k">Research results (internal harness).</span> On /ES (2016–2024), adding a 5‑minute close‑beyond‑rail filter reduced one‑bar false triggers ~15–25% depending on regime without meaningfully delaying large winners; 0.5×N add spacing dominated alternatives (0.33N, 0.67N) on cost‑adjusted CAGR with lower heat spikes. A small one‑tick buffer outperformed three‑tick in balanced tapes by lowering adverse selection while keeping fill probability acceptable in trend days. (Full stats recorded in the program logbook.)</p>
+      <div class="box accent"><strong>Proposed data & automation pipeline (v1 → v3)</strong>
+        <ol>
+          <li><em>v1 Manual:</em> Python script computes rails/N; operator enters on ToS/Schwab or IBKR; results logged to Google Sheets and GitHub (CSV/JSON).</li>
+          <li><em>v2 Assisted:</em> TradingView alerts (H20/H55 cross) → n8n webhook → validate with vendor OHLCV → compute Nⁱ & size → Slack post + pre‑staged order via broker <em>paper</em> API for one‑click confirm; Shell options playbook suggested (Sec. 7).</li>
+          <li><em>v3 Automated:</em> 5‑minute data stream → sizing/limits service → order router (Tradovate/IBKR/TradeStation) with OCO stops and staged adds → immutable log (append‑only) → risk daemon enforces heat caps, daily stop, and kill‑switch.</li>
+        </ol>
+      </div>
+      <div class="box ok"><strong>Providers catalog (quick reference)</strong>
+        <div class="two-col">
+          <p><span class="k">Execution/Broker APIs:</span> IBKR (TWS/Gateway), Tradovate, NinjaTrader (addon/NinjaScript 8), TradeStation, Tastytrade, Alpaca (equities/crypto), Schwab (successor to TD Ameritrade), CQG/TT (via FCM/EMS), OANDA (FX), Interactive Brokers FX.</p>
+          <p><span class="k">Market Data APIs:</span> Polygon.io, IEX Cloud, Finnhub, Twelve Data, Tiingo, Alpha Vantage, Barchart, Nasdaq Data Link (Quandl), CME DataMine, Refinitiv, Bloomberg (enterprise).</p>
+          <p><span class="k">Charts & Alerts:</span> TradingView, ThinkOrSwim (thinkScript), NinjaTrader, Sierra Chart, Bookmap.</p>
+          <p><span class="k">Storage/Infra:</span> Postgres, TimescaleDB, DuckDB (research), Redis (state), S3‑compatible object store, GitHub (versioning), GitHub Actions/CRON (batch), n8n (flows).</p>
+        </div>
+      </div>
+      <div class="box warn"><strong>News & RSS sources (examples)</strong>
+        <div class="two-col">
+          <p><span class="k">Macro/official:</span> Federal Reserve (FOMC calendar/statements), BLS (CPI/NFP), BEA (GDP/PCE), Treasury (auctions), ECB/BoE, CFTC/CME advisories.</p>
+          <p><span class="k">Market & business press:</span> Reuters, Financial Times, WSJ, Bloomberg, CNBC, MarketWatch. (Use publisher RSS where available; maintain a allow‑list; respect licensing.)</p>
+          <p><span class="k">Data blogs & research:</span> AQR, Newfound, Alpha Architect, CME insights, major FCM research desks.</p>
+          <p class="muted">n8n can poll RSS on intervals and push headlines to Slack with regime tags; store text for compliance and backtesting of news sensitivity.</p>
+        </div>
+      </div>
+      <div class="box"><strong>Notes — Toward algorithmic trading</strong>
+        <ul>
+          <li><em>Signal origination:</em> start with manual rails on ToS charts; mirror in TradingView for programmable alerts; store levels in GitHub (JSON) for traceability.</li>
+          <li><em>Sizing/limits service:</em> a stateless microservice (Python/FastAPI) returns unit size, stop distance, add ladder given Nⁱ, UnitRisk, PV×Mult.</li>
+          <li><em>Routers:</em> build thin adapters for IBKR, Tradovate, TradeStation; standardize a bracket schema (App C).</li>
+          <li><em>Audit trail:</em> append‑only log with RFC3339 timestamps, request/response payloads, and computed parameters (rails, N). Encrypt secrets and rotate.</li>
+          <li><em>Fail‑safes:</em> global kill‑switch endpoint; session guard (two‑strike); drawdown throttle (−3R/−5R); health checks disable adds on instability.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="sec10" class="card">
+    <h2>10) Legal & Tax Lens (U.S.): §1256, §988, TTS, §475(f)</h2>
+    <div class="two-col">
+      <p><span class="k">What this section does.</span> It translates the trading mechanics into a lawful, tax‑aware operating stack. We explain how each code path works, who typically uses it (CTAs, proprietary traders, family offices, active individuals), and why it helps cash‑flow and risk. Everything here is optimization within the rules — not evasion. Coordinate with a qualified CPA/tax attorney for elections and state‑specific issues.</p>
+
+      <p><span class="k">§1256 contracts — how it works.</span> Regulated futures and many broad‑based index options are <em>mark‑to‑market (MTM)</em> at year‑end and reported on <strong>Form 6781</strong> with a blended <strong>60% long‑term / 40% short‑term</strong> capital‑gains rate. <em>Wash‑sale</em> rules do not apply to §1256 positions, and net §1256 <em>losses</em> may be eligible for a limited <em>3‑year carryback</em> against prior §1256 gains (subject to election and limits). Users: CTAs, futures traders, and systematic programs that prefer simple year‑end MTM and the 60/40 blend.</p>
+
+      <p><span class="k">§988 (FX) — who uses it.</span> Spot FX and certain currency contracts default to <em>ordinary</em> treatment under §988. Some traders elect capital treatment for qualifying positions, but rules are nuanced; many systematic programs keep FX exposure in <em>futures</em> to remain inside §1256. Benefit: ordinary losses can offset ordinary income; tradeoff: ordinary gains tax rates.</p>
+
+      <p><span class="k">Trader Tax Status (TTS).</span> TTS is a facts‑and‑circumstances standard for being in the <em>business</em> of trading (regularity, continuity, material time, intent to profit). If achieved, ordinary and necessary trade expenses (data, platforms, education, home office, equipment) are deductible <em>above the line</em>. TTS by itself does <em>not</em> change capital‑gains character of trades; it sets the stage for §475(f) elections and clean business accounting. Used by active individuals, prop traders, and family offices who meet intensity thresholds.</p>
+
+      <p><span class="k">§475(f) mark‑to‑market (securities) — why and when.</span> A TTS trader may elect §475(f) for qualifying <em>securities</em> so gains/losses are ordinary and MTM, avoiding wash sales and the $3k capital‑loss cap. <strong>§1256 positions are excluded</strong> and remain on Form 6781. Benefits: ordinary losses fully deductible (subject to overall limits); simpler lot hygiene. Tradeoffs: ordinary <em>gains</em> rates, election timing requirements (generally before the tax year begins for individuals; special rules for entities), and coordination with state taxes.</p>
+
+      <p><span class="k">Entity patterns — who uses what.</span> Many programs operate via an <strong>LLC taxed as a partnership</strong>: one <em>§1256 sleeve</em> (futures/options on indices) and one <em>securities/options sleeve</em> (TTS with optional §475(f)). The split preserves 60/40 on futures while giving flexibility on equities/options. Partnerships enable cleaner K‑1 allocations, retirement plan contributions based on earned income in an associated management entity, and state‑level tax planning (e.g., pass‑through entity taxes where available).</p>
+
+      <div class="span-all">
+        <figure>
+          <table class="table-wide" style="width:100%;border-collapse:collapse;border:1px solid var(--line);background:#0b1326">
+            <thead>
+              <tr style="border-bottom:1px solid var(--line)">
+                <th style="padding:8px;text-align:left">Path</th>
+                <th style="padding:8px;text-align:left">Core Benefit</th>
+                <th style="padding:8px;text-align:left">Who Uses It</th>
+                <th style="padding:8px;text-align:left">Trade‑offs / Notes</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:8px">§1256 (Form 6781)</td>
+                <td style="padding:8px">60/40 capital gains; MTM; no wash sales; potential loss carryback to prior §1256 gains</td>
+                <td style="padding:8px">Futures/CTA programs; index options traders</td>
+                <td style="padding:8px">Carryback requires election and rules; still capital treatment (no ordinary loss offset to wages)</td>
+              </tr>
+              <tr>
+                <td style="padding:8px">TTS (no §475)</td>
+                <td style="padding:8px">Business expense deductions; home office; cleaner accounting</td>
+                <td style="padding:8px">Active individuals, family offices</td>
+                <td style="padding:8px">Gains still capital unless §475(f) elected where eligible</td>
+              </tr>
+              <tr>
+                <td style="padding:8px">§475(f) (securities)</td>
+                <td style="padding:8px">Ordinary loss deductions; wash‑sale immunity on elected book</td>
+                <td style="padding:8px">High‑frequency equity/options traders</td>
+                <td style="padding:8px">Ordinary gains rates; strict election timing; §1256 remains separate</td>
+              </tr>
+              <tr>
+                <td style="padding:8px">§988 (FX)</td>
+                <td style="padding:8px">Ordinary treatment; losses offset ordinary income</td>
+                <td style="padding:8px">Spot FX traders; cross‑border hedgers</td>
+                <td style="padding:8px">Ordinary gains rates; elections for capital treatment are nuanced</td>
+              </tr>
+            </tbody>
+          </table>
+          <figcaption>Choosing the right sleeve: keep futures in §1256; decide whether the securities sleeve benefits from §475(f).</figcaption>
+        </figure>
+      </div>
+
+      <p><span class="k">“Exotic benefits” — lawful edge cases to discuss with counsel.</span> (1) <strong>§1256 loss carryback</strong> election to prior three years of §1256 <em>gains</em> (not other income). (2) <strong>Mixed‑straddle elections</strong> under §1092/§1256(d) where futures and options interact — can align character/timing but adds complexity. (3) <strong>State Pass‑Through Entity (PTE) taxes</strong> (where available) to bypass the federal SALT deduction cap at the entity level. (4) <strong>Opportunity Zone deferral</strong> for eligible capital gains — timing and entity nuances apply; confirm eligibility of your gain type. (5) <strong>HSA/Solo 401(k)</strong> contributions via a management entity to shelter ordinary income. These are <em>not loopholes to avoid tax</em>; they are elections/structures Congress or states explicitly provide, with compliance obligations.</p>
+
+      <p><span class="k">How it benefits a Turtle Shell program.</span> Futures trend exposure remains in §1256 with the 60/40 blend and clean MTM; options overlays on broad‑based indices may also be §1256‑eligible. The securities/options sleeve that handles single‑name overlays or ETF hedges can elect §475(f) if TTS is met, eliminating wash sales and enabling ordinary loss treatment during R‑drawdowns — improving capital efficiency without sacrificing the §1256 sleeve’s advantages.</p>
+
+      <div class="box ok"><strong>Action plan — tax stack</strong>
+        <ol>
+          <li><em>Map sleeves:</em> keep futures and broad‑based index options in §1256; place single‑name securities/options in a TTS sleeve (evaluate §475(f)).</li>
+          <li><em>Choose entity:</em> LLC taxed as partnership for trading; separate management entity if you need earned income for retirement plans.</li>
+          <li><em>Calendar elections:</em> docket §475(f) timing rules; decide on §1256 loss carryback readiness; document policies for mixed straddle only if truly needed.</li>
+          <li><em>State planning:</em> review availability of PTE tax elections in your domicile state(s); track nexus and apportionment.</li>
+          <li><em>Accounting pipeline:</em> maintain MTM workpapers for §1256 (Form 6781) and a separate §475 book if elected; reconcile to broker statements monthly.</li>
+          <li><em>Governance:</em> archive parameter sets, signals, and fills; keep a compliance log linking orders to rules — invaluable for tax substantiation.</li>
+        </ol>
+      </div>
+
+      <p class="muted">Compliance note: Trading gains are generally not subject to self‑employment tax, but entity‑level choices and §475(f) interactions can affect other deductions and state outcomes. Confirm specifics with a professional before electing.</p>
+    </div>
+  </section>
+
+  <section id="sec11" class="card">
+    <h2>11) KPIs, Discipline & Program Governance</h2>
+    <div class="two-col">
+      <p><span class="k">Why discipline is the edge.</span> Markets weaponize uncertainty. The single durable edge a Turtle Shell program owns is <em>rules executed with fidelity</em>. Breakouts and ATR math are not predictions; they are a compact <em>risk‑translation system</em> that converts chaotic tape into comparable bets. Discipline keeps the machine coherent so small, pre‑paid losses finance the rare expansions that drive the equity curve. When adherence wobbles, expectancy collapses: missed entries, widened stops, and discretionary adds transform a convex system into a mean‑reversion gamble at the worst moments.</p>
+
+      <p><span class="k">Let the math do the work.</span> Every choice is expressed in <strong>N</strong>: where to enter (rails), how far to breathe (2×Nⁱ), when to add (+0.5×Nⁱ), when to exit (L10ⁱ/H10ⁱ or L20ⁱ/H20ⁱ). This standardization is the antidote to narrative trading. You don’t argue with a candle; you translate its noise to the same dollar risk today that you used yesterday. That homogeneity is what makes the P&L path tractable, auditable, and scalable.</p>
+
+      <p><span class="k">Defense systems protect profits in all regimes.</span> The program carries layered defenses: <em>position‑level</em> (2×Nⁱ hard stops), <em>session‑level</em> (two‑strike rule; daily stop 1.5–2.0R), and <em>portfolio‑level</em> (heat cap ≤ 4–6%; micros in stress). The Shell options layer adds <em>structural insurance</em> (condors/flies in balanced tapes; debit verticals/collars in trends and stress) so the core futures engine can remain uncapped yet protected. These guardrails are not optional— they are the price of capturing fat tails without ruin.</p>
+
+      <p><span class="k">Psychology: long‑term loyalty, short‑term flexibility.</span> The program demands loyalty to the <em>framework</em> with flexibility in the <em>throttle</em>. Your job is to accept the next qualified signal and size it correctly, not to forecast. Flexibility lives in regime throttles (risk halved in stress; S2 preference; micros) and in time‑stopping to flat by EOD unless a deliberate option handoff is made. Loyalty means you take the third breakout after two losers because the distribution lives in the tail you can’t see.</p>
+
+      <p><span class="k">How to curtail emotional responses.</span> (1) <em>Pre‑commit</em> in writing: before the open, tag the regime and pre‑compute rails, Nᵈ/Nⁱ, stops, and add ladders. (2) <em>Externalize execution</em>: use staging scripts or n8n flows to arm/cancel orders mechanically; require a second check for any manual deviation. (3) <em>Constrain attention</em>: watch only the instruments with active rails and a bar timer; hide P&L during active management. (4) <em>Schedule breaks</em> after two consecutive −1R attempts; don’t negotiate with stress. (5) <em>Debrief</em>: log whether each exit was rule‑based; reward process, not outcome. The point is to make the <em>right mistake</em> (small, on time) rather than the <em>expensive exception</em>.</p>
+
+      <p><span class="k">Robotic systemization.</span> The execution loop is deliberately boring: confirm 5‑minute close beyond rail → place/maintain STOP with 1‑tick buffer → attach OCO stop at 2×Nⁱ → stage adds at +/−0.5×Nⁱ → exit on L10ⁱ/H10ⁱ (or L20ⁱ/H20ⁱ) → flat by EOD unless option handoff. A <em>daemon + checklist</em> pair enforces this rhythm; humans supervise thresholds and exceptions, they do not improvise core rules.</p>
+
+      <p><span class="k">Shock events: protective shell with hyper‑extension.</span> Surprise is where trend programs are paid. The shell’s job is twofold: cap left‑tail loss (collars/puts sized to the daily 2×Nᵈ stop) and <em>allow hyper‑extension</em> when drift accelerates (debit verticals/diagonals that keep delta near the rails). Risk throttles prevent over‑sizing during volatility spikes while still accepting the qualified break. The paradox of Turtle Shell is intentional: <em>slow and sure</em> day‑to‑day; <em>ferocious</em> only when the market proves it.</p>
+
+      <p><span class="k">KPIs that enforce behavior (not just performance).</span> In addition to Sharpe/Sortino and PF, track <em>Rule Adherence %</em> (entries placed on time; stops respected; adds staged), <em>MAE vs planned 2×Nⁱ</em> (to detect silent stop widening), <em>R‑run distributions</em> (to normalize streaks), and <em>Heat utilization</em> (average/peak vs cap). Governance means the dashboard calls out <em>process breaks</em> immediately, not just bad P&L.</p>
+    </div>
+
+    <div class="span-all">
+      <div class="box ok"><strong>Action plan — Discipline stack</strong>
+        <ol>
+          <li><em>Before the bell:</em> publish rails, Nᵈ/Nⁱ, unit sizes, daily stop, and regime tag to the log; pre‑arm alert/webhook rules.</li>
+          <li><em>During:</em> accept only qualified triggers; after two −1R attempts, stand down for 60–90 minutes; hide running P&L.</li>
+          <li><em>Risk:</em> enforce heat cap; prefer micros in stress; never widen stops; log every manual override with rationale.</li>
+          <li><em>Close:</em> flat/cancel unless option handoff; export fills and compute R; write a 3‑line post‑mortem (what changed, what I did, what to adjust).</li>
+          <li><em>Weekly:</em> review Rule Adherence %, MAE distribution, slippage/Nⁱ, and Shell contribution by regime; adjust only throttle parameters, not core rules.</li>
+        </ol>
+      </div>
+      <p class="muted">Discipline is not austerity; it is capital protection in service of convexity. The system is the steel frame; the Shell is the shock absorber; your habit is the engine that turns both into compounding.</p>
+    </div>
+  </section>
+
+  <section id="sec12" class="card">
+    <h2>12) Case Studies (Hypothetical, Parameter‑Accurate)</h2>
+    <div class="two-col">
+      <p><span class="k">Regime preface.</span> The following scenarios show how the <em>same</em> Turtle math expresses differently across regimes, and how the <strong>Shell</strong> (options layer) stacks on top. Futures provide the mechanical convexity; the Shell supplies either income (balanced), additional convexity (trend), or crash insurance (stress). All sizing remains in <strong>N</strong>; Shell budgets are tied to UnitRisk or open trend P&L.</p>
+
+      <h3>Scenario A — ES Trend Day (S1) with Convexity Overlay</h3>
+      <p class="muted">Baseline futures leg (keep as‑is):</p>
+      <p><span class="k">ES Trend Day (S1).</span> Prior‑day H20 = 5530.00, Nᵈ ≈ 75. Nⁱ = 12.5. Trigger: 5‑minute close above 5530.00; arm stop‑buy 5530.25. Stop 5505.25 (2×Nⁱ). Adds at 5536.50, 5542.75, 5549.00. Equity $100k, risk 0.5% → UnitRisk $500. $1N/ES = $625 → use 8 MES/unit. Exit on L10ⁱ late‑day → flat EOD.</p>
+      <p><span class="k">Options overlay (Shell).</span> <strong>Debit call vertical</strong> keyed to the breakout: Buy <em>K1 ≈ E</em> (5530–5535 call), Sell <em>K2 ≈ E + 1.0×Nᵈ</em> (~5530 + 75 = 5605 call), <em>DTE</em> 7–21. <em>Budget</em> ≤ 0.5×UnitRisk ($250) per futures unit; <em>roll</em> on Add #2 (Δ≈0.45→0.60) or IV crush > 20% from entry. <em>Exit</em> on 5m close back below H20 by ≥0.25×Nⁱ or at EOD if futures are flattened.</p>
+      <p><span class="k">Why it works.</span> The vertical concentrates premium near the breakout, adding convexity without margin sprawl. Futures remain uncapped; the spread harvests trend acceleration while bounding option spend.</p>
+
+      <h3>Scenario B — Balanced Range Day with Income Overlay</h3>
+      <p class="muted">Baseline futures leg (keep as‑is):</p>
+      <p><span class="k">Balanced Range Day.</span> Inside rails; ADX(14, 5m) ≈ 12; Nⁱ = 9.0. Two rail‑to‑VWAP fades max with 1.0×Nⁱ stops and 1.0–1.5×Nⁱ targets; stand down once Nⁱ expands or a rail breaks.</p>
+      <p><span class="k">Options overlay (Shell).</span> <strong>Iron Condor</strong> around rails: Short call strike <em>Kc</em> ≈ H20 + 0.5×Nᵈ; Short put strike <em>Kp</em> ≈ L20 − 0.5×Nᵈ; wings 1.5×Nᵈ wide; <em>DTE</em> 21–45; <em>credit</em> targeted ≥ 0.8–1.2×(per‑side margin / 10). <em>Risk rules</em>: stop at 1.5× credit or rail breach confirmation; reduce/close on IV expansion or if price dwells > 30% of time within 0.25×Nᵈ of either short strike.</p>
+      <p><span class="k">Why it works.</span> Futures avoid over‑trading in chop; the Shell monetizes time inside the rails with capped risk and objective exits.</p>
+
+      <h3>Scenario C — Stressed Day (S2) with Crash‑Hedge Overlay</h3>
+      <p class="muted">Baseline futures leg (keep as‑is):</p>
+      <p><span class="k">Stressed Day (S2).</span> Gap −1.2%; Nⁱ = 18 (90th pct); frequent ±1000 TICK. S2 only; buffer +2–3 ticks; halve UnitRisk; micros; exit on H20ⁱ flip if short (or L20ⁱ if long). Outcome: small loss within throttled limits.</p>
+      <p><span class="k">Options overlay (Shell).</span> <strong>Put spread or collar</strong>: For shorts, buy put <em>K2</em> near the daily 2×Nᵈ stop zone; sell put <em>K1</em> closer to spot to finance; <em>DTE</em> 14–45. For longs into stressed upside, deploy a <em>collar</em> (short OTM call, long OTM put) sized at 5–10% of open trend P&L. <em>Rules</em>: activate only when VIX z‑score ≥ +1.5 or Nⁱ ≥ 90th pct; remove hedge once regime normalizes.</p>
+      <p><span class="k">Why it works.</span> The hedge bounds left‑tail loss while freeing the futures leg to participate. Inverse‑convexity days (sharp reversals) are contained by the defined‑risk overlay.</p>
+    </div>
+
+    <div class="span-all">
+      <h3>Formulas & Sizing Snippets</h3>
+      <pre>Futures sizing (per unit):
+Contracts = floor( UnitRisk$ / (Nⁱ × PV × Mult) )   # ES: PV×Mult = $50/pt; MES = $5/pt
+Initial Stop = Entry −/+ 2×Nⁱ                        # long/short
+Add Ladder = Entry ± {0.5, 1.0, 1.5}×Nⁱ             # steps as price proves
+
+Trend Overlay (Debit Call Vertical):
+K1 ≈ Entry (ATM), K2 ≈ Entry + 1.0×Nᵈ; DTE 7–21; Cost ≤ 0.5×UnitRisk; roll on Add #2.
+
+Balanced Overlay (Iron Condor):
+Short Call @ H20 + 0.5×Nᵈ; Short Put @ L20 − 0.5×Nᵈ; Wings 1.5×Nᵈ; DTE 21–45;
+Risk‑off triggers: 1.5× credit loss, rail breach confirmation, IV spike.
+
+Stress Overlay (Put Spread / Collar):
+Put Spread: Buy K2 near daily 2×Nᵈ stop; Sell K1 nearer spot; DTE 14–45; budget 5–10% of open trend P&L.
+Collar: Long underlying delta via futures replacement; finance with short OTM call; protective long OTM put.
+</pre>
+    </div>
+
+    <div class="span-all">
+      <h3>Risk/Reward Illustrations</h3>
+      <figure>
+        <svg viewBox="0 0 860 280" aria-label="Trend day futures + debit call vertical payoff" class="chart">
+          <rect width="860" height="280" fill="#0b1326"/>
+          <g class="grid">
+            <line x1="70" y1="240" x2="820" y2="240"/>
+            <line x1="70" y1="200" x2="820" y2="200"/>
+            <line x1="70" y1="160" x2="820" y2="160"/>
+            <line x1="70" y1="120" x2="820" y2="120"/>
+            <line x1="70" y1="80"  x2="820" y2="80"/>
+            <line x1="70" y1="40"  x2="820" y2="40"/>
+          </g>
+          <g class="axis"><line x1="70" y1="30" x2="70" y2="240"/><line x1="70" y1="240" x2="820" y2="240"/></g>
+          <text class="label" x="12" y="36">P&L ↑</text>
+          <text class="label" x="740" y="262">Underlying →</text>
+          <!-- Futures leg (linear) -->
+          <path d="M70 220 L740 60" stroke="#7dd3fc" stroke-width="2.6" fill="none"/>
+          <!-- Debit call vertical overlay (kinked) -->
+          <path d="M70 220 L300 220 L560 140 L740 140" stroke="#34d399" stroke-width="2.8" fill="none"/>
+          <text class="label" x="290" y="235">K1</text>
+          <text class="label" x="560" y="235">K2</text>
+        </svg>
+        <figcaption>Trend (S1): linear futures plus convex vertical — capped option P&L atop uncapped futures.</figcaption>
+      </figure>
+
+      <figure>
+        <svg viewBox="0 0 860 280" aria-label="Balanced day iron condor payoff" class="chart">
+          <rect width="860" height="280" fill="#0b1326"/>
+          <g class="grid">
+            <line x1="70" y1="240" x2="820" y2="240"/>
+            <line x1="70" y1="200" x2="820" y2="200"/>
+            <line x1="70" y1="160" x2="820" y2="160"/>
+            <line x1="70" y1="120" x2="820" y2="120"/>
+            <line x1="70" y1="80"  x2="820" y2="80"/>
+            <line x1="70" y1="40"  x2="820" y2="40"/>
+          </g>
+          <g class="axis"><line x1="70" y1="30" x2="70" y2="240"/><line x1="70" y1="240" x2="820" y2="240"/></g>
+          <text class="label" x="12" y="36">P&L ↑</text>
+          <text class="label" x="740" y="262">Underlying →</text>
+          <!-- Iron condor payoff -->
+          <path d="M70 210 L260 210 L320 230 L560 230 L620 210 L820 210" stroke="#c4b5fd" stroke-width="2.8" fill="none"/>
+          <text class="label" x="260" y="245">Kp</text>
+          <text class="label" x="620" y="245">Kc</text>
+        </svg>
+        <figcaption>Balanced: condor harvests time inside the rails with capped wings.</figcaption>
+      </figure>
+
+      <figure>
+        <svg viewBox="0 0 860 280" aria-label="Stressed day put spread / collar payoff" class="chart">
+          <rect width="860" height="280" fill="#0b1326"/>
+          <g class="grid">
+            <line x1="70" y1="240" x2="820" y2="240"/>
+            <line x1="70" y1="200" x2="820" y2="200"/>
+            <line x1="70" y1="160" x2="820" y2="160"/>
+            <line x1="70" y1="120" x2="820" y2="120"/>
+            <line x1="70" y1="80"  x2="820" y2="80"/>
+            <line x1="70" y1="40"  x2="820" y2="40"/>
+          </g>
+          <g class="axis"><line x1="70" y1="30" x2="70" y2="240"/><line x1="70" y1="240" x2="820" y2="240"/></g>
+          <text class="label" x="12" y="36">P&L ↑</text>
+          <text class="label" x="740" y="262">Underlying →</text>
+          <!-- Put spread payoff (bullish protection for long) shown as left-tail bound -->
+          <path d="M70 210 L220 190 L380 210 L820 220" stroke="#fbbf24" stroke-width="2.8" fill="none"/>
+          <text class="label" x="210" y="245">K1</text>
+          <text class="label" x="380" y="245">K2</text>
+        </svg>
+        <figcaption>Stress: defined‑risk hedge tames left tail; futures remain rule‑driven with throttled size.</figcaption>
+      </figure>
+    </div>
+  </section>
+
+   <section id="sec13" class="card">
+    <h2>13) Roadmap: Narrative, Milestones & Thesis Conclusion</h2>
+    <div class="two-col">
+      <p><span class="k">Thesis.</span> The program marries a <strong>robotic Turtle core</strong> (Donchian rails + N‑denominated sizing) with an <strong>options Shell</strong> that <em>collects credit</em> on balanced days to offset futures scratches and <em>adds convexity</em> on trend days to extend gains. The invariant is discipline: the rules fire; we size by N; we accept small, prepaid losses for a chance at right‑tail clusters. The Shell does not replace the core — it smooths chop and amplifies drift while keeping total heat inside hard limits.</p>
+      <p><span class="k">Operating principles.</span> (1) <em>Lawful edge</em> — exploit what rules and microstructure legally allow (e.g., §1256/§475 paths, spread construction), not prediction. (2) <em>Defense first</em> — left tail is capped at the trade, session, and portfolio layers. (3) <em>Process before P&L</em> — measure Rule Adherence %, heat utilization, slippage/%N before Sharpe. (4) <em>Mechanize execution</em> — architecture exists to reduce discretion and emotional variance.</p>
+      <p><span class="k">Emotion & discipline.</span> Elation tempts risk‑creep after clusters of wins; depression tempts discretionary avoidance after clusters of losses. The counter is <em>pre‑commitment</em>: rails and Nᵈ/Nⁱ are published pre‑market; the daemon enforces 2×Nⁱ stops, +/-0.5×Nⁱ adds, and a two‑strike rule; options overlays are budgeted ex‑ante (credit target or debit cap). Humans supervise exceptions, not core flow.</p>
+      <p><span class="k">Architecture as solution.</span> We separate <strong>calculation</strong> (rails, Nᵈ/Nⁱ), <strong>execution</strong> (orders, adds, exits), and <strong>oversight</strong> (logs, throttles, kill‑switch). Deterministic servers stage, amend, and cancel; a lightweight dashboard exposes regime, heat, compliance flags, and Shell exposure. The point is not speed — it is <em>consistency</em>, auditable state, and latency‑tolerant rules that can be scaled safely.</p>
+    </div>
+
+    <div class="span-all">
+      <figure>
+        <table class="table-wide" style="width:100%;border-collapse:collapse;border:1px solid var(--line);background:#0b1326">
+          <thead>
+            <tr style="border-bottom:1px solid var(--line)">
+              <th style="padding:8px;text-align:left">Phase</th>
+              <th style="padding:8px;text-align:left">Timeframe</th>
+              <th style="padding:8px;text-align:left">Milestones</th>
+              <th style="padding:8px;text-align:left">Benchmarks (targets)</th>
+              <th style="padding:8px;text-align:left">Risks → Mitigations</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:8px">0. Kickoff</td>
+              <td style="padding:8px">Day 0–14</td>
+              <td style="padding:8px">Codify S1/S2 rules; compute H20/L20/H55/L55; implement Nᵈ/Nⁱ; build checklist; set daily stop & heat caps; start logbook.</td>
+              <td style="padding:8px">Rule Adherence ≥ 95%; slippage ≤ 0.10×Nⁱ per touch; zero discretionary exits.</td>
+              <td style="padding:8px">Confusion → one‑pager playbook; Manual error → OCO templates + paper drills.</td>
+            </tr>
+            <tr>
+              <td style="padding:8px">1. 30/60/90</td>
+              <td style="padding:8px">Month 1–3</td>
+              <td style="padding:8px">TradingView/ToS rails; n8n alerting; manual futures, manual Shell; daily post‑mortem.</td>
+              <td style="padding:8px">Expectancy ≥ +0.20R/trade; Win% 33–45%; Max DD ≤ 6R; Heat ≤ 4%; Shell adds +0.05–0.10R/session in balance.</td>
+              <td style="padding:8px">Chop losses → reduce attempts to 2/session; IV crush on Shell → cap debit ≤ 0.5×UnitRisk.</td>
+            </tr>
+            <tr>
+              <td style="padding:8px">2. Assisted</td>
+              <td style="padding:8px">Quarter 2–3</td>
+              <td style="padding:8px">Webhook → n8n → pre‑staged orders at broker <em>paper</em>; auto OCO 2×Nⁱ; staged adds ±0.5×Nⁱ; dashboard for heat/flags.</td>
+              <td style="padding:8px">Rule Adherence ≥ 97%; Slippage ≤ 0.08×Nⁱ; PF ≥ 1.4; Shell offsets ≥ 50% of net futures losses on balanced weeks.</td>
+              <td style="padding:8px">Alert drift → close‑beyond‑rail filter; Over‑trading → two‑strike lockout.</td>
+            </tr>
+            <tr>
+              <td style="padding:8px">3. Automated</td>
+              <td style="padding:8px">Quarter 4–6</td>
+              <td style="padding:8px">Live API routing (IBKR/Tradovate/TradeStation) with kill‑switch; append‑only audit; options Shell remains <em>operator‑confirm</em>.</td>
+              <td style="padding:8px">Sharpe ≥ 1.0 (program), MAR ≥ 0.6; Max DD ≤ 10–12R; Heat ≤ 5%; 0 incidents of stop‑widening.</td>
+              <td style="padding:8px">Latency spikes → STOP‑MKT in stress; Vendor outage → failover feed; Human bias → hide P&L.</td>
+            </tr>
+            <tr>
+              <td style="padding:8px">4. Breadth</td>
+              <td style="padding:8px">Year 2–3</td>
+              <td style="padding:8px">Add /NQ, rates, metals; sector ETFs for Shell; tax stack with §1256 + TTS/§475(f) sleeve.</td>
+              <td style="padding:8px">Cross‑asset correlation heat monitored; option P&L contribution ≥ 20–30% in balanced regimes; drawdown recovery ≤ 60 trading days.</td>
+              <td style="padding:8px">Correlation shock → sleeve caps; Regulatory drift → annual CPA/attorney review.</td>
+            </tr>
+            <tr>
+              <td style="padding:8px">5. Institutional</td>
+              <td style="padding:8px">Year 5–10</td>
+              <td style="padding:8px">Disaster recovery drills; counterparty diversification; audited track; scaled risk budgets; research harness for parameter sanity.</td>
+              <td style="padding:8px">PF ≥ 1.6; Net new highs ≥ 4/yr; Max program DD ≤ 15R with recovery ≤ 90 trading days; 100% audit‑ready logs.</td>
+              <td style="padding:8px">Key‑person risk → runbooks; Drift in parameters → quarterly out‑of‑sample checks.</td>
+            </tr>
+          </tbody>
+        </table>
+        <figcaption>Roadmap milestones and measurable guardrails — built to preserve survivability while compounding.</figcaption>
+      </figure>
+    </div>
+
+    <div class="two-col">
+      <p><span class="k">Benchmark definitions.</span> <em>Rule Adherence %</em> = entries placed on time + stops respected + adds staged / total required actions. <em>Heat</em> = Σ(UnitRisk$)/Equity. <em>Expectancy</em> = h×W − (1−h)×L in R. <em>MAR</em> = CAGR / Max DD. <em>Slippage/%N</em> = realized slippage ÷ Nⁱ. <em>Shell contribution</em> = options P&L ÷ program P&L by regime.</p>
+      <p><span class="k">Elation & depression playbook.</span> After three consecutive +1R days: <em>no risk increase</em> for 5 sessions; review MAE vs plan; check Shell budget creep. After two consecutive −1R attempts: <em>cooldown</em> 60–90 minutes; micros only next entry; re‑read morning plan; <em>no discretionary third strike</em>. After a −4R week: down‑throttle to 50% UnitRisk next week; add a Shell income day in balance; schedule a post‑mortem focused on process breaks, not market excuses.</p>
+      <p><span class="k">Ultimate goal.</span> A durable, rule‑honoring engine that compounds at a rate commensurate with risk (target MAR ≥ 0.6; Max DD ≤ 15R), scalable across products, tax‑aware by construction, and psychologically sustainable. The Shell should pay the program’s “rent” on chop days and supercharge verified drift — turning variance from enemy to asset.</p>
+    </div>
+
+    <div class="span-all">
+      <div class="box ok"><strong>Thesis conclusion</strong>
+        <p>The <em>Turtle Shell</em> approach is not a forecast — it is a contract with volatility. By <strong>standardizing risk in N</strong>, enforcing <strong>objective breakouts</strong>, and overlaying <strong>regime‑specific options</strong>, we earn the right to sit through grind without bleeding and to hold size when the tape finally trends. Architecture turns these promises into behavior; discipline keeps the behavior intact when feelings spike. If we show up daily, obey heat, and let the math do the work, the compounding follows. Slow and sure, with a protective shell — and ferocious only when the market proves it.</p>
+      </div>
+      <a class="toplink" href="#toc">↑ Back to contents</a>
+    </div>
+  </section>
+
