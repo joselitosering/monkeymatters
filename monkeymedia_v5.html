@@ -1,0 +1,2839 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Monkey Media — AI Production Agency · A Monkey Matters LLC Production</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=Courier+Prime:wght@400;700&display=swap" rel="stylesheet"/>
+<style>
+/* ═══════════════════════════════════════════════════
+   DESIGN TOKENS
+═══════════════════════════════════════════════════ */
+:root {
+  --bg:       #060810;
+  --surface:  #0B0E1C;
+  --surface2: #10142A;
+  --surface3: #161B36;
+  --cyan:     #00D9F5;
+  --orange:   #FF5E20;
+  --gold:     #C8A84B;
+  --gold-lt:  #EDD483;
+  --green:    #2DCA73;
+  --purple:   #A259FF;
+  --text:     #DFE6F5;
+  --muted:    #7A8BAA;
+  --border:   rgba(0,217,245,0.10);
+  --border2:  rgba(255,255,255,0.05);
+  --glow-c:   rgba(0,217,245,0.20);
+  --glow-o:   rgba(255,94,32,0.15);
+  --radius:   6px;
+  --mono:     'Courier Prime', monospace;
+  --nav-h:    72px;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  overflow-x: hidden;
+  line-height: 1.65;
+}
+a { color: inherit; text-decoration: none; }
+img { display: block; max-width: 100%; }
+button { cursor: pointer; font-family: inherit; }
+
+/* ═══════════════════════════════════════════════════
+   UTILITY
+═══════════════════════════════════════════════════ */
+.container { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+.tag {
+  display: inline-block;
+  font-family: var(--mono);
+  font-size: 11px; letter-spacing: .15em; text-transform: uppercase;
+  color: var(--cyan);
+  border: 1px solid var(--border);
+  border-radius: 2px; padding: 4px 10px; margin-bottom: 16px;
+}
+.section-title {
+  font-family: 'Anton', sans-serif;
+  font-size: clamp(36px, 5.5vw, 68px);
+  line-height: .94; letter-spacing: .01em; text-transform: uppercase; color: #fff;
+}
+.section-title .c  { color: var(--cyan); }
+.section-title .o  { color: var(--orange); }
+.section-title .g  { color: var(--gold-lt); }
+.section-title .gr { color: var(--green); }
+.section-title .p  { color: var(--purple); }
+.section-title .ghost { -webkit-text-stroke: 1px rgba(255,255,255,.22); color: transparent; }
+.lead { font-size: 16px; color: var(--muted); max-width: 580px; line-height: 1.82; margin-top: 16px; }
+.divider { width: 44px; height: 2px; background: linear-gradient(90deg,var(--cyan),transparent); margin: 18px 0 28px; }
+.sec-header { margin-bottom: 56px; }
+
+/* scroll-offset for fixed nav */
+[id] { scroll-margin-top: calc(var(--nav-h) + 16px); }
+
+/* ═══════════════════════════════════════════════════
+   FADE-IN ANIMATIONS
+═══════════════════════════════════════════════════ */
+.fi { opacity:0; transform:translateY(22px); transition: opacity .6s ease, transform .6s ease; }
+.fi.vis { opacity:1; transform:none; }
+.fi-l { opacity:0; transform:translateX(-20px); transition: opacity .6s ease, transform .6s ease; }
+.fi-l.vis { opacity:1; transform:none; }
+.fi-r { opacity:0; transform:translateX(20px); transition: opacity .6s ease, transform .6s ease; }
+.fi-r.vis { opacity:1; transform:none; }
+
+/* ═══════════════════════════════════════════════════
+   NAVIGATION
+═══════════════════════════════════════════════════ */
+#nav {
+  position: fixed; top:0; left:0; right:0; z-index:200;
+  height: var(--nav-h);
+  display: flex; align-items: center;
+  transition: background .3s, border-color .3s;
+  border-bottom: 1px solid transparent;
+}
+#nav.scrolled {
+  background: rgba(6,8,16,.95);
+  backdrop-filter: blur(20px);
+  border-bottom-color: var(--border);
+}
+.nav-inner { display: flex; align-items: center; justify-content: space-between; width:100%; }
+.nav-logo {
+  display: flex; align-items: center; gap: 10px;
+  font-family: 'Anton', sans-serif;
+  font-size: 17px; letter-spacing: .05em; text-transform: uppercase; color: #fff;
+  white-space: nowrap;
+}
+.nav-logo .pulse {
+  width:8px; height:8px; background:var(--cyan); border-radius:50%;
+  box-shadow:0 0 8px var(--cyan);
+  animation: pulse 2.2s ease-in-out infinite;
+}
+@keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.8)} }
+.nav-logo .m3 { color: var(--cyan); }
+
+.nav-links { display:flex; align-items:center; gap:30px; list-style:none; }
+.nav-links a {
+  font-size: 12px; letter-spacing: .09em; text-transform: uppercase;
+  color: var(--muted); transition: color .2s; position: relative; padding-bottom: 2px;
+}
+.nav-links a::after {
+  content:''; position:absolute; bottom:0; left:0; right:0;
+  height:1px; background:var(--cyan);
+  transform: scaleX(0); transform-origin:left; transition:transform .25s;
+}
+.nav-links a:hover { color:#fff; }
+.nav-links a:hover::after { transform:scaleX(1); }
+.nav-links a.active { color:var(--cyan); }
+.nav-links a.active::after { transform:scaleX(1); }
+
+.nav-cta {
+  font-size:12px; letter-spacing:.1em; text-transform:uppercase; font-weight:700;
+  background:var(--cyan); color:var(--bg);
+  padding:10px 20px; border-radius:var(--radius);
+  transition: box-shadow .2s, opacity .2s; white-space:nowrap;
+}
+.nav-cta:hover { box-shadow:0 0 22px var(--glow-c); opacity:.9; }
+
+/* hamburger */
+.nav-burger { display:none; flex-direction:column; gap:5px; padding:4px; cursor:pointer; }
+.nav-burger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:.3s; }
+.nav-burger.open span:nth-child(1) { transform:translateY(7px) rotate(45deg); }
+.nav-burger.open span:nth-child(2) { opacity:0; }
+.nav-burger.open span:nth-child(3) { transform:translateY(-7px) rotate(-45deg); }
+
+/* mobile overlay */
+.mobile-menu {
+  display:none; position:fixed; inset:0; z-index:190;
+  background: rgba(6,8,16,.98); backdrop-filter:blur(20px);
+  flex-direction:column; align-items:center; justify-content:center; gap:36px;
+}
+.mobile-menu.open { display:flex; }
+.mobile-menu a {
+  font-family:'Anton',sans-serif; font-size:32px; text-transform:uppercase;
+  letter-spacing:.05em; color: var(--muted); transition:color .2s;
+}
+.mobile-menu a:hover { color:#fff; }
+.mobile-menu .m-cta {
+  font-size:14px; letter-spacing:.12em; text-transform:uppercase; font-weight:700;
+  background:var(--cyan); color:var(--bg);
+  padding:14px 36px; border-radius:var(--radius); margin-top:12px;
+}
+.mobile-menu .m-contact { font-size:13px; color:var(--muted); text-align:center; margin-top:8px; }
+
+@media(max-width:900px){ .nav-links { display:none; } }
+@media(max-width:640px){ .nav-cta { display:none; } .nav-burger { display:flex; } }
+
+/* ═══════════════════════════════════════════════════
+   ████  SECTION 1: HOME / HERO  ████
+═══════════════════════════════════════════════════ */
+#home {
+  position:relative; min-height:100vh;
+  display:flex; align-items:center;
+  padding-top: var(--nav-h); overflow:hidden;
+}
+.hero-bg {
+  position:absolute; inset:0;
+  background:
+    radial-gradient(ellipse 70% 55% at 68% 42%, rgba(0,217,245,.08) 0%, transparent 65%),
+    radial-gradient(ellipse 45% 45% at 8% 92%, rgba(255,94,32,.06) 0%, transparent 55%),
+    radial-gradient(ellipse 40% 40% at 90% 10%, rgba(162,89,255,.05) 0%, transparent 60%),
+    linear-gradient(160deg,#06080F 40%,#0A0D1E 100%);
+}
+.hero-grid {
+  position:absolute; inset:0; opacity:.035;
+  background-image:
+    linear-gradient(var(--cyan) 1px,transparent 1px),
+    linear-gradient(90deg,var(--cyan) 1px,transparent 1px);
+  background-size:64px 64px;
+  animation:gridMove 20s linear infinite;
+}
+@keyframes gridMove { from{background-position:0 0} to{background-position:64px 64px} }
+.hero-noise {
+  position:absolute; inset:0; opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  background-size:256px 256px;
+}
+.hero-content { position:relative; z-index:2; padding:90px 0 80px; }
+.hero-eyebrow { display:flex; align-items:center; gap:12px; margin-bottom:28px; }
+.hero-eyebrow .ln { width:38px; height:1px; background:var(--cyan); }
+.hero-eyebrow span { font-family:var(--mono); font-size:11px; letter-spacing:.18em; text-transform:uppercase; color:var(--cyan); }
+.hero-title {
+  font-family:'Anton',sans-serif;
+  font-size: clamp(54px,9vw,118px);
+  line-height:.88; text-transform:uppercase; letter-spacing:.01em; color:#fff;
+  margin-bottom:28px;
+}
+.hero-title .c1 { color:var(--cyan); }
+.hero-title .ghost { -webkit-text-stroke:1.5px rgba(255,255,255,.25); color:transparent; }
+.hero-sub { font-size:17px; color:var(--muted); max-width:520px; line-height:1.82; margin-bottom:44px; }
+.hero-sub strong { color:var(--text); font-weight:500; }
+.hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+.btn-fill {
+  font-size:12px; letter-spacing:.11em; text-transform:uppercase; font-weight:700;
+  background:var(--cyan); color:var(--bg);
+  padding:14px 30px; border-radius:var(--radius);
+  transition:box-shadow .25s, opacity .2s; display:inline-block;
+}
+.btn-fill:hover { box-shadow:0 0 30px var(--glow-c); opacity:.9; }
+.btn-outline {
+  font-size:12px; letter-spacing:.11em; text-transform:uppercase; font-weight:500;
+  border:1px solid var(--border); color:var(--text);
+  padding:14px 30px; border-radius:var(--radius);
+  transition:border-color .2s, color .2s; display:inline-block;
+}
+.btn-outline:hover { border-color:var(--cyan); color:var(--cyan); }
+
+.hero-stats {
+  display:flex; flex-wrap:wrap; gap:44px;
+  margin-top:68px; padding-top:32px;
+  border-top:1px solid var(--border2);
+}
+.stat-item .num {
+  font-family:'Anton',sans-serif; font-size:44px; color:#fff; line-height:1;
+}
+.stat-item .num sup { font-size:20px; color:var(--cyan); }
+.stat-item .lbl { font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-top:4px; }
+
+/* ── SOCIAL PROOF BAR ── */
+#proof {
+  background:var(--surface2);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:28px 0;
+}
+.proof-inner { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:20px; }
+.proof-label { font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--muted); white-space:nowrap; }
+.proof-logos { display:flex; align-items:center; gap:32px; flex-wrap:wrap; }
+.proof-logo {
+  font-family:'Anton',sans-serif; font-size:14px; letter-spacing:.06em;
+  text-transform:uppercase; color:rgba(255,255,255,.18);
+  transition:color .2s;
+}
+.proof-logo:hover { color:rgba(255,255,255,.45); }
+
+/* ── HOME: 4 SERVICE PILLARS ── */
+#home-services { padding:100px 0; background:var(--bg); }
+.pillars-grid {
+  display:grid; grid-template-columns:repeat(2,1fr); gap:2px;
+  margin-top:52px;
+}
+@media(max-width:640px){ .pillars-grid { grid-template-columns:1fr; } }
+.pillar {
+  background:var(--surface); padding:40px 36px 36px;
+  position:relative; overflow:hidden;
+  transition:background .2s, transform .25s;
+  cursor:default;
+}
+.pillar:hover { background:var(--surface2); transform:translateY(-3px); }
+.pillar-accent {
+  position:absolute; top:0; left:0; right:0; height:2px;
+}
+.pillar:nth-child(1) .pillar-accent { background:var(--cyan); }
+.pillar:nth-child(2) .pillar-accent { background:var(--gold); }
+.pillar:nth-child(3) .pillar-accent { background:var(--orange); }
+.pillar:nth-child(4) .pillar-accent { background:var(--purple); }
+.pillar-icon { font-size:32px; margin-bottom:20px; }
+.pillar-title {
+  font-family:'Anton',sans-serif; font-size:22px; text-transform:uppercase;
+  letter-spacing:.04em; color:#fff; margin-bottom:10px;
+}
+.pillar-copy { font-size:14px; color:var(--muted); line-height:1.78; margin-bottom:20px; }
+.pillar-link {
+  font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  color:var(--cyan); display:inline-flex; align-items:center; gap:8px;
+  transition:gap .2s;
+}
+.pillar:hover .pillar-link { gap:14px; }
+
+/* ── HOME: FEATURED WORK ── */
+#home-work { padding:100px 0; background:var(--surface); }
+.work-grid {
+  display:grid; grid-template-columns:repeat(3,1fr); gap:16px;
+  margin-top:52px;
+}
+@media(max-width:780px){ .work-grid { grid-template-columns:1fr 1fr; } }
+@media(max-width:500px){ .work-grid { grid-template-columns:1fr; } }
+.work-card {
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:8px; overflow:hidden;
+  transition:transform .25s, border-color .25s;
+}
+.work-card:hover { transform:translateY(-5px); border-color:var(--border); }
+.work-thumb {
+  height:180px; position:relative;
+  display:flex; align-items:center; justify-content:center;
+  font-size:48px;
+}
+.work-thumb.t1 { background:linear-gradient(135deg,#0D1A2E,#1A0D2E); }
+.work-thumb.t2 { background:linear-gradient(135deg,#1A1200,#2E1A00); }
+.work-thumb.t3 { background:linear-gradient(135deg,#001A14,#001A2E); }
+.work-play {
+  position:absolute; inset:0; display:flex; align-items:center; justify-content:center;
+  background:rgba(0,0,0,0); transition:background .2s;
+}
+.work-card:hover .work-play { background:rgba(0,217,245,.08); }
+.work-meta { padding:20px; }
+.work-cat {
+  font-family:var(--mono); font-size:10px; letter-spacing:.14em;
+  text-transform:uppercase; color:var(--cyan); margin-bottom:6px;
+}
+.work-title { font-family:'Anton',sans-serif; font-size:18px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:6px; }
+.work-desc { font-size:12px; color:var(--muted); line-height:1.7; }
+
+/* ── HOME: CTA STRIP ── */
+#home-cta { padding:90px 0; background:var(--bg); position:relative; overflow:hidden; }
+.cta-strip-bg {
+  position:absolute; inset:0;
+  background:radial-gradient(ellipse 80% 100% at 50% 50%, rgba(0,217,245,.06), transparent);
+}
+.cta-strip { position:relative; z-index:2; text-align:center; }
+.cta-strip h2 { font-family:'Anton',sans-serif; font-size:clamp(32px,5vw,64px); text-transform:uppercase; color:#fff; line-height:.96; margin-bottom:20px; }
+.cta-strip h2 span { color:var(--cyan); }
+.cta-strip p { font-size:16px; color:var(--muted); max-width:500px; margin:0 auto 40px; }
+.cta-strip-btns { display:flex; gap:16px; justify-content:center; flex-wrap:wrap; }
+
+/* ═══════════════════════════════════════════════════
+   ████  SECTION 2: SERVICES  ████
+═══════════════════════════════════════════════════ */
+#services { padding:110px 0; background:var(--surface); }
+
+/* compare banner */
+.compare-banner {
+  background:linear-gradient(135deg,rgba(0,217,245,.05),rgba(255,94,32,.04));
+  border:1px solid var(--border);
+  border-radius:8px; padding:32px 40px;
+  display:grid; grid-template-columns:1fr auto 1fr; gap:24px; align-items:center;
+  margin-bottom:64px;
+}
+@media(max-width:640px){ .compare-banner { grid-template-columns:1fr; text-align:center; } }
+.cb-lbl { font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:8px; }
+.cb-amt { font-family:'Anton',sans-serif; font-size:36px; }
+.cb-amt.theirs { color:rgba(255,255,255,.25); text-decoration:line-through; }
+.cb-amt.ours { color:var(--cyan); }
+.cb-note { font-size:12px; color:var(--muted); margin-top:6px; line-height:1.6; }
+.cb-mid { text-align:center; }
+.cb-vs { font-family:'Anton',sans-serif; font-size:18px; color:var(--muted); text-transform:uppercase; margin-bottom:8px; }
+.cb-save {
+  display:inline-block;
+  background:rgba(45,202,115,.1); color:var(--green);
+  border:1px solid rgba(45,202,115,.2);
+  font-family:var(--mono); font-size:11px; letter-spacing:.1em;
+  padding:5px 16px; border-radius:100px;
+}
+
+/* tier grid */
+.tiers-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:20px; }
+@media(max-width:780px){ .tiers-grid { grid-template-columns:1fr; } }
+
+.tier-card {
+  background:var(--surface2); border:1px solid var(--border2);
+  border-radius:10px; padding:32px 28px 28px;
+  display:flex; flex-direction:column; position:relative; overflow:hidden;
+  transition:transform .25s, box-shadow .25s;
+}
+.tier-card:hover { transform:translateY(-5px); box-shadow:0 20px 44px rgba(0,0,0,.4); }
+.tier-card.featured { border-color:var(--cyan); box-shadow:0 0 30px var(--glow-c); }
+.tier-card.featured::after {
+  content:'MOST POPULAR';
+  position:absolute; top:18px; right:-26px;
+  background:var(--cyan); color:var(--bg);
+  font-family:var(--mono); font-size:9px; font-weight:700; letter-spacing:.14em;
+  padding:5px 42px; transform:rotate(35deg);
+}
+
+.tier-badge {
+  font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase;
+  padding:4px 10px; border-radius:2px; display:inline-block; margin-bottom:16px; width:fit-content;
+}
+.tb1 { background:rgba(0,217,245,.09); color:var(--cyan); }
+.tb2 { background:rgba(200,168,75,.09); color:var(--gold-lt); }
+.tb3 { background:rgba(255,94,32,.09); color:var(--orange); }
+.tb4 { background:rgba(162,89,255,.09); color:#C59FFF; }
+
+.tier-name { font-family:'Anton',sans-serif; font-size:30px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:4px; }
+.tier-tag { font-size:13px; color:var(--muted); line-height:1.65; margin-bottom:24px; }
+.tier-price { margin-bottom:26px; }
+.tp-from { font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); }
+.tp-amt { font-family:'Anton',sans-serif; font-size:48px; color:#fff; line-height:1; }
+.tp-amt sup { font-size:22px; color:var(--cyan); vertical-align:top; margin-top:8px; }
+.tp-qual { font-family:var(--mono); font-size:10px; color:var(--muted); margin-top:4px; letter-spacing:.06em; }
+
+.tier-feats { list-style:none; flex:1; margin-bottom:28px; }
+.tier-feats li {
+  font-size:13px; color:var(--muted); padding:7px 0;
+  border-bottom:1px solid var(--border2);
+  display:flex; gap:10px; align-items:flex-start;
+}
+.tier-feats li::before { content:'✓'; color:var(--cyan); font-weight:700; flex-shrink:0; margin-top:1px; }
+.tier-feats li.hi { color:var(--text); }
+
+.tier-btn {
+  display:block; text-align:center; padding:13px 20px;
+  border-radius:var(--radius); font-size:12px; letter-spacing:.11em;
+  text-transform:uppercase; font-weight:700;
+  transition:all .2s; border:none; width:100%;
+}
+.tb-line { border:1px solid var(--border); color:var(--text); background:transparent; }
+.tb-line:hover { border-color:var(--cyan); color:var(--cyan); }
+.tb-cyan { background:var(--cyan); color:var(--bg); }
+.tb-cyan:hover { box-shadow:0 0 22px var(--glow-c); opacity:.9; }
+.tb-gold { background:var(--gold); color:var(--bg); }
+.tb-gold:hover { box-shadow:0 0 22px rgba(200,168,75,.3); opacity:.9; }
+
+/* ═══════════════════════════════════════════════════
+   ████  SECTION 3: RATES  ████
+═══════════════════════════════════════════════════ */
+#rates { padding:110px 0; background:var(--bg); }
+
+/* ─ 2-COLUMN RATE CARDS GRID ─ */
+.rates-grid {
+  display:grid;
+  grid-template-columns:repeat(2, 1fr);
+  gap:16px;
+  margin-top:16px;
+}
+@media(max-width:700px){ .rates-grid { grid-template-columns:1fr; } }
+
+.rate-card {
+  background:var(--surface2);
+  border:1px solid var(--border2);
+  border-radius:8px; padding:24px 24px 22px;
+  display:flex; flex-direction:column; gap:0;
+  transition:border-color .2s, transform .2s;
+  position:relative; overflow:hidden;
+}
+.rate-card:hover { border-color:var(--border); transform:translateY(-3px); }
+.rate-card::before {
+  content:''; position:absolute; top:0; left:0; right:0; height:2px;
+  background: var(--accent-line, var(--cyan));
+}
+.rc-header { display:flex; align-items:flex-start; justify-content:space-between; gap:12px; margin-bottom:14px; }
+.rc-icon-name { display:flex; align-items:center; gap:12px; }
+.rc-icon { font-size:24px; flex-shrink:0; }
+.rc-name-wrap {}
+.rc-name { font-family:'Anton',sans-serif; font-size:17px; text-transform:uppercase; letter-spacing:.04em; color:#fff; line-height:1.1; }
+.rc-sub { font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-top:3px; }
+.rc-rate-block { text-align:right; flex-shrink:0; }
+.rc-rate { font-family:'Anton',sans-serif; font-size:20px; color:var(--cyan); letter-spacing:.03em; white-space:nowrap; }
+.rc-time { font-family:var(--mono); font-size:10px; color:var(--gold-lt); margin-top:3px; text-align:right; }
+.rc-desc { font-size:12.5px; color:var(--muted); line-height:1.72; margin-bottom:14px; flex:1; }
+.rc-compare {
+  display:flex; align-items:center; justify-content:space-between;
+  background:rgba(255,255,255,.03); border-radius:4px; padding:8px 12px;
+  margin-top:auto;
+}
+.rc-compare .trad { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.06em; }
+.rc-compare .trad span { color:rgba(255,94,32,.7); text-decoration:line-through; }
+.rc-compare .save-tag {
+  font-family:var(--mono); font-size:9px; letter-spacing:.1em; text-transform:uppercase;
+  background:rgba(45,202,115,.1); color:var(--green);
+  border:1px solid rgba(45,202,115,.15); padding:3px 8px; border-radius:100px;
+}
+
+/* Rate category labels */
+.rates-cat {
+  font-family:var(--mono); font-size:11px; letter-spacing:.15em; text-transform:uppercase;
+  color:var(--muted); padding:14px 0 10px;
+  border-bottom:1px solid var(--border2); margin:32px 0 16px;
+  grid-column:1/-1;
+}
+
+/* ─ RETAINER PLANS ─ */
+.retainer-grid {
+  display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:56px;
+}
+@media(max-width:960px){ .retainer-grid { grid-template-columns:repeat(2,1fr); } }
+@media(max-width:480px){ .retainer-grid { grid-template-columns:1fr; } }
+
+.ret-card {
+  background:var(--surface2); border:1px solid var(--border2);
+  border-radius:8px; padding:26px 22px;
+  transition:transform .2s, border-color .2s;
+}
+.ret-card:hover { transform:translateY(-4px); border-color:var(--border); }
+.ret-card.highlight { border-color:rgba(200,168,75,.3); }
+.ret-card h4 { font-family:'Anton',sans-serif; font-size:19px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:4px; }
+.ret-price { font-family:'Anton',sans-serif; font-size:26px; margin-bottom:16px; }
+.ret-price span { font-family:var(--mono); font-size:12px; color:var(--muted); font-weight:400; }
+.ret-card ul { list-style:none; }
+.ret-card ul li { font-size:12.5px; color:var(--muted); padding:5px 0; border-bottom:1px solid var(--border2); }
+.ret-card ul li::before { content:'+ '; color:var(--orange); }
+
+/* addon pills */
+.addons-row { display:flex; flex-wrap:wrap; gap:10px; margin-top:40px; }
+.addon-pill {
+  background:var(--surface2); border:1px solid var(--border2);
+  border-radius:100px; padding:8px 18px;
+  font-size:12px; color:var(--muted);
+  display:flex; align-items:center; gap:8px;
+  transition:border-color .2s, color .2s;
+}
+.addon-pill:hover { border-color:var(--cyan); color:var(--text); }
+.addon-pill strong { color:var(--cyan); font-weight:600; }
+
+/* ═══════════════════════════════════════════════════
+   ████  SECTION 4: WORK / PORTFOLIO  ████
+═══════════════════════════════════════════════════ */
+#work { padding:110px 0; background:var(--surface); }
+.portfolio-filters { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:44px; }
+.pf-btn {
+  font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase;
+  padding:8px 18px; border-radius:100px; border:1px solid var(--border2);
+  color:var(--muted); background:transparent; cursor:pointer;
+  transition:all .2s;
+}
+.pf-btn:hover, .pf-btn.active { border-color:var(--cyan); color:var(--cyan); background:rgba(0,217,245,.06); }
+.portfolio-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+@media(max-width:780px){ .portfolio-grid { grid-template-columns:1fr 1fr; } }
+@media(max-width:500px){ .portfolio-grid { grid-template-columns:1fr; } }
+.port-item {
+  background:var(--surface2); border:1px solid var(--border2); border-radius:8px;
+  overflow:hidden; transition:transform .25s, border-color .25s;
+}
+.port-item:hover { transform:translateY(-5px); border-color:var(--border); }
+.port-item.wide { grid-column:span 2; }
+.port-thumb {
+  position:relative; overflow:hidden;
+  display:flex; align-items:center; justify-content:center; font-size:52px;
+}
+.port-item.wide .port-thumb { height:240px; }
+.port-thumb.normal { height:180px; }
+.bg-a { background:linear-gradient(135deg,#0A0018,#180030); }
+.bg-b { background:linear-gradient(135deg,#001218,#003018); }
+.bg-c { background:linear-gradient(135deg,#180800,#300E00); }
+.bg-d { background:linear-gradient(135deg,#00100A,#001820); }
+.bg-e { background:linear-gradient(135deg,#100018,#180840); }
+.bg-f { background:linear-gradient(135deg,#180000,#200A00); }
+.port-overlay {
+  position:absolute; inset:0;
+  background:rgba(0,0,0,0); transition:background .25s;
+  display:flex; align-items:center; justify-content:center;
+}
+.port-item:hover .port-overlay { background:rgba(0,0,0,.45); }
+.port-view {
+  opacity:0; transform:scale(.8); transition:all .25s;
+  font-family:var(--mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;
+  color:#fff; border:1px solid rgba(255,255,255,.3); padding:10px 20px; border-radius:var(--radius);
+}
+.port-item:hover .port-view { opacity:1; transform:scale(1); }
+.port-meta { padding:18px; }
+.port-cat { font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--cyan); margin-bottom:5px; }
+.port-title { font-family:'Anton',sans-serif; font-size:17px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:5px; }
+.port-desc { font-size:12px; color:var(--muted); line-height:1.65; }
+
+/* ── CASE STUDY MODAL-STYLE CARDS ── */
+.case-studies { margin-top:72px; }
+.cs-card {
+  background:var(--surface2); border:1px solid var(--border2);
+  border-radius:10px; padding:40px; margin-bottom:24px;
+  display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+}
+@media(max-width:700px){ .cs-card { grid-template-columns:1fr; gap:28px; } }
+.cs-card:nth-child(even) .cs-text { order:2; }
+.cs-card:nth-child(even) .cs-visual { order:1; }
+.cs-label { font-family:var(--mono); font-size:10px; letter-spacing:.16em; text-transform:uppercase; color:var(--orange); margin-bottom:12px; }
+.cs-title { font-family:'Anton',sans-serif; font-size:28px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:12px; }
+.cs-copy { font-size:14px; color:var(--muted); line-height:1.8; margin-bottom:24px; }
+.cs-tags { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px; }
+.cs-tag {
+  font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+  color:var(--muted); border:1px solid var(--border2); padding:4px 10px; border-radius:2px;
+}
+.cs-results { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+.cs-stat .n { font-family:'Anton',sans-serif; font-size:28px; color:var(--cyan); }
+.cs-stat .l { font-size:11px; color:var(--muted); margin-top:2px; line-height:1.4; }
+.cs-visual {
+  border-radius:6px; overflow:hidden; height:280px;
+  display:flex; align-items:center; justify-content:center; font-size:80px;
+}
+
+/* ═══════════════════════════════════════════════════
+   ████  SECTION 5: PROCESS  ████
+═══════════════════════════════════════════════════ */
+#process { padding:110px 0; background:var(--bg); }
+.process-wrap { display:grid; grid-template-columns:1fr 400px; gap:64px; align-items:start; }
+@media(max-width:900px){ .process-wrap { grid-template-columns:1fr; } }
+
+.process-steps { position:relative; }
+.process-steps::before {
+  content:''; position:absolute; left:24px; top:24px; bottom:0;
+  width:1px; background:linear-gradient(var(--cyan),transparent);
+}
+.ps { display:flex; gap:28px; align-items:flex-start; padding-bottom:44px; position:relative; }
+.ps-num {
+  width:48px; height:48px; flex-shrink:0;
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:50%; display:flex; align-items:center; justify-content:center;
+  font-family:'Anton',sans-serif; font-size:15px; color:var(--cyan);
+  position:relative; z-index:2;
+  transition:background .2s, border-color .2s;
+}
+.ps:hover .ps-num { background:rgba(0,217,245,.1); border-color:var(--cyan); }
+.ps-body { padding-top:10px; }
+.ps-body h4 { font-family:'Anton',sans-serif; font-size:20px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:8px; }
+.ps-body p { font-size:13.5px; color:var(--muted); max-width:520px; line-height:1.78; }
+.ps-tools { display:flex; flex-wrap:wrap; gap:7px; margin-top:12px; }
+.ps-tool {
+  font-family:var(--mono); font-size:10px; letter-spacing:.08em;
+  color:var(--gold-lt); background:rgba(200,168,75,.08);
+  border:1px solid rgba(200,168,75,.14); padding:3px 9px; border-radius:2px;
+}
+
+/* process sidebar */
+.process-sidebar {}
+.timeline-card {
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:8px; padding:28px 24px; margin-bottom:20px;
+}
+.tl-title { font-family:'Anton',sans-serif; font-size:16px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:16px; }
+.tl-row { display:flex; justify-content:space-between; align-items:center; padding:9px 0; border-bottom:1px solid var(--border2); }
+.tl-row:last-child { border-bottom:none; }
+.tl-step { font-size:13px; color:var(--muted); }
+.tl-dur { font-family:var(--mono); font-size:11px; color:var(--cyan); }
+.guarantee-card {
+  background:linear-gradient(135deg,rgba(0,217,245,.06),rgba(45,202,115,.04));
+  border:1px solid rgba(0,217,245,.15); border-radius:8px; padding:28px 24px;
+}
+.gc-title { font-family:'Anton',sans-serif; font-size:20px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:14px; }
+.gc-items { list-style:none; }
+.gc-items li { font-size:13px; color:var(--muted); padding:6px 0; display:flex; gap:10px; }
+.gc-items li::before { content:'✓'; color:var(--green); flex-shrink:0; }
+
+/* ═══════════════════════════════════════════════════
+   ████  SECTION 6: ABOUT  ████
+═══════════════════════════════════════════════════ */
+#about { padding:110px 0; background:var(--surface); }
+.about-hero { display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:start; margin-bottom:80px; }
+@media(max-width:780px){ .about-hero { grid-template-columns:1fr; } }
+.about-copy p { font-size:15.5px; color:var(--muted); line-height:1.85; margin-bottom:18px; }
+.about-copy p strong { color:var(--text); font-weight:500; }
+.manifesto {
+  background:var(--surface2); border-left:3px solid var(--cyan);
+  padding:22px 22px 22px 26px; border-radius:0 var(--radius) var(--radius) 0;
+  margin-top:28px;
+}
+.manifesto p { font-size:16px; font-style:italic; color:var(--text); line-height:1.78; margin:0; }
+.manifesto cite { display:block; font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.1em; text-transform:uppercase; margin-top:12px; font-style:normal; }
+
+.values-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
+@media(max-width:700px){ .values-grid { grid-template-columns:1fr 1fr; } }
+@media(max-width:440px){ .values-grid { grid-template-columns:1fr; } }
+.value-card {
+  background:var(--bg); border:1px solid var(--border2); border-radius:8px; padding:24px 20px;
+  transition:border-color .2s;
+}
+.value-card:hover { border-color:var(--border); }
+.v-icon { font-size:26px; margin-bottom:12px; }
+.v-title { font-family:'Anton',sans-serif; font-size:17px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:8px; }
+.v-copy { font-size:13px; color:var(--muted); line-height:1.72; }
+
+/* tech stack */
+.about-stack { margin-top:72px; }
+.stack-title { font-family:'Anton',sans-serif; font-size:28px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:6px; }
+.stack-sub { font-size:14px; color:var(--muted); margin-bottom:36px; }
+.stack-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
+@media(max-width:780px){ .stack-grid { grid-template-columns:repeat(2,1fr); } }
+.stack-card {
+  background:var(--bg); border:1px solid var(--border2); border-radius:6px;
+  padding:18px 16px; transition:border-color .2s, background .2s;
+}
+.stack-card:hover { border-color:var(--border); background:var(--surface2); }
+.sk-cat { font-family:var(--mono); font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--orange); margin-bottom:8px; }
+.sk-tools { font-size:12px; color:var(--muted); line-height:1.72; }
+
+/* team */
+.team-section { margin-top:72px; }
+.team-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:36px; }
+@media(max-width:860px){ .team-grid { grid-template-columns:1fr 1fr; } }
+.team-card {
+  background:var(--bg); border:1px solid var(--border2); border-radius:8px;
+  padding:28px 24px; text-align:center;
+  transition:border-color .2s, transform .2s;
+}
+.team-card:hover { border-color:var(--border); transform:translateY(-3px); }
+.team-avatar {
+  width:72px; height:72px; border-radius:50%; margin:0 auto 16px;
+  background:var(--surface2); border:2px solid var(--border);
+  display:flex; align-items:center; justify-content:center; font-size:28px;
+}
+.team-name { font-family:'Anton',sans-serif; font-size:18px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:4px; }
+.team-role { font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--cyan); margin-bottom:10px; }
+.team-bio { font-size:12px; color:var(--muted); line-height:1.7; }
+
+/* ═══════════════════════════════════════════════════
+   ████  SECTION 7: BLOG / INSIGHTS  ████
+═══════════════════════════════════════════════════ */
+#blog { padding:110px 0; background:var(--bg); }
+.blog-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:20px; margin-top:52px; }
+@media(max-width:780px){ .blog-grid { grid-template-columns:1fr 1fr; } }
+@media(max-width:500px){ .blog-grid { grid-template-columns:1fr; } }
+.blog-card {
+  background:var(--surface2); border:1px solid var(--border2);
+  border-radius:8px; overflow:hidden;
+  transition:transform .25s, border-color .25s;
+}
+.blog-card:hover { transform:translateY(-5px); border-color:var(--border); }
+.blog-card.featured { grid-column:span 3; display:grid; grid-template-columns:1fr 1fr; }
+@media(max-width:780px){ .blog-card.featured { grid-column:span 2; grid-template-columns:1fr; } }
+@media(max-width:500px){ .blog-card.featured { grid-column:span 1; } }
+.blog-img {
+  height:180px; display:flex; align-items:center; justify-content:center; font-size:48px;
+}
+.blog-card.featured .blog-img { height:100%; min-height:240px; }
+.bi-a { background:linear-gradient(135deg,#060B1A,#0E1835); }
+.bi-b { background:linear-gradient(135deg,#0A1200,#1A2000); }
+.bi-c { background:linear-gradient(135deg,#100008,#200014); }
+.bi-d { background:linear-gradient(135deg,#001010,#001828); }
+.blog-body { padding:22px; }
+.blog-cat { font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--cyan); margin-bottom:8px; }
+.blog-title { font-family:'Anton',sans-serif; font-size:20px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:8px; line-height:1.1; }
+.blog-card.featured .blog-title { font-size:28px; }
+.blog-excerpt { font-size:13px; color:var(--muted); line-height:1.75; margin-bottom:16px; }
+.blog-meta { display:flex; align-items:center; gap:12px; }
+.blog-date { font-family:var(--mono); font-size:10px; color:var(--muted); letter-spacing:.08em; }
+.blog-read { font-family:var(--mono); font-size:10px; color:var(--orange); letter-spacing:.08em; }
+
+/* newsletter */
+.newsletter-box {
+  background:var(--surface2); border:1px solid var(--border);
+  border-radius:8px; padding:40px; margin-top:52px;
+  display:flex; align-items:center; justify-content:space-between; gap:32px; flex-wrap:wrap;
+}
+.nb-copy h3 { font-family:'Anton',sans-serif; font-size:24px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:6px; }
+.nb-copy p { font-size:14px; color:var(--muted); }
+.nb-form { display:flex; gap:10px; flex-wrap:wrap; }
+.nb-input {
+  background:var(--surface); border:1px solid var(--border2);
+  border-radius:var(--radius); padding:12px 18px; font-size:14px;
+  color:var(--text); font-family:inherit; outline:none; min-width:240px;
+  transition:border-color .2s;
+}
+.nb-input:focus { border-color:var(--cyan); }
+.nb-btn {
+  background:var(--cyan); color:var(--bg); border:none;
+  font-size:12px; letter-spacing:.1em; text-transform:uppercase; font-weight:700;
+  padding:12px 24px; border-radius:var(--radius);
+  cursor:pointer; transition:opacity .2s, box-shadow .2s;
+}
+.nb-btn:hover { opacity:.9; box-shadow:0 0 20px var(--glow-c); }
+
+/* ═══════════════════════════════════════════════════
+   ████  SECTION 8: CONTACT  ████
+═══════════════════════════════════════════════════ */
+#contact { padding:110px 0; background:var(--surface); }
+.contact-wrap { display:grid; grid-template-columns:380px 1fr; gap:64px; align-items:start; }
+@media(max-width:900px){ .contact-wrap { grid-template-columns:1fr; gap:48px; } }
+
+.contact-info {}
+.contact-sub { font-size:15px; color:var(--muted); line-height:1.82; margin:18px 0 32px; }
+.contact-details { display:flex; flex-direction:column; gap:12px; margin-bottom:36px; }
+.cd-item {
+  display:flex; align-items:center; gap:14px;
+  font-size:14px; color:var(--text);
+  transition:color .2s;
+}
+.cd-item:hover { color:var(--cyan); }
+.cd-icon {
+  width:38px; height:38px; flex-shrink:0;
+  background:var(--surface2); border:1px solid var(--border2);
+  border-radius:var(--radius); display:flex; align-items:center; justify-content:center;
+  font-size:16px; transition:border-color .2s;
+}
+.cd-item:hover .cd-icon { border-color:var(--cyan); }
+.office-hours {
+  background:var(--surface2); border:1px solid var(--border2);
+  border-radius:8px; padding:22px;
+}
+.oh-title { font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:12px; }
+.oh-row { display:flex; justify-content:space-between; padding:7px 0; border-bottom:1px solid var(--border2); font-size:13px; }
+.oh-row:last-child { border-bottom:none; }
+.oh-day { color:var(--muted); }
+.oh-time { color:var(--text); font-family:var(--mono); font-size:12px; }
+
+/* form */
+.intake-form { display:flex; flex-direction:column; gap:18px; }
+.form-row-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+@media(max-width:480px){ .form-row-2 { grid-template-columns:1fr; } }
+.field { display:flex; flex-direction:column; gap:7px; }
+.field label {
+  font-family:var(--mono); font-size:10px; letter-spacing:.13em; text-transform:uppercase; color:var(--muted);
+}
+.field input, .field select, .field textarea {
+  background:var(--surface2); border:1px solid var(--border2);
+  border-radius:var(--radius); padding:13px 16px; font-size:14px;
+  color:var(--text); font-family:inherit; outline:none;
+  transition:border-color .2s;
+  -webkit-appearance:none;
+}
+.field input:focus, .field select:focus, .field textarea:focus { border-color:var(--cyan); }
+.field textarea { min-height:130px; resize:vertical; }
+.field select option { background:var(--surface2); }
+.form-submit {
+  padding:16px; background:var(--cyan); color:var(--bg); border:none;
+  border-radius:var(--radius); font-size:13px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; cursor:pointer;
+  transition:box-shadow .2s, opacity .2s; font-family:inherit;
+}
+.form-submit:hover { box-shadow:0 0 28px var(--glow-c); opacity:.9; }
+.form-note { font-size:12px; color:var(--muted); text-align:center; }
+
+/* FAQ */
+.faq-section { margin-top:80px; }
+.faq-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-top:36px; }
+@media(max-width:700px){ .faq-grid { grid-template-columns:1fr; } }
+.faq-item {
+  background:var(--surface2); border:1px solid var(--border2);
+  border-radius:8px; overflow:hidden;
+}
+.faq-q {
+  display:flex; justify-content:space-between; align-items:center;
+  padding:20px 22px; cursor:pointer; transition:background .2s; gap:16px;
+}
+.faq-q:hover { background:rgba(0,217,245,.03); }
+.faq-q span { font-size:14px; font-weight:500; color:var(--text); line-height:1.5; }
+.faq-arrow { font-size:18px; color:var(--cyan); flex-shrink:0; transition:transform .3s; }
+.faq-item.open .faq-arrow { transform:rotate(180deg); }
+.faq-a {
+  max-height:0; overflow:hidden; transition:max-height .35s ease, padding .35s;
+  font-size:13px; color:var(--muted); line-height:1.8; padding:0 22px;
+}
+.faq-item.open .faq-a { max-height:300px; padding:0 22px 20px; }
+
+/* ═══════════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════════ */
+footer {
+  background:#030508;
+  border-top:1px solid var(--border);
+  padding:56px 0 28px;
+}
+.footer-top { display:grid; grid-template-columns:1.6fr 1fr 1fr 1fr; gap:48px; margin-bottom:44px; }
+@media(max-width:780px){ .footer-top { grid-template-columns:1fr 1fr; } }
+@media(max-width:480px){ .footer-top { grid-template-columns:1fr; } }
+.fb-logo { font-family:'Anton',sans-serif; font-size:18px; text-transform:uppercase; letter-spacing:.05em; color:#fff; margin-bottom:12px; }
+.fb-logo .m3 { color:var(--cyan); }
+.fb-tagline { font-size:13px; color:var(--muted); line-height:1.75; margin-bottom:20px; max-width:280px; }
+.fb-social { display:flex; gap:10px; }
+.social-btn {
+  width:34px; height:34px; background:var(--surface2); border:1px solid var(--border2);
+  border-radius:var(--radius); display:flex; align-items:center; justify-content:center;
+  font-size:14px; transition:border-color .2s;
+}
+.social-btn:hover { border-color:var(--cyan); }
+.fl-head { font-family:var(--mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:var(--muted); margin-bottom:14px; }
+.fl-list { list-style:none; }
+.fl-list li { margin-bottom:9px; }
+.fl-list a { font-size:13px; color:var(--muted); transition:color .2s; }
+.fl-list a:hover { color:var(--cyan); }
+.footer-bottom {
+  padding-top:24px; border-top:1px solid var(--border2);
+  display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;
+}
+.footer-bottom p, .footer-bottom span { font-size:12px; color:var(--muted); }
+.footer-bottom .mono { font-family:var(--mono); font-size:10px; }
+
+/* ═══════════════════════════════════════════════════
+   SECTION WRAPPERS / ALTERNATING BG
+═══════════════════════════════════════════════════ */
+.page-section { padding:110px 0; }
+.bg-dark { background:var(--bg); }
+.bg-mid  { background:var(--surface); }
+
+/* section dividers */
+.sec-divider {
+  height:1px; background:linear-gradient(90deg,transparent,var(--border),transparent);
+}
+
+/* ═══════════════════════════════════════════════════
+   SCROLLBAR
+═══════════════════════════════════════════════════ */
+::-webkit-scrollbar { width:6px; }
+::-webkit-scrollbar-track { background:var(--bg); }
+::-webkit-scrollbar-thumb { background:var(--surface3); border-radius:3px; }
+::-webkit-scrollbar-thumb:hover { background:var(--muted); }
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════
+     MOBILE MENU OVERLAY
+══════════════════════════════════════════════════ -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home"     onclick="closeMobile()">Home</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#rates"    onclick="closeMobile()">Rates</a>
+  <a href="#work"     onclick="closeMobile()">Work</a>
+  <a href="#process"  onclick="closeMobile()">Process</a>
+  <a href="#about"    onclick="closeMobile()">About</a>
+  <a href="#blog"     onclick="closeMobile()">Insights</a>
+  <a href="#contact" class="m-cta" onclick="closeMobile()">Get a Quote</a>
+  <p class="m-contact"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="a8c0cdc4c4c7e8c5c7c6c3cdd1c5cdccc1c986cbc7c5">[email&#160;protected]</a> · (415) 555-0200</p>
+  <div style="display:flex;gap:20px;flex-wrap:wrap;justify-content:center;margin-top:12px;">
+    <a href="#legal-tos" onclick="closeMobile()" style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;">Terms</a>
+    <a href="#legal-privacy" onclick="closeMobile()" style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;">Privacy</a>
+    <a href="#legal-refund" onclick="closeMobile()" style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;">Refunds</a>
+    <a href="#legal-licensing" onclick="closeMobile()" style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;">Licensing</a>
+    <a href="#legal-cookies" onclick="closeMobile()" style="font-family:var(--mono);font-size:10px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;">Cookies</a>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     NAVIGATION
+══════════════════════════════════════════════════ -->
+<nav id="nav">
+  <div class="container nav-inner">
+
+    <a href="#home" class="nav-logo">
+      <div class="pulse"></div>
+      Monkey<span class="m3">Media</span>
+    </a>
+
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#home"     class="nav-lnk active">Home</a></li>
+      <li><a href="#services" class="nav-lnk">Services</a></li>
+      <li><a href="#rates"    class="nav-lnk">Rates</a></li>
+      <li><a href="#work"     class="nav-lnk">Work</a></li>
+      <li><a href="#process"  class="nav-lnk">Process</a></li>
+      <li><a href="#about"    class="nav-lnk">About</a></li>
+      <li><a href="#blog"     class="nav-lnk">Insights</a></li>
+    </ul>
+
+    <a href="#contact" class="nav-cta">Get a Quote</a>
+    <div class="nav-burger" id="navBurger" onclick="toggleMobile()">
+      <span></span><span></span><span></span>
+    </div>
+
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     ████  PAGE 1: HOME  ████
+══════════════════════════════════════════════════ -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-noise"></div>
+  <div class="container">
+    <div class="hero-content">
+
+      <div class="hero-eyebrow fi">
+        <div class="ln"></div>
+        <span>AI-Powered Creative Production · San Francisco</span>
+      </div>
+
+      <h1 class="hero-title fi">
+        Million&nbsp;Dollar<br/>
+        <span class="c1">Quality.</span><br/>
+        <span class="ghost">Fraction</span>&nbsp;of<br/>
+        the&nbsp;Cost.
+      </h1>
+
+      <p class="hero-sub fi">
+        <strong>Monkey Media</strong> delivers cinema-grade video, audio, and media campaigns using the most advanced generative AI production stack available — avatar creation, voice cloning, original music, motion graphics, and automated content pipelines at <strong>90% less than traditional studios.</strong>
+      </p>
+
+      <div class="hero-btns fi">
+        <a href="#services" class="btn-fill">Explore Packages</a>
+        <a href="#process" class="btn-outline">How We Work</a>
+        <a href="#work" class="btn-outline">View Our Work</a>
+      </div>
+
+      <div class="hero-stats fi">
+        <div class="stat-item">
+          <div class="num">97<sup>%</sup></div>
+          <div class="lbl">Cost Reduction<br/>vs. Traditional Agencies</div>
+        </div>
+        <div class="stat-item">
+          <div class="num">48<sup>hr</sup></div>
+          <div class="lbl">Average Rush<br/>Turnaround</div>
+        </div>
+        <div class="stat-item">
+          <div class="num">4<sup>K</sup></div>
+          <div class="lbl">Output<br/>Resolution</div>
+        </div>
+        <div class="stat-item">
+          <div class="num">∞</div>
+          <div class="lbl">Scalable<br/>Iterations</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF BAR -->
+<div id="proof">
+  <div class="container">
+    <div class="proof-inner">
+      <span class="proof-label">Trusted by brands in:</span>
+      <div class="proof-logos">
+        <span class="proof-logo">Music</span>
+        <span class="proof-logo">Finance</span>
+        <span class="proof-logo">Healthcare</span>
+        <span class="proof-logo">EdTech</span>
+        <span class="proof-logo">Real Estate</span>
+        <span class="proof-logo">Fashion</span>
+        <span class="proof-logo">Nonprofits</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOME: 4 SERVICE PILLARS -->
+<div id="home-services">
+  <div class="container">
+    <div class="sec-header fi">
+      <div class="tag">What We Do</div>
+      <h2 class="section-title">Four&nbsp;Pillars of <span class="c">Creative</span><br/><span class="ghost">Domination</span></h2>
+      <p class="lead">Every discipline runs on generative AI — faster, cheaper, and more scalable than any traditional studio. One vendor. Infinite output.</p>
+    </div>
+    <div class="pillars-grid">
+      <div class="pillar fi">
+        <div class="pillar-accent"></div>
+        <div class="pillar-icon">🎬</div>
+        <div class="pillar-title">Video Production</div>
+        <p class="pillar-copy">Music videos, corporate explainers, instructional modules, TV commercials, and short films — all produced with AI-directed cinematography, AI avatars, and professional color grading. No crew. No location costs. No scheduling nightmares.</p>
+        <a href="#services" class="pillar-link">View video packages →</a>
+      </div>
+      <div class="pillar fi">
+        <div class="pillar-accent"></div>
+        <div class="pillar-icon">🎵</div>
+        <div class="pillar-title">Audio &amp; Music</div>
+        <p class="pillar-copy">Original AI-composed music across every genre, professional mix and mastering, voice cloning in any language, radio spot production, and jingle/sonic branding. Broadcast-ready audio at indie-budget prices.</p>
+        <a href="#rates" class="pillar-link">See audio rates →</a>
+      </div>
+      <div class="pillar fi">
+        <div class="pillar-accent"></div>
+        <div class="pillar-icon">📱</div>
+        <div class="pillar-title">Social &amp; Print</div>
+        <p class="pillar-copy">Monthly social media asset packages, campaign photography (AI-generated), billboard and magazine print layouts, email templates, and branded content calendars. Consistent. Scalable. On-brand.</p>
+        <a href="#rates" class="pillar-link">Social media packages →</a>
+      </div>
+      <div class="pillar fi">
+        <div class="pillar-accent"></div>
+        <div class="pillar-icon">⚡</div>
+        <div class="pillar-title">AI Automation</div>
+        <p class="pillar-copy">Custom n8n/Zapier pipelines that auto-publish content, generate reports, send alerts, and manage your entire content lifecycle. We don't just make your content — we automate the machine that runs it.</p>
+        <a href="#process" class="pillar-link">How automation works →</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HOME: FEATURED WORK -->
+<div id="home-work">
+  <div class="container">
+    <div class="sec-header fi">
+      <div class="tag">Featured Work</div>
+      <h2 class="section-title">Recent <span class="o">Productions</span></h2>
+      <p class="lead">A snapshot of what AI-native creative production looks like at Monkey Media quality standards.</p>
+    </div>
+    <div class="work-grid fi">
+      <div class="work-card">
+        <div class="work-thumb t1">🎬
+          <div class="work-play"></div>
+        </div>
+        <div class="work-meta">
+          <div class="work-cat">Music Video</div>
+          <div class="work-title">Neon Reverie</div>
+          <p class="work-desc">4-minute cinematic music video — AI avatar cast, Kling-generated visuals, original score, color grade.</p>
+        </div>
+      </div>
+      <div class="work-card">
+        <div class="work-thumb t2">📊
+          <div class="work-play"></div>
+        </div>
+        <div class="work-meta">
+          <div class="work-cat">Corporate Explainer</div>
+          <div class="work-title">FinTech Forward</div>
+          <p class="work-desc">2-minute explainer with AI presenter, animated data charts, branded motion graphics.</p>
+        </div>
+      </div>
+      <div class="work-card">
+        <div class="work-thumb t3">📺
+          <div class="work-play"></div>
+        </div>
+        <div class="work-meta">
+          <div class="work-cat">TV Commercial</div>
+          <div class="work-title">Sunrise Health</div>
+          <p class="work-desc">30-second broadcast spot — fully AI-generated, broadcast-spec, closed-captioned delivery.</p>
+        </div>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:36px;">
+      <a href="#work" class="btn-outline">View Full Portfolio →</a>
+    </div>
+  </div>
+</div>
+
+<!-- HOME: CTA STRIP -->
+<div id="home-cta">
+  <div class="cta-strip-bg"></div>
+  <div class="container">
+    <div class="cta-strip fi">
+      <h2>Ready to Build Something<br/><span>Unforgettable?</span></h2>
+      <p>Tell us your story. We'll build the machine that tells it — beautifully, affordably, and at scale.</p>
+      <div class="cta-strip-btns">
+        <a href="#contact" class="btn-fill">Start a Project</a>
+        <a href="#rates" class="btn-outline">See All Rates</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="sec-divider"></div>
+
+<!-- ══════════════════════════════════════════════════
+     ████  PAGE 2: SERVICES  ████
+══════════════════════════════════════════════════ -->
+<section id="services">
+  <div class="container">
+
+    <div class="sec-header fi">
+      <div class="tag">Pricing &amp; Packages</div>
+      <h2 class="section-title">Choose Your <span class="c">Signal</span></h2>
+      <p class="lead">Every tier includes AI-native production — avatar creation, voice cloning, original music, motion graphics — and final delivery in all required formats. No hidden fees.</p>
+    </div>
+
+    <!-- COMPARE BANNER -->
+    <div class="compare-banner fi">
+      <div>
+        <div class="cb-lbl">Traditional Agency — 30-sec TV Spot</div>
+        <div class="cb-amt theirs">$50,000+</div>
+        <div class="cb-note">4–8 weeks · crew of 20+ · location fees<br/>talent contracts · post-production overhead</div>
+      </div>
+      <div class="cb-mid">
+        <div class="cb-vs">vs</div>
+        <div class="cb-save">↓ SAVE UP TO 97%</div>
+      </div>
+      <div style="text-align:right;">
+        <div class="cb-lbl">Monkey Media — Same Deliverable</div>
+        <div class="cb-amt ours">$3,500</div>
+        <div class="cb-note" style="text-align:right;">5–7 days · broadcast-ready · 4K output<br/>unlimited format derivatives · 3 revisions</div>
+      </div>
+    </div>
+
+    <!-- TIER CARDS (2×2) -->
+    <div class="tiers-grid">
+
+      <!-- SPARK -->
+      <div class="tier-card fi">
+        <div class="tier-badge tb1">Tier 01</div>
+        <div class="tier-name">Spark</div>
+        <p class="tier-tag">Perfect for independent artists, creators, and small businesses launching their first AI-powered campaign. Professional quality without the enterprise price tag.</p>
+        <div class="tier-price">
+          <div class="tp-from">Starting at</div>
+          <div class="tp-amt"><sup>$</sup>1,500</div>
+          <div class="tp-qual">per project · single deliverable</div>
+        </div>
+        <ul class="tier-feats">
+          <li class="hi">1 short-form video (15–60 sec, 1080p)</li>
+          <li>AI avatar or character creation (1 character)</li>
+          <li>AI voice clone or text-to-speech narration</li>
+          <li>Original AI-composed background music</li>
+          <li>Basic motion graphics &amp; title cards</li>
+          <li>3 social media cut-downs (1:1, 9:16, 16:9)</li>
+          <li>2 revision rounds included</li>
+          <li class="hi">Turnaround: 3–5 business days</li>
+          <li>Final delivery: MP4, MOV + web formats</li>
+          <li>Licensed for commercial use</li>
+        </ul>
+        <button class="tier-btn tb-line" onclick="scrollTo('contact')">Start a Spark Project →</button>
+      </div>
+
+      <!-- SIGNAL — FEATURED -->
+      <div class="tier-card featured fi">
+        <div class="tier-badge tb2">Tier 02</div>
+        <div class="tier-name">Signal</div>
+        <p class="tier-tag">For brands, musicians, and growing companies needing broadcast-quality output with multi-platform reach. Our most popular package for results-driven campaigns.</p>
+        <div class="tier-price">
+          <div class="tp-from">Starting at</div>
+          <div class="tp-amt"><sup>$</sup>5,000</div>
+          <div class="tp-qual">per project · multi-deliverable</div>
+        </div>
+        <ul class="tier-feats">
+          <li class="hi">Music video (2–4 min) OR corporate explainer (2–3 min)</li>
+          <li class="hi">4K resolution output — broadcast ready</li>
+          <li>AI character cast — up to 3 custom avatars</li>
+          <li>Voice cloning — up to 2 custom voice profiles</li>
+          <li>Full AI music composition + basic mix/master</li>
+          <li>Advanced motion graphics &amp; transitions</li>
+          <li>Social asset package (5 cut-downs + 10 statics)</li>
+          <li>Print-ready ad set (2 sizes)</li>
+          <li>3 revision rounds included</li>
+          <li class="hi">Turnaround: 7–10 business days</li>
+        </ul>
+        <button class="tier-btn tb-cyan" onclick="scrollTo('contact')">Get a Signal Quote →</button>
+      </div>
+
+      <!-- APEX -->
+      <div class="tier-card fi">
+        <div class="tier-badge tb3">Tier 03</div>
+        <div class="tier-name">Apex</div>
+        <p class="tier-tag">Cinematic broadcast campaigns across every channel. TV-ready, radio-ready, print-ready, and social-ready — all from a single production run. Full media market saturation.</p>
+        <div class="tier-price">
+          <div class="tp-from">Starting at</div>
+          <div class="tp-amt"><sup>$</sup>18,000</div>
+          <div class="tp-qual">per campaign · all-platform</div>
+        </div>
+        <ul class="tier-feats">
+          <li class="hi">TV commercial (30–60 sec, broadcast DCP spec)</li>
+          <li class="hi">Full music video (3–5 min, cinematic grade)</li>
+          <li>AI avatar cast — up to 6 custom characters</li>
+          <li>Voice cloning — up to 5 custom voice profiles</li>
+          <li>Original AI music: composition + professional mix/master</li>
+          <li>Radio spots — 30 sec + 60 sec</li>
+          <li>Social package: 15 cut-downs + 25 statics</li>
+          <li>Print campaign — up to 6 print-ready assets</li>
+          <li>5 revision rounds included</li>
+          <li class="hi">Turnaround: 14–21 business days</li>
+        </ul>
+        <button class="tier-btn tb-line" onclick="scrollTo('contact')">Request Apex Scope →</button>
+      </div>
+
+      <!-- SOVEREIGN -->
+      <div class="tier-card fi">
+        <div class="tier-badge tb4">Tier 04</div>
+        <div class="tier-name">Sovereign</div>
+        <p class="tier-tag">Enterprise-scale creative operations with a dedicated account manager. Full AI automation pipeline build, 3-month content calendar, and white-glove delivery. Built for market dominance.</p>
+        <div class="tier-price">
+          <div class="tp-from">Starting at</div>
+          <div class="tp-amt"><sup>$</sup>50,000</div>
+          <div class="tp-qual">3-month engagement · all-platform</div>
+        </div>
+        <ul class="tier-feats">
+          <li class="hi">Full integrated campaign — video, audio, print, social</li>
+          <li>Unlimited avatar/character library build</li>
+          <li>Complete brand voice cloning system</li>
+          <li>AI automation pipeline (n8n custom build)</li>
+          <li>3-month content calendar — 60+ deliverables</li>
+          <li>Weekly performance &amp; analytics reporting</li>
+          <li>Dedicated senior creative director</li>
+          <li>Priority 48-hour turnaround SLA</li>
+          <li>Unlimited revisions within scope</li>
+          <li class="hi">Turnaround: 6–8 weeks (initial batch)</li>
+        </ul>
+        <button class="tier-btn tb-gold" onclick="scrollTo('contact')">Unlock Sovereign →</button>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ══════════════════════════════════════════════════
+     ████  PAGE 3: RATES (A LA CARTE)  ████
+══════════════════════════════════════════════════ -->
+<section id="rates">
+  <div class="container">
+
+    <div class="sec-header fi">
+      <div class="tag">A La Carte Rates</div>
+      <h2 class="section-title">Individual <span class="c">Service</span> Rates</h2>
+      <p class="lead">Every service below can be purchased standalone or bundled into a tier package for maximum savings. All rates reflect finished, broadcast-ready deliverables.</p>
+    </div>
+
+    <!-- ── VIDEO PRODUCTION ── -->
+    <div class="rates-cat fi">🎬 &nbsp;Video Production</div>
+    <div class="rates-grid">
+
+      <div class="rate-card fi" style="--accent-line:var(--cyan);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">🎬</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">Music Video</div>
+              <div class="rc-sub">2–5 min · 4K · cinematic</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$5K–$18K</div>
+            <div class="rc-time">7–14 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">Full AI-directed music video with custom avatar cast, AI voice or artist sync, original or licensed score, professional color grading, motion graphics, and all social cut-downs. Delivered in 4K MP4, broadcast ProRes, and web-optimized H.264.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional studio: <span>$15,000–$500,000+</span></span>
+          <span class="save-tag">Save 65–97%</span>
+        </div>
+      </div>
+
+      <div class="rate-card fi" style="--accent-line:var(--gold);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">📽️</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">Corporate Explainer</div>
+              <div class="rc-sub">1–3 min · branded · animated</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$2K–$8K</div>
+            <div class="rc-time">5–10 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">Script-to-screen corporate video with AI presenter avatar, custom voiceover, animated data visualizations, branded motion graphic system, and a polished end card. Ideal for investor decks, product launches, and onboarding flows.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional agency: <span>$3,600–$9,000/min</span></span>
+          <span class="save-tag">Save 60–85%</span>
+        </div>
+      </div>
+
+      <div class="rate-card fi" style="--accent-line:var(--orange);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">🎓</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">Training / Instructional</div>
+              <div class="rc-sub">per module · multi-language</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$1.5K–$5K</div>
+            <div class="rc-time">5–7 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">AI instructor avatar, screen recording integration, multi-language voice delivery, on-screen text annotations, branching scenario support, and LMS-ready SCORM packaging. Scalable across entire training curricula at a flat per-module rate.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional studios: <span>$2,000–$10,000/min</span></span>
+          <span class="save-tag">Save 70–90%</span>
+        </div>
+      </div>
+
+      <div class="rate-card fi" style="--accent-line:var(--purple);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">📺</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">TV Promo / Commercial</div>
+              <div class="rc-sub">15–60 sec · broadcast spec</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$3.5K–$12K</div>
+            <div class="rc-time">5–10 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">Fully broadcast-spec TV spot — 4K, color-graded, professional VO, licensed music or original composition, SFX design, closed captions, and DCP packaging. Delivered to your station's exact technical spec sheet.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional production: <span>$15,000–$100,000+</span></span>
+          <span class="save-tag">Save 75–97%</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── AUDIO PRODUCTION ── -->
+    <div class="rates-cat fi">🎵 &nbsp;Audio Production</div>
+    <div class="rates-grid">
+
+      <div class="rate-card fi" style="--accent-line:var(--green);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">📻</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">Radio Spot Production</div>
+              <div class="rc-sub">30 &amp; 60 sec · broadcast ready</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$500–$2K</div>
+            <div class="rc-time">2–3 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">Full radio spot — scripting, AI voiceover selection, jingle or music bed composition, SFX layering, and a broadcast-standard WAV/MP3 mix. Delivered in stereo and mono. Multiple regional versions available at reduced rate.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional studio: <span>$500–$5,000+</span></span>
+          <span class="save-tag">Save 50–80%</span>
+        </div>
+      </div>
+
+      <div class="rate-card fi" style="--accent-line:var(--cyan);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">🎵</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">Original Music + Mix/Master</div>
+              <div class="rc-sub">per track · stems included</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$800–$3K</div>
+            <div class="rc-time">3–5 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">AI-composed original track (Suno v4 / AIVA) in any genre, stem export for sync flexibility, professional mix and mastering in Logic Pro X, streaming-platform-ready loudness standards, and full commercial license transfer.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional studio: <span>$1,500–$10,000/track</span></span>
+          <span class="save-tag">Save 60–92%</span>
+        </div>
+      </div>
+
+      <div class="rate-card fi" style="--accent-line:var(--gold);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">🗣️</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">Voice Cloning &amp; VO</div>
+              <div class="rc-sub">per project · multi-language</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$300–$1.2K</div>
+            <div class="rc-time">1–2 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">Custom ElevenLabs voice profile creation from a 3-minute sample, full script production in any language, broadcast-quality output, and voice file delivery in WAV/MP3. Voice assets licensed for your exclusive commercial use.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional VO session: <span>$500–$3,000/session</span></span>
+          <span class="save-tag">Save 60–90%</span>
+        </div>
+      </div>
+
+      <div class="rate-card fi" style="--accent-line:var(--orange);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">🎙️</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">Podcast Production</div>
+              <div class="rc-sub">per episode · full service</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$400–$1.5K</div>
+            <div class="rc-time">2–4 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">AI-assisted show notes, chapter markers, transcript, audiogram video creation for social (15 sec + 60 sec reels), intro/outro music production, cover art, and final episode mix. Full RSS-ready delivery package.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional producer: <span>$800–$4,000/episode</span></span>
+          <span class="save-tag">Save 50–75%</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── SOCIAL & PRINT ── -->
+    <div class="rates-cat fi">📱 &nbsp;Social Media &amp; Print</div>
+    <div class="rates-grid">
+
+      <div class="rate-card fi" style="--accent-line:var(--cyan);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">📱</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">Social Media Package</div>
+              <div class="rc-sub">monthly · all platforms</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$600–$2.5K</div>
+            <div class="rc-time">5–7 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">10–30 static posts per month (Instagram, LinkedIn, X, Facebook), story templates, animated reel covers, branded captions, hashtag strategy per platform, and all source files in Canva or Adobe format for your team's future use.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional agency: <span>$2,000–$10,000/month</span></span>
+          <span class="save-tag">Save 70–94%</span>
+        </div>
+      </div>
+
+      <div class="rate-card fi" style="--accent-line:var(--gold);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">🖨️</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">Print Campaign</div>
+              <div class="rc-sub">per asset set · 300dpi</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$500–$3K</div>
+            <div class="rc-time">3–5 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">AI-generated campaign imagery, full print layout design, 300dpi press-ready files in CMYK, and delivery in multiple sizes (billboard 14×48, magazine full-page, OOH transit, A4 flyer). Pre-press review included.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional agency: <span>$500–$5,000/asset</span></span>
+          <span class="save-tag">Save 40–80%</span>
+        </div>
+      </div>
+
+      <div class="rate-card fi" style="--accent-line:var(--purple);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">✍️</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">Content Writing Package</div>
+              <div class="rc-sub">monthly · SEO-optimized</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$500–$2K</div>
+            <div class="rc-time">3–5 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">4–12 SEO-optimized blog articles, website copy audits and rewrites, email sequences (5–10 emails), press releases, and ad copy variations (A/B sets). Human-reviewed, AI-accelerated. All content passes AI detection compliance checks.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional copywriter: <span>$1,500–$6,000/month</span></span>
+          <span class="save-tag">Save 60–83%</span>
+        </div>
+      </div>
+
+      <div class="rate-card fi" style="--accent-line:var(--orange);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">📧</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">Email Campaign Design</div>
+              <div class="rc-sub">per campaign · HTML coded</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$300–$1.5K</div>
+            <div class="rc-time">2–4 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">Branded HTML email templates (Mailchimp, Klaviyo, HubSpot ready), AI-generated hero images, subject line A/B variants, mobile-responsive design, dark-mode compatible, and deliverability-optimized plain-text version.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional agency: <span>$500–$3,000/campaign</span></span>
+          <span class="save-tag">Save 50–80%</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- ── ADVANCED AI SERVICES ── -->
+    <div class="rates-cat fi">🤖 &nbsp;Advanced AI Services</div>
+    <div class="rates-grid">
+
+      <div class="rate-card fi" style="--accent-line:var(--cyan);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">🤖</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">AI Avatar Creation</div>
+              <div class="rc-sub">character design · one-time</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$1K–$4K</div>
+            <div class="rc-time">3–5 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">Custom digital human or stylized brand avatar with lip-sync capability, a 20-gesture library, multiple wardrobe sets, and a brand kit export. Built in HeyGen or Synthesia — reusable across all future projects at no additional character fee.</p>
+        <div class="rc-compare">
+          <span class="trad">VFX studio character: <span>$5,000–$50,000+</span></span>
+          <span class="save-tag">Save 70–96%</span>
+        </div>
+      </div>
+
+      <div class="rate-card fi" style="--accent-line:var(--green);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">⚡</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">AI Automation Pipeline</div>
+              <div class="rc-sub">n8n / custom build</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$3K–$12K</div>
+            <div class="rc-time">1–2 weeks</div>
+          </div>
+        </div>
+        <p class="rc-desc">End-to-end content automation: AI generation triggers, CMS publishing, social scheduling, analytics reporting, and Slack/email alerts — all built in n8n and deployed to your server. Includes 30-day support and documentation handoff.</p>
+        <div class="rc-compare">
+          <span class="trad">Agency automation build: <span>$8,000–$40,000+</span></span>
+          <span class="save-tag">Save 60–85%</span>
+        </div>
+      </div>
+
+      <div class="rate-card fi" style="--accent-line:var(--gold);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">✨</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">Motion Graphics / Animation</div>
+              <div class="rc-sub">per minute · 2D/3D</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$1K–$5K</div>
+            <div class="rc-time">5–10 days</div>
+          </div>
+        </div>
+        <p class="rc-desc">2D and 3D AI-assisted animation, logo stings, data-driven motion infographics, title sequences, lower thirds packages, and generative visual effects. Source AEP files delivered with every project for your in-house team.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional studio: <span>$7,000–$20,000/min</span></span>
+          <span class="save-tag">Save 75–95%</span>
+        </div>
+      </div>
+
+      <div class="rate-card fi" style="--accent-line:var(--orange);">
+        <div class="rc-header">
+          <div class="rc-icon-name">
+            <div class="rc-icon">🌐</div>
+            <div class="rc-name-wrap">
+              <div class="rc-name">AI Website Build</div>
+              <div class="rc-sub">landing page · full site</div>
+            </div>
+          </div>
+          <div class="rc-rate-block">
+            <div class="rc-rate">$2K–$15K</div>
+            <div class="rc-time">1–3 weeks</div>
+          </div>
+        </div>
+        <p class="rc-desc">Custom HTML/CSS/JS or Webflow site build with AI-generated copy, imagery, and branding. Mobile-first, WCAG-accessible, performance-optimized (Core Web Vitals green), with GA4 analytics, contact form automation, and CMS setup.</p>
+        <div class="rc-compare">
+          <span class="trad">Traditional dev agency: <span>$8,000–$60,000+</span></span>
+          <span class="save-tag">Save 60–92%</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- RETAINER SECTION -->
+    <div style="margin-top:80px;">
+      <div class="sec-header fi">
+        <div class="tag">Ongoing Support</div>
+        <h2 class="section-title">Retainer <span class="o">&amp;</span> <span class="c">Maintenance</span></h2>
+        <p class="lead">Keep your brand's content engine running at full throttle with a monthly retainer. All plans include a dedicated creative manager, monthly performance review, and 24-hour SLA support.</p>
+      </div>
+      <div class="retainer-grid fi">
+        <div class="ret-card">
+          <h4>Content Pulse</h4>
+          <div class="ret-price" style="color:var(--cyan);">$1,500<span>/month</span></div>
+          <ul>
+            <li>10 social media static posts</li>
+            <li>2 short-form videos (30 sec each)</li>
+            <li>Monthly content calendar</li>
+            <li>1 revision round per asset</li>
+            <li>Google Drive asset delivery</li>
+            <li>Email support — 48-hr SLA</li>
+          </ul>
+        </div>
+        <div class="ret-card">
+          <h4>Growth Engine</h4>
+          <div class="ret-price" style="color:var(--gold-lt);">$3,500<span>/month</span></div>
+          <ul>
+            <li>25 social media assets (mixed)</li>
+            <li>4 videos (up to 2 min each)</li>
+            <li>1 radio spot refresh per month</li>
+            <li>Monthly analytics report</li>
+            <li>A/B testing — 2 variants/asset</li>
+            <li>3 revision rounds per asset</li>
+            <li>Slack channel support</li>
+          </ul>
+        </div>
+        <div class="ret-card">
+          <h4>Enterprise Pipeline</h4>
+          <div class="ret-price" style="color:var(--orange);">$8,500<span>/month</span></div>
+          <ul>
+            <li>Unlimited assets (200-hr cap)</li>
+            <li>8+ videos per month</li>
+            <li>Full campaign management</li>
+            <li>AI automation maintenance</li>
+            <li>Priority 24-hr turnaround</li>
+            <li>Dedicated creative director</li>
+            <li>Unlimited revisions</li>
+            <li>Weekly strategy calls</li>
+          </ul>
+        </div>
+        <div class="ret-card highlight">
+          <h4>Add-On Menu</h4>
+          <div class="ret-price" style="color:var(--muted);font-size:18px;">Bolt-On Services</div>
+          <ul>
+            <li>Rush delivery (48-hr): +$500 flat</li>
+            <li>Extra revision round: +$200</li>
+            <li>New avatar creation: +$1,000</li>
+            <li>Language localization: +$300/lang</li>
+            <li>Broadcast license bundle: +$500</li>
+            <li>Source file delivery: +$400</li>
+            <li>Extended music license: +$250</li>
+            <li>DCP packaging for cinema: +$350</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- ADDON PILLS -->
+      <div class="addons-row fi">
+        <div class="addon-pill">Rush 48hr <strong>+$500</strong></div>
+        <div class="addon-pill">Extra Revision <strong>+$200</strong></div>
+        <div class="addon-pill">New Avatar <strong>+$1,000</strong></div>
+        <div class="addon-pill">Language Localization <strong>+$300</strong></div>
+        <div class="addon-pill">Broadcast License <strong>+$500</strong></div>
+        <div class="addon-pill">Source Files <strong>+$400</strong></div>
+        <div class="addon-pill">Music License Ext. <strong>+$250</strong></div>
+        <div class="addon-pill">Cinema DCP <strong>+$350</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ══════════════════════════════════════════════════
+     ████  PAGE 4: WORK / PORTFOLIO  ████
+══════════════════════════════════════════════════ -->
+<section id="work">
+  <div class="container">
+
+    <div class="sec-header fi">
+      <div class="tag">Portfolio</div>
+      <h2 class="section-title">Our <span class="g">Work</span></h2>
+      <p class="lead">Every project below was produced entirely with generative AI tools — no cameras, no studios, no traditional production crews. This is the future of creative production.</p>
+    </div>
+
+    <div class="portfolio-filters fi">
+      <button class="pf-btn active" data-filter="all">All Projects</button>
+      <button class="pf-btn" data-filter="mv">Music Video</button>
+      <button class="pf-btn" data-filter="corp">Corporate</button>
+      <button class="pf-btn" data-filter="tv">TV / Broadcast</button>
+      <button class="pf-btn" data-filter="social">Social</button>
+      <button class="pf-btn" data-filter="audio">Audio</button>
+    </div>
+
+    <div class="portfolio-grid fi">
+      <div class="port-item wide" data-cat="mv">
+        <div class="port-thumb bg-a"><span>🎬</span>
+          <div class="port-overlay"><div class="port-view">View Case Study</div></div>
+        </div>
+        <div class="port-meta">
+          <div class="port-cat">Music Video · Featured</div>
+          <div class="port-title">Neon Reverie — VANTA</div>
+          <p class="port-desc">4-min cinematic music video — Kling AI visuals, custom AI avatar cast, ElevenLabs audio sync, original Suno score, Logic Pro master.</p>
+        </div>
+      </div>
+      <div class="port-item" data-cat="corp">
+        <div class="port-thumb bg-b normal"><span>📊</span>
+          <div class="port-overlay"><div class="port-view">View Case Study</div></div>
+        </div>
+        <div class="port-meta">
+          <div class="port-cat">Corporate Explainer</div>
+          <div class="port-title">FinTech Forward</div>
+          <p class="port-desc">2-min explainer with AI presenter, data animation, branded motion graphics.</p>
+        </div>
+      </div>
+      <div class="port-item" data-cat="tv">
+        <div class="port-thumb bg-c normal"><span>📺</span>
+          <div class="port-overlay"><div class="port-view">View Case Study</div></div>
+        </div>
+        <div class="port-meta">
+          <div class="port-cat">TV Commercial</div>
+          <div class="port-title">Sunrise Health — :30</div>
+          <p class="port-desc">30-sec broadcast spot, DCP delivery, AI VO, music composition.</p>
+        </div>
+      </div>
+      <div class="port-item" data-cat="social">
+        <div class="port-thumb bg-d normal"><span>📱</span>
+          <div class="port-overlay"><div class="port-view">View Case Study</div></div>
+        </div>
+        <div class="port-meta">
+          <div class="port-cat">Social Campaign</div>
+          <div class="port-title">Bloom Beauty — Q1 2026</div>
+          <p class="port-desc">60-asset social package — Reels, Stories, static posts, branded captions.</p>
+        </div>
+      </div>
+      <div class="port-item" data-cat="audio">
+        <div class="port-thumb bg-e normal"><span>🎵</span>
+          <div class="port-overlay"><div class="port-view">View Case Study</div></div>
+        </div>
+        <div class="port-meta">
+          <div class="port-cat">Audio Production</div>
+          <div class="port-title">Pacific Radio — Campaign</div>
+          <p class="port-desc">6-spot radio campaign — scripted, voice-cloned, broadcast mixed and mastered.</p>
+        </div>
+      </div>
+      <div class="port-item" data-cat="corp">
+        <div class="port-thumb bg-f normal"><span>🎓</span>
+          <div class="port-overlay"><div class="port-view">View Case Study</div></div>
+        </div>
+        <div class="port-meta">
+          <div class="port-cat">Training Video</div>
+          <div class="port-title">MedCore — Compliance Series</div>
+          <p class="port-desc">12-module training series — AI instructor, 3 languages, LMS-ready SCORM.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE STUDIES -->
+    <div class="case-studies">
+      <div class="sec-header fi" style="margin-top:72px;">
+        <div class="tag">Deep Dives</div>
+        <h2 class="section-title">Case <span class="c">Studies</span></h2>
+      </div>
+
+      <div class="cs-card fi">
+        <div class="cs-text">
+          <div class="cs-label">Case Study 01 · Music Video</div>
+          <h3 class="cs-title">Neon Reverie<br/>by VANTA</h3>
+          <p class="cs-copy">An independent artist with a $6,000 budget wanted a music video that could compete visually with major-label productions. Using Kling AI for video generation, MidJourney v7 for world-building storyboards, ElevenLabs for vocal sync, and Suno v4 for the custom orchestral score, we delivered a 4-minute cinematic experience in 11 days. The video hit 280K YouTube views in the first 30 days — without a single traditional production crew member.</p>
+          <div class="cs-tags">
+            <span class="cs-tag">Kling AI</span>
+            <span class="cs-tag">MidJourney v7</span>
+            <span class="cs-tag">ElevenLabs</span>
+            <span class="cs-tag">Suno v4</span>
+            <span class="cs-tag">Logic Pro</span>
+            <span class="cs-tag">CapCut Pro</span>
+          </div>
+          <div class="cs-results">
+            <div class="cs-stat"><div class="n">280K</div><div class="l">YouTube views, 30 days</div></div>
+            <div class="cs-stat"><div class="n">$6K</div><div class="l">Total production budget</div></div>
+            <div class="cs-stat"><div class="n">11</div><div class="l">Days to delivery</div></div>
+          </div>
+        </div>
+        <div class="cs-visual bg-a">🎬</div>
+      </div>
+
+      <div class="cs-card fi">
+        <div class="cs-text">
+          <div class="cs-label">Case Study 02 · Corporate</div>
+          <h3 class="cs-title">FinTech Forward<br/>— Investor Explainer</h3>
+          <p class="cs-copy">A Series B fintech startup needed an explainer video for their board deck and a TV commercial for a regional cable buy — both on a $12,000 combined budget with a 10-day deadline. We delivered a 2-minute explainer with a custom AI executive avatar and animated data visualizations, plus a 30-second broadcast spot with original music. The board approved the explainer in the first round; the TV spot aired on 4 regional networks within budget.</p>
+          <div class="cs-tags">
+            <span class="cs-tag">Synthesia</span>
+            <span class="cs-tag">HeyGen</span>
+            <span class="cs-tag">After Effects</span>
+            <span class="cs-tag">AIVA</span>
+            <span class="cs-tag">Adobe Firefly</span>
+            <span class="cs-tag">DCP Master</span>
+          </div>
+          <div class="cs-results">
+            <div class="cs-stat"><div class="n">$12K</div><div class="l">2 videos combined</div></div>
+            <div class="cs-stat"><div class="n">10</div><div class="l">Days total turnaround</div></div>
+            <div class="cs-stat"><div class="n">4</div><div class="l">TV networks, first airing</div></div>
+          </div>
+        </div>
+        <div class="cs-visual bg-b">📊</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ══════════════════════════════════════════════════
+     ████  PAGE 5: PROCESS  ████
+══════════════════════════════════════════════════ -->
+<section id="process">
+  <div class="container">
+
+    <div class="sec-header fi">
+      <div class="tag">How We Work</div>
+      <h2 class="section-title">The Production <span class="c">Pipeline</span></h2>
+      <p class="lead">A transparent, six-step creative process engineered for speed without sacrificing cinematic quality. You always know where your project stands.</p>
+    </div>
+
+    <div class="process-wrap">
+      <div class="process-steps">
+
+        <div class="ps fi">
+          <div class="ps-num">01</div>
+          <div class="ps-body">
+            <h4>Discovery &amp; Creative Brief</h4>
+            <p>We begin with a 30-minute intake call or a detailed online brief form. You tell us your story, audience, goals, aesthetic references, and competitive landscape. We document everything into a locked Creative Brief — approved by you before a single frame is generated. No surprises. No scope creep.</p>
+            <div class="ps-tools">
+              <span class="ps-tool">Notion Brief Template</span>
+              <span class="ps-tool">Calendly Scheduling</span>
+              <span class="ps-tool">Miro Moodboard</span>
+              <span class="ps-tool">Loom Async Video</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ps fi">
+          <div class="ps-num">02</div>
+          <div class="ps-body">
+            <h4>Concept &amp; Storyboard</h4>
+            <p>Our AI-augmented creative team generates 2–3 visual concept directions within 24 hours of brief approval — each with AI-rendered reference frames, a narrative treatment, and a color palette moodboard. You choose your direction, we lock scope, and production begins immediately.</p>
+            <div class="ps-tools">
+              <span class="ps-tool">MidJourney v7</span>
+              <span class="ps-tool">DALL·E 3</span>
+              <span class="ps-tool">Kling Storyboard</span>
+              <span class="ps-tool">Figma Layouts</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ps fi">
+          <div class="ps-num">03</div>
+          <div class="ps-body">
+            <h4>AI Production</h4>
+            <p>Video generation, avatar animation, voice synthesis, music composition, motion graphics, and sound design all run in parallel across our production stack. Most projects produce a first-look draft within 24–72 hours of concept approval. This is where the magic happens — and where traditional studios simply cannot compete.</p>
+            <div class="ps-tools">
+              <span class="ps-tool">Kling AI</span>
+              <span class="ps-tool">Runway Gen-3</span>
+              <span class="ps-tool">ElevenLabs</span>
+              <span class="ps-tool">Suno v4</span>
+              <span class="ps-tool">AIVA</span>
+              <span class="ps-tool">HeyGen</span>
+              <span class="ps-tool">Synthesia</span>
+              <span class="ps-tool">Pika Labs</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ps fi">
+          <div class="ps-num">04</div>
+          <div class="ps-body">
+            <h4>Post-Production &amp; Polish</h4>
+            <p>Human-guided final assembly: color grading, audio mastering, subtitle and caption work, format optimization, and QA. Our creative director reviews every frame against the locked Creative Brief before client delivery. No auto-generated slop makes it to your inbox.</p>
+            <div class="ps-tools">
+              <span class="ps-tool">CapCut Pro</span>
+              <span class="ps-tool">Logic Pro X</span>
+              <span class="ps-tool">Kits.ai</span>
+              <span class="ps-tool">Adobe Firefly</span>
+              <span class="ps-tool">After Effects</span>
+              <span class="ps-tool">DaVinci Resolve</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ps fi">
+          <div class="ps-num">05</div>
+          <div class="ps-body">
+            <h4>Review &amp; Revisions</h4>
+            <p>You receive a private, password-protected review link with timestamped, frame-level feedback tools. Leave notes directly on the video. Revisions are incorporated and re-delivered within 24 hours per round. Your tier determines included revision rounds — additional rounds are available at $200 each.</p>
+            <div class="ps-tools">
+              <span class="ps-tool">Frame.io Review</span>
+              <span class="ps-tool">Loom Feedback</span>
+              <span class="ps-tool">Slack Huddle</span>
+              <span class="ps-tool">Notion Revision Log</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="ps fi">
+          <div class="ps-num">06</div>
+          <div class="ps-body">
+            <h4>Delivery &amp; Automation Setup</h4>
+            <p>Final files are delivered in all required formats — MP4, ProRes, WAV, print-ready PDF — via a branded shared drive folder that's yours to keep. For Sovereign-tier clients, we also configure your n8n automation pipeline for ongoing publishing, analytics reporting, and content refresh scheduling. Handoff documentation included with every project.</p>
+            <div class="ps-tools">
+              <span class="ps-tool">Google Drive</span>
+              <span class="ps-tool">Dropbox Transfer</span>
+              <span class="ps-tool">n8n Automations</span>
+              <span class="ps-tool">Zapier (alt)</span>
+              <span class="ps-tool">Notion Handoff Doc</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- PROCESS SIDEBAR -->
+      <div class="process-sidebar fi-r">
+        <div class="timeline-card">
+          <div class="tl-title">Typical Timeline by Tier</div>
+          <div class="tl-row"><span class="tl-step">Spark — 1 deliverable</span><span class="tl-dur">3–5 days</span></div>
+          <div class="tl-row"><span class="tl-step">Signal — multi-deliverable</span><span class="tl-dur">7–10 days</span></div>
+          <div class="tl-row"><span class="tl-step">Apex — full campaign</span><span class="tl-dur">14–21 days</span></div>
+          <div class="tl-row"><span class="tl-step">Sovereign — enterprise</span><span class="tl-dur">6–8 weeks</span></div>
+          <div class="tl-row"><span class="tl-step">Rush (any tier)</span><span class="tl-dur">48 hrs +$500</span></div>
+        </div>
+        <div class="guarantee-card">
+          <div class="gc-title">Our Guarantee</div>
+          <ul class="gc-items">
+            <li>Locked Creative Brief — no scope creep</li>
+            <li>First draft within 72 hours of approval</li>
+            <li>Revisions returned within 24 hours</li>
+            <li>100% satisfaction or full reshoot</li>
+            <li>Broadcast-spec delivery on every project</li>
+            <li>Commercial license included — no hidden fees</li>
+            <li>Source files available as add-on</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ══════════════════════════════════════════════════
+     ████  PAGE 6: ABOUT  ████
+══════════════════════════════════════════════════ -->
+<section id="about">
+  <div class="container">
+
+    <div class="sec-header fi">
+      <div class="tag">Our Story</div>
+      <h2 class="section-title">We Don't Use&nbsp;<span class="c">AI.</span><br/>We <span class="ghost">Direct</span>&nbsp;It.</h2>
+    </div>
+
+    <div class="about-hero">
+      <div class="about-copy fi-l">
+        <p><strong>Monkey Media was built on one uncompromising conviction:</strong> generative AI is not a shortcut — it is a new creative instrument. Like electricity transformed music production in the 1950s, and digital technology reimagined cinema in the 1990s, artificial intelligence is fundamentally rewriting the laws of what's possible in creative production. We intend to be at the vanguard of that transformation.</p>
+        <p>We are storytellers first. Every project begins with a human narrative — your story, your brand's mission, your audience's deepest desire. Then we deploy the most advanced AI production stack in the world to bring that story to life with the <strong>visual language of a major-label music video, the production value of a Hollywood brand film, and the precision of a Super Bowl commercial.</strong></p>
+        <p>Our clients are artists, entrepreneurs, educators, health practitioners, and enterprise brands who refuse to accept the old equation: quality costs time, and time costs money. We reject that equation entirely. The future of creative production is not choosing between speed and quality — it is demanding both, and building the machine that delivers them simultaneously.</p>
+        <p>Founded in San Francisco by a team of martial artists, traders, producers, and technologists, Monkey Media sits at the intersection of <strong>financial intelligence, creative excellence, and technological innovation.</strong> We are driven by a deeper mission: to make world-class creative production accessible to every visionary, regardless of budget — and to build a legacy of generational wealth and philanthropic impact through the art of storytelling.</p>
+        <div class="manifesto">
+          <p>"The most dangerous creative in the room is the one who understands both the art and the algorithm — and refuses to choose between them."</p>
+          <cite>— Monkey Media Manifesto, 2026</cite>
+        </div>
+      </div>
+
+      <div class="fi-r">
+        <div class="tag">Our Core Values</div>
+        <div class="values-grid" style="margin-top:16px;">
+          <div class="value-card">
+            <div class="v-icon">🎯</div>
+            <div class="v-title">Intentionality</div>
+            <p class="v-copy">Every creative decision is deliberate. We don't generate content — we direct stories with purpose and precision.</p>
+          </div>
+          <div class="value-card">
+            <div class="v-icon">⚡</div>
+            <div class="v-title">Velocity</div>
+            <p class="v-copy">Speed is a creative value. We deliver faster than any traditional studio without sacrificing a single frame of quality.</p>
+          </div>
+          <div class="value-card">
+            <div class="v-icon">🔬</div>
+            <div class="v-title">Innovation</div>
+            <p class="v-copy">We test every new AI tool the day it launches and integrate what moves the needle. Our stack is always current.</p>
+          </div>
+          <div class="value-card">
+            <div class="v-icon">🌱</div>
+            <div class="v-title">Legacy</div>
+            <p class="v-copy">We build for generational impact. Our work is designed to outlast the campaign and outlive the trend cycle.</p>
+          </div>
+          <div class="value-card">
+            <div class="v-icon">🤝</div>
+            <div class="v-title">Transparency</div>
+            <p class="v-copy">No hidden fees. No scope creep. No surprises. Our Creative Brief process ensures alignment before production begins.</p>
+          </div>
+          <div class="value-card">
+            <div class="v-icon">🌍</div>
+            <div class="v-title">Impact</div>
+            <p class="v-copy">A percentage of every project's revenue is earmarked for the MonkeyMatters philanthropic foundation — currently in development.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TECH STACK -->
+    <div class="about-stack fi">
+      <div class="stack-title">Our AI Production Stack</div>
+      <p class="stack-sub">40+ tools across 8 production disciplines — updated monthly as the AI landscape evolves.</p>
+      <div class="stack-grid">
+        <div class="stack-card">
+          <div class="sk-cat">🎬 Video Generation</div>
+          <div class="sk-tools">Kling AI · Runway Gen-3 · Google Veo 3 · Pika Labs · LTX Studio · Haiper · Morph Studio</div>
+        </div>
+        <div class="stack-card">
+          <div class="sk-cat">🤖 Avatar &amp; Presenter</div>
+          <div class="sk-tools">HeyGen · Synthesia · D-ID · Colossyan · ElevenLabs Video · Veed.io · Captions.ai</div>
+        </div>
+        <div class="stack-card">
+          <div class="sk-cat">🗣️ Voice &amp; Audio</div>
+          <div class="sk-tools">ElevenLabs · Kits.ai · AIVA · Suno v4 · Udio · Logic Pro X · iZotope RX</div>
+        </div>
+        <div class="stack-card">
+          <div class="sk-cat">🎨 Image &amp; Design</div>
+          <div class="sk-tools">MidJourney v7 · Stable Diffusion XL · DALL·E 3 · Adobe Firefly · Canva AI · Ideogram v2</div>
+        </div>
+        <div class="stack-card">
+          <div class="sk-cat">✨ Motion Graphics</div>
+          <div class="sk-tools">After Effects + AI · CapCut Pro · DaVinci Resolve · Jitter · Motion Bro · Haiper</div>
+        </div>
+        <div class="stack-card">
+          <div class="sk-cat">⚡ Automation</div>
+          <div class="sk-tools">n8n · Zapier · Make.com · Google Workspace APIs · Slack bots · Airtable</div>
+        </div>
+        <div class="stack-card">
+          <div class="sk-cat">📝 Content &amp; Copy</div>
+          <div class="sk-tools">Claude 4 · ChatGPT-4o · Gemini Pro · Perplexity Pro · Jasper · Copy.ai</div>
+        </div>
+        <div class="stack-card">
+          <div class="sk-cat">📊 Analytics &amp; QA</div>
+          <div class="sk-tools">Frame.io · Descript · GA4 · Hotjar · Streamtime PM · Notion · Linear</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TEAM -->
+    <div class="team-section fi">
+      <div class="tag">The Creative Team</div>
+      <h3 class="stack-title" style="margin-top:8px;">Human Direction.<br/>AI Execution.</h3>
+      <p class="stack-sub">Every project is directed by a human creative — our AI tools are instruments, not replacements. Meet the directors who guide them.</p>
+      <div class="team-grid">
+        <div class="team-card">
+          <div class="team-avatar">🎬</div>
+          <div class="team-name">Creative Director</div>
+          <div class="team-role">Video &amp; Visual Storytelling</div>
+          <p class="team-bio">10+ years in broadcast and digital media. Leads all video production from concept through color grade. Specialists in narrative structure and AI cinematography direction.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">🎵</div>
+          <div class="team-name">Music Producer</div>
+          <div class="team-role">Music, Voice &amp; Sound Design</div>
+          <p class="team-bio">Classically trained composer and producer. Oversees all music composition, mix and mastering, voice cloning workflows, and audio-visual sync across every project.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">🎓</div>
+          <div class="team-name">Instructional Designer</div>
+          <div class="team-role">eLearning &amp; Modular Content</div>
+          <p class="team-bio">Specializes in on-demand modular learning systems and AI-driven explainer video curricula. Designs branching scenario frameworks, SCORM-ready course architecture, and multi-language instructional content that transforms complex subjects into clear, engaging learning experiences.</p>
+        </div>
+        <div class="team-card">
+          <div class="team-avatar">⚡</div>
+          <div class="team-name">Automation Engineer</div>
+          <div class="team-role">AI Pipeline &amp; n8n Architecture</div>
+          <p class="team-bio">Full-stack automation specialist with expertise in n8n, API integrations, and AI agent orchestration. Builds the machines that power your content at scale.</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ══════════════════════════════════════════════════
+     ████  PAGE 7: BLOG / INSIGHTS  ████
+══════════════════════════════════════════════════ -->
+<section id="blog">
+  <div class="container">
+
+    <div class="sec-header fi">
+      <div class="tag">Insights &amp; Education</div>
+      <h2 class="section-title">The <span class="p">AI</span> Creative<br/><span class="ghost">Dispatch</span></h2>
+      <p class="lead">Practical guides, tool reviews, industry trends, and creative strategy from the frontlines of AI production. Published weekly.</p>
+    </div>
+
+    <div class="blog-grid fi">
+
+      <!-- FEATURED -->
+      <div class="blog-card featured">
+        <div class="blog-img bi-a">📡</div>
+        <div class="blog-body">
+          <div class="blog-cat">Featured · Deep Dive</div>
+          <div class="blog-title">The $5,000 Music Video Blueprint: How AI Replaced a $200K Production Budget</div>
+          <p class="blog-excerpt">We break down the exact tools, workflow, and creative decisions behind our most-viewed project — a 4-minute cinematic music video produced entirely with AI for under $6,000 that racked up 280,000 YouTube views in its first month. Shot-by-shot analysis, tool stack walkthrough, and lessons learned.</p>
+          <div class="blog-meta">
+            <span class="blog-date">March 10, 2026</span>
+            <span class="blog-read">12 min read</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-img bi-b">🎙️</div>
+        <div class="blog-body">
+          <div class="blog-cat">Tool Review</div>
+          <div class="blog-title">ElevenLabs v3 vs. Kits.ai: Which Voice Cloning Platform Wins in 2026?</div>
+          <p class="blog-excerpt">We ran both platforms through 15 real-world tests — music video sync, radio spot delivery, multi-language VO, and broadcast clarity. Here's what actually matters.</p>
+          <div class="blog-meta">
+            <span class="blog-date">March 4, 2026</span>
+            <span class="blog-read">8 min read</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-img bi-c">📱</div>
+        <div class="blog-body">
+          <div class="blog-cat">Strategy</div>
+          <div class="blog-title">30 Social Media Assets in 3 Days: Our AI Content Sprint Framework</div>
+          <p class="blog-excerpt">The exact n8n workflow, prompt templates, and quality-check system we use to produce a month of branded social content in a single 72-hour production sprint.</p>
+          <div class="blog-meta">
+            <span class="blog-date">Feb 25, 2026</span>
+            <span class="blog-read">6 min read</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="blog-card">
+        <div class="blog-img bi-d">⚡</div>
+        <div class="blog-body">
+          <div class="blog-cat">Automation</div>
+          <div class="blog-title">Build a Zero-Touch Content Pipeline with n8n: A Step-by-Step Guide</div>
+          <p class="blog-excerpt">From AI content generation to CMS publish to social scheduling — a complete n8n workflow guide that eliminates manual publishing tasks entirely.</p>
+          <div class="blog-meta">
+            <span class="blog-date">Feb 18, 2026</span>
+            <span class="blog-read">10 min read</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- NEWSLETTER -->
+    <div class="newsletter-box fi">
+      <div class="nb-copy">
+        <h3>The AI Production Weekly</h3>
+        <p>Tool drops, workflow templates, and creative strategy — every Tuesday. Free forever.</p>
+      </div>
+      <div class="nb-form">
+        <input class="nb-input" type="email" placeholder="your@email.com"/>
+        <button class="nb-btn" type="button">Subscribe Free</button>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ══════════════════════════════════════════════════
+     ████  PAGE 8: CONTACT  ████
+══════════════════════════════════════════════════ -->
+<section id="contact">
+  <div class="container">
+
+    <div class="contact-wrap">
+
+      <!-- INFO COLUMN -->
+      <div class="fi-l">
+        <div class="tag">Start a Project</div>
+        <h2 class="section-title">Let's Build<br/>Something<br/><span class="c">Unforgettable.</span></h2>
+        <p class="contact-sub">Fill out the project intake form and a creative director will respond within 24 hours with a custom scope proposal and timeline. Discovery calls are always free — no pitch, no pressure.</p>
+
+        <div class="contact-details">
+          <a href="/cdn-cgi/l/email-protection#8fe7eae3e3e0cfe2e0e1e4eaf6e2eefbfbeafdfce2eaebe6eea1ece0e2" class="cd-item">
+            <div class="cd-icon">✉️</div>
+            <span class="__cf_email__" data-cfemail="741c1118181b34191b1a1f110d191500001106071911101d155a171b19">[email&#160;protected]</span>
+          </a>
+          <a href="tel:+14155550200" class="cd-item">
+            <div class="cd-icon">📞</div>
+            +1 (415) 555-0200
+          </a>
+          <a href="#" class="cd-item">
+            <div class="cd-icon">📍</div>
+            San Francisco, CA · Remote Worldwide
+          </a>
+          <a href="#" class="cd-item">
+            <div class="cd-icon">📅</div>
+            Book a Free Discovery Call →
+          </a>
+          <a href="#" class="cd-item">
+            <div class="cd-icon">💬</div>
+            @monkeymedia on Instagram
+          </a>
+        </div>
+
+        <div class="office-hours">
+          <div class="oh-title">Response SLA</div>
+          <div class="oh-row"><span class="oh-day">Project Inquiries</span><span class="oh-time">Within 24 hours</span></div>
+          <div class="oh-row"><span class="oh-day">Active Client Support</span><span class="oh-time">Within 4 hours</span></div>
+          <div class="oh-row"><span class="oh-day">Retainer Clients</span><span class="oh-time">Within 2 hours</span></div>
+          <div class="oh-row"><span class="oh-day">Rush Projects</span><span class="oh-time">Within 1 hour</span></div>
+          <div class="oh-row"><span class="oh-day">Discovery Calls</span><span class="oh-time">Mon–Fri, 9am–6pm PST</span></div>
+        </div>
+      </div>
+
+      <!-- FORM COLUMN -->
+      <div class="fi-r">
+        <div class="intake-form">
+          <div class="form-row-2">
+            <div class="field">
+              <label>First Name</label>
+              <input type="text" placeholder="Your first name"/>
+            </div>
+            <div class="field">
+              <label>Last Name</label>
+              <input type="text" placeholder="Your last name"/>
+            </div>
+          </div>
+          <div class="field">
+            <label>Email Address</label>
+            <input type="email" placeholder="your@email.com"/>
+          </div>
+          <div class="field">
+            <label>Company / Brand Name</label>
+            <input type="text" placeholder="Your brand or company (optional)"/>
+          </div>
+          <div class="field">
+            <label>Phone / WhatsApp (optional)</label>
+            <input type="tel" placeholder="+1 (___) ___-____"/>
+          </div>
+          <div class="field">
+            <label>Project Type</label>
+            <select>
+              <option value="">Select the primary deliverable...</option>
+              <option>Music Video (2–5 min)</option>
+              <option>Corporate / Brand Explainer</option>
+              <option>Training / Instructional Video</option>
+              <option>TV / Broadcast Commercial</option>
+              <option>Radio Spot Production</option>
+              <option>Original Music + Mix/Master</option>
+              <option>Voice Cloning / VO</option>
+              <option>Podcast Production</option>
+              <option>Social Media Asset Package</option>
+              <option>Print Campaign</option>
+              <option>AI Avatar Creation</option>
+              <option>AI Automation Pipeline (n8n)</option>
+              <option>Motion Graphics / Animation</option>
+              <option>AI Website Build</option>
+              <option>Full Campaign (Apex or Sovereign)</option>
+              <option>Monthly Retainer</option>
+              <option>Not Sure — Let's Discuss</option>
+            </select>
+          </div>
+          <div class="form-row-2">
+            <div class="field">
+              <label>Estimated Budget</label>
+              <select>
+                <option value="">Select range...</option>
+                <option>Under $2,500 (Spark tier)</option>
+                <option>$2,500–$10,000 (Signal tier)</option>
+                <option>$10,000–$30,000 (Apex tier)</option>
+                <option>$30,000–$100,000 (Sovereign tier)</option>
+                <option>$100,000+ (Enterprise)</option>
+                <option>Not sure — need proposal</option>
+              </select>
+            </div>
+            <div class="field">
+              <label>Target Delivery Date</label>
+              <select>
+                <option>ASAP — Rush (48hr + $500)</option>
+                <option>Within 1 week</option>
+                <option>Within 2 weeks</option>
+                <option>Within 1 month</option>
+                <option>1–3 months out</option>
+                <option>Flexible / No deadline</option>
+              </select>
+            </div>
+          </div>
+          <div class="field">
+            <label>Tell Us Your Story</label>
+            <textarea placeholder="Describe your project — creative vision, key messages, target audience, competitive references, technical requirements, and any inspiration links or examples. The more detail you provide, the better our proposal will match your expectations."></textarea>
+          </div>
+          <div class="field">
+            <label>How Did You Hear About Us?</label>
+            <select>
+              <option value="">Select...</option>
+              <option>Google Search</option>
+              <option>Instagram / Social Media</option>
+              <option>Client Referral</option>
+              <option>YouTube / Video</option>
+              <option>LinkedIn</option>
+              <option>Blog / Article</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <button class="form-submit" id="submitBtn" type="button" onclick="handleSubmit()">Submit Project Brief →</button>
+          <p class="form-note">We respond within 24 hours. Your information is never shared or sold. Discovery calls are always free.</p>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- FAQ -->
+    <div class="faq-section">
+      <div class="sec-header fi" style="margin-top:0;">
+        <div class="tag">FAQ</div>
+        <h2 class="section-title">Common <span class="c">Questions</span></h2>
+      </div>
+      <div class="faq-grid fi">
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Will AI-generated video look as good as traditionally shot content?</span>
+            <span class="faq-arrow">⌄</span>
+          </div>
+          <div class="faq-a">At the quality tier we operate at — Kling AI, Runway Gen-3, 4K output with professional color grading — the output is indistinguishable from traditionally produced content in most contexts. Our case studies include broadcast TV placements and 200K+ view music videos. The question isn't whether AI can match quality; it's whether your audience can tell the difference. They can't.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Do I own the rights to the content produced?</span>
+            <span class="faq-arrow">⌄</span>
+          </div>
+          <div class="faq-a">Yes — full commercial license transfer is included with every project at no additional charge. You own the final delivered files outright and may use them across any platform, in perpetuity, without royalty. Source files (PSD, AEP, stems) are available as an add-on for $400.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>How does voice cloning work, and is it legal?</span>
+            <span class="faq-arrow">⌄</span>
+          </div>
+          <div class="faq-a">Voice cloning is performed exclusively with the consent of the voice owner — either your own voice, a contracted voice actor who has approved cloning, or a licensed synthetic voice. We use ElevenLabs' commercial API, which requires explicit consent workflows. We will never clone a voice without proper authorization.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Can you match my existing brand's visual style?</span>
+            <span class="faq-arrow">⌄</span>
+          </div>
+          <div class="faq-a">Absolutely. During the Discovery phase, we conduct a brand audit — collecting your existing assets, color system, typography, tone-of-voice guidelines, and visual references. We build AI prompting frameworks specifically calibrated to your brand identity, ensuring consistency across every deliverable.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>What if I'm not satisfied with the final result?</span>
+            <span class="faq-arrow">⌄</span>
+          </div>
+          <div class="faq-a">We offer a 100% satisfaction guarantee. If after all included revision rounds the deliverable does not meet the locked Creative Brief, we will reshoot or refund your project in full — whichever you prefer. In 3 years of operation, we have never issued a refund because we do not start production without a fully aligned brief.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Can you handle multi-language content?</span>
+            <span class="faq-arrow">⌄</span>
+          </div>
+          <div class="faq-a">Yes — ElevenLabs supports 29+ languages with voice cloning capability, and we've produced content in English, Spanish, French, Tagalog, Mandarin, Arabic, and Portuguese. Language localization is available as an add-on at $300 per additional language, which includes a re-voiced audio track and localized subtitle file.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>How do payments work?</span>
+            <span class="faq-arrow">⌄</span>
+          </div>
+          <div class="faq-a">We require a 50% deposit to begin production, with the remaining balance due upon final delivery. For Sovereign and enterprise clients, we offer milestone-based payment schedules. We accept ACH, wire transfer, credit card (3% processing fee), and cryptocurrency (USDC preferred). All payments secured via Stripe or direct invoice.</div>
+        </div>
+
+        <div class="faq-item">
+          <div class="faq-q" onclick="toggleFaq(this)">
+            <span>Do you offer white-label services for agencies?</span>
+            <span class="faq-arrow">⌄</span>
+          </div>
+          <div class="faq-a">Yes — we have a dedicated white-label program for marketing agencies, PR firms, and media buyers who want to offer AI production services under their own brand. Volume pricing, NDA agreements, and dedicated account management are all available. Contact us to discuss agency partnership rates.</div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     ████  LEGAL PAGES  ████
+══════════════════════════════════════════════════ -->
+<style>
+/* ── LEGAL PAGE STYLES ───────────────────────────── */
+.legal-section { padding:100px 0; background:var(--bg); }
+.legal-section:nth-of-type(even) { background:var(--surface); }
+.legal-wrap { max-width:780px; margin:0 auto; }
+.legal-wrap .tag { margin-bottom:12px; }
+.legal-title { font-family:'Anton',sans-serif; font-size:clamp(32px,5vw,58px); text-transform:uppercase; letter-spacing:.01em; color:#fff; margin-bottom:8px; line-height:.95; }
+.legal-title span { color:var(--cyan); }
+.legal-date { font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); margin-bottom:36px; display:block; }
+.legal-body h3 { font-family:'Anton',sans-serif; font-size:20px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin:36px 0 12px; padding-top:12px; border-top:1px solid var(--border2); }
+.legal-body h3:first-child { border-top:none; margin-top:0; }
+.legal-body p { font-size:14.5px; color:var(--muted); line-height:1.85; margin-bottom:14px; }
+.legal-body p strong { color:var(--text); font-weight:500; }
+.legal-body ul { list-style:none; margin:12px 0 18px; padding:0; }
+.legal-body ul li { font-size:14px; color:var(--muted); padding:6px 0; border-bottom:1px solid var(--border2); display:flex; gap:10px; }
+.legal-body ul li::before { content:'→'; color:var(--cyan); flex-shrink:0; }
+.legal-body a { color:var(--cyan); text-decoration:underline; text-underline-offset:3px; }
+.legal-highlight {
+  background:var(--surface2); border-left:3px solid var(--orange);
+  border-radius:0 var(--radius) var(--radius) 0;
+  padding:18px 20px; margin:24px 0; font-size:13.5px; color:var(--muted); line-height:1.8;
+}
+.legal-highlight strong { color:var(--text); }
+.legal-back { display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--cyan); margin-bottom:36px; transition:gap .2s; }
+.legal-back:hover { gap:14px; }
+.cookie-toggle-row { display:flex; align-items:center; justify-content:space-between; padding:16px 0; border-bottom:1px solid var(--border2); gap:16px; }
+.cookie-toggle-row:last-child { border-bottom:none; }
+.ct-info {}
+.ct-name { font-size:14px; font-weight:500; color:var(--text); margin-bottom:4px; }
+.ct-desc { font-size:12px; color:var(--muted); line-height:1.65; }
+.ct-required { font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--green); background:rgba(45,202,115,.08); border:1px solid rgba(45,202,115,.15); padding:3px 8px; border-radius:100px; }
+.toggle-switch { position:relative; width:44px; height:24px; flex-shrink:0; }
+.toggle-switch input { opacity:0; width:0; height:0; }
+.toggle-slider {
+  position:absolute; cursor:pointer; inset:0;
+  background:var(--surface2); border:1px solid var(--border2);
+  border-radius:100px; transition:.3s;
+}
+.toggle-slider::before {
+  content:''; position:absolute; width:18px; height:18px;
+  left:2px; bottom:2px; background:var(--muted);
+  border-radius:50%; transition:.3s;
+}
+input:checked + .toggle-slider { background:rgba(0,217,245,.2); border-color:var(--cyan); }
+input:checked + .toggle-slider::before { transform:translateX(20px); background:var(--cyan); }
+.cookie-save-btn {
+  margin-top:28px; padding:13px 32px; background:var(--cyan); color:var(--bg);
+  border:none; border-radius:var(--radius); font-size:12px; font-weight:700;
+  letter-spacing:.12em; text-transform:uppercase; cursor:pointer; font-family:inherit;
+  transition:box-shadow .2s, opacity .2s;
+}
+.cookie-save-btn:hover { box-shadow:0 0 22px var(--glow-c); opacity:.9; }
+.lic-grid { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin:20px 0; }
+@media(max-width:600px){ .lic-grid { grid-template-columns:1fr; } }
+.lic-card { background:var(--surface2); border:1px solid var(--border2); border-radius:8px; padding:22px 20px; }
+.lic-card h4 { font-family:'Anton',sans-serif; font-size:16px; text-transform:uppercase; letter-spacing:.04em; color:#fff; margin-bottom:8px; }
+.lic-card p { font-size:13px; color:var(--muted); line-height:1.72; }
+.lic-check { color:var(--green); } .lic-x { color:var(--orange); }
+</style>
+<style>
+.legal-section { padding:80px 0; }
+.legal-section:nth-child(odd) { background:var(--bg); }
+.legal-section:nth-child(even) { background:var(--surface); }
+.legal-wrap { max-width:860px; margin:0 auto; }
+.legal-back { display:inline-flex; align-items:center; gap:8px; font-family:var(--mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); margin-bottom:24px; transition:color .2s; }
+.legal-back:hover { color:var(--cyan); }
+.legal-title { font-family:"Anton",sans-serif; font-size:clamp(32px,4.5vw,52px); text-transform:uppercase; letter-spacing:.02em; color:#fff; margin:8px 0 6px; line-height:.96; }
+.legal-title span { color:var(--cyan); }
+.legal-date { font-family:var(--mono); font-size:11px; letter-spacing:.1em; color:var(--muted); display:block; margin-bottom:28px; }
+.legal-summary { background:rgba(0,217,245,.05); border:1px solid rgba(0,217,245,.15); border-left:3px solid var(--cyan); border-radius:0 var(--radius) var(--radius) 0; padding:18px 20px; margin-bottom:32px; font-size:14px; color:var(--text); line-height:1.72; }
+.legal-accordion { display:flex; flex-direction:column; gap:4px; }
+.la-item { background:var(--surface2); border:1px solid var(--border2); border-radius:8px; overflow:hidden; }
+.la-q { display:flex; justify-content:space-between; align-items:center; padding:18px 22px; cursor:pointer; gap:16px; transition:background .2s; user-select:none; }
+.la-q:hover { background:rgba(0,217,245,.04); }
+.la-title { font-family:"Anton",sans-serif; font-size:16px; text-transform:uppercase; letter-spacing:.04em; color:#fff; }
+.la-arrow { font-size:18px; color:var(--cyan); flex-shrink:0; transition:transform .3s; }
+.la-item.open .la-arrow { transform:rotate(180deg); }
+.la-body { max-height:0; overflow:hidden; transition:max-height .38s ease, padding .3s; font-size:13.5px; color:var(--muted); line-height:1.82; padding:0 22px; }
+.la-item.open .la-body { max-height:1400px; padding:0 22px 22px; }
+.la-body p { margin-bottom:12px; }
+.la-body p:last-child { margin-bottom:0; }
+.la-body ul { padding-left:18px; margin-bottom:12px; }
+.la-body ul li { margin-bottom:6px; }
+.la-body strong { color:var(--text); font-weight:500; }
+.la-body a { color:var(--cyan); text-decoration:underline; text-underline-offset:3px; }
+.lic-grid { display:grid; grid-template-columns:1fr 1fr; gap:12px; margin:12px 0 16px; }
+@media(max-width:600px){ .lic-grid { grid-template-columns:1fr; } }
+.lic-card { background:rgba(255,255,255,.03); border:1px solid var(--border2); border-radius:6px; padding:14px 16px; }
+.lic-card h4 { font-size:13px; font-weight:600; color:var(--text); margin-bottom:8px; }
+.lic-check { color:var(--green); margin-right:6px; }
+.lic-x { color:var(--orange); margin-right:6px; }
+.cookie-toggle-row { display:flex; justify-content:space-between; align-items:flex-start; gap:20px; padding:14px 0; border-bottom:1px solid var(--border2); }
+.cookie-toggle-row:last-of-type { border-bottom:none; }
+.ct-name { font-size:14px; font-weight:500; color:var(--text); margin-bottom:4px; }
+.ct-desc { font-size:12px; color:var(--muted); line-height:1.68; }
+.ct-required { font-family:var(--mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); border:1px solid var(--border2); padding:4px 10px; border-radius:100px; white-space:nowrap; flex-shrink:0; margin-top:4px; }
+.toggle-switch { position:relative; display:inline-block; width:44px; height:24px; flex-shrink:0; margin-top:4px; }
+.toggle-switch input { opacity:0; width:0; height:0; }
+.toggle-slider { position:absolute; cursor:pointer; inset:0; background:var(--surface3); border-radius:24px; transition:.3s; border:1px solid var(--border2); }
+.toggle-slider::before { content:""; position:absolute; height:16px; width:16px; left:3px; bottom:3px; background:var(--muted); border-radius:50%; transition:.3s; }
+.toggle-switch input:checked + .toggle-slider { background:rgba(0,217,245,.2); border-color:var(--cyan); }
+.toggle-switch input:checked + .toggle-slider::before { transform:translateX(20px); background:var(--cyan); }
+.cookie-save-btn { display:block; margin:20px 0 28px; padding:13px 28px; background:var(--cyan); color:var(--bg); border:none; border-radius:var(--radius); font-size:12px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; cursor:pointer; font-family:inherit; transition:box-shadow .2s,opacity .2s; }
+.cookie-save-btn:hover { box-shadow:0 0 22px var(--glow-c); opacity:.9; }
+</style>
+
+<div class="sec-divider"></div>
+
+<!-- ── TERMS OF SERVICE ── -->
+<section id="legal-tos" class="legal-section">
+  <div class="container"><div class="legal-wrap">
+    <a href="#home" class="legal-back">← Back to Home</a>
+    <div class="tag">Legal</div>
+    <h2 class="legal-title">Terms of <span>Service</span></h2>
+    <span class="legal-date">Effective Date: January 1, 2026 · Last Updated: March 1, 2026</span>
+    <div class="legal-summary"><strong>Plain English Summary:</strong> By hiring MonkeyMedia, you agree to pay for the services described in your project proposal, treat the work as described in our licensing terms, and not ask us to create content that is illegal, harmful, or deceptive. We agree to deliver what we promise, on time, with the revision rounds included in your tier.</div>
+    <div class="legal-accordion">
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">1. Agreement to Terms</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>These Terms constitute a legally binding agreement between you ("Client") and <strong>MonkeyMedia, a trade name of Monkey Matters, LLC</strong>, a Wyoming limited liability company. By submitting a project brief, making a payment, or engaging our services, you agree to be bound by these Terms in full.</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">2. Services</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>MonkeyMedia provides AI-assisted creative production services including but not limited to: music video production, corporate explainer video production, TV and radio commercial production, social media asset creation, print design, voice cloning and voiceover production, original music composition and mastering, AI avatar creation, motion graphics and animation, instructional and eLearning content, and AI automation pipeline development.</p><p>All services are defined in a project-specific <strong>Creative Brief</strong> and/or <strong>Statement of Work (SOW)</strong> agreed upon by both parties prior to production.</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">3. Payments &amp; Fees</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><ul><li>A <strong>50% non-refundable deposit</strong> is required before any production begins.</li><li>The remaining 50% balance is due upon delivery of final approved files.</li><li>Rush orders (48-hour delivery) require 100% payment upfront plus the $500 rush fee.</li><li>All prices are in USD. Credit card payments carry a 3% processing fee (ACH/wire waived).</li><li>Invoices unpaid beyond 14 days of delivery are subject to a 1.5% monthly late fee.</li></ul></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">4. Revisions &amp; Approval</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>Each project tier includes a defined number of revision rounds. A "revision round" is one consolidated set of feedback submitted through our review platform. Revisions are returned within 24 business hours per round. Additional revision rounds are available at <strong>$200 per round</strong>.</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">5. Intellectual Property &amp; Ownership</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>Upon receipt of final payment, Client receives a <strong>full commercial license</strong> to the delivered final files for unlimited use across any platform, in perpetuity, worldwide.</p><p><strong>Source files</strong> (Adobe project files, DAW sessions, raw prompts, n8n workflows) remain the property of MonkeyMedia unless the Client purchases the source file add-on ($400).</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">6. Voice Cloning &amp; Likeness</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>Voice cloning services are performed exclusively with <strong>explicit written consent</strong> from the voice owner. MonkeyMedia will never clone a voice without proper authorization documentation on file. Client is responsible for obtaining and providing consent documentation for any third-party voice or likeness used.</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">7. Prohibited Uses</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>Clients may not use our services to create content that is defamatory, harassing, depicts or sexualizes minors, constitutes fraud or impersonation, promotes violence or illegal activity, or violates any applicable law or third-party intellectual property right. We reserve the right to decline or terminate any project that violates these standards.</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">8. Confidentiality</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>We treat all client project materials, briefs, and business information as confidential. We do not share client work publicly without explicit written permission. Clients may request a formal NDA prior to project kickoff at no charge.</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">9. Limitation of Liability &amp; Governing Law</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>MonkeyMedia's total liability for any claim shall not exceed the total fees paid by Client for the specific project in question. We are not liable for indirect, incidental, or consequential damages.</p><p>These Terms are governed by the laws of the State of Wyoming, USA. Disputes shall be resolved through binding arbitration in San Francisco, California. Questions? <a href="/cdn-cgi/l/email-protection#4e262b2222210e232120252b37232b2a272f602d2123"><span class="__cf_email__" data-cfemail="fa929f969695ba979594919f83979f9e939bd4999597">[email&#160;protected]</span></a></p></div></div>
+    </div>
+  </div></div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ── PRIVACY POLICY ── -->
+<section id="legal-privacy" class="legal-section">
+  <div class="container"><div class="legal-wrap">
+    <a href="#home" class="legal-back">← Back to Home</a>
+    <div class="tag">Legal</div>
+    <h2 class="legal-title">Privacy <span>Policy</span></h2>
+    <span class="legal-date">Effective Date: January 1, 2026 · Last Updated: March 1, 2026</span>
+    <div class="legal-summary"><strong>Plain English Summary:</strong> We collect only the information needed to deliver your project and communicate with you. We do not sell your data. We do not share it with advertisers. You can request deletion of your data at any time.</div>
+    <div class="legal-accordion">
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">1. Who We Are &amp; What We Collect</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>MonkeyMedia is a trade name of <strong>Monkey Matters, LLC</strong>, a Wyoming limited liability company. We collect: name, email, phone number, company name, project brief content, payment info (via Stripe — we never store card numbers), uploaded brand assets, and voice samples for cloning (encrypted, deleted on request). Automatically: IP address, browser type, and page analytics via Google Analytics 4.</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">2. How We Use &amp; Share Your Information</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>We use your information to deliver services, communicate project status, process payments, send newsletters (if subscribed), and improve our website. We <strong>do not sell, rent, or trade</strong> your personal information. We share data only with service providers bound by data processing agreements (Stripe, Google, Notion, Frame.io) and AI production platforms strictly to the extent necessary to deliver your project.</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">3. Data Retention &amp; Your Rights</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>Project files are retained for <strong>3 years</strong> after project completion, then permanently deleted. Voice clone samples are deleted within 90 days of delivery unless a Voice Retainer is purchased.</p><p>You may request: a copy of your data, correction of inaccurate data, deletion of your data, or opt-out of marketing. Email <a href="/cdn-cgi/l/email-protection#3a4a48534c5b59437a575554515f43575f5e535b14595557"><span class="__cf_email__" data-cfemail="daaaa8b3acbbb9a39ab7b5b4b1bfa3b7bfbeb3bbf4b9b5b7">[email&#160;protected]</span></a> — we respond within 10 business days.</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">4. Security &amp; Third Parties</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>We use TLS encryption in transit, AES-256 for sensitive files at rest, and two-factor authentication on all internal systems. Our website may contain links to third-party sites — we are not responsible for their privacy practices. Our services are intended for individuals 18 years of age or older.</p></div></div>
+    </div>
+  </div></div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ── REFUND POLICY ── -->
+<section id="legal-refund" class="legal-section">
+  <div class="container"><div class="legal-wrap">
+    <a href="#home" class="legal-back">← Back to Home</a>
+    <div class="tag">Legal</div>
+    <h2 class="legal-title">Refund <span>Policy</span></h2>
+    <span class="legal-date">Effective Date: January 1, 2026 · Last Updated: March 1, 2026</span>
+    <div class="legal-summary"><strong>Our Commitment:</strong> We offer a 100% satisfaction guarantee. If after all included revision rounds the deliverable does not meet the locked Creative Brief, we will reshoot or refund — your choice.</div>
+    <div class="legal-accordion">
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">1. Deposit Policy</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>A <strong>50% deposit is required to begin any project</strong> and is considered earned upon project kickoff. The <strong>deposit is non-refundable</strong> once production has commenced, except in the circumstances outlined below.</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">2. Full Refund Eligibility</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>A full refund is issued when:</p><ul><li>Client cancels before concept/storyboard approval and before any AI generation has begun</li><li>MonkeyMedia is unable to deliver the agreed scope within 200% of the quoted timeline due to our own failure</li><li>The final deliverable materially fails to meet the locked Creative Brief after all revision rounds are exhausted</li><li>MonkeyMedia declines the project after kickoff due to content policy concerns</li></ul></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">3. Partial Refund &amp; No Refund Situations</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p><strong>Partial refunds</strong> (balance only, deposit forfeited) apply when Client cancels after concept approval but before first draft delivery, or pauses a project without communication for more than 60 days.</p><p><strong>No refund</strong> for: dissatisfaction with AI aesthetic style after approving the concept direction; change of mind or budget after production begins; delays caused by Client's failure to provide feedback or assets; completed and approved projects.</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">4. Refund Process &amp; Reshoot Option</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>Email <a href="/cdn-cgi/l/email-protection#82eae7eeeeedc2efedece9e7fbefe7e6ebe3ace1edef"><span class="__cf_email__" data-cfemail="274f424b4b48674a48494c425e4a42434e460944484a">[email&#160;protected]</span></a> with your project name, invoice number, and reason. We respond within 3 business days. Approved refunds are processed within 7-10 business days to the original payment method.</p><p>Alternatively, request a <strong>full creative reshoot</strong> — a complete restart at no additional charge, limited to one reshoot per project.</p></div></div>
+    </div>
+  </div></div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ── LICENSING FAQ ── -->
+<section id="legal-licensing" class="legal-section">
+  <div class="container"><div class="legal-wrap">
+    <a href="#home" class="legal-back">← Back to Home</a>
+    <div class="tag">Legal</div>
+    <h2 class="legal-title">Licensing <span>FAQ</span></h2>
+    <span class="legal-date">Effective Date: January 1, 2026 · Last Updated: March 1, 2026</span>
+    <div class="legal-summary"><strong>Short version:</strong> You own the final delivered files for commercial use in perpetuity. Source files, custom AI models, and voice profiles are licensed separately. Music tracks carry their own sync and broadcast licensing terms.</div>
+    <div class="legal-accordion">
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">Standard Commercial License (Included)</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>Every completed project includes a <strong>Standard Commercial License</strong> transferring full commercial rights in the final delivered files to the Client.</p><div class="lic-grid"><div class="lic-card"><h4><span class="lic-check">&#10003;</span> Permitted Uses</h4><p>Social media · Website embedding · Paid digital advertising · TV &amp; cable broadcast · Cinema &amp; OOH · Trade shows · Internal training · Print distribution · Streaming platforms</p></div><div class="lic-card"><h4><span class="lic-x">&#10007;</span> Not Permitted</h4><p>Reselling raw deliverables as your own work · Sublicensing to competing studios · Removing MonkeyMedia attribution without agreement · Using AI likeness to defame real individuals</p></div></div></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">Music Licensing</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>All original music is delivered under a <strong>Standard Sync License</strong> for use with the specified video deliverable(s), in perpetuity.</p><ul><li><strong>Extended Music License (+$250):</strong> Use the same track across multiple videos or campaigns</li><li><strong>Broadcast License Bundle (+$500):</strong> PRO performance royalty clearance for TV/radio (ASCAP/BMI/SESAC USA)</li><li><strong>Exclusive Track Rights:</strong> Quoted separately</li></ul></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">Voice Clone &amp; Avatar Licensing</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p><strong>Voice profiles</strong> are retained 90 days post-delivery, then deleted. <strong>Voice Retainer (+$150/month)</strong> keeps your profile active for ongoing use.</p><p><strong>AI Avatars</strong> are Client-exclusive upon full payment — MonkeyMedia will not license the same character to another party. Avatar source files available as add-on ($400).</p></div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">White-Label &amp; Agency Licensing</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>Agency partners receive full resale rights, NDA protection, volume pricing, and a dedicated account manager. We never contact their end clients directly. Email <a href="/cdn-cgi/l/email-protection#b4d5d3d1dad7ddd1c7f4d9dbdadfd1cdd9d1d0ddd59ad7dbd9"><span class="__cf_email__" data-cfemail="2e4f494b404d474b5d6e434140454b57434b4a474f004d4143">[email&#160;protected]</span></a> to inquire.</p></div></div>
+    </div>
+  </div></div>
+</section>
+
+<div class="sec-divider"></div>
+
+<!-- ── COOKIE SETTINGS ── -->
+<section id="legal-cookies" class="legal-section">
+  <div class="container"><div class="legal-wrap">
+    <a href="#home" class="legal-back">← Back to Home</a>
+    <div class="tag">Legal</div>
+    <h2 class="legal-title">Cookie <span>Settings</span></h2>
+    <span class="legal-date">Effective Date: January 1, 2026 · Last Updated: March 1, 2026</span>
+    <div class="legal-summary"><strong>Your choices matter.</strong> We use cookies only for essential site functionality, analytics, and optional marketing features. Essential cookies cannot be disabled. All others are opt-in.</div>
+    <div class="legal-accordion">
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">What Are Cookies?</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><p>Cookies are small text files placed on your device when you visit a website. They help websites remember your preferences, measure performance, and enable certain features. We do not use cookies to track you across other websites or sell your data to advertisers.</p></div></div>
+      <div class="la-item open"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">Manage Your Cookie Preferences</span><span class="la-arrow">&#8964;</span></div><div class="la-body">
+        <div class="cookie-toggle-row"><div class="ct-info"><div class="ct-name">Essential Cookies</div><p class="ct-desc">Required for the site to function. Cannot be disabled.</p></div><span class="ct-required">Required</span></div>
+        <div class="cookie-toggle-row"><div class="ct-info"><div class="ct-name">Analytics Cookies</div><p class="ct-desc">Google Analytics 4 — anonymized data to help us improve the site experience.</p></div><label class="toggle-switch"><input type="checkbox" id="cookieAnalytics" checked/><span class="toggle-slider"></span></label></div>
+        <div class="cookie-toggle-row"><div class="ct-info"><div class="ct-name">Functional Cookies</div><p class="ct-desc">Remember preferences like language and form data across sessions.</p></div><label class="toggle-switch"><input type="checkbox" id="cookieFunctional" checked/><span class="toggle-slider"></span></label></div>
+        <div class="cookie-toggle-row"><div class="ct-info"><div class="ct-name">Marketing &amp; Retargeting</div><p class="ct-desc">Personalized ads on Meta and Google Ads. No data sold to third parties.</p></div><label class="toggle-switch"><input type="checkbox" id="cookieMarketing"/><span class="toggle-slider"></span></label></div>
+        <div class="cookie-toggle-row"><div class="ct-info"><div class="ct-name">Performance &amp; A/B Testing</div><p class="ct-desc">Hotjar anonymized heatmaps used solely to improve this website's design.</p></div><label class="toggle-switch"><input type="checkbox" id="cookiePerf"/><span class="toggle-slider"></span></label></div>
+        <button class="cookie-save-btn" onclick="saveCookies()">Save My Preferences</button>
+      </div></div>
+      <div class="la-item"><div class="la-q" onclick="toggleLegal(this)"><span class="la-title">Cookie List &amp; Third Parties</span><span class="la-arrow">&#8964;</span></div><div class="la-body"><ul><li><strong>_ga, _gid</strong> — Google Analytics 4 · 2-year expiry</li><li><strong>_hjid</strong> — Hotjar · 365-day expiry</li><li><strong>mm_session</strong> — Essential · Session expiry</li><li><strong>mm_prefs</strong> — Functional · 12-month expiry</li><li><strong>_fbp</strong> — Meta Pixel · 90-day expiry (marketing only)</li><li><strong>_gcl_au</strong> — Google Ads · 90-day expiry (marketing only)</li></ul><p>Embedded content (Vimeo, Calendly, Frame.io) may set their own cookies. Delete cookies anytime via browser settings: <a href="https://support.google.com/chrome/answer/95647" target="_blank">Chrome</a> · <a href="https://support.mozilla.org/en-US/kb/clear-cookies-and-site-data-firefox" target="_blank">Firefox</a> · <a href="https://support.apple.com/guide/safari/manage-cookies-sfri11471/mac" target="_blank">Safari</a></p></div></div>
+    </div>
+  </div></div>
+</section>
+
+<footer>
+  <div class="container">
+    <div class="footer-top">
+
+      <div>
+        <div class="fb-logo">Monkey<span class="m3">Media</span></div>
+        <p class="fb-tagline">AI-native creative production. Cinema-grade quality at the speed of thought. A Monkey Matters LLC production · San Francisco, CA · Remote Worldwide.</p>
+        <div class="fb-social">
+          <a href="#" class="social-btn">📷</a>
+          <a href="#" class="social-btn">🔗</a>
+          <a href="#" class="social-btn">🐦</a>
+          <a href="#" class="social-btn">▶️</a>
+        </div>
+      </div>
+
+      <div>
+        <div class="fl-head">Services</div>
+        <ul class="fl-list">
+          <li><a href="#services">Music Video</a></li>
+          <li><a href="#services">Corporate Explainer</a></li>
+          <li><a href="#services">TV Commercial</a></li>
+          <li><a href="#rates">Social Media Packages</a></li>
+          <li><a href="#rates">Monthly Retainers</a></li>
+          <li><a href="#rates">AI Automation Pipeline</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="fl-head">Company</div>
+        <ul class="fl-list">
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#process">Our Process</a></li>
+          <li><a href="#work">Portfolio</a></li>
+          <li><a href="#blog">Insights</a></li>
+          <li><a href="#contact">Contact</a></li>
+          <li><a href="#contact">Get a Quote</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <div class="fl-head">Legal</div>
+        <ul class="fl-list">
+          <li><a href="#legal-tos">Terms of Service</a></li>
+          <li><a href="#legal-privacy">Privacy Policy</a></li>
+          <li><a href="#legal-refund">Refund Policy</a></li>
+          <li><a href="#legal-licensing">Licensing FAQ</a></li>
+          <li><a href="#legal-cookies">Cookie Settings</a></li>
+        </ul>
+      </div>
+
+    </div>
+
+    <div class="footer-bottom">
+      <p>© 2026 Monkey Media · A Monkey Matters LLC Production · Wyoming LLC</p>
+      <span class="mono">v3.0 · DRAFT FOR EDITING · monkeymedia.com</span>
+    </div>
+  </div>
+</footer>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* ── NAV SCROLL ─────────────────────────────────────── */
+const nav = document.getElementById('nav');
+const navLinks = document.querySelectorAll('.nav-lnk');
+function updateNav() {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+  let current = '';
+  document.querySelectorAll('[id]').forEach(sec => {
+    if (window.scrollY >= sec.offsetTop - 100) current = sec.id;
+  });
+  navLinks.forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + current));
+}
+window.addEventListener('scroll', updateNav, { passive: true });
+updateNav();
+
+/* ── MOBILE MENU ─────────────────────────────────────── */
+function toggleMobile() {
+  const menu = document.getElementById('mobileMenu');
+  const burger = document.getElementById('navBurger');
+  menu.classList.toggle('open');
+  burger.classList.toggle('open');
+  document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+}
+function closeMobile() {
+  document.getElementById('mobileMenu').classList.remove('open');
+  document.getElementById('navBurger').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+/* ── SMOOTH SCROLL ───────────────────────────────────── */
+function scrollTo(id) {
+  const el = document.getElementById(id);
+  if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+/* ── FADE-IN OBSERVER ────────────────────────────────── */
+const obs = new IntersectionObserver((entries) => {
+  entries.forEach((e) => {
+    if (e.isIntersecting) {
+      const siblings = [...e.target.parentElement.children]
+        .filter(c => c.classList.contains('fi') || c.classList.contains('fi-l') || c.classList.contains('fi-r'));
+      const idx = siblings.indexOf(e.target);
+      setTimeout(() => e.target.classList.add('vis'), idx * 70);
+      obs.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.06, rootMargin: '0px 0px -30px 0px' });
+document.querySelectorAll('.fi, .fi-l, .fi-r').forEach(el => obs.observe(el));
+
+/* ── PORTFOLIO FILTER ────────────────────────────────── */
+document.querySelectorAll('.pf-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.pf-btn').forEach(b => b.classList.remove('active'));
+    this.classList.add('active');
+    const filter = this.dataset.filter;
+    document.querySelectorAll('.port-item').forEach(item => {
+      const show = filter === 'all' || item.dataset.cat === filter;
+      item.style.opacity = show ? '1' : '0.2';
+      item.style.pointerEvents = show ? 'auto' : 'none';
+    });
+  });
+});
+
+/* ── FAQ ACCORDION ───────────────────────────────────── */
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+/* ── LEGAL ACCORDION ─────────────────────────────────── */
+function toggleLegal(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  item.closest('.legal-accordion').querySelectorAll('.la-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+/* ── COOKIE PREFS ────────────────────────────────────── */
+function saveCookies() {
+  const btn = event.target;
+  const prefs = {
+    analytics: document.getElementById('cookieAnalytics').checked,
+    functional: document.getElementById('cookieFunctional').checked,
+    marketing: document.getElementById('cookieMarketing').checked,
+    performance: document.getElementById('cookiePerf').checked,
+    saved: true
+  };
+  try { localStorage.setItem('mm_prefs', JSON.stringify(prefs)); } catch(e) {}
+  btn.textContent = '\u2713 Preferences Saved';
+  btn.style.background = 'var(--green)';
+  setTimeout(() => { btn.textContent = 'Save My Preferences'; btn.style.background = 'var(--cyan)'; }, 3000);
+}
+try {
+  const saved = JSON.parse(localStorage.getItem('mm_prefs') || '{}');
+  if (saved.saved) {
+    document.getElementById('cookieAnalytics').checked = saved.analytics;
+    document.getElementById('cookieFunctional').checked = saved.functional;
+    document.getElementById('cookieMarketing').checked = saved.marketing;
+    document.getElementById('cookiePerf').checked = saved.performance;
+  }
+} catch(e) {}
+
+/* ── FORM SUBMIT ─────────────────────────────────────── */
+function handleSubmit() {
+  const btn = document.getElementById('submitBtn');
+  btn.textContent = "\u2713 Brief Received \u2014 You'll hear from us within 24 hours";
+  btn.style.background = 'var(--green)';
+  btn.style.color = '#fff';
+  btn.disabled = true;
+}
+
+/* ── NEWSLETTER ──────────────────────────────────────── */
+document.querySelectorAll('.nb-btn').forEach(function(b) {
+  b.addEventListener('click', function() {
+    this.textContent = '\u2713 Subscribed';
+    this.style.background = 'var(--green)';
+  });
+});
+</script>
+</body>
+</html>
