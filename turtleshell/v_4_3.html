@@ -1,0 +1,430 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>v4.3 — Turtle Shell White Paper — Appendices A–G</title>
+<style>
+  :root{--ink:#e8efff;--ink-strong:#ffffff;--sub:#b8c4e3;--glass:rgba(18,22,34,.55);--border:rgba(84,101,145,.35);--a1:#7c5cff;--a2:#00d4ff;--risk:#f87171;--good:#34d399;--warn:#fbbf24;--paper:#0b0d12;--card:#0f1424;--line:#23314d;--accent:#7dd3fc;--accent2:#c4b5fd}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+  .aurora{position:fixed;inset:0;background:#0b0d12;z-index:-2}
+  .aurora::before,.aurora::after{content:"";position:absolute;inset:-20%;filter:blur(60px);opacity:.6}
+  .aurora::before{background:radial-gradient(50% 60% at 20% 20%,rgba(124,92,255,.33),transparent 60%),radial-gradient(40% 50% at 78% 30%,rgba(0,212,255,.28),transparent 60%),radial-gradient(30% 40% at 40% 80%,rgba(255,93,115,.18),transparent 68%)}
+  .aurora::after{background:radial-gradient(45% 55% at 10% 85%,rgba(16,185,129,.25),transparent 60%),radial-gradient(40% 45% at 90% 80%,rgba(250,204,21,.16),transparent 60%)}
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.025"/></svg>');mix-blend-mode:soft-light}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px 18px 80px}
+  .topbar{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,rgba(11,13,18,.85),rgba(11,13,18,.55));backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--border)}
+  .brand{display:flex;align-items:center;gap:10px;padding:10px 2px}
+  .pill{padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--a1),#9b5cff);font-size:12px;letter-spacing:.2px;color:#f8faff}
+  h1{margin:4px 0 2px;font-size:34px;line-height:1.2;background:linear-gradient(90deg,#fff,#76e7ff 35%,#cbb2ff 70%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .deck{margin:0;color:var(--sub)}
+  .nav{display:flex;gap:8px;flex-wrap:wrap;padding:8px 0}
+  .nav a{display:inline-block;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:rgba(0,0,0,.25);color:var(--ink);text-decoration:none;font-size:13px}
+  .nav a:hover{border-color:var(--a2)}
+  section{margin-top:18px}
+  .card{background:var(--glass);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:0 10px 26px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05);overflow:visible;break-inside:avoid;page-break-inside:avoid}
+  h2{margin:0 0 8px;font-size:22px}
+  h3{margin:10px 0 6px;font-size:18px}
+  p{margin:10px 0}
+  .k{font-weight:800;color:#eaf2ff}
+  .muted{color:var(--sub)}
+  .box{border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(12,18,34,.55);margin:12px 0}
+  .two-col{column-count:2;column-gap:30px}
+  .two-col>*{break-inside:avoid}
+  .span-all{column-span:all;display:block;margin:10px 0}
+  pre{white-space:pre-wrap;word-break:break-word;background:#0a1222;border:1px dashed var(--line);border-radius:12px;padding:10px;color:#e6ecff}
+  .toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+  .toc a{display:block;border:1px solid var(--border);border-radius:12px;padding:10px 12px;background:rgba(8,12,24,.55);text-decoration:none;color:var(--ink)}
+  .toc a:hover{border-color:var(--a2)}
+  .toplink{display:inline-block;margin-top:8px;font-size:12px;color:#cfe0ff;text-decoration:none}
+  @page{size:Letter;margin:0.6in}
+  @media print{
+    .topbar{position:static}
+    .nav{display:none}
+    .aurora,.grain{display:none}
+    .two-col{column-count:1}
+    .card,figure,pre,table{break-inside:avoid;page-break-inside:avoid}
+    h2,h3{break-after:avoid;page-break-after:avoid}
+    p,li{orphans:3;widows:3}
+    body{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  }
+#appF a{color:#8bd7ff}#appF a:hover{color:#c4b5fd;text-decoration:underline}.glossary-table{width:100%;border-collapse:collapse;border:1px solid var(--line);background:#0b1326}.glossary-table th,.glossary-table td{padding:8px;border:1px solid var(--line);text-align:left;vertical-align:top}.glossary-table th{background:rgba(124,92,255,.16)}
+</style>
+</head>
+<body>
+<div class="aurora"></div><div class="grain"></div>
+<header class="topbar">
+  <div class="wrap brand">
+    <span class="pill">SHADOW MONKEY</span>
+    <div>
+      <h1>v4.3 — Turtle Shell Strategy — Appendices A–G</h1>
+      <p class="deck">Formulas · Pseudocode · Order Schema · Checklists · Glossary · References · Footnotes</p>
+    </div>
+  </div>
+  <nav class="wrap nav">
+    <a href="v_4_1.html" title="Open Part 1 (Sections 0–8)" data-target="part1">Part 1</a>
+    <a href="v_4_2.html" title="Open Part 2 (Sections 9–13 & Appendices)" data-target="part2">Part 2</a>
+    <a href="#toc">Contents</a>
+    <a href="#appA">Formulas</a>
+    <a href="#appB">Pseudocode</a>
+    <a href="#appC">Brackets</a>
+    <a href="#appD">Checklists</a>
+    <a href="#appE">Glossary</a>
+    <a href="#appF">References</a>
+    <a href="#appG">Footnotes</a>
+  </nav>
+</header>
+<main class="wrap">
+  <section id="toc" class="card">
+    <h2>Table of Contents — Appendices</h2>
+    <div class="toc">
+      <a href="#appA">Appendix A — Formulas & Sizing</a>
+      <a href="#appB">Appendix B — Pseudocode (Signals & Orders)</a>
+      <a href="#appC">Appendix C — Bracket Order Schema (Broker‑Agnostic)</a>
+      <a href="#appD">Appendix D — Daily/Weekly Checklists</a>
+      <a href="#appE">Appendix E — Glossary</a>
+      <a href="#appF">Appendix F — Selected References</a>
+      <a href="#appG">Appendix G — Footnotes & Source Notes</a>
+    </div>
+  </section>
+
+  <section id="appA" class="card">
+    <h2>Appendix A — Formulas & Sizing</h2>
+    <pre>Donchian Channels (offset=1): H_n = max(High[-n..-1]), L_n = min(Low[-n..-1])
+ATR (Wilder, n=20): N_t = N_{t-1} + (TR_t − N_{t-1})/n; TR_t = max(High−Low, |High−PrevClose|, |Low−PrevClose|)
+$ per 1N/contract: N × PV × Mult (ES: $50/pt)
+Contracts per unit: floor( Equity × risk% / $1N )
+Initial stop: Entry ± 2×Nⁱ (execution timeframe)
+Add levels: Entry ± {0.5, 1.0, 1.5}×Nⁱ
+Heat (portfolio): Σ UnitRisk% across open units and sleeves ≤ 4–6%</pre>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+
+  <section id="appB" class="card">
+    <h2>Appendix B — Pseudocode (Signals & Orders)</h2>
+    <pre># Daily pass (EOD)
+for market in universe:
+    H20, L20 = donchian(high, low, n=20, offset=1)
+    H55, L55 = donchian(high, low, n=55, offset=1)
+    Nd = atr_wilder(close, high, low, n=20)
+    store(levels={H20,L20,H55,L55,Nd})
+
+# Session runner (5m)
+Ni = atr_wilder_5m(close5, high5, low5, n=20)
+if close5 > H20_prev and confirm_close():
+    place_stop_buy(price=H20_prev + tick)
+if entry_filled:
+    stop = entry - 2*Ni
+    adds = [entry + k*0.5*Ni for k in (1,2,3)]
+    oco_stop(stop)
+    stage_add_stops(adds)
+exit_if = (low5 < L10i if long else high5 > H10i) or eod_time()
+
+# confirm_close(): require 5m body ≥ 0.2×Ni beyond the rail</pre>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+
+  <section id="appC" class="card">
+    <h2>Appendix C — Bracket Order Schema (Broker‑Agnostic)</h2>
+    <pre>{
+  "symbol": "ES",
+  "side": "BUY",
+  "entry": 5530.25,
+  "quantity": 8,             # MES contracts for 1 unit example
+  "type": "STOP",
+  "timeInForce": "DAY",
+  "stopLoss": { "price": 5505.25 },
+  "takeProfit": null,
+  "meta": {
+    "system": "S1",
+    "Ni": 12.5,
+    "addSpacingN": 0.5,
+    "stopDistanceN": 2.0,
+    "adds": [5536.50, 5542.75, 5549.00],
+    "donchian": { "H20": 5530.00, "L20": 5420.00 }
+  }
+}</pre>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+
+  <section id="appD" class="card">
+    <h2>Appendix D — Daily/Weekly Checklists</h2>
+    <div class="two-col">
+      <p><span class="k">Purpose.</span> Checklists compress the entire program into repeatable behaviors that reduce variance and decision fatigue. By standardizing <em>what</em> is checked and <em>when</em>, we preserve rule‑quality execution even when emotions or market noise spike. Items are ordered to establish context first (rails, Nᵈ/Nⁱ), then risk (UnitRisk, heat), then orders (entries, stops, adds), then review and logging.</p>
+      <p><span class="k">Daily — Pre‑Open (T‑30 to T‑5).</span> Compute <strong>H20/L20</strong> and <strong>H55/L55</strong> with <em>offset=1</em> on the daily; record <strong>Nᵈ</strong>. Initialize a 5‑minute session feed and compute <strong>Nⁱ</strong>. Translate <strong>$1N</strong> by product (e.g., ES=$50/pt). Set <strong>UnitRisk</strong> (0.25–0.50% eval; 0.5–1.0% live). Check <strong>heat cap</strong> (≤4–6%). Draft entry triggers (STOPs at rails with a 1‑tick buffer) and pre‑stage <strong>OCO catastrophic stops</strong> at 2×Nⁱ. If Balanced, budget Shell credit; if Trend, budget Shell debit. Publish the morning plan.</p>
+      <p><span class="k">Daily — During Session.</span> Trade <strong>S1</strong> only when a 5‑minute bar <em>closes</em> beyond the rail (or body ≥0.2×Nⁱ beyond it). Place adds at ±0.5×Nⁱ increments up to cap. Respect two‑strike rule (stop after two −1R attempts). In stress (Nⁱ ≥ 90th pct), halve UnitRisk and prefer micros; in balanced tapes, avoid over‑trading and let Shell carry the day.</p>
+      <p><span class="k">Daily — Close.</span> Flatten futures and cancel staged orders unless you deliberately hand risk to an options structure (collar, put spread, debit vertical). Export fills; log Nᵈ/Nⁱ, rail touches, entries, exits, and R‑multiples. Write a one‑line post‑mortem: "Did I obey the plan?"</p>
+      <p><span class="k">Weekly — Review.</span> Reconcile slippage vs <em>%N</em>, distribution of R by regime, Shell contribution, and adherence violations. Refresh parameters only if they drifted (no weekly curve‑fitting). Update runbooks and incident notes.</p>
+    </div>
+
+    <div class="span-all">
+      <h3>Action Items (Operator Table)</h3>
+      <table style="width:100%;border-collapse:collapse;border:1px solid var(--line);background:#0b1326">
+        <thead>
+          <tr style="border-bottom:1px solid var(--line)">
+            <th style="padding:8px;text-align:left">Phase</th>
+            <th style="padding:8px;text-align:left">Action</th>
+            <th style="padding:8px;text-align:left">Metric / Threshold</th>
+            <th style="padding:8px;text-align:left">Owner</th>
+            <th style="padding:8px;text-align:left">Tooling</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td style="padding:8px">Pre‑Open</td>
+            <td style="padding:8px">Compute rails (H20/L20, H55/L55), Nᵈ; init Nⁱ stream</td>
+            <td style="padding:8px">Time‑stamped; Nd/Ni cached</td>
+            <td style="padding:8px">Operator</td>
+            <td style="padding:8px">TradingView / ToS · n8n</td>
+          </tr>
+          <tr>
+            <td style="padding:8px">Pre‑Open</td>
+            <td style="padding:8px">Set risk budgets; translate $1N; calc UnitRisk & contracts</td>
+            <td style="padding:8px">Heat ≤ 6%; C = floor(UnitRisk/$1N)</td>
+            <td style="padding:8px">Operator</td>
+            <td style="padding:8px">Sheet / Script</td>
+          </tr>
+          <tr>
+            <td style="padding:8px">Pre‑Open</td>
+            <td style="padding:8px">Stage STOP entries at rails (+tick) with OCO 2×Nⁱ stops</td>
+            <td style="padding:8px">No naked positions; OCO confirmed</td>
+            <td style="padding:8px">Operator</td>
+            <td style="padding:8px">Broker DOM/API</td>
+          </tr>
+          <tr>
+            <td style="padding:8px">Session</td>
+            <td style="padding:8px">Execute adds at ±0.5×Nⁱ; enforce two‑strike/daily stop</td>
+            <td style="padding:8px">Adds staged; stop respected</td>
+            <td style="padding:8px">Operator/Daemon</td>
+            <td style="padding:8px">DOM · Dashboard</td>
+          </tr>
+          <tr>
+            <td style="padding:8px">Session</td>
+            <td style="padding:8px">Shell: credit in balance; debit on trend; collars in stress</td>
+            <td style="padding:8px">Credit 0.25–0.5×UnitRisk; debit ≤ 0.5×UnitRisk</td>
+            <td style="padding:8px">Operator</td>
+            <td style="padding:8px">Options platform</td>
+          </tr>
+          <tr>
+            <td style="padding:8px">Close</td>
+            <td style="padding:8px">Flat futures unless planned carry; export fills; log R</td>
+            <td style="padding:8px">100% flat (or hedged); complete log</td>
+            <td style="padding:8px">Operator</td>
+            <td style="padding:8px">Broker · Log tool</td>
+          </tr>
+          <tr>
+            <td style="padding:8px">Weekly</td>
+            <td style="padding:8px">Aggregate KPIs; parameter drift check; incident review</td>
+            <td style="padding:8px">Expectancy ≥ +0.2R; MAR trending up</td>
+            <td style="padding:8px">Operator</td>
+            <td style="padding:8px">Notebook · Repo</td>
+          </tr>
+        </tbody>
+      </table>
+      <figcaption class="muted">Use this table as an operations dashboard or paste into a runbook.</figcaption>
+      <a class="toplink" href="#toc">↑ Back to contents</a>
+    </div>
+  </section>
+
+  <section id="appE" class="card">
+    <h2>Appendix E — Glossary (Program Lexicon)</h2>
+    <div class="span-all">
+      <table class="glossary-table">
+        <thead>
+          <tr><th>Term</th><th>Definition</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><strong>S1 / S2</strong></td><td>Turtle breakouts: S1 uses H20/L20 with exits on L10/H10; S2 uses H55/L55 with exits on L20/H20. S2 trades fewer, larger swings.</td></tr>
+          <tr><td><strong>Donchian Channels (H20/L20/H55/L55)</strong></td><td>Highest high / lowest low over <em>n</em> prior bars with <em>offset=1</em> (exclude current bar); defines breakout rails.</td></tr>
+          <tr><td><strong>N (ATR(20))</strong></td><td>Volatility unit (Wilder). <strong>Nᵈ</strong>=daily ATR; <strong>Nⁱ</strong>=intraday ATR (e.g., 5‑minute). All stops, adds, and sizing are expressed in N.</td></tr>
+          <tr><td><strong>$1N</strong></td><td>Dollars per 1N for one contract: Nⁱ × point value × multiplier (ES=$50/pt; MES=$5/pt).</td></tr>
+          <tr><td><strong>UnitRisk</strong></td><td>Dollar risk per unit: Equity × risk%. Contracts per unit = floor(UnitRisk ÷ $1N).</td></tr>
+          <tr><td><strong>Heat</strong></td><td>Portfolio risk budget: Σ(UnitRisk) ÷ Equity. Target ≤ 4–6% across sleeves.</td></tr>
+          <tr><td><strong>R‑multiple</strong></td><td>Profit or loss in units of initial risk (R). Standardizes outcome evaluation.</td></tr>
+          <tr><td><strong>Expectancy</strong></td><td><em>h×W − (1−h)×L</em> in R (hit rate, average win, average loss). Program‑level edge metric.</td></tr>
+          <tr><td><strong>Kelly / Fractional Kelly</strong></td><td>Optimal growth fraction given edge; applied fractionally (0.25–0.50×) to bound drawdowns under uncertainty.</td></tr>
+          <tr><td><strong>MAR / Sharpe</strong></td><td>MAR=CAGR/Max DD; Sharpe=excess return ÷ volatility. Program KPIs.</td></tr>
+          <tr><td><strong>VWAP</strong></td><td>Volume‑Weighted Average Price; used as a magnet in ranges.</td></tr>
+          <tr><td><strong>ADX</strong></td><td>Average Directional Index; structural trend strength. Flat ADX implies balance.</td></tr>
+          <tr><td><strong>Market Internals</strong></td><td><strong>TICK</strong> (upticks−downticks), <strong>TRIN</strong> (Arms Index), <strong>Breadth</strong> (adv/dec) — context filters, not triggers.</td></tr>
+          <tr><td><strong>IV / IV Rank (IVR) / HV</strong></td><td>Implied volatility, its rank vs 1‑year range, and historical volatility; drive option structure choice.</td></tr>
+          <tr><td><strong>Greeks</strong></td><td>Δ (delta, directional), Γ (gamma, convexity), Θ (theta, decay), ν (vega, vol sensitivity).</td></tr>
+          <tr><td><strong>Skew / Term Structure</strong></td><td>Pattern of IV across strikes / expiries; informs spreads, BWBs, calendars.</td></tr>
+          <tr><td><strong>Structures — Credit</strong></td><td>Iron Condor, Iron Fly, Short Vertical, Broken‑Wing Butterfly (reduced debit on one wing).</td></tr>
+          <tr><td><strong>Structures — Debit</strong></td><td>Long OTM options, Debit Vertical, Calendar/Diagonal (time/vol edge), Backspread, LEAPS.</td></tr>
+          <tr><td><strong>Collar</strong></td><td>Long underlying (or delta) + protective put financed with short call; defines downside.</td></tr>
+          <tr><td><strong>Confirmation Filter</strong></td><td>Require 5‑minute close with bar body ≥0.2×Nⁱ beyond the rail to reduce whipsaw.</td></tr>
+          <tr><td><strong>L10ⁱ / H10ⁱ / L20ⁱ / H20ⁱ</strong></td><td>Intraday Donchian exits on 10/20 bars for S1/S2 management.</td></tr>
+          <tr><td><strong>Order Types</strong></td><td>STOP‑MKT (stressed), STOP‑LMT with protection (balanced); OCO for stop pairing; DAY vs GTC.</td></tr>
+          <tr><td><strong>Slippage / Impact / Latency</strong></td><td>Execution frictions; budgeted as a fraction of Nⁱ; monitored in logs.</td></tr>
+          <tr><td><strong>Kill‑Switch</strong></td><td>One command that cancels adds, tightens stops to market, and flattens on breach of daily stop.</td></tr>
+          <tr><td><strong>Idempotency</strong></td><td>Action semantics that avoid duplicate orders on retries (same request yields same state).</td></tr>
+          <tr><td><strong>Daemon / Cron / Webhook</strong></td><td>Session process; scheduled daily jobs; event triggers from charts to order layer.</td></tr>
+          <tr><td><strong>Append‑Only Log</strong></td><td>Immutable audit trail (RFC3339 timestamps) for fills, orders, and state transitions.</td></tr>
+          <tr><td><strong>Continuous Futures (Back‑Adjusted)</strong></td><td>Splice contracts to a synthetic series; back‑adjust for roll gaps (Panama/ratio methods).</td></tr>
+          <tr><td><strong>Point Value / Multiplier</strong></td><td>Contract economics (e.g., ES $50/pt) required for $1N computation.</td></tr>
+          <tr><td><strong>Drawdown Throttles</strong></td><td>Automated risk cuts at −3R, −5R, −7R; micros‑only or flat policies.</td></tr>
+          <tr><td><strong>Two‑Strike Rule</strong></td><td>Stop trading after two −1R attempts; prevents revenge trades.</td></tr>
+          <tr><td><strong>Margin — SPAN / Reg‑T / Portfolio Margin</strong></td><td>Risk‑based margining frameworks affecting position sizing and Shell selection.</td></tr>
+          <tr><td><strong>Tax — §1256 / §475(f) / TTS</strong></td><td>60/40 blended capital gains (1256), mark‑to‑market election (475(f)), Trader Tax Status; seek professional guidance.</td></tr>
+          <tr><td><strong>Backtest / Walk‑Forward</strong></td><td>In‑sample fit vs out‑of‑sample validation; guard against overfitting.</td></tr>
+          <tr><td><strong>Risk‑of‑Ruin</strong></td><td>Probability of capital impairment under given edge and risk; reduced by heat caps and strike rules.</td></tr>
+          <tr><td><strong>z‑Score</strong></td><td>Standardized deviation (e.g., VIX z); used to gate stressed regimes.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+
+  <section id="appF" class="card">
+    <h2>Appendix F — Selected References (Links)</h2>
+    <div class="two-col">
+      <p><span class="k">Note.</span> Many sources are paywalled or require registration. Use these as starting points; favor primary literature and official documentation for implementation details.</p>
+      <h3>Trend‑Following & Turtle History</h3>
+      <ul>
+        <li><a href="https://www.amazon.com/Way-Turtle-Behind-Scenes-Road/dp/007148664X" target="_blank" rel="noopener">Curtis Faith — Way of the Turtle (book)</a></li>
+        <li><a href="https://www.aqr.com/Insights/Research/White-Papers/A-Century-of-Evidence-on-Trend-Following-Investing" target="_blank" rel="noopener">AQR — A Century of Evidence on Trend‑Following Investing (white paper)</a></li>
+        <li><a href="https://papers.ssrn.com/sol3/papers.cfm?abstract_id=1913987" target="_blank" rel="noopener">Moskowitz, Ooi, Pedersen — Time Series Momentum (SSRN)</a></li>
+        <li><a href="https://www.wiley.com/en-us/Trend+Following+with+Managed+Futures-p-9781118369749" target="_blank" rel="noopener">Greyserman & Kaminski — Trend Following with Managed Futures (book)</a></li>
+        <li><a href="https://www.followingthetrend.com/" target="_blank" rel="noopener">Andreas Clenow — Following the Trend (site/book)</a></li>
+        <li><a href="https://sgiindex.com/indices/sg-trend-index/" target="_blank" rel="noopener">SG Trend Index (managed futures benchmark)</a></li>
+      </ul>
+
+      <h3>Options Strategy & Education</h3>
+      <ul>
+        <li><a href="https://www.cboe.com/education/" target="_blank" rel="noopener">CBOE — Options Institute (education)</a></li>
+        <li><a href="https://www.tastylive.com/" target="_blank" rel="noopener">tastylive (research & shows)</a></li>
+        <li><a href="https://optionalpha.com/" target="_blank" rel="noopener">Option Alpha (courses & tools)</a></li>
+        <li><a href="https://www.amazon.com/Options-Strategic-Investment-5th/dp/0735204659" target="_blank" rel="noopener">McMillan — Options as a Strategic Investment (book)</a></li>
+        <li><a href="https://www.amazon.com/Option-Volatility-Pricing-Advanced-Trading/dp/155738486X" target="_blank" rel="noopener">Natenberg — Option Volatility & Pricing (book)</a></li>
+        <li><a href="https://www.cmegroup.com/education/courses/introduction-to-options.html" target="_blank" rel="noopener">CME — Options Education (course/PDFs)</a></li>
+      </ul>
+
+      <h3>Trading Psychology</h3>
+      <ul>
+        <li><a href="https://www.amazon.com/Trading-Zone-Confidence-Discipline-Attitude/dp/0735201447" target="_blank" rel="noopener">Mark Douglas — Trading in the Zone (book)</a></li>
+        <li><a href="https://www.amazon.com/Disciplined-Trader-Developing-Winning-Attitudes/dp/0132157578" target="_blank" rel="noopener">Mark Douglas — The Disciplined Trader (book)</a></li>
+        <li><a href="https://traderfeed.blogspot.com/" target="_blank" rel="noopener">Brett Steenbarger — TraderFeed (blog)</a></li>
+        <li><a href="https://www.the-sharp-edge.com/" target="_blank" rel="noopener">Denise Shull (performance psychology)</a></li>
+      </ul>
+
+      <h3>AI & Quant Platforms</h3>
+      <ul>
+        <li><a href="https://www.quantconnect.com/docs/home" target="_blank" rel="noopener">QuantConnect LEAN (docs)</a></li>
+        <li><a href="https://www.quantopian.com/posts/zipline" target="_blank" rel="noopener">Zipline (archived open‑source backtester)</a></li>
+        <li><a href="https://scikit-learn.org/stable/" target="_blank" rel="noopener">scikit‑learn (ML)</a></li>
+        <li><a href="https://pytorch.org/" target="_blank" rel="noopener">PyTorch (DL)</a></li>
+        <li><a href="https://n8n.io/" target="_blank" rel="noopener">n8n (automation/orchestration)</a></li>
+        <li><a href="https://www.prefect.io/" target="_blank" rel="noopener">Prefect (workflow orchestration)</a></li>
+      </ul>
+
+      <h3>Automation & Broker APIs</h3>
+      <ul>
+        <li><a href="https://www.interactivebrokers.com/en/trading/ib-api.php" target="_blank" rel="noopener">Interactive Brokers — API</a></li>
+        <li><a href="https://tradovate.com/api/" target="_blank" rel="noopener">Tradovate — API</a></li>
+        <li><a href="https://ninjatrader.com/Help-Connection-Guides" target="_blank" rel="noopener">NinjaTrader — Guides/APIs</a></li>
+        <li><a href="https://www.tradingview.com/support/folders/43000531026/" target="_blank" rel="noopener">TradingView — Webhooks & Alerts</a></li>
+        <li><a href="https://developer.schwab.com/" target="_blank" rel="noopener">Charles Schwab — Developer Portal</a></li>
+        <li><a href="https://alpaca.markets/docs/" target="_blank" rel="noopener">Alpaca — API</a></li>
+      </ul>
+
+      <h3>Wealth & Tax</h3>
+      <ul>
+        <li><a href="https://greentradertax.com/" target="_blank" rel="noopener">GreenTraderTax (guides)</a></li>
+        <li><a href="https://www.irs.gov/forms-pubs/about-form-6781" target="_blank" rel="noopener">IRS — Form 6781 (Section 1256)</a></li>
+        <li><a href="https://www.irs.gov/taxtopics/tc429" target="_blank" rel="noopener">IRS — Traders in Securities (TTS overview)</a></li>
+        <li><a href="https://www.irs.gov/taxtopics/tc429#mark-to-market-election" target="_blank" rel="noopener">IRS — Section 475(f) Mark‑to‑Market</a></li>
+      </ul>
+
+      <h3>Market Data</h3>
+      <ul>
+        <li><a href="https://www.cmegroup.com/" target="_blank" rel="noopener">CME Group (contract specs, calendars)</a></li>
+        <li><a href="https://data.nasdaq.com/" target="_blank" rel="noopener">Nasdaq Data Link (formerly Quandl)</a></li>
+        <li><a href="https://polygon.io/" target="_blank" rel="noopener">Polygon.io</a></li>
+        <li><a href="https://www.alphavantage.co/" target="_blank" rel="noopener">Alpha Vantage</a></li>
+        <li><a href="https://www.tiingo.com/" target="_blank" rel="noopener">Tiingo</a></li>
+        <li><a href="https://iexcloud.io/" target="_blank" rel="noopener">IEX Cloud</a></li>
+        <li><a href="https://finance.yahoo.com/" target="_blank" rel="noopener">Yahoo Finance (historical)</a></li>
+      </ul>
+
+      <h3>News & Research Feeds</h3>
+      <ul>
+        <li><a href="https://www.reuters.com/markets/" target="_blank" rel="noopener">Reuters Markets</a></li>
+        <li><a href="https://www.bloomberg.com/markets/economics" target="_blank" rel="noopener">Bloomberg Economics (paywalled)</a></li>
+        <li><a href="https://www.ft.com/markets" target="_blank" rel="noopener">Financial Times Markets (paywalled)</a></li>
+        <li><a href="https://fred.stlouisfed.org/" target="_blank" rel="noopener">FRED (macro series)</a></li>
+        <li><a href="https://www.cboe.com/insights/" target="_blank" rel="noopener">Cboe Insights</a></li>
+      </ul>
+
+      <h3>YouTube Channels & Playlists</h3>
+      <ul>
+        <li><a href="https://www.youtube.com/@tastylive" target="_blank" rel="noopener">tastylive (options & research)</a></li>
+        <li><a href="https://www.youtube.com/@QuantConnect" target="_blank" rel="noopener">QuantConnect (LEAN tutorials)</a></li>
+        <li><a href="https://www.youtube.com/@SMBCapital" target="_blank" rel="noopener">SMB Capital (pro trading)</a></li>
+        <li><a href="https://www.youtube.com/@CMEGroup" target="_blank" rel="noopener">CME Group (education)</a></li>
+        <li><a href="https://www.youtube.com/@realvision" target="_blank" rel="noopener">Real Vision (macro & markets)</a></li>
+      </ul>
+    </div>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+
+  <section id="appG" class="card">
+    <h2>Appendix G — Footnotes & Source Notes</h2>
+    <ol class="muted">
+      <li>Original Turtle program background and trading rules lineage (1980s trend‑following apprenticeship; Donchian breakout with ATR‑based risk).</li>
+      <li>Curtis M. Faith, <em>Way of the Turtle</em> — practical exposition of S1/S2 mechanics and risk framing in N.</li>
+      <li>Hurst, Ooi, Pedersen, “A Century of Trend‑Following” — multi‑asset evidence for persistence of time‑series momentum.</li>
+      <li>Moskowitz, Ooi, Pedersen, “Time Series Momentum” — cross‑asset study on the profitability and diversification benefits of trend.</li>
+      <li>Greyserman & Kaminski, <em>Trend Following with Managed Futures</em> — crisis performance and portfolio construction for CTA programs.</li>
+      <li>Clenow, <em>Following the Trend</em> — practitioner implementation across futures; diversification and risk targeting.</li>
+      <li>Donchian channel methods and breakouts vs. moving‑average filters — comparative robustness notes.</li>
+      <li>Slippage and market impact modeling in futures; budgeting as a fraction of N on intraday horizons.</li>
+      <li>ADX as a structural strength gauge; slope‑based filters for messy tapes.</li>
+      <li>NYSE market internals: TRIN (Arms Index), TICK distributions, and breadth measures as contextual filters.</li>
+      <li>Risk‑of‑ruin and fractional‑Kelly literature; practical use of 0.25–0.50× Kelly under parameter uncertainty.</li>
+      <li>Managed‑futures indices (e.g., SG Trend Index, legacy Newedge CTA Index) — crisis windows (2008) and convexity properties.</li>
+      <li>2020 pandemic trend episodes — outlier dominance; importance of not capping first units and adding as price proves.</li>
+      <li>1987 crash and lessons on fixed catastrophic stops vs discretionary averaging down.</li>
+      <li>IRS treatment summaries: §1256 (Form 6781), §988 (FX), Trader Tax Status (TTS), §475(f) election — compliance posture for mixed futures/options sleeves.</li>
+      <li>Exchange product specifications and contract multipliers (e.g., ES $50/pt) — required for $ per 1N computation.</li>
+      <li>Options overlays across regimes: debit verticals for convexity, calendars/diagonals for carry + trend maintenance, iron condors/flies for balanced days, collars/puts for stress.</li>
+      <li>Webhook‑driven alerting (TradingView), low‑code orchestration (n8n), and broker API adapters — practical control‑plane pattern.</li>
+      <li>Data vendor practices: official vs consolidated feeds; licensing constraints between display, research, and trading.</li>
+      <li>Back‑adjusted continuous futures vs. panama and ratio methods — pros/cons for rail stability and gap handling.</li>
+      <li>Latency budgets for 5‑minute execution; acceptable drift vs bar cadence and broker round‑trip times.</li>
+      <li>Risk governance: heat caps, two‑strike rule, daily stop, and session kill‑switches — operational survivability.</li>
+      <li>AI in the loop: summarization, classification, log anomaly detection; guardrails against hallucination in price‑sensitive decisions.</li>
+      <li>Program KPIs and expectancy math in R; trade distribution skew and the role of large winners.</li>
+      <li>Audit trails and reproducibility: GitHub versioning for parameters/levels; immutable logs with RFC3339 timestamps.</li>
+      <li>Pipeline resilience: health checks, retries, idempotency, and disaster‑recovery playbooks.</li>
+      <li>Entity structure patterns for multi‑sleeve programs; inter‑sleeve accounting when options overlay interacts with futures exposure.</li>
+      <li>Ethical and regulatory guardrails: suitability, disclosures, API terms; confirm jurisdictional rules and broker agreements.</li>
+      <li>Comparative study of add spacing (0.33N, 0.5N, 0.67N) and filter thresholds — cost‑adjusted outcomes and heat spikes (internal tests, 2016–2024).</li>
+      <li>Session microstructure around economic releases; throttle/flat policies vs news windows.</li>
+    </ol>
+
+    <div class="span-all">
+      <h3>Bibliography</h3>
+      <ul>
+        <li>Curtis M. Faith (2007). <em>Way of the Turtle</em>. McGraw‑Hill. ISBN 978‑0071486644.</li>
+        <li>Brian Hurst, Yao Hua Ooi, Lasse Heje Pedersen (2014). <em>A Century of Evidence on Trend‑Following Investing</em>. AQR White Paper.</li>
+        <li>Tobias J. Moskowitz, Yao Hua Ooi, Lasse Heje Pedersen (2012). <em>Time Series Momentum</em>. <em>Journal of Financial Economics</em> 104(2):228–250.</li>
+        <li>Nick Firoozye, Alex Greyserman, Kathryn M. Kaminski (2014). <em>Trend Following with Managed Futures: The Search for Crisis Alpha</em>. Wiley Finance.</li>
+        <li>Andreas F. Clenow (2013). <em>Following the Trend: Diversified Managed Futures Trading</em>. Wiley.</li>
+        <li>SG Trend Index. Société Générale Prime Services — methodology & constituents.</li>
+        <li>Richard W. Arms Jr. (1967). <em>Arms Index (TRIN)</em> — breadth/volume indicator.</li>
+        <li>Ralph Vince (1990). <em>Portfolio Management Formulas</em>. Wiley; and Van K. Tharp / Balsara works on risk‑of‑ruin.</li>
+        <li>Mark Douglas (2000). <em>Trading in the Zone</em>; (1990). <em>The Disciplined Trader</em>. New York Institute of Finance.</li>
+        <li>IRS. <em>Form 6781: Gains and Losses From Section 1256 Contracts and Straddles</em>; <em>Section 475(f)</em> Mark‑to‑Market; <em>Trader Tax Status</em> guidance.</li>
+        <li>CME Group. <em>E‑mini S&P 500 Futures (ES) Contract Specifications</em> — tick size, point value, trading hours.</li>
+        <li>Donchian, Richard. <em>Trend Following Rules</em> and Donchian Channel concept notes (archival writings).</li>
+        <li>AQR / academic follow‑ups on multi‑asset time‑series momentum and crisis alpha (2015–2023).</li>
+      </ul>
+      <p class="muted">Tip: In your private working copy, replace each item with full citations (authors, year, title, journal/publisher, DOI/URL) to maintain academic traceability.</p>
+    </div>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+</main>
+</body>
+</html>

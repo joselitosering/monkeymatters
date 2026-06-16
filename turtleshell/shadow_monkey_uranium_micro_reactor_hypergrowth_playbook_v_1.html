@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shadow Monkey — Uranium & Micro‑Reactor Auto Hypergrowth Playbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{--bg:#0b0d12;--card:#11141b;--muted:#2a2f3a;--ink:#e6e9ef;--sub:#a9b0bd;--accent:#7c5cff;--accent-2:#00d4ff;--good:#2ecc71;--warn:#ffb020;--risk:#ff5d73}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:linear-gradient(180deg,var(--bg),#0d1016);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif}
+    .wrap{max-width:1200px;margin:0 auto;padding:28px}
+    header{position:sticky;top:0;background:rgba(11,13,18,.8);backdrop-filter:blur(8px);z-index:50;border-bottom:1px solid #1b1f29}
+    .brand{display:flex;gap:14px;align-items:center}
+    .badge{padding:4px 10px;border-radius:999px;background:linear-gradient(45deg,var(--accent),var(--accent-2));font-weight:700;font-size:12px;letter-spacing:.4px}
+    .card{background:linear-gradient(180deg,var(--card),#0e1219);border:1px solid #1a1f2b;border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .card h3{margin:.2rem 0 .6rem;font-weight:800}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+    @media(max-width:980px){.grid-3,.grid-2{grid-template-columns:1fr}}
+    table{width:100%;border-collapse:separate;border-spacing:0 8px}
+    th,td{text-align:left;padding:12px 14px}
+    thead th{font-size:12px;color:#a9b0bd;border-bottom:1px dashed #263046}
+    tbody tr{background:#0f131b;border:1px solid #1b2131}
+    tbody tr td:first-child{border-top-left-radius:10px;border-bottom-left-radius:10px}
+    tbody tr td:last-child{border-top-right-radius:10px;border-bottom-right-radius:10px}
+    .kpi{display:flex;gap:14px;align-items:center}
+    .kpi .num{font-size:28px;font-weight:800}
+    .muted{color:var(--sub)}
+    .good{color:var(--good)}.warn{color:var(--warn)}.risk{color:var(--risk)}
+    .mini{font-size:12px;color:#98a0af}
+    .btn{display:inline-block;padding:10px 12px;border-radius:10px;background:linear-gradient(45deg,var(--accent),var(--accent-2));color:white;font-weight:700}
+    input, .num-inp{background:#0b0f16;border:1px solid #1b2131;color:#e6e9ef;border-radius:10px;padding:8px 10px;width:100%}
+    .toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+    .toolbar .item{background:#0f131b;border:1px solid #1b2131;border-radius:12px;padding:10px 12px;display:flex;gap:8px;align-items:center}
+    /* Quickview panel */
+    .qv-panel{position:fixed;top:0;left:0;width:420px;height:280px;border:1px solid #1b2131;border-radius:12px;background:#0b0f16;box-shadow:0 10px 30px rgba(0,0,0,.35);display:none;z-index:1000;overflow:hidden}
+    .qv-panel iframe{width:100%;height:100%;border:0}
+    .qv-head{position:absolute;top:6px;left:10px;font-size:12px;color:#a9b0bd;z-index:2}
+    .qv-hide{position:absolute;top:6px;right:8px;font-size:11px;color:#9aa3b5;cursor:pointer}
+    /* Brand-colored links + focus states */
+    a{color:var(--accent);text-decoration:none}
+    a:hover{color:var(--accent-2)}
+    a:visited{color:var(--accent)}
+    a:focus-visible{outline:2px solid var(--accent-2);outline-offset:2px;border-radius:6px}
+    /* Button hover polish */
+    .btn:hover{box-shadow:0 0 0 2px var(--accent-2) inset,0 8px 24px rgba(124,92,255,.25);transform:translateY(-1px)}
+    /* Quickview ticker accent */
+    #qv-ticker{color:var(--accent-2)}
+    /* Delta chips */
+    .delta{padding:4px 8px;border-radius:8px;display:inline-block;background:#0b0f16;border:1px solid #1b2131}
+    .delta.good{border-color:rgba(46,204,113,.5)}
+    .delta.warn{border-color:rgba(255,176,32,.5)}
+    .delta.risk{border-color:rgba(255,93,115,.5)}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;">
+      <div class="brand">
+        <div class="badge">SHADOW MONKEY</div>
+        <div>
+          <div style="font-weight:800;font-size:18px">Uranium & Micro‑Reactors — Hypergrowth & Options Playbook</div>
+          <div class="mini">Fuel Cycle • Enrichment/HALEU • SMR/MMR • Updated Sep 23, 2025</div>
+        </div>
+      </div>
+      <a class="btn" href="#tickets">Trade Tickets</a>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="section">
+      <div class="card">
+        <h2>Thesis</h2>
+        <div class="grid-3">
+          <div class="card"><div class="kpi"><span class="num">2–4</span> <span class="muted">yr squeeze</span></div><div class="mini">Under‑investment + conversion/enrichment bottlenecks</div></div>
+          <div class="card"><div class="kpi"><span class="num">3</span> <span class="muted">fuel levers</span></div><div class="mini">Mining • Conversion • Enrichment/HALEU</div></div>
+          <div class="card"><div class="kpi"><span class="num">SMR</span> <span class="muted">orders</span></div><div class="mini">Type approvals → backlog → revenue ramps</div></div>
+        </div>
+        <div class="divider"></div>
+        <h3>Prospectus: Nuclear Fuel Cycle + Modular Reactors</h3>
+        <p>
+          We target a <b>structural supply‑demand imbalance</b> in uranium alongside commercialization of <b>small/modular and micro‑reactors (SMR/MMR)</b>.
+          Electrification, AI datacenters, and reshoring drive firm baseload demand; mine restarts and secondary supply alone are <i>insufficient</i> in tight cycles.
+          Barbell exposure: <b>fuel‑cycle torque</b> (miners, conversion, enrichment/HALEU) + <b>SMR enablement</b> (OEMs, component manufacturers, EPCs, operators).
+        </p>
+        <ul class="mini">
+          <li><b>Economics:</b> >90% capacity factors for baseload + premium PPAs for islanded loads (datacenters, industrial heat).</li>
+          <li><b>Catalysts:</b> Utility term‑contracting waves, mine restart FIDs, HALEU awards, OEM design certifications, government stockpile actions.</li>
+          <li><b>Bottlenecks:</b> Enrichment capacity (esp. HALEU), conversion limits, licensing lead‑times, factory fabrication ramp.</li>
+        </ul>
+        <h3>How We Trade It — Strategy Guide</h3>
+        <ul class="mini">
+          <li><b>Event‑first:</b> Enter on <i>funded</i> contracts, design/site approvals, or restart FIDs; avoid headline‑only MoUs.</li>
+          <li><b>Defined risk:</b> Use verticals/diagonals on liquid names; cash‑secured puts at preset buy levels; avoid naked short gamma in microcaps.</li>
+          <li><b>Liquidity rule:</b> Minimum ADV and spreads required; stagger fills (L1/L2/Breakout) via tickets below.</li>
+          <li><b>Time stops:</b> If catalyst window slips by T+2 weeks with no confirmation, trim or exit; recycle capital.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="tiers" class="section">
+      <div class="toolbar card">
+        <div class="item">
+          <label for="totalBudget" class="mini">Total Budget ($)</label>
+          <input id="totalBudget" type="number" class="num-inp" value="6000" min="0" step="100" />
+        </div>
+        <div class="item mini">Weights auto‑normalize. Edit each row’s %; targets scale to the budget.</div>
+        <div class="item mini">Weight Sum: <span id="wSum">—</span></div>
+      </div>
+
+      <h2>Universe & Tiers</h2>
+      <div class="card">
+        <h3>Tier A — Small/Mid Caps (High Beta)</h3>
+        <table id="tierA">
+          <thead><tr><th>Ticker</th><th>Name</th><th>Weight %</th><th>Target $</th><th>Primary Triggers</th><th>Trade Tactics</th></tr></thead>
+          <tbody>
+            <tr data-tk="NXE"><td><b>NXE</b></td><td>NexGen Energy</td><td><input type="number" class="num-inp w" value="10" step="0.1"></td><td class="tgt">$—</td><td>Rook I FID/permits/financing</td><td>Call spreads into milestones; protective puts</td></tr>
+            <tr data-tk="DNN"><td><b>DNN</b></td><td>Denison Mines</td><td><input type="number" class="num-inp w" value="8" step="0.1"></td><td class="tgt">$—</td><td>Wheeler River progress; offtake</td><td>Buy dips to 50D; trim +10–15%</td></tr>
+            <tr data-tk="UUUU"><td><b>UUUU</b></td><td>Energy Fuels</td><td><input type="number" class="num-inp w" value="7" step="0.1"></td><td class="tgt">$—</td><td>White Mesa ramp; REE/vanadium optionality</td><td>Covered calls on rips</td></tr>
+            <tr data-tk="LEU"><td><b>LEU</b></td><td>Centrus Energy</td><td><input type="number" class="num-inp w" value="7" step="0.1"></td><td class="tgt">$—</td><td>HALEU contracts; enrichment capacity</td><td>Defined‑risk call verticals into awards</td></tr>
+            <tr data-tk="SMR"><td><b>SMR</b></td><td>NuScale Power</td><td><input type="number" class="num-inp w" value="5" step="0.1"></td><td class="tgt">$—</td><td>Design/site approvals; orderbook adds</td><td>Binary headlines → vertical calls; small size</td></tr>
+            <tr data-tk="OKLO"><td><b>OKLO</b></td><td>Oklo Inc.</td><td><input type="number" class="num-inp w" value="4" step="0.1"></td><td class="tgt">$—</td><td>Site permits; PPA announcements</td><td>Event‑driven with tight stops</td></tr>
+            <tr data-tk="URA"><td><b>URA</b></td><td>Global X Uranium ETF</td><td><input type="number" class="num-inp w" value="10" step="0.1"></td><td class="tgt">$—</td><td>Sector flows; rebalance windows</td><td>CSP to acquire; covered calls to harvest</td></tr>
+            <tr data-tk="URNM"><td><b>URNM</b></td><td>Sprott Uranium Miners ETF</td><td><input type="number" class="num-inp w" value="10" step="0.1"></td><td class="tgt">$—</td><td>Spot surges; ETF inflows</td><td>Basket ballast; write calls on spikes</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>Tier B — Optionable Large Caps (Liquidity + Leverage)</h3>
+        <table id="tierB">
+          <thead><tr><th>Ticker</th><th>Name</th><th>Weight %</th><th>Target $</th><th>Options Use</th><th>Notes</th></tr></thead>
+          <tbody>
+            <tr data-tk="CCJ"><td><b>CCJ</b></td><td>Cameco</td><td><input type="number" class="num-inp w" value="15" step="0.1"></td><td class="tgt">$—</td><td>Covered calls, diagonals; call spreads into contracting</td><td>Integrated mining + fuel services</td></tr>
+            <tr data-tk="BWXT"><td><b>BWXT</b></td><td>BWX Technologies</td><td><input type="number" class="num-inp w" value="12" step="0.1"></td><td class="tgt">$—</td><td>Covered calls; diagonals on backlog growth</td><td>SMR/naval components</td></tr>
+            <tr data-tk="RYCEY"><td><b>RYCEY</b></td><td>Rolls‑Royce ADR</td><td><input type="number" class="num-inp w" value="6" step="0.1"></td><td class="tgt">$—</td><td>Call spreads around SMR milestones</td><td>RR SMR program optionality</td></tr>
+            <tr data-tk="GE"><td><b>GE</b></td><td>GE (Grid/Nuclear services exposure)</td><td><input type="number" class="num-inp w" value="6" step="0.1"></td><td class="tgt">$—</td><td>Defined‑risk call spreads</td><td>Grid + services optionality</td></tr>
+          </tbody>
+        </table>
+        <p class="mini">Leave Tier B weights blank if you want to allocate only to Tier A; otherwise add a % and the tool will auto‑scale.</p>
+      </div>
+    </section>
+
+    <section id="options" class="section">
+      <h2>Options Playbook</h2>
+      <div class="grid-2">
+        <div class="card">
+          <h3>Income & Core</h3>
+          <ul>
+            <li><b>Covered Calls (L1):</b> 30–45 DTE, Δ 0.15–0.25 on CCJ/BWXT/URA/URNM when IV%ile ≥ 50.</li>
+            <li><b>Diagonals (L2):</b> LEAPS Δ 0.70–0.80 + sell Δ 0.20–0.30 monthlies (CCJ/BWXT).</li>
+            <li><b>Cash‑Secured Puts (L2):</b> Δ 0.20–0.35 to acquire CCJ/BWXT/URA/URNM on dips.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>Torque & Events</h3>
+          <ul>
+            <li><b>Bull Call Verticals:</b> 3–6 mo on NXE/DNN/LEU into milestones; budget ≤ 0.8% each.</li>
+            <li><b>Calendars:</b> Near‑dated IV elevated vs back month around design/site approvals.</li>
+            <li><b>Hedges:</b> Ratio put spreads on URA/URNM for sector air‑pockets.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="tickets" class="section">
+      <h2>Trade Tickets (Manual Last Close)</h2>
+      <div class="card">
+        <p class="mini">Enter last close price to compute staged orders. Rules: L1 = 0.995×Last • L2 = 0.95×Last • Brk Stop = 1.03×Last • Brk Limit = 1.035×Last.</p>
+        <div id="calc-h2"></div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Floating quickview panel for calculator ticker links -->
+  <div id="qv" class="qv-panel" role="dialog" aria-hidden="true">
+    <div class="qv-head">TradingView Quickview <span id="qv-ticker"></span><span class="qv-hide" title="Close">✕</span></div>
+    <iframe id="qv-frame" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+  </div>
+
+<script>
+// ===== Adjustable Budget Allocator + Ticket Calculator (Uranium/SMR) =====
+const DEFAULT_WEIGHTS = {
+  'NXE':10,'DNN':8,'UUUU':7,'LEU':7,'SMR':5,'OKLO':4,'URA':10,'URNM':10,
+  'CCJ':15,'BWXT':12,'RYCEY':6,'GE':6
+};
+
+// TradingView symbol map (for calculator links)
+const SYMBOL_MAP={
+  'NXE':'NYSE:NXE','DNN':'AMEX:DNN','UUUU':'AMEX:UUUU','LEU':'AMEX:LEU','SMR':'NYSE:SMR','OKLO':'NYSE:OKLO','URA':'AMEX:URA','URNM':'AMEX:URNM',
+  'CCJ':'NYSE:CCJ','BWXT':'NYSE:BWXT','RYCEY':'OTC:RYCEY','GE':'NYSE:GE'
+};
+
+function tvPath(sym){return sym.replace(':','-').replace('.','-')}
+
+function qs(sel, root=document){return root.querySelector(sel)}
+function qsa(sel, root=document){return [...root.querySelectorAll(sel)]}
+function fmt(n){return isFinite(n)?Number(n).toFixed(2):'—'}
+
+function readWeights(){
+  const rows=qsa('input.w');
+  let sum=0; const w={};
+  rows.forEach(inp=>{const tr=inp.closest('tr');const tk=tr.dataset.tk;const v=parseFloat(inp.value); if(isFinite(v)&&v>0){w[tk]=v; sum+=v}else{w[tk]=0}});
+  return {w,sum};
+}
+
+function allocTargets(total){
+  const {w,sum}=readWeights();
+  const targets={};
+  const denom = sum>0?sum:1;
+  Object.keys(w).forEach(tk=>{targets[tk]= total * (w[tk]/denom)});
+  // write to table
+  qsa('table tbody tr').forEach(tr=>{const tk=tr.dataset.tk;const td=tr.querySelector('.tgt');if(td) td.textContent='$'+fmt(targets[tk]||0)});
+  qs('#wSum').textContent = sum.toFixed(1)+'%';
+  qs('#wSum').style.color = (Math.abs(sum-100)<0.01)?'var(--good)':(sum===0?'var(--risk)':'var(--warn)');
+  return targets;
+}
+
+function attachQuickview(scope){
+  const panel=document.getElementById('qv');
+  const frame=document.getElementById('qv-frame');
+  const ticker=document.getElementById('qv-ticker');
+  const closer=panel.querySelector('.qv-hide');
+  const links=[...scope.querySelectorAll('a.tvqv')];
+  const base='https://s.tradingview.com/widgetembed/?frameElementId=tradingview_qv&symbol=';
+  const tail='&interval=30&hidesidetoolbar=1&hidetoptoolbar=1&symboledit=1&saveimage=0&toolbarbg=f1f3f6&studies=[]&theme=dark&style=1&timezone=Etc/UTC&withdateranges=1&hidelegend=1';
+  function show(e, sym){panel.style.display='block';ticker.textContent=' • '+sym;frame.src=base+encodeURIComponent(sym)+tail;position(e)}
+  function hide(){panel.style.display='none';frame.src=''}
+  function position(e){const pad=14;let x=e.clientX+pad;let y=e.clientY+pad;const w=panel.offsetWidth||420;const h=panel.offsetHeight||280;const vw=window.innerWidth;const vh=window.innerHeight; if(x+w>vw) x=vw-w-pad; if(y+h>vh) y=vh-h-pad; panel.style.left=x+window.scrollX+'px'; panel.style.top=y+window.scrollY+'px'}
+  links.forEach(a=>{
+    const sym=a.getAttribute('data-symbol');
+    a.addEventListener('mouseenter',ev=>show(ev, sym));
+    a.addEventListener('mousemove',position);
+    a.addEventListener('mouseleave',hide);
+    a.addEventListener('touchstart',ev=>{ev.preventDefault();show(ev.touches[0], sym)},{passive:false});
+  });
+  closer.addEventListener('click', hide);
+  window.addEventListener('scroll',()=>{if(panel.style.display==='block'){panel.style.display='none';frame.src=''}});
+}
+
+function buildTickets(targets){
+  const wrap=qs('#calc-h2'); if(!wrap) return;
+  const table=document.createElement('table');
+  table.innerHTML = `
+    <thead><tr><th>Ticker</th><th>Target $</th><th>Last Close</th><th>L1 Qty</th><th>L1 Limit</th><th>L2 Qty</th><th>L2 Limit</th><th>Brk Qty</th><th>Brk Stop</th><th>Brk Limit</th><th>Hard Stop (liq/illiq)</th><th>Planned Spend</th><th>Δ vs Target</th></tr></thead>
+    <tbody></tbody>
+    <tfoot><tr><td><b>Totals</b></td><td id="tot-target">$0.00</td><td></td><td colspan="7"></td><td></td><td id="tot-spend">$0.00</td><td id="tot-delta">$0.00</td></tr></tfoot>`;
+  const tbody=table.querySelector('tbody');
+  const names=Object.keys(targets).filter(tk=>targets[tk]>0);
+  let totTarget=0, totSpend=0, totDelta=0;
+  names.forEach(tk=>{
+    const tr=document.createElement('tr');
+    const tgt=targets[tk]; totTarget+=tgt;
+    const sym=SYMBOL_MAP[tk];
+    const link = sym ? `<a class="tvqv" data-symbol="${sym}" href="https://www.tradingview.com/symbols/${tvPath(sym)}/" target="_blank"><b>${tk}</b></a>` : `<b>${tk}</b>`;
+    tr.innerHTML=`<td>${link}</td><td>$${fmt(tgt)}</td><td><input type="number" class="num-inp px" placeholder="0.00" step="0.01"></td>
+      <td class="l1q">—</td><td class="l1p">—</td>
+      <td class="l2q">—</td><td class="l2p">—</td>
+      <td class="bq">—</td><td class="bs">—</td><td class="bl">—</td>
+      <td class="hs">—</td><td class="sp">—</td><td class="dl">—</td>`;
+    const last=tr.querySelector('.px');
+    function recalc(){
+      const x=parseFloat(last.value);
+      const l1q=tr.querySelector('.l1q'),l1p=tr.querySelector('.l1p'),l2q=tr.querySelector('.l2q'),l2p=tr.querySelector('.l2p'),bq=tr.querySelector('.bq'),bs=tr.querySelector('.bs'),bl=tr.querySelector('.bl'),hs=tr.querySelector('.hs'),sp=tr.querySelector('.sp'),dl=tr.querySelector('.dl');
+      if(!isFinite(x)||x<=0){[l1q,l1p,l2q,l2p,bq,bs,bl,hs,sp,dl].forEach(td=>td.textContent='—'); tr.dataset.plan='0'; tr.dataset.delta='0'; updateTotals(); return;}
+      const q1=Math.floor(.4*tgt/x),q2=Math.floor(.3*tgt/x),qb=Math.floor(.3*tgt/x);
+      const p1=x*.995,p2=x*.95,bsP=x*1.03,blP=x*1.035;const plan=q1*p1+q2*p2+qb*blP;const d=tgt-plan;
+      l1q.textContent=q1;l1p.textContent='$'+fmt(p1);l2q.textContent=q2;l2p.textContent='$'+fmt(p2);bq.textContent=qb;bs.textContent='$'+fmt(bsP);bl.textContent='$'+fmt(blP);
+      const liq=x*(1-0.08),ill=x*(1-0.12);hs.textContent=`$${fmt(liq)} / $${fmt(ill)}`;sp.textContent='$'+fmt(plan);
+      const cls = d>=0 ? 'good' : (d>= -0.01*tgt ? 'warn' : 'risk');
+      dl.innerHTML = `<span class="delta ${cls}">${d>=0?'+':''}$${fmt(d)}</span>`;
+      tr.dataset.plan=plan; tr.dataset.delta=d;
+      updateTotals();
+    }
+    function updateTotals(){
+      totSpend = Array.from(tbody.querySelectorAll('tr')).reduce((s,r)=> s + (parseFloat(r.dataset.plan)||0), 0);
+      totDelta = Array.from(tbody.querySelectorAll('tr')).reduce((s,r)=> s + (parseFloat(r.dataset.delta)||0), 0);
+      table.querySelector('#tot-spend').textContent='$'+fmt(totSpend);
+      const tdl=table.querySelector('#tot-delta');
+      const cls = totDelta>=0 ? 'good' : (totDelta>= -0.01*totTarget ? 'warn' : 'risk');
+      tdl.innerHTML = `<span class="delta ${cls}">${totDelta>=0?'+':''}$${fmt(totDelta)}</span>`;
+    }
+    last.addEventListener('input',recalc);
+    tbody.appendChild(tr);
+  });
+  table.querySelector('#tot-target').textContent='$'+fmt(totTarget);
+  wrap.innerHTML=''; wrap.appendChild(table);
+  attachQuickview(wrap);
+}
+
+function init(){
+  // seed defaults
+  qsa('input.w').forEach(inp=>{ if(inp.value==='—' || inp.value===''){ const tk=inp.closest('tr').dataset.tk; inp.value = DEFAULT_WEIGHTS[tk]||0 } });
+  const budgetInp = qs('#totalBudget');
+  function refresh(){ const total = parseFloat(budgetInp.value)||0; const targets=allocTargets(total); buildTickets(targets); }
+  budgetInp.addEventListener('input',refresh);
+  qsa('input.w').forEach(inp=>inp.addEventListener('input',()=>{const total=parseFloat(budgetInp.value)||0;allocTargets(total);}));
+  refresh();
+}
+
+init();
+</script>
+</body>
+</html>

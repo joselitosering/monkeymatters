@@ -1,0 +1,771 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Shadow Monkey — 1/5/10 Year Master Playbook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#0b0d12;--card:#11141b;--muted:#2a2f3a;--ink:#e6e9ef;--sub:#a9b0bd;--accent:#7c5cff;--accent-2:#00d4ff;--good:#2ecc71;--warn:#ffb020;--risk:#ff5d73;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;background:linear-gradient(180deg,var(--bg),#0d1016);color:var(--ink);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif;}
+    a{color:var(--accent-2);text-decoration:none}
+    a:hover{opacity:.9;}
+    .wrap{max-width:1200px;margin:0 auto;padding:28px}
+    header{position:sticky;top:0;background:rgba(11,13,18,.8);backdrop-filter:blur(8px);z-index:50;border-bottom:1px solid #1b1f29}
+    .brand{display:flex;gap:14px;align-items:center}
+    .badge{padding:4px 10px;border-radius:999px;background:linear-gradient(45deg,var(--accent),#935cff);font-weight:700;font-size:12px;letter-spacing:.4px}
+    .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:24px;margin:28px 0}
+    .card{background:linear-gradient(180deg,var(--card),#0e1219);border:1px solid #1a1f2b;border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .card h3{margin:.2rem 0 .6rem;font-weight:800}
+    .pill{display:inline-flex;align-items:center;gap:6px;padding:6px 10px;border-radius:999px;background:#151a24;color:#c7ccda;font-size:12px}
+    .grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+    .grid-2{display:grid;grid-template-columns:repeat(2,11fr);gap:16px}
+    .grid-4{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+    @media(max-width:980px){.hero{grid-template-columns:1fr}.grid-3,.grid-4,.grid-2{grid-template-columns:1fr}}
+    table{width:100%;border-collapse:separate;border-spacing:0 8px}
+    th,td{text-align:left;padding:12px 14px}
+    thead th{font-size:12px;color:#a9b0bd;border-bottom:1px dashed #263046}
+    tbody tr{background:#0f131b;border:1px solid #1b2131}
+    tbody tr td:first-child{border-top-left-radius:10px;border-bottom-left-radius:10px}
+    tbody tr td:last-child{border-top-right-radius:10px;border-bottom-right-radius:10px}
+    .kpi{display:flex;gap:14px;align-items:center}
+    .kpi .num{font-size:28px;font-weight:800}
+    .muted{color:var(--sub)}
+    .tag{padding:4px 8px;border-radius:8px;background:#151a24;color:#a9b0bd;font-size:12px}
+    .good{color:var(--good)}.warn{color:var(--warn)}.risk{color:var(--risk)}
+    .footer{color:#a9b0bd;font-size:14px}
+    .divider{height:1px;background:#1c2230;margin:24px 0}
+    .section h2{font-weight:800;margin:10px 0 6px}
+    .mini{font-size:12px;color:#98a0af}
+    .btn{display:inline-block;padding:10px 12px;border-radius:10px;background:linear-gradient(45deg,var(--accent),var(--accent-2));color:white;font-weight:700}
+    .list{margin:.2rem 0 .8rem;padding-left:18px}
+    .list li{margin:.3rem 0}
+    .chart-link{font-weight:700;color:#7dd3fc}
+    .callout{border-left:4px solid var(--accent-2);padding-left:12px;margin:8px 0}
+    .sticky-subnav{position:sticky;top:58px;background:#0b0d12;z-index:40;border-bottom:1px solid #1b1f29;padding:8px 0}
+    .sticky-subnav a{margin-right:10px;font-size:13px;color:#bfc7d8}
+    .sticky-subnav a:hover{color:white}
+    .caption{font-size:12px;color:#9aa3b5}
+    .quote-line{margin-top:6px;font-size:12px;color:#bfc7d8}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap" style="display:flex;justify-content:space-between;align-items:center;gap:16px;">
+      <div class="brand">
+        <div class="badge">SHADOW MONKEY</div>
+        <div>
+          <div style="font-weight:800;font-size:18px">Retirement Account Management Playbook</div>
+          <div class="mini">IRA • Marginable • Futures + Options (L1 active, L2 pending) • Updated Aug 23, 2025</div>
+        </div>
+      </div>
+      <a class="btn" href="#hive-derivative">HIVE EXIT</a>
+    </div>
+  </header>
+    <div class="sticky-subnav">
+      <div class="wrap">
+        <a href="#thesis">Thesis</a>
+        <a href="#allocation">Allocation</a>
+        <a href="#risk">Risk</a>
+        <a href="#ai">AI</a>
+        <a href="#quantum">Quantum</a>
+        <a href="#blockchain">Blockchain</a>
+        <a href="#space">Space</a>
+        <a href="#robotics">Robotics</a>
+        <a href="#printing">3D Printing</a>
+        <a href="#sources">Sources</a>
+      </div>
+    </div>
+
+  
+
+  <main class="wrap">
+    <section id="thesis" class="section">
+      <div class="card">
+        <h2>Core Thesis & HIVE Exit</h2>
+        <p>Build a diversified, high‑convexity portfolio across six secular curves (AI/HPC, Quantum, Blockchain rails, Space exploration, Robotics/Bionics, and Advanced Manufacturing) with disciplined risk governance. We maximize upside through leaders and mid‑caps while containing left‑tail risk via defined‑risk options, staged entries, and mechanical rebalancing.</p>
+        <div class="grid-3">
+          <div class="card"><div class="kpi"><span class="num">6</span> <span class="muted">thematic baskets</span></div><div class="caption">Leaders + mid‑caps + small/spec with caps</div></div>
+          <div class="card"><div class="kpi"><span class="num">$25,000</span> <span class="muted">capital (from HIVE)</span></div><div class="caption">IRA • marginable • futures enabled</div></div>
+          <div class="card"><div class="kpi"><span class="num">3</span> <span class="muted">entry tranches</span></div><div class="caption">40% now • 30% pullback • 30% breakout</div></div>
+        </div>
+        <div class="divider"></div>
+        <!-- HIVE Exit Scenarios moved under Core -->
+        <div class="grid-3">
+          <div class="card">
+            <h4>Scenario A — Full Conversion Now</h4>
+            <ul class="list">
+              <li><b>Action:</b> Sell 100% HIVE via limit/TWAP and deploy to target sleeves immediately (40/30/30 staging).</li>
+              <li><b>Pros:</b> Instant diversification; removes single‑name risk; clean alignment with playbook.</li>
+              <li><b>Torque add (optional):</b> Long <b>MBT</b> micro‑BTC futures (1–2 contracts) to restore crypto beta.</li>
+              <li><b>Risk circuit:</b> MBT per‑contract stop = <b>max(1.5× monthly option income, BTC −5%)</b>; halve size if VIX &gt; 28.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Scenario B — Staged Exit (60/40 Stub)</h4>
+            <ul class="list">
+              <li><b>Action:</b> Sell 60% now; keep 40% HIVE for 60–90 days.</li>
+              <li><b>Income overlay (L1):</b> Monthly covered calls on <b>~20–40%</b> of total shares (Δ≈0.20; 30–45 DTE). Roll at 50–70% profit or T‑21.</li>
+              <li><b>On L2 approval:</b> Convert part of the stub to <b>LEAPS Δ0.70–0.80 (18–24 mo)</b> + short monthly calls Δ0.20–0.30 (diagonal; sell on ~50% of LEAPS).</li>
+              <li><b>Directional ladders:</b> 3/6/9‑mo <b>bull call verticals</b> (buy Δ0.55–0.65 / sell Δ0.20–0.30), budget ≤0.8% each; TP 50–75%; hard stop −60%.</li>
+              <li><b>Wheel later (L2):</b> Sell <b>cash‑secured puts</b> Δ~0.20 at buy‑levels; on assignment, sell covered calls.</li>
+            </ul>
+          </div>
+          <div class="card">
+            <h4>Scenario C — Keep HIVE Heavier with Hedges</h4>
+            <ul class="list">
+              <li><b>Action:</b> Retain 70–100% HIVE; monetize with covered calls and defined‑risk spreads; keep diversified sleeves smaller.</li>
+              <li><b>Protection:</b> Optional <b>collars</b> into earnings or halving events (sell OTM call Δ~0.15 / buy OTM put Δ~0.15 for small net cost).</li>
+              <li><b>Torque:</b> Add 1–2 <b>MBT</b> when BTC &gt; 20‑DMA and fees rising; cut on 20‑DMA break.</li>
+              <li><b>When to choose:</b> Only if you explicitly want lottery‑ticket upside and tolerate deep drawdowns.</li>
+            </ul>
+          </div>
+        </div>
+        <p class="mini">Scenario guide — Choose A for clean transition, B for convexity + income, C for max torque with guardrails. All options subject to IRA permissions (L1: covered calls; L2: spreads/diagonals/CSPs).</p>
+      </div>
+    </section>
+
+    <section id="outlook" class="section">
+      <h2>1 / 5 / 10‑Year Outlook & Projections</h2>
+      <div class="grid-3">
+        <div class="card">
+          <h3>1‑Year (Tactical)</h3>
+          <ul class="list">
+            <li><b>Base:</b> Consolidation with leadership breadth. Aim for portfolio CAGR run‑rate <span class="good">7–12%</span> via leaders & income.</li>
+            <li><b>Risk‑on:</b> AI infra capex & crypto fees expand → tilt into VRT/ANET/AVGO and CLSK/COIN; keep small‑cap options tight.</li>
+            <li><b>Risk‑off:</b> Cut small/spec by 50%, halve futures, widen buy zones 3–5% lower.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>5‑Year (Structural)</h3>
+          <ul class="list">
+            <li><b>Compounding flywheel:</b> Multiple S‑curves (AI, automation, satcom). Target compounded range <span class="good">9–15% CAGR</span> with volatility‑aware adds.</li>
+            <li><b>Rebalance alpha:</b> Quarterly back‑to‑target within sleeves; harvest mean reversion.</li>
+          </ul>
+        </div>
+        <div class="card">
+          <h3>10‑Year (Generational)</h3>
+          <ul class="list">
+            <li><b>Outcome map:</b> Base case <span class="good">~11–15% CAGR</span>; upside tails from quantum commercialization & space operators; downside managed by leader ballast + option income.</li>
+            <li><b>Governance:</b> Review theses & screens annually (non‑arms policy, supplier audits).</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="allocation" class="section">
+      <h2>Allocation Snapshot</h2>
+      <div class="card">
+        <table>
+          <thead>
+            <tr><th>Theme</th><th>Target %</th><th>Target $</th><th>Notes</th></tr>
+          </thead>
+          <tbody>
+            <tr><td><a href="#ai">AI / HPC</a></td><td>30%</td><td>$7,500</td><td>Leaders + cyber; staged entries; income via light overwrites</td></tr>
+            <tr><td><a href="#quantum">Quantum / Computing</a></td><td>20%</td><td>$5,000</td><td>Pure‑plays + picks & shovels (HPHTY)</td></tr>
+<tr><td><a href="#blockchain">Blockchain / Digital Assets</a></td><td>10%</td><td>$2,500</td><td>Operators + miners; manage with BTC regime</td></tr>
+            <tr><td><a href="#space">Space (Non‑Arms)</a></td><td>15%</td><td>$3,750</td><td>Operators/data/launch; ADR liquidity checks</td></tr>
+            <tr><td><a href="#robotics">Bionics / Robotics</a></td><td>15%</td><td>$3,750</td><td>Leaders (ISRG/ABB) + AMBA/TER; OTC FANUY small</td></tr>
+            <tr><td><a href="#printing">3D Printing / Advanced Mfg</a></td><td>10%</td><td>$2,500</td><td>SSYS/PRLB core; small DM/VLD; OTC RNSHF</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section id="risk" class="section">
+      <h2>Risk, Protection & Repair</h2>
+      <div class="grid-3">
+        <div class="card"><h3>Portfolio‑Level</h3>
+          <ul class="list">
+            <li><b>Kill‑switch:</b> If portfolio DD ≥ −20% and VIX > 28 → close small/spec options, halve MBT futures.</li>
+            <li><b>Rebalance:</b> Quarterly, or sleeve drift ±35%.</li>
+            <li><b>Cash buffer:</b> Keep 3–5% to fund rolls and pullbacks.</li>
+          </ul>
+        </div>
+        <div class="card"><h3>Protection</h3>
+          <ul class="list">
+            <li>Leaders: far‑OTM covered calls (Δ 0.10–0.20) for income; protective collars into earnings for COIN.</li>
+            <li>Specs: debit call verticals only; hard stops −30% (−35% for microcaps).</li>
+          </ul>
+        </div>
+        <div class="card"><h3>Repair</h3>
+          <ul class="list">
+            <li>Roll short calls at 50–70% max profit; roll up/out if Δ > 0.35.</li>
+            <li>For losers with intact thesis: add on −5 to −8% pullbacks up to cap; otherwise rotate to sleeve leader.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="tickets" class="section">
+      <h2>Trade Tickets & Buy Conditions</h2>
+      <p class="muted">Staged entries per ticker. Use <b>GTC</b> limits. For OTC ADRs, <b>limit‑only</b>. Values are rule‑based to remain durable.</p>
+      <div class="card">
+        <h3>Ticket Rules</h3>
+        <ul class="list">
+          <li><b>L1:</b> Buy 40% allocation at <b>limit = 0.995 × last</b> (or bid mid for OTC).</li>
+          <li><b>L2:</b> Buy 30% at <b>limit = 0.95 × last</b> (pullback add) if not filled.</li>
+          <li><b>Brk:</b> Buy 30% on breakout with <b>stop = 1.03 × last</b> and <b>limit = 1.035 × last</b>.</li>
+          <li><b>Stops/Trails:</b> per‑ticker rules above; hard stops for specs; leader trails 12–18%.</li>
+        </ul>
+      </div>
+    </section>
+
+    
+    <!-- Basket Sections -->
+    <section id="ai" class="section">
+      <h2>AI / HPC — Leaders & Cyber</h2>
+      <p class="muted">Leaders only (Strong‑Buy skew): AVGO, ANET, VRT, MRVL, DDOG, PANW, CRWD, NET.</p>
+      <div class="grid-4">
+        <div class="card"><h3>AVGO</h3>
+          <div class="company mini">Broadcom Inc.</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-AVGO/" target="_blank">Chart</a> • AI ASIC + Networking</div>
+          <div class="callout">Thesis: Custom AI silicon + networking, hyperscaler backlog, FCF engine.</div>
+          <ul class="list">
+            <li><b>Fundamental:</b> ASIC/design‑win visibility; software cashflow ballast.</li>
+            <li><b>Technical:</b> Accumulate on 50‑DMA tests; breakouts above 20‑day highs.</li>
+            <li><b>Buy plan:</b> 40% now • 30% on −5% pullback • 30% on breakout (+3%).</li>
+            <li><b>Risk:</b> Trim +20%; alert at −15% vs. cost.</li>
+          </ul>
+        </div>
+        <div class="card"><h3>ANET</h3>
+          <div class="company mini">Arista Networks, Inc.</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NYSE-ANET/" target="_blank">Chart</a> • AI Ethernet</div>
+          <div class="callout">Thesis: 400G/800G share gains as AI fabrics scale.</div>
+          <ul class="list"><li><b>Fundamental:</b> Cloud spend cycle; margin quality.</li><li><b>Technical:</b> 10/20‑EMA trend; add on higher lows.</li><li><b>Risk:</b> Trim +25%; trail −15%.</li></ul>
+        </div>
+        <div class="card"><h3>VRT</h3>
+          <div class="company mini">Vertiv Holdings Co</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NYSE-VRT/" target="_blank">Chart</a> • Power/Thermal</div>
+          <div class="callout">Thesis: Power & cooling bottleneck for AI DCs → pricing power.</div>
+          <ul class="list"><li><b>Technical:</b> Accumulate on base retests; avoid earnings week overwrites.</li><li><b>Risk:</b> Trim +25%; alert −15%.</li></ul>
+        </div>
+        <div class="card"><h3>MRVL</h3>
+          <div class="company mini">Marvell Technology, Inc.</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-MRVL/" target="_blank">Chart</a> • Custom AI Silicon</div>
+          <ul class="list"><li><b>Fundamental:</b> Cloud/custom silicon programs; optics/DPU optionality.</li><li><b>Plan:</b> L2 debit call verticals for defined risk.</li><li><b>Risk:</b> Trail −18%.</li></ul>
+        </div>
+        <div class="card"><h3>DDOG</h3>
+          <div class="company mini">Datadog, Inc.</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-DDOG/" target="_blank">Chart</a> • Observability + Sec</div>
+          <ul class="list"><li><b>Fundamental:</b> AI‑driven telemetry, >20% growth vector.</li><li><b>Technical:</b> Buy 21‑EMA retests.</li><li><b>Risk:</b> Tighten on "> 2× ATR" spikes.</li></ul>
+        </div>
+        <div class="card"><h3>PANW</h3>
+          <div class="company mini">Palo Alto Networks, Inc.</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-PANW/" target="_blank">Chart</a> • Cyber Platform</div>
+          <ul class="list"><li><b>Fundamental:</b> Platform consolidation; AI‑assisted SOC.</li><li><b>Plan:</b> Far‑OTM calls for income (Δ≈0.10–0.15).</li></ul>
+        </div>
+        <div class="card"><h3>CRWD</h3>
+          <div class="company mini">CrowdStrike Holdings, Inc.</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-CRWD/" target="_blank">Chart</a> • Endpoint/XDR</div>
+          <ul class="list"><li><b>Fundamental:</b> Falcon platform, AI detections; NRR strength.</li><li><b>Plan:</b> Diagonal (LEAPS + monthly short) on L2 approval.</li></ul>
+        </div>
+        <div class="card"><h3>NET</h3>
+          <div class="company mini">Cloudflare, Inc.</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NYSE-NET/" target="_blank">Chart</a> • Edge Security + AI</div>
+          <ul class="list"><li><b>Fundamental:</b> Unified edge compute + security; AI inference at edge.</li><li><b>Risk:</b> Keep uncapped through product cycles.</li></ul>
+        </div>
+      </div>
+      <div class="card">
+        <h3>AI/HPC — Position Sizing Calculator (Manual Last Close)</h3>
+        <p class="mini">Enter last close prices. Quantities, ticket prices, and deltas compute automatically. Basket totals track against the $7,500 AI target.</p>
+        <div id="calc-ai"></div>
+      </div>
+    </section>
+
+    <section id="quantum" class="section">
+      <h2>Quantum — Anchor + Torque</h2>
+      <p class="muted">Mix of pure‑plays (IONQ, RGTI, QBTS, LAES) and quality picks‑and‑shovels (HPHTY).</p>
+      <div class="grid-4">
+        <div class="card"><h3>IONQ</h3>
+          <div class="company mini">IonQ, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NYSE-IONQ/" target="_blank">Chart</a> • Trapped‑ion QC</div>
+          <ul class="list"><li>Buy: pullbacks to prior base; catalysts: backlog adds.</li><li>Risk: take profits on +50–75% spread gains; trail −25%.</li></ul></div>
+        <div class="card"><h3>RGTI</h3>
+          <div class="company mini">Rigetti Computing, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-RGTI/" target="_blank">Chart</a> • Superconducting QC</div>
+          <ul class="list"><li>Buy: small ladders; treat as lotto with defined risk.</li></ul></div>
+        <div class="card"><h3>QBTS</h3>
+          <div class="company mini">D-Wave Quantum Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NYSE-QBTS/" target="_blank">Chart</a> • Annealing QC</div>
+          <ul class="list"><li>Buy: event‑driven (product/contract prints).</li></ul></div>
+        <div class="card"><h3>LAES</h3>
+          <div class="company mini">SEALSQ Corp</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-LAES/" target="_blank">Chart</a> • PQC chips</div>
+          <ul class="list"><li>Buy: micro size only; stop −30%.</li></ul></div>
+        <div class="card"><h3>HPHTY</h3>
+          <div class="company mini">Hamamatsu Photonics K.K. (ADR)</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/OTC-HPHTY/" target="_blank">Chart</a> • Photon detectors</div>
+          <ul class="list"><li>Buy: limit‑only; ≤1% cap; trim +20%.</li></ul></div>
+      </div>
+      <div class="card">
+        <h3>Quantum — Position Sizing Calculator (Manual Last Close)</h3>
+        <p class="mini">Enter last close prices. Basket target: $5,000.</p>
+        <div id="calc-quantum"></div>
+      </div>
+    </section>
+
+    <section id="blockchain" class="section">
+      <h2>Blockchain / Digital Assets</h2>
+      <p class="muted">Operators + picks & shovels: COIN, HUT, BTBT, CLSK, CIFR, IREN.</p>
+      <div class="grid-4">
+        <div class="card"><h3>COIN</h3>
+          <div class="company mini">Coinbase Global, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-COIN/" target="_blank">Chart</a> • Brokerage/Custody</div>
+          <ul class="list"><li>Buy: trend confirmation with BTC; scale on pullbacks.</li><li>Risk: collars around earnings; trail −20%.</li></ul></div>
+        <div class="card"><h3>CLSK</h3>
+          <div class="company mini">CleanSpark, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-CLSK/" target="_blank">Chart</a> • Efficient miner</div>
+          <ul class="list"><li>Buy: base breakouts; add on hashrate expansions.</li></ul></div>
+        <div class="card"><h3>CIFR</h3>
+          <div class="company mini">Cipher Mining Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-CIFR/" target="_blank">Chart</a> • Miner/HPC pivot</div>
+          <ul class="list"><li>Buy: small; monitor dilution.</li></ul></div>
+        <div class="card"><h3>IREN</h3>
+          <div class="company mini">Iris Energy Limited</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-IREN/" target="_blank">Chart</a> • Operator</div>
+          <ul class="list"><li>Buy: scale on efficiency upgrades.</li></ul></div>
+        <div class="card"><h3>HUT</h3>
+          <div class="company mini">Hut 8 Corp</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-HUT/" target="_blank">Chart</a> • Miner/HPC</div>
+          <ul class="list"><li>Buy: on cycle strength; stop −30%.</li></ul></div>
+        <div class="card"><h3>BTBT</h3>
+          <div class="company mini">Bit Digital, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-BTBT/" target="_blank">Chart</a> • Miner</div>
+          <ul class="list"><li>Buy: micro‑size; define risk via call spreads.</li></ul></div>
+      </div>
+      <div class="card">
+        <h3>Blockchain — Position Sizing Calculator (Manual Last Close)</h3>
+        <p class="mini">Enter last close prices. Basket target: $2,500.</p>
+        <div id="calc-blockchain"></div>
+      </div>
+    </section>
+
+    <section id="space" class="section">
+      <h2>Space Exploration</h2>
+      <p class="muted">Operators/data/launch: RKLB, IRDM, PL, GSAT, ASTS, LUNR, MDASF (OTC).</p>
+      <div class="grid-4">
+        <div class="card"><h3>RKLB</h3>
+          <div class="company mini">Rocket Lab USA, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-RKLB/" target="_blank">Chart</a> • Launch & Systems</div>
+          <ul class="list"><li>Buy: cadence + Neutron milestones; scale on successful flights.</li></ul></div>
+        <div class="card"><h3>IRDM</h3>
+          <div class="company mini">Iridium Communications Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-IRDM/" target="_blank">Chart</a> • Satcom ballast</div>
+          <ul class="list"><li>Buy: pullbacks to 50‑DMA; income via far‑OTM calls.</li></ul></div>
+        <div class="card"><h3>PL</h3>
+          <div class="company mini">Planet Labs PBC</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NYSE-PL/" target="_blank">Chart</a> • Earth data</div>
+          <ul class="list"><li>Buy: on revenue acceleration & retention metrics.</li></ul></div>
+        <div class="card"><h3>GSAT</h3>
+          <div class="company mini">Globalstar, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/AMEX-GSAT/" target="_blank">Chart</a> • Operator optionality</div>
+          <ul class="list"><li>Buy: services scale; watch Apple SOS metrics.</li></ul></div>
+        <div class="card"><h3>ASTS</h3>
+          <div class="company mini">AST SpaceMobile, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-ASTS/" target="_blank">Chart</a> • Direct‑to‑cell</div>
+          <ul class="list"><li>Buy: tiny spec; confirm funding & sat count.</li></ul></div>
+        <div class="card"><h3>LUNR</h3>
+          <div class="company mini">Intuitive Machines, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-LUNR/" target="_blank">Chart</a> • Lunar spec</div>
+          <ul class="list"><li>Buy: event‑driven; cap ≤1%.</li></ul></div>
+   <div class="card"><h3>MDALF</h3>
+          <div class="company mini">MDA Ltd.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/OTC-MDALF/" target="_blank">Chart</a> • Space robotics (OTC)</div>
+          <ul class="list"><li>Buy: limit‑only; ≤1% cap.</li></ul></div>
+      </div>
+      <div class="card">
+        <h3>Space — Position Sizing Calculator (Manual Last Close)</h3>
+        <p class="mini">Enter last close prices. Basket target: $3,750.</p>
+        <div id="calc-space"></div>
+      </div>
+    </section>
+
+    <section id="robotics" class="section">
+      <h2>Bionics / Robotics & Automation</h2>
+      <p class="muted">ISRG, ABB, FANUY (OTC), TER, AMBA, EKSO.</p>
+      <div class="grid-4">
+        <div class="card"><h3>ISRG</h3>
+          <div class="company mini">Intuitive Surgical, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-ISRG/" target="_blank">Chart</a> • Surgical robotics</div>
+          <ul class="list"><li>Buy: pullbacks; procedure growth.</li></ul></div>
+        <div class="card"><h3>ABB</h3>
+          <div class="company mini">ABB Ltd</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NYSE-ABB/" target="_blank">Chart</a> • Industrial robots</div>
+          <ul class="list"><li>Buy: dips; factory‑automation capex.</li></ul></div>
+        <div class="card"><h3>FANUY</h3>
+          <div class="company mini">FANUC Corporation (ADR)</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/OTC-FANUY/" target="_blank">Chart</a> • Robot leader (OTC)</div>
+          <ul class="list"><li>Buy: limit‑only; ≤1% cap.</li></ul></div>
+        <div class="card"><h3>TER</h3>
+          <div class="company mini">Teradyne, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-TER/" target="_blank">Chart</a> • Semi test + cobots</div>
+          <ul class="list"><li>Buy: cycle leverage; add on pullbacks.</li></ul></div>
+        <div class="card"><h3>AMBA</h3>
+          <div class="company mini">Ambarella, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-AMBA/" target="_blank">Chart</a> • Edge‑AI vision</div>
+          <ul class="list"><li>Buy: defined‑risk spreads; stop −22%.</li></ul></div>
+        <div class="card"><h3>EKSO</h3>
+          <div class="company mini">Ekso Bionics Holdings, Inc.</div><div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-EKSO/" target="_blank">Chart</a> • Exoskeletons</div>
+          <ul class="list"><li>Buy: tiny; reimbursement unlock.</li></ul></div>
+      </div>
+      <div class="card">
+        <h3>Robotics — Position Sizing Calculator (Manual Last Close)</h3>
+        <p class="mini">Enter last close prices. Basket target: $3,750.</p>
+        <div id="calc-robotics"></div>
+      </div>
+    </section>
+
+    <section id="printing" class="section">
+      <h2>3D Printing / Advanced Manufacturing</h2>
+      <p class="muted">SSYS, PRLB, DDD, XMTR, RNSHF (OTC), MTLS, VLD.</p>
+      <div class="grid-4">
+        <div class="card"><h3>SSYS</h3>
+          <div class="company mini">Stratasys Ltd.</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-SSYS/" target="_blank">Chart</a> • Platform leader</div>
+          <ul class="list"><li><b>Fundamental:</b> Margin discipline; consolidation optionality.</li><li><b>Plan:</b> Equity core; light covered calls.</li><li><b>Risk:</b> Trail −15%.</li></ul>
+        </div>
+        <div class="card"><h3>PRLB</h3>
+          <div class="company mini">Proto Labs, Inc.</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NYSE-PRLB/" target="_blank">Chart</a> • Digital manufacturing</div>
+          <ul class="list"><li><b>Fundamental:</b> Ops improvement; onshoring tailwinds.</li><li><b>Technical:</b> Trend on beats.</li><li><b>Risk:</b> Trail −15%.</li></ul>
+        </div>
+        <div class="card"><h3>DDD</h3>
+          <div class="company mini">3D Systems Corporation</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NYSE-DDD/" target="_blank">Chart</a> • Turnaround</div>
+          <ul class="list"><li><b>Plan:</b> Defined‑risk spreads.</li><li><b>Risk:</b> Hard stop −25%.</li></ul>
+        </div>
+        <div class="card"><h3>XMTR</h3>
+          <div class="company mini">Xometry, Inc.</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-XMTR/" target="_blank">Chart</a> • Marketplace</div>
+          <ul class="list"><li><b>Fundamental:</b> Take‑rate & GM expansion.</li><li><b>Risk:</b> Hard stop −22%.</li></ul>
+        </div>
+        <div class="card"><h3>RNSHF</h3>
+          <div class="company mini">Renishaw plc (ADR)</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/OTC-RNSHF/" target="_blank">Chart</a> • Metrology/Metal AM (OTC)</div>
+          <ul class="list"><li><b>Plan:</b> Limit‑only; ≤1% cap.</li><li><b>Risk:</b> Trail −15%; FX/liquidity.</li></ul>
+        </div>
+        <div class="card"><h3>MTLS</h3>
+          <div class="company mini">Materialise NV</div>
+          <div class="company mini">Desktop Metal, Inc.</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NASDAQ-MTLS/" target="_blank">Chart</a> • AM software platform (Materialise)</div>
+          <ul class="list"><li><b>Plan:</b> Lotto call spreads tiny.</li><li><b>Risk:</b> Hard stop −35%.</li></ul>
+        </div>
+        <div class="card"><h3>VLD</h3>
+          <div class="company mini">Velo3D, Inc.</div>
+          <div class="mini"><a class="chart-link" href="https://www.tradingview.com/symbols/NYSE-VLD/" target="_blank">Chart</a> • Metal AM torque</div>
+          <ul class="list"><li><b>Plan:</b> Tiny; event‑driven adds.</li><li><b>Risk:</b> Hard stop −35%.</li></ul>
+        </div>
+      </div>
+      <div class="card">
+        <h3>3D Printing — Position Sizing Calculator (Manual Last Close)</h3>
+        <p class="mini">Enter last close prices. Basket target: $2,500.</p>
+        <div id="calc-printing"></div>
+      </div>
+    </section>
+
+<section id="hive-derivative" class="section">
+      <h2>HIVE — Exit, Options & Futures</h2>
+      <div class="divider"></div>
+      <div class="card">
+        <h3>HIVE Exit Calculator</h3>
+        <p class="mini">Enter <b>Last Price</b>, then input <b>Qty</b> and <b>Price</b> for each ticket. Value and rule checks update live. Rules: <b>Sell ≥ 0.99×Last</b> • <b>Stop ≈ 0.92×Last</b>.</p>
+        <div class="grid-3">
+          <div class="card">
+            <label class="mini">Last Price</label>
+            <input id="hive-last" type="number" step="0.01" placeholder="0.00" style="width:100%;background:#0b0f16;border:1px solid #1b2131;color:#e6e9ef;border-radius:8px;padding:8px"/>
+            <div class="mini" style="margin-top:6px">Guideline thresholds compute from this value.</div>
+          </div>
+        </div>
+        <table id="hive-exit-table">
+          <thead>
+            <tr>
+              <th>Action</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Value</th>
+              <th>Rule Check</th>
+              <th>Type</th>
+              <th>TIF</th>
+              <th>Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr data-action="sell-full">
+              <td>Sell HIVE (full)</td>
+              <td><input class="qty" type="number" step="1" min="0" placeholder="0" style="width:100%;background:#0b0f16;border:1px solid #1b2131;color:#e6e9ef;border-radius:8px;padding:6px"/></td>
+              <td><input class="px" type="number" step="0.01" min="0" placeholder="0.00" style="width:100%;background:#0b0f16;border:1px solid #1b2131;color:#e6e9ef;border-radius:8px;padding:6px"/></td>
+              <td class="val">—</td>
+              <td class="rule">—</td>
+              <td>Limit</td>
+              <td>Day</td>
+              <td>Prefer TWAP participation; avoid market orders</td>
+            </tr>
+            <tr data-action="stop-residual">
+              <td>Residual protective stop</td>
+              <td><input class="qty" type="number" step="1" min="0" placeholder="0" style="width:100%;background:#0b0f16;border:1px solid #1b2131;color:#e6e9ef;border-radius:8px;padding:6px"/></td>
+              <td><input class="px" type="number" step="0.01" min="0" placeholder="0.00" style="width:100%;background:#0b0f16;border:1px solid #1b2131;color:#e6e9ef;border-radius:8px;padding:6px"/></td>
+              <td class="val">—</td>
+              <td class="rule">—</td>
+              <td>Stop</td>
+              <td>GTC</td>
+              <td>Only if full exit not filled</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="card">
+        <h3>HIVE Options — Income, Protection & Torque</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Strategy</th>
+              <th>Setup</th>
+              <th>When to Use</th>
+              <th>Manage / Repair</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Covered Calls (L1)</td>
+              <td>30–45 DTE • Δ 0.15–0.25 • Cover 20–40% of shares</td>
+              <td>Range‑bound to up; IV percentile ≥ 50</td>
+              <td>Take 50–70% profit or roll at T‑21; if Δ &gt; 0.35 or strike breached, roll up &amp; out 1 month for credit</td>
+            </tr>
+            <tr>
+              <td>Diagonal (“Poor‑man’s CC”, L2)</td>
+              <td>Buy LEAPS 18–24 mo Δ 0.70–0.80; sell 30–45 DTE calls Δ 0.20–0.30 on ~50% of LEAPS</td>
+              <td>Capital‑efficient replacement for shares; want income + upside</td>
+              <td>Roll shorts at 50–70% profit; if short Δ &gt; 0.35 → roll up/out. Close/roll LEAPS when &lt; 9 mo remain or theta dominates</td>
+            </tr>
+            <tr>
+              <td>Bull Call Verticals (L2)</td>
+              <td>3/6/9‑mo ladders; buy Δ 0.55–0.65 / sell Δ 0.20–0.30; budget ≤ 0.8% each</td>
+              <td>Directional bet with defined risk</td>
+              <td>TP 50–75%; hard stop −60% of premium</td>
+            </tr>
+            <tr>
+              <td>Cash‑Secured Puts (L2)</td>
+              <td>30–45 DTE • Δ ~0.20–0.25 at buy‑levels you want</td>
+              <td>Acquire on dips; start wheel</td>
+              <td>Take 65–75% profit or roll at T‑10; on assignment, sell covered calls</td>
+            </tr>
+            <tr>
+              <td>Protective Collar (L2)</td>
+              <td>Sell OTM call Δ ~0.15; buy OTM put Δ ~0.15 (net small cost)</td>
+              <td>Earnings/halving events or elevated risk</td>
+              <td>Unwind post‑event; roll legs separately to maintain credit</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="mini">IRA permissions: Level‑1 = covered calls; Level‑2 required for CSPs, verticals, diagonals, collars. Use defined‑risk only for small caps.</p>
+      </div>
+
+      <div class="card">
+        <h3>BTC Futures Overlay — MBT (Micro Bitcoin)</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>Contract</th>
+              <th>Base Size</th>
+              <th>Entry Triggers</th>
+              <th>Risk Controls</th>
+              <th>Scaling</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>MBT (0.1 BTC)</td>
+              <td>1–2 contracts per $25k portfolio</td>
+              <td>BTC &gt; 20‑DMA and network fees rising; avoid opening just before FOMC/CPI/halving</td>
+              <td>Per‑contract stop = max(1.5× monthly option income, −5% BTC); reduce by 50% into parabolic extensions; re‑add on 8–12% pullbacks</td>
+              <td>Add +1 on confirmed breakout; cut −1 on 20‑DMA breakdown</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="mini">Futures in IRA: follow broker margin rules; maintain cash buffer for variation margin. No overnight holds if risk budget breached.</p>
+      </div>
+    </section>
+
+    
+
+    
+
+    <section id="sources" class="section footer">
+      <h2>Research Sources</h2>
+      <p class="mini">Primary references (company filings, platforms, and reputable financial data). Always cross‑check latest filings before execution.</p>
+      <ul class="list">
+        <li>Company Investor Relations (selected): AVGO, ANET, VRT, MRVL, DDOG, PANW, CRWD, NET, IONQ, RGTI, QBTS, LAES, COIN, CLSK, CIFR, IREN, HUT, BTBT, RKLB, IRDM, PL, GSAT, ASTS, LUNR, ISRG, ABB, TER, AMBA, EKSO, SSYS, PRLB, DDD, XMTR, DM, VLD, Hamamatsu (HPHTY), Renishaw (RNSHF), MDA (MDASF), Fanuc (FANUY).</li>
+        <li>Charts & Quotes: <a href="https://www.tradingview.com/" target="_blank">TradingView</a>, <a href="https://finance.yahoo.com/" target="_blank">Yahoo Finance</a>.</li>
+        <li>Filings: <a href="https://www.sec.gov/edgar/searchedgar/companysearch.html" target="_blank">SEC EDGAR</a>, <a href="https://www.sedarplus.ca/" target="_blank">SEDAR+</a>, <a href="https://www.londonstockexchange.com/" target="_blank">LSE</a>.</li>
+        <li>Consensus snapshots (check latest): MarketBeat, TipRanks, FactSet/Refinitiv (via broker), Yahoo Finance “Analysis” tabs.</li>
+      </ul>
+      <p class="mini">This playbook is an execution framework, not investment advice. Portfolio complies with the current non‑arms directive; revisit annually.</p>
+    
+  </main>
+<script>
+// ===== Slim JS: calculators + lazy per‑ticker details (no external data) =====
+const BASKETS={ai:{target:7500,rows:[{t:'AVGO',target:1500},{t:'ANET',target:1000},{t:'VRT',target:1000},{t:'MRVL',target:900},{t:'PANW',target:900},{t:'CRWD',target:900},{t:'DDOG',target:650},{t:'NET',target:650}]},quantum:{target:5000,rows:[
+  {t:'IONQ',target:1667},
+  {t:'RGTI',target:1042},
+  {t:'QBTS',target:1042},
+  {t:'HPHTY',target:833},
+  {t:'LAES',target:416}
+]},
+blockchain:{target:2500,rows:[
+  {t:'COIN',target:833},
+  {t:'HUT',target:417},
+  {t:'BTBT',target:278},
+  {t:'CLSK',target:417},
+  {t:'CIFR',target:278},
+  {t:'IREN',target:277}
+]},
+space:{target:3750,rows:[{t:'RKLB',target:1125},{t:'IRDM',target:1000},{t:'PL',target:625},{t:'GSAT',target:375},{t:'ASTS',target:250},{t:'LUNR',target:250},{t:'MDALF', target:125}]},robotics:{target:3750,rows:[{t:'ISRG',target:1000},{t:'ABB',target:750},{t:'FANUY',target:625},{t:'TER',target:750},{t:'AMBA',target:500},{t:'EKSO',target:125}]},printing:{target:2500,rows:[{t:'SSYS',target:600},{t:'PRLB',target:600},{t:'DDD',target:400},{t:'XMTR',target:300},{t:'RNSHF',target:250},{t:'MTLS', target:200},{t:'VLD',target:150}]}};
+const RISK={AVGO:{kind:'trail',low:.12,high:.15},ANET:{kind:'trail',low:.12,high:.15},VRT:{kind:'trail',low:.12,high:.15},MRVL:{kind:'trail',low:.15,high:.18},PANW:{kind:'trail',low:.12,high:.15},CRWD:{kind:'trail',low:.15,high:.18},DDOG:{kind:'trail',low:.15,high:.18},NET:{kind:'trail',low:.12,high:.15},IONQ:{kind:'trail',low:.25,high:.25},RGTI:{kind:'hard',hard:.30},QBTS:{kind:'hard',hard:.30},LAES:{kind:'hard',hard:.30},HPHTY:{kind:'trail',low:.12,high:.15},COIN:{kind:'trail',low:.20,high:.20},HUT:{kind:'hard',hard:.30},BTBT:{kind:'hard',hard:.35},CLSK:{kind:'trail',low:.22,high:.22},CIFR:{kind:'hard',hard:.30},IREN:{kind:'hard',hard:.30},RKLB:{kind:'trail',low:.20,high:.20},IRDM:{kind:'trail',low:.12,high:.12},PL:{kind:'hard',hard:.25},GSAT:{kind:'hard',hard:.30},ASTS:{kind:'hard',hard:.35},LUNR:{kind:'hard',hard:.35},MDASF:{kind:'hard',hard:.25},ISRG:{kind:'trail',low:.12,high:.12},ABB:{kind:'trail',low:.12,high:.12},FANUY:{kind:'trail',low:.15,high:.15},TER:{kind:'trail',low:.15,high:.15},AMBA:{kind:'hard',hard:.22},EKSO:{kind:'hard',hard:.35},SSYS:{kind:'trail',low:.15,high:.15},PRLB:{kind:'trail',low:.15,high:.15},DDD:{kind:'hard',hard:.25},XMTR:{kind:'hard',hard:.22},RNSHF:{kind:'trail',low:.15,high:.15},MTLS:{kind:'trail',low:.15,high:.15},VLD:{kind:'hard',hard:.35}};
+// Tiny per‑ticker map (thesis/fund/tech/plan/risk)
+const CD={
+AVGO:{th:'AI ASIC+net; FCF engine',fu:'design wins, SW cash',te:'20/50D buybacks',pl:'40/30/30; light CC',ri:'trail 12–15; capex risk'},
+ANET:{th:'AI Ethernet share gains',fu:'cloud spend, margins',te:'HL above 20/50',pl:'stage adds',ri:'trail 12–15; pushouts'},
+VRT:{th:'Power/thermal bottleneck',fu:'backlog, services',te:'base→BO behavior',pl:'stage; light CC',ri:'trail 12–15'},
+MRVL:{th:'Custom AI silicon',fu:'optics/DPU; programs',te:'range build',pl:'debit call spreads+eq',ri:'trail 15–18; timing'},
+DDOG:{th:'AI obs+sec re‑rate',fu:'>20% growth, NRR',te:'21EMA retests',pl:'stage; minimal CC',ri:'trail 15–18; cloud opt'},
+PANW:{th:'Platform cyber, AI SOC',fu:'billings mix',te:'tight base BO',pl:'light CC Δ.10–.15',ri:'trail 12–15; cycles'},
+CRWD:{th:'Endpoint/XDR leader',fu:'modules, NRR',te:'rising channel',pl:'diagonals L2; eq',ri:'trail 15–18; pricing'},
+NET:{th:'Edge sec+compute',fu:'dev attach',te:'50DMA trend',pl:'uncapped',ri:'trail 12–15; decel'},
+IONQ:{th:'Trapped‑ion leader',fu:'backlog, partners',te:'volatile uptrend',pl:'eq+call spreads',ri:'trail ~25; milestones'},
+RGTI:{th:'Superconducting QC',fu:'capacity, deals',te:'event spikes',pl:'small spreads',ri:'hard 30; funding'},
+QBTS:{th:'Annealing niche',fu:'pilots, grants',te:'range trade',pl:'defined risk',ri:'hard 30; liquidity'},
+LAES:{th:'PQC chips',fu:'early; regs tailwind',te:'low float',pl:'tiny pos',ri:'hard 30–35; dilution'},
+HPHTY:{th:'Photon det/QKD picks',fu:'diversified',te:'steady ADR',pl:'limit‑only ≤1%',ri:'trail 12–15; FX'},
+COIN:{th:'Fee/custody leverage',fu:'AUC, products',te:'tracks BTC',pl:'collars near ER',ri:'trail ~20; regs'},
+HUT:{th:'Miner/HPC torque',fu:'energy cost',te:'high beta',pl:'small eq/spreads',ri:'hard 30; dilution'},
+BTBT:{th:'High beta miner',fu:'small scale',te:'spike‑fade',pl:'call spreads',ri:'hard 35; dilution'},
+CLSK:{th:'Efficient miner',fu:'buildouts',te:'group leader',pl:'eq + light CC',ri:'trail ~22; hash/px'},
+CIFR:{th:'Miner→HPC pivot',fu:'capacity',te:'BTC beta',pl:'small; watch ATM',ri:'hard 30'},
+IREN:{th:'Scaled operator',fu:'power deals',te:'BTC beta',pl:'small adds',ri:'hard 30'},
+RKLB:{th:'Launch + Neutron opt',fu:'cadence/backlog',te:'BO on flights',pl:'eq scale',ri:'trail ~20; launch'},
+IRDM:{th:'Resilient satcom',fu:'services CF',te:'above 50DMA',pl:'eq + light CC',ri:'trail ~12; churn'},
+PL:{th:'Earth data ARR',fu:'retention',te:'base→BO',pl:'small adds',ri:'hard 25; sales'},
+GSAT:{th:'Operator optionality',fu:'services scale',te:'range',pl:'modest eq',ri:'hard 30'},
+ASTS:{th:'D2Cell moonshot',fu:'funding path',te:'event gaps',pl:'tiny lotto',ri:'hard 35'},
+LUNR:{th:'Lunar logistics',fu:'contracts',te:'event‑led',pl:'tiny spreads',ri:'hard 35'},
+MDASF:{th:'Space robotics',fu:'govt/commercial',te:'OTC steady',pl:'limit‑only ≤1%',ri:'hard 25; FX'},
+ISRG:{th:'Surgical robo leader',fu:'procedures',te:'pullback buys',pl:'eq + CC',ri:'trail ~12'},
+ABB:{th:'Industrial automation',fu:'capex cycle',te:'steady trend',pl:'eq + CC',ri:'trail ~12'},
+FANUY:{th:'Robot leader',fu:'auto/EV',te:'OTC trend',pl:'limit‑only ≤1%',ri:'trail 15; FX'},
+TER:{th:'Semi test + UR',fu:'AI semi cycle',te:'buy dips',pl:'eq + CC',ri:'trail 15'},
+AMBA:{th:'Edge‑AI vision',fu:'design wins',te:'base BO',pl:'call spreads',ri:'hard 22'},
+EKSO:{th:'Exoskeletons',fu:'reimbursement',te:'volatile',pl:'tiny pos',ri:'hard 35'},
+SSYS:{th:'Platform leader',fu:'margin focus',te:'consolidation',pl:'eq + CC',ri:'trail 15'},
+PRLB:{th:'Digital mfg',fu:'ops improve',te:'trend on beats',pl:'eq + CC',ri:'trail 15'},
+DDD:{th:'Turnaround',fu:'restructure',te:'range',pl:'defined risk',ri:'hard 25'},
+XMTR:{th:'Marketplace',fu:'GM expand',te:'BO on guide',pl:'small',ri:'hard 22'},
+RNSHF:{th:'Metrology/metal AM',fu:'high margin',te:'OTC steady',pl:'limit‑only ≤1%',ri:'trail 15'},
+MTLS:{th:'AM software platform',fu:'recurring SW+svc',te:'trend on beats',pl:'eq core; light CC',ri:'trail 15'},
+VLD:{th:'Metal AM torque',fu:'orders vs funds',te:'event‑led',pl:'tiny',ri:'hard 35'} };
+
+function el(t,a={},h=''){const e=document.createElement(t);for(const k in a){k==='class'?e.className=a[k]:e.setAttribute(k,a[k])}e.innerHTML=h;return e}
+function fmt(n){return isFinite(n)?n.toFixed(2):'—'}
+
+function buildTable(key){const cfg=BASKETS[key],wrap=document.getElementById('calc-'+key);if(!wrap)return;const table=el('table'),thead=el('thead'),tbody=el('tbody'),tfoot=el('tfoot');thead.innerHTML=`<tr><th>Ticker</th><th>Target $</th><th>Last Close</th><th>L1 Qty</th><th>L1 Limit</th><th>L2 Qty</th><th>L2 Limit</th><th>Brk Qty</th><th>Brk Stop</th><th>Brk Limit</th><th>Stop/Trail Low</th><th>Stop/Trail High/Hard</th><th>Planned Spend</th><th>Δ vs Target</th></tr>`;const rows=[];cfg.rows.forEach(r=>{const tr=el('tr');const last=el('input',{type:'number',step:'0.01',placeholder:'0.00',style:'width:100%;background:#0b0f16;border:1px solid #1b2131;color:#e6e9ef;border-radius:8px;padding:6px'});const l1q=el('td'),l1p=el('td'),l2q=el('td'),l2p=el('td'),bq=el('td'),bs=el('td'),bl=el('td'),stL=el('td'),stH=el('td'),sp=el('td'),dl=el('td');function recalc(){const x=parseFloat(last.value);if(!isFinite(x)||x<=0){[l1q,l1p,l2q,l2p,bq,bs,bl,stL,stH,sp,dl].forEach(td=>td.textContent='—');upd();return}const q1=Math.floor(.4*r.target/x),q2=Math.floor(.3*r.target/x),qb=Math.floor(.3*r.target/x);const p1=x*.995,p2=x*.95,bsP=x*1.03,blP=x*1.035;const plan=q1*p1+q2*p2+qb*blP;const d=r.target-plan;l1q.textContent=q1;l1p.textContent='$'+fmt(p1);l2q.textContent=q2;l2p.textContent='$'+fmt(p2);bq.textContent=qb;bs.textContent='$'+fmt(bsP);bl.textContent='$'+fmt(blP);const rk=RISK[r.t]||{kind:'trail',low:.12,high:.18};let lo,hi;if(rk.kind==='trail'){lo=x*(1-(rk.low??.12));hi=x*(1-(rk.high??rk.low??.18))}else{lo=hi=x*(1-(rk.hard??.30))}stL.textContent='$'+fmt(lo);stH.textContent='$'+fmt(hi);sp.textContent='$'+fmt(plan);dl.innerHTML=d>=0?`<span class="good">$${fmt(d)}</span>`:`<span class="risk">$${fmt(d)}</span>`;tr.dataset.plan=plan;tr.dataset.target=r.target;upd()}last.addEventListener('input',recalc);tr.appendChild(el('td',{},`<b>${r.t}</b>`));tr.appendChild(el('td',{},'$'+r.target.toFixed(0)));const tdL=el('td');tdL.appendChild(last);tr.appendChild(tdL);tr.appendChild(l1q);tr.appendChild(l1p);tr.appendChild(l2q);tr.appendChild(l2p);tr.appendChild(bq);tr.appendChild(bs);tr.appendChild(bl);tr.appendChild(stL);tr.appendChild(stH);tr.appendChild(sp);tr.appendChild(dl);tbody.appendChild(tr);rows.push(tr)});const tot=el('tr');tot.innerHTML=`<td><b>Basket Totals</b></td><td>$${cfg.target.toFixed(0)}</td><td></td><td colspan="8"></td><td id="tot-spend-${key}">—</td><td id="tot-delta-${key}">—</td>`;tfoot.appendChild(tot);function upd(){const planned=rows.reduce((s,r)=>s+(parseFloat(r.dataset.plan)||0),0),d=cfg.target-planned;document.getElementById(`tot-spend-${key}`).textContent=planned?('$'+fmt(planned)):'—';document.getElementById(`tot-delta-${key}`).innerHTML=planned?(d>=0?`<span class="good">$${fmt(d)}</span>`:`<span class="risk">$${fmt(d)}</span>`):'—'}wrap.innerHTML='';table.appendChild(thead);table.appendChild(tbody);table.appendChild(tfoot);wrap.appendChild(table)}
+['ai','quantum','blockchain','space','robotics','printing'].forEach(buildTable);
+
+// Lazy inject per‑ticker card details to keep DOM light
+function injectCard(card,sym){
+  const d=CD[sym]; if(!d) return;
+  const mini=card.querySelector('.mini');
+  // Ensure callout exists UNDER the chart-link row; do NOT overwrite existing text
+  let c=card.querySelector('.callout');
+  if(!c){
+    c=document.createElement('div'); c.className='callout'; c.textContent='Thesis: '+d.th;
+    if(mini) mini.after(c); else card.insertBefore(c, card.firstChild);
+  } else {
+    if(mini && c.previousElementSibling!==mini){ mini.after(c); }
+    // leave existing callout text intact
+  }
+  // Ensure the fundamentals list exists; only ADD missing items, never overwrite
+  let ul=card.querySelector('ul.list'); if(!ul){ ul=document.createElement('ul'); ul.className='list'; card.appendChild(ul); }
+  function has(label){ return Array.from(ul.children).some(li=>li.textContent.trim().toLowerCase().startsWith(label.toLowerCase()+':')); }
+  function add(label,text){ const li=document.createElement('li'); li.innerHTML=`<b>${label}:</b> ${text}`; ul.appendChild(li); }
+  if(d.fu && !has('Fundamental')) add('Fundamental', d.fu);
+  if(d.te && !has('Technical'))   add('Technical',   d.te);
+  if(d.pl && !has('Plan'))         add('Plan',         d.pl);
+  if(d.ri && !has('Risk'))         add('Risk',         d.ri);
+}
+function placeCallouts(){
+  document.querySelectorAll('.section .card').forEach(card=>{
+    const mini=card.querySelector('.mini'); const c=card.querySelector('.callout');
+    if(mini && c && c.previousElementSibling!==mini){ mini.after(c); }
+  });
+}
+function lazyInject(){
+  const ids=['ai','quantum','blockchain','space','robotics','printing'];
+  const io=new IntersectionObserver(es=>{
+    es.forEach(e=>{ if(e.isIntersecting){ const s=e.target; if(s.dataset.init) return; s.dataset.init=1; s.querySelectorAll('.grid-4 .card').forEach(card=>{ const sym=(card.querySelector('h3')?.textContent||'').trim().toUpperCase(); injectCard(card,sym); }); placeCallouts(); } });
+  },{threshold:.15});
+  ids.forEach(id=>{ const s=document.getElementById(id); if(s) io.observe(s); });
+}
+function initOnce(){ placeCallouts(); }
+initOnce();
+function lazyInject(){const ids=['ai','quantum','blockchain','space','robotics','printing'];const io=new IntersectionObserver(es=>{es.forEach(e=>{if(e.isIntersecting){const s=e.target;if(s.dataset.init)return;s.dataset.init=1;s.querySelectorAll('.grid-4 .card').forEach(card=>{const sym=(card.querySelector('h3')?.textContent||'').trim().toUpperCase();injectCard(card,sym)})}})},{threshold:.15});ids.forEach(id=>{const s=document.getElementById(id);if(s)io.observe(s)})}
+lazyInject();
+// ---- HIVE Exit Calculator Logic ----
+(function(){
+  const last = document.getElementById('hive-last');
+  const tbl  = document.getElementById('hive-exit-table');
+  if(!last || !tbl) return;
+  function fmt(n){ return isFinite(n)? n.toFixed(2) : '—'; }
+  function update(){
+    const L = parseFloat(last.value);
+    tbl.querySelectorAll('tbody tr').forEach(tr=>{
+      const qtyEl = tr.querySelector('.qty');
+      const pxEl  = tr.querySelector('.px');
+      const valEl = tr.querySelector('.val');
+      const ruleEl= tr.querySelector('.rule');
+      const q = parseFloat(qtyEl && qtyEl.value);
+      const p = parseFloat(pxEl && pxEl.value);
+      const v = (isFinite(q) && isFinite(p)) ? q*p : NaN;
+      valEl.textContent = isFinite(v)? ('$'+fmt(v)) : '—';
+      let msg = '—';
+      if(isFinite(L) && isFinite(p)){
+        if(tr.dataset.action==='sell-full'){
+          const minPx = 0.99*L;
+          msg = p >= minPx ? 'OK ✓ (≥ 0.99×Last)' : `Below rule (need ≥ $${fmt(minPx)})`;
+        } else if(tr.dataset.action==='stop-residual'){
+          const tgt = 0.92*L;
+          const dev = Math.abs(p - tgt)/L; // within ~1% of Last
+          msg = dev <= 0.01 ? 'OK ✓ (~0.92×Last)' : `Off rule (≈ $${fmt(tgt)})`;
+        }
+      }
+      ruleEl.innerHTML = msg.startsWith('OK') ? `<span class="good">${msg}</span>` : (msg==='—' ? '—' : `<span class="warn">${msg}</span>`);
+    });
+  }
+  tbl.addEventListener('input', update);
+  last.addEventListener('input', update);
+  update();
+})();
+// ---- Hover preview for .chart-link anchors (TV for listed, tip for OTC/Yahoo) ----
+(function(){
+  const W=380,H=220,PAD=16;
+  const hover=document.createElement('div');
+  hover.id='tv-hover';
+  Object.assign(hover.style,{position:'fixed',width:W+'px',height:H+'px',background:'#0f131b',border:'1px solid #1b2131',borderRadius:'12px',boxShadow:'0 10px 30px rgba(0,0,0,.35)',zIndex:9999,display:'none',overflow:'hidden',pointerEvents:'none',color:'#e6e9ef',padding:'0'});
+  document.body.appendChild(hover);
+  let hideTimer=null;
+  const MAP={
+    AVGO:'NASDAQ:AVGO',ANET:'NYSE:ANET',VRT:'NYSE:VRT',MRVL:'NASDAQ:MRVL',DDOG:'NASDAQ:DDOG',PANW:'NASDAQ:PANW',CRWD:'NASDAQ:CRWD',NET:'NYSE:NET',
+    IONQ:'NYSE:IONQ',RGTI:'NASDAQ:RGTI',QBTS:'NYSE:QBTS',LAES:'NASDAQ:LAES',HPHTY:'OTC:HPHTY', // OTC → Yahoo link only
+    COIN:'NASDAQ:COIN',CLSK:'NASDAQ:CLSK',CIFR:'NASDAQ:CIFR',IREN:'NASDAQ:IREN',HUT:'NASDAQ:HUT',BTBT:'NASDAQ:BTBT',
+    RKLB:'NASDAQ:RKLB',IRDM:'NASDAQ:IRDM',PL:'NYSE:PL',GSAT:'AMEX:GSAT',ASTS:'NASDAQ:ASTS',LUNR:'NASDAQ:LUNR',MDASF:'OTC:MDASF', // OTC
+    ISRG:'NASDAQ:ISRG',ABB:'NYSE:ABB',FANUY:'OTC:FANUY', // OTC
+    TER:'NASDAQ:TER',AMBA:'NASDAQ:AMBA',EKSO:'NASDAQ:EKSO',
+    SSYS:'NASDAQ:SSYS',PRLB:'NYSE:PRLB',DDD:'NYSE:DDD',XMTR:'NASDAQ:XMTR',RNSHF:'OTC:RNSHF', // OTC
+    MTLS:'NASDAQ:MTLS',VLD:'NYSE:VLD'
+  };
+  function parseFromHref(href){
+    try{const m=href.match(/\/symbols\/([A-Z]+)-([A-Z.]+)/i);if(m)return m[1].toUpperCase()+':'+m[2].toUpperCase();}catch(e){}
+    return null;
+  }
+  function getTvSymbol(a){
+    // If this is a Yahoo Finance link (OTC), do not embed TV
+    if(/finance\.yahoo\.com\/quote\//i.test(a.href)) return null;
+    const byHref=parseFromHref(a.href); if(byHref) return byHref;
+    const t=(a.closest('.card')?.querySelector('h3')?.textContent||'').trim().toUpperCase();
+    return MAP[t]||null;
+  }
+  function position(x,y){ let left=x+PAD,top=y+PAD; if(left+W>window.innerWidth) left=x-W-PAD; if(top+H>window.innerHeight) top=y-H-PAD; hover.style.left=left+'px'; hover.style.top=top+'px'; }
+  function showTv(sym,x,y){ if(!sym) return; hover.innerHTML=`<iframe src="https://s.tradingview.com/widgetembed/?symbol=${encodeURIComponent(sym)}&interval=D&hidesidetoolbar=1&hidelegend=1&symboledit=0&hideideas=1&theme=dark&style=1&saveimage=0&calendar=0&news=0" width="${W}" height="${H}" frameborder="0"></iframe>`; position(x,y); hover.style.display='block'; }
+  function showTip(text,x,y){ hover.innerHTML=`<div style="padding:12px;font-size:12px;line-height:1.4">${text}</div>`; position(x,y); hover.style.display='block'; }
+  function hide(){ hover.style.display='none'; hover.innerHTML=''; }
+  document.querySelectorAll('.chart-link').forEach(a=>{
+    a.addEventListener('mouseenter',e=>{ clearTimeout(hideTimer); const sym=getTvSymbol(a); if(sym) showTv(sym,e.clientX,e.clientY); else showTip('Yahoo Finance chart — click to open ↗',e.clientX,e.clientY); });
+    a.addEventListener('mousemove',e=>{ if(hover.style.display==='block') position(e.clientX,e.clientY); });
+    a.addEventListener('mouseleave',()=>{ hideTimer=setTimeout(hide,150); });
+  });
+})();
+</script>
+</body>
+</html>

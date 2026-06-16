@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Ramp Calculator — Beta 2.5r — Weights 30/20/15/15/10/10</title>
+  <style>
+    :root{
+      --bg:#0f1321; --panel:#12182a; --muted:#8aa0bb; --ink:#e9f1f6; --brand:#6be675; --red:#ff7a7a; --amber:#ffcf66; --line:#1c2440;
+      --radius:14px; --gap:16px; --shadow:0 8px 24px rgba(0,0,0,.25)
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#0e1220,#0c111d);color:var(--ink);font:14px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial}
+    header{display:flex;justify-content:flex-start;align-items:center;padding:0;border-bottom:1px solid var(--line);background:linear-gradient(90deg,#151a2e,#0f1426)}
+/* constrain header content to same width as tables */
+.header-wrap{max-width:1200px;margin:0 auto;padding:18px 20px;width:100%;display:flex;align-items:center;gap:14px}
+/* New header layout (left-aligned title & subheader + right export button) */
+.hdr-left{display:flex;align-items:center;gap:14px}
+.hdr-titles{display:flex;flex-direction:column}
+.hdr-title{font-size:20px;font-weight:800;margin:0;letter-spacing:.2px}
+.hdr-sub{color:var(--muted);margin-top:2px}
+.pill-smonkey{background:#7a5cff;color:#fff;border:none;font-weight:800;}
+
+@media(max-width:720px){.hdr-title{font-size:16px}.hdr-sub{font-size:12px}}
+    h1{font-size:18px;margin:0}
+    .wrap{padding:20px;max-width:1200px;margin:0 auto}
+    /* Even vertical spacing between top-level sections */
+    .wrap > * + *{ margin-top: var(--gap); }
+    /* Even spacing between per-sleeve cards in Tickets */
+    #tickets > .card + .card{ margin-top: var(--gap); }
+    .grid{display:grid;gap:var(--gap)}
+    .two{grid-template-columns:1fr 1fr}
+    .three{grid-template-columns:repeat(3,1fr)}
+    .card{background:var(--panel);border:0;border-radius:var(--radius);box-shadow:var(--shadow);padding:16px}
+    .pill{display:inline-block;padding:4px 10px;border-radius:999px;background:#101735;border:1px solid #1b2748;color:#9fb6d4;font-size:12px}
+    /* Override for Shadow Monkey pill to match purple gradient + white text */
+    .pill.pill-smonkey{background:linear-gradient(135deg,#7a5cff 0%,#9f7aff 100%);color:#fff;border:none;box-shadow:var(--shadow);text-transform:uppercase;letter-spacing:.3px}
+    .kv{display:grid;grid-template-columns:160px 1fr;gap:10px;margin:6px 0}
+    input,button,select{background:#0c1328;border:1px solid #1c2746;color:var(--ink);border-radius:10px;padding:8px 10px}
+    button{cursor:pointer}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:8px;border-bottom:1px solid #1b233a}
+    th{color:#a8bad2;text-align:left;font-weight:600}
+    .right{text-align:right}
+    .warn{color:var(--amber)}
+    .bad{color:var(--red)}
+    .ok{color:var(--brand)}
+    footer{opacity:.7;padding:18px 20px}
+    @media print{
+      body{background:#fff;color:#000}
+      .card{box-shadow:none;border-color:#ddd}
+    }
+      pre#cfg{white-space:pre;max-height:280px;overflow:auto;border:0;background:#0b1224;padding:12px;border-radius:10px}
+      /* Tooltip styling for price hover */
+    td[data-tip]{position:relative}
+    td[data-tip]:hover::after{content:attr(data-tip);position:absolute;bottom:100%;right:0;margin-bottom:6px;background:#0b1224;color:#e9f1f6;border:0;padding:6px 8px;border-radius:8px;white-space:nowrap;box-shadow:var(--shadow);z-index:50}
+    td[data-tip]:hover::before{content:"";position:absolute;bottom:100%;right:12px;border:6px solid transparent;border-top-color:var(--line);transform:translateY(1px)}
+      /* Header brand style (from 1.01 look & feel) */
+    .brand{display:flex;align-items:center;gap:12px}
+    .brand .logo{width:28px;height:28px;border-radius:8px;background:
+      linear-gradient(135deg,rgba(107,230,117,.25),rgba(107,230,117,0) 45%),
+      radial-gradient(160% 120% at 0% 0%, #2a3b62 0%, #0f1426 60%);
+      border:1px solid #203056;box-shadow:inset 0 6px 18px rgba(0,0,0,.35),0 1px 0 rgba(255,255,255,.04)}
+    .brand .name{font-size:18px;margin:0;letter-spacing:.3px}
+    .brand .meta{margin-top:2px}
+    .brand-right{background:#101735;border-color:#1b2748}
+      /* Smooth anchor scroll + sleeve link styling */
+    html{scroll-behavior:smooth}
+    a.sleeve-link{color:#9fc6ff;text-decoration:none}
+    a.sleeve-link:hover{text-decoration:underline}
+      /* Chart link + hover preview */
+    .ticker a.ticker-link{color:#9fc6ff;font-weight:700;text-decoration:none}
+    .ticker a.ticker-link:hover{text-decoration:underline}
+    .chart-pop{position:fixed;pointer-events:none;background:#0b1224;border:0;border-radius:10px;box-shadow:var(--shadow);padding:6px;z-index:9999;display:none}
+    .chart-pop img{display:block;max-width:560px;max-height:340px;border-radius:8px}
+    .chart-pop iframe{display:block;width:560px;height:340px;border:0;border-radius:8px}
+    .tvwrap{width:560px;height:340px}
+    .chart-pop .links{margin-top:6px;font-size:12px}
+    .chart-pop .links a{color:#9fc6ff;margin-right:8px;text-decoration:none}
+    .chart-pop .links a:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+  <header>
+  <div class="header-wrap">
+    <div class="hdr-left">
+    <span class="pill pill-smonkey">SHADOW MONKEY</span>
+    <div class="hdr-titles">
+      <h1 class="hdr-title">RAMP Calculator</h1>
+      <div class="hdr-sub">beta 2.5r · Weights 30/20/15/15/10/10 • Retirement Account Management Planner · Updated Aug 24, 2025</div>
+    </div>
+  </div>
+  </div>
+</header>
+  <div class="wrap">
+
+    <div class="card">
+      <p><strong>How to use:</strong> set your base capital, then review each sleeve’s target and tickets. This build encodes the canonical weights: <em>AI 30%, Quantum 20%, Space 15%, Robotics 15%, Blockchain 10%, 3D Printing 10%</em>. Edit targets or swap tickers in the config block below.</p>
+      <div class="grid two">
+        <div class="kv"><div>Base Capital</div><div><input id="base" type="number" value="25000"></div></div>
+        <div class="kv"><div>Stage Ladder</div><div>
+          <select id="ladder"><option value="40-30-30">40 / 30 / 30</option><option value="33-33-34">33 / 33 / 34</option></select>
+        </div></div>
+      </div>
+    </div>
+
+    <div class="grid two">
+      <div class="card">
+        <h3>Basket Targets</h3>
+        <p>Use configuration controls to change allocation weighting. Hit Apply Weights to submit changes. Reset brings back to canonical weights.</p>
+        <table id="targets">
+          <thead><tr><th>Sleeve</th><th class="right">%</th><th class="right">Target $</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="card">
+        <h3>Drift Meter</h3>
+        <p>Paste current sleeve market values to compute drift vs targets. Rebalance when drift &gt; <strong>3–5%</strong> absolute.</p>
+        <table id="drift">
+          <thead><tr><th>Sleeve</th><th class="right">Target $</th><th class="right">Current $</th><th class="right">Drift</th></tr></thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+  <details open>
+    <summary><h3 style="display:inline">Configuration</h3> <span class="pill" style="margin-left:8px">controls</span></summary>
+    <div id="cfg-controls" class="grid two">
+      <div>
+        <h4>Weights (%)</h4>
+        <div class="kv"><div>AI</div><div><input id="w-ai" type="number" min="0" max="100" step="1" value="30"></div></div>
+        <div class="kv"><div>Quantum</div><div><input id="w-quantum" type="number" min="0" max="100" step="1" value="20"></div></div>
+        <div class="kv"><div>Space</div><div><input id="w-space" type="number" min="0" max="100" step="1" value="15"></div></div>
+        <div class="kv"><div>Robotics</div><div><input id="w-robotics" type="number" min="0" max="100" step="1" value="15"></div></div>
+        <div class="kv"><div>3D Printing</div><div><input id="w-printing" type="number" min="0" max="100" step="1" value="10"></div></div>
+        <div class="kv"><div>Blockchain</div><div><input id="w-blockchain" type="number" min="0" max="100" step="1" value="10"></div></div>
+        <p id="weights-note" class="warn" style="margin-top:8px"></p>
+      </div>
+      <div>
+        <h4>Tools</h4>
+        <div class="kv"><div>JSON view</div><div><button id="btn-json" type="button">Show/Hide JSON</button></div></div>
+        <div class="kv"><div>Actions</div><div><button id="btn-apply" type="button">Apply Weights</button> <button id="btn-reset" type="button">Reset</button></div></div>
+      </div>
+    </div>
+    <pre id="cfg" style="display:none"></pre>
+  </details>
+</div>
+
+<div class="card">
+  <h3>Tickets</h3>
+  <div id="tickets"></div>
+</div>
+
+    </div>
+
+<script>
+// ---- Canonical Weights Manifest ----
+let WEIGHTS = { ai:30, quantum:20, space:15, robotics:15, blockchain:10, printing:10 };
+const DEFAULT_WEIGHTS = { ai:30, quantum:20, space:15, robotics:15, blockchain:10, printing:10 };
+const ORDER = ['ai','quantum','space','robotics','printing','blockchain'];
+
+// ---- Baseline BASKETS (base = $25,000) ----
+const BASKETS={
+  ai:{target:7500,rows:[
+    {t:'AVGO',target:1500},
+    {t:'ANET',target:1100},
+    {t:'VRT',target:1000},
+    {t:'MRVL',target:1000},
+    {t:'PANW',target:900},
+    {t:'CRWD',target:900},
+    {t:'DDOG',target:600},
+    {t:'NET',target:500}
+  ]},
+  quantum:{target:5000,rows:[
+    {t:'IONQ',target:1667},
+    {t:'RGTI',target:1042},
+    {t:'QBTS',target:1042},
+    {t:'HPHTY',target:833},
+    {t:'LAES',target:416}
+  ]},
+  blockchain:{target:2500,rows:[
+    {t:'COIN',target:834},
+    {t:'HUT',target:416},
+    {t:'BTBT',target:278},
+    {t:'CLSK',target:418},
+    {t:'CIFR',target:278},
+    {t:'IREN',target:276}
+  ]},
+  space:{target:3750,rows:[
+    {t:'RKLB',target:1125},
+    {t:'IRDM',target:1000},
+    {t:'PL',target:625},
+    {t:'GSAT',target:375},
+    {t:'ASTS',target:250},
+    {t:'LUNR',target:250},
+    {t:'MDALF',target:125}
+  ]},
+  robotics:{target:3750,rows:[
+    {t:'ISRG',target:1000},
+    {t:'ABB',target:750},
+    {t:'FANUY',target:625},
+    {t:'TER',target:750},
+    {t:'AMBA',target:500},
+    {t:'EKSO',target:125}
+  ]},
+  printing:{target:2500,rows:[{t:'SSYS',target:600},{t:'PRLB',target:600},{t:'DDD',target:400},{t:'XMTR',target:300},{t:'RNSHF',target:250},{t:'MTLS',target:200},{t:'VLD',target:150}] }
+};
+const BASELINE_BASKETS = JSON.parse(JSON.stringify(BASKETS));
+
+// ---- RISK & CD (placeholder; unchanged from 1.01) ----
+const RISK={/* ... existing per-ticker rules ... */};
+const CD={/* ... optional content cards ... */};
+
+// ---- Helpers ----
+function fmt(n){return n.toLocaleString(undefined,{maximumFractionDigits:0})}
+function pct(n){return (n*100).toFixed(0)+'%'}
+
+function labelFor(k){ return k==='printing' ? '3D PRINTING' : k.toUpperCase(); }
+function isOTC(t){ return /\./.test(t)||/^[A-Z]{5}[FY]$/.test(t); }
+function calcStagePrices(last, ticker){
+  const pTot = last; // total uses Last as reference
+  const otc = isOTC(ticker);
+  const p1 = last * (otc ? 1.00 : 0.995);      // S1: 99.5% of last (or bid/mid -> use last for OTC)
+  const p2 = last * 0.95;                      // S2: 95% pullback add
+  const p3_limit = last * 1.035;               // S3: breakout limit
+  const p3_stop  = last * 1.03;                // S3: protective stop
+  return {pTot,p1,p2,p3_limit,p3_stop};
+}
+
+function recalcAllQty(){
+  document.querySelectorAll('#tickets tbody tr').forEach(tr=>{
+    const ticker = (tr.querySelector('td')?.textContent||'').trim();
+    const last = parseFloat(tr.querySelector('input.last')?.value)||0;
+    const {pTot,p1,p2,p3_limit,p3_stop} = calcStagePrices(last, ticker);
+
+    const tgtCell = tr.querySelector('td[data-role=target]');
+    const s1Cell  = tr.querySelector('td[data-role=s1]');
+    const s2Cell  = tr.querySelector('td[data-role=s2]');
+    const s3Cell  = tr.querySelector('td[data-role=s3]');
+
+    const qtyTot  = tr.querySelector('td[data-role=qty_total]');
+    const qtyS1   = tr.querySelector('td[data-role=qty_s1]');
+    const qtyS2   = tr.querySelector('td[data-role=qty_s2]');
+    const qtyS3   = tr.querySelector('td[data-role=qty_s3]');
+
+    const pTotCell= tr.querySelector('td[data-role=price_total]');
+    const p1Cell  = tr.querySelector('td[data-role=price_s1]');
+    const p2Cell  = tr.querySelector('td[data-role=price_s2]');
+    const p3Cell  = tr.querySelector('td[data-role=price_s3]');
+
+    const vT = tgtCell ? parseFloat(tgtCell.dataset.v)||0 : 0;
+    const v1 = s1Cell ? parseFloat(s1Cell.dataset.v)||0 : 0;
+    const v2 = s2Cell ? parseFloat(s2Cell.dataset.v)||0 : 0;
+    const v3 = s3Cell ? parseFloat(s3Cell.dataset.v)||0 : 0;
+
+    // Prices with tooltips
+    if(pTotCell){ pTotCell.textContent = last>0 ? pTot.toFixed(2) : ''; pTotCell.removeAttribute('data-tip'); }
+    if(p1Cell){
+      if(last>0){
+        const isOtc = isOTC(ticker);
+        p1Cell.textContent = p1.toFixed(2);
+        p1Cell.setAttribute('data-tip', `S1 • 40% @ limit = $${p1.toFixed(2)} (rule: ${isOtc? '1.00×Last OTC' : '0.995×Last'})`);
+      } else { p1Cell.textContent=''; p1Cell.removeAttribute('data-tip'); }
+    }
+    if(p2Cell){
+      if(last>0){
+        p2Cell.textContent = p2.toFixed(2);
+        p2Cell.setAttribute('data-tip', `S2 • 30% @ limit = $${p2.toFixed(2)} (0.95×Last)`);
+      } else { p2Cell.textContent=''; p2Cell.removeAttribute('data-tip'); }
+    }
+    if(p3Cell){
+      if(last>0){
+        p3Cell.textContent = p3_limit.toFixed(2);
+        p3Cell.setAttribute('data-tip', `S3 • 30% breakout | limit = $${p3_limit.toFixed(2)} (1.035×Last) | stop = $${p3_stop.toFixed(2)} (1.03×Last)`);
+      } else { p3Cell.textContent=''; p3Cell.removeAttribute('data-tip'); }
+    }
+
+    // Quantities (2dp)
+    if(qtyTot) qtyTot.textContent = (last>0) ? (vT/pTot).toFixed(2) : '';
+    if(qtyS1)  qtyS1.textContent  = (last>0) ? (v1/p1).toFixed(2) : '';
+    if(qtyS2)  qtyS2.textContent  = (last>0) ? (v2/p2).toFixed(2) : '';
+    if(qtyS3)  qtyS3.textContent  = (last>0) ? (v3/p3_limit).toFixed(2) : '';
+  });
+}
+
+function recompute(){
+  const base = +document.getElementById('base').value||0;
+  const ladderSel = document.getElementById('ladder').value;
+  const [s1,s2,s3] = ladderSel.split('-').map(x=>+x);
+
+  // Persist any entered prices before rebuild
+  const lastMap = {};
+  document.querySelectorAll('#tickets input.last').forEach(inp=>{ lastMap[inp.dataset.key]=inp.value; });
+
+  // Rebuild Basket Targets
+  const tb = document.querySelector('#targets tbody'); if(tb) tb.innerHTML='';
+  for(const k of ORDER){
+    const p = WEIGHTS[k];
+    const t = Math.round(base * p/100);
+    if(BASKETS[k]) BASKETS[k].target = t; // sync sleeve target
+    if(tb){
+      const tr = document.createElement('tr');
+      tr.innerHTML = `<td><a class="sleeve-link" href="#sleeve-${k}">${labelFor(k)}</a></td><td class="right">${p}</td><td class="right">$${fmt(t)}</td>`;
+      tb.appendChild(tr);
+    }
+  }
+
+  // Tickets: scale row targets by baseline ratios and render $ + Qty for total and each stage
+  const tWrap = document.getElementById('tickets'); if(tWrap) tWrap.innerHTML='';
+  for(const k of ORDER){
+    const b = BASKETS[k];
+    const b0 = BASELINE_BASKETS[k];
+    const baseTotal = (b0 && b0.target) ? b0.target : 1;
+    const div = document.createElement('div');
+    div.id = 'sleeve-'+k;
+    div.className='card sleeve';
+    let h = `<h4>${labelFor(k)} — Target $${fmt(b.target)}</h4>`+
+            `<table>`+
+            `<thead><tr>`+
+            `<th>Ticker</th><th class="right">Last</th>`+
+            `<th class="right">Target $</th><th class="right">Price</th><th class="right">Qty</th>`+
+            `<th class="right">Stage 1 $</th><th class="right">Price</th><th class="right">Qty</th>`+
+            `<th class="right">Stage 2 $</th><th class="right">Price</th><th class="right">Qty</th>`+
+            `<th class="right">Stage 3 $</th><th class="right">Price</th><th class="right">Qty</th>`+
+            `</tr></thead><tbody>`;
+
+    (b0.rows||[]).forEach(r0=>{
+      const ratio = (r0.target||0)/baseTotal;
+      const rowTarget = Math.round((b.target||0)*ratio);
+      const key = `${k}|${r0.t}`;
+      const last = lastMap[key] ?? '';
+      const s1v = Math.round(rowTarget*s1/100);
+      const s2v = Math.round(rowTarget*s2/100);
+      const s3v = Math.round(rowTarget*s3/100);
+      const u = symbolToUrls(r0.t); const href = u.tv;
+      h += `<tr><td class=\"ticker\"><a class=\"ticker-link\" data-sym=\"${r0.t}\" href=\"${href}\" target=\"_blank\" rel=\"noopener\">${r0.t}</a></td>`+
+           `<td class=\"right\"><input class=\"last\" data-key=\"${key}\" type=\"number\" step=\"0.01\" value=\"${last}\"></td>`+
+           `<td class=\"right\" data-role=\"target\" data-v=\"${rowTarget}\">$${fmt(rowTarget)}</td>`+
+           `<td class=\"right\" data-role=\"price_total\"></td>`+
+           `<td class=\"right\" data-role=\"qty_total\"></td>`+
+           `<td class=\"right\" data-role=\"s1\" data-v=\"${s1v}\">$${fmt(s1v)}</td>`+
+           `<td class=\"right\" data-role=\"price_s1\"></td>`+
+           `<td class=\"right\" data-role=\"qty_s1\"></td>`+
+           `<td class=\"right\" data-role=\"s2\" data-v=\"${s2v}\">$${fmt(s2v)}</td>`+
+           `<td class=\"right\" data-role=\"price_s2\"></td>`+
+           `<td class=\"right\" data-role=\"qty_s2\"></td>`+
+           `<td class=\"right\" data-role=\"s3\" data-v=\"${s3v}\">$${fmt(s3v)}</td>`+
+           `<td class=\"right\" data-role=\"price_s3\"></td>`+
+           `<td class=\"right\" data-role=\"qty_s3\"></td></tr>`;
+    });
+    h += `</tbody></table>`;
+    div.innerHTML = h; if(tWrap) tWrap.appendChild(div);
+  }
+
+  // Show config JSON
+  const pre = document.getElementById('cfg');
+  if(pre) pre.textContent = JSON.stringify({WEIGHTS,BASKETS},null,2);
+
+  // Drift meter: refresh to reflect new sleeve targets
+  updateDrift();
+
+  // Recompute quantities for existing prices
+  recalcAllQty();
+}
+
+// ---- Chart Preview helpers ----
+function symbolToUrls(sym){
+  const is_otc = isOTC(sym);
+  const hasDot = sym.includes('.');
+  // TradingView widget symbol mapping (best-effort)
+  let tvSymbol = null;
+  if(!hasDot){
+    tvSymbol = is_otc ? `OTC:${sym}` : sym; // e.g., OTC:MDALF, or AVGO
+  }
+  const tv = `https://www.tradingview.com/symbols/${(is_otc?('OTC-'+sym):sym).replace('.', '-')}/`;
+  const fv = `https://finviz.com/quote.ashx?t=${sym}`;
+  const yf = `https://finance.yahoo.com/quote/${sym}`;
+  const img = `https://finviz.com/chart.ashx?t=${sym}&ty=c&ta=1&p=d&s=l`;
+  return {tv,yf,fv,img,is_otc,hasDot,tvSymbol};
+}
+function showChartPop(sym, clientX, clientY){
+  const pop = document.getElementById('chart-pop');
+  const u = symbolToUrls(sym);
+  const maxW = 580, maxH = 360;
+  pop.style.left = Math.min(window.innerWidth-(maxW+20), clientX+12)+"px";
+  pop.style.top  = Math.min(window.innerHeight-(maxH+20), clientY+12)+"px";
+  pop.style.display='block';
+
+  const links = `<a href="${u.tv}" target="_blank" rel="noopener">TradingView</a><a href="${u.fv}" target="_blank" rel="noopener">Finviz</a><a href="${u.yf}" target="_blank" rel="noopener">Yahoo</a>`;
+
+  // Prefer TradingView embedded mini chart; fallback to Finviz image; then Yahoo link
+  if(u.tvSymbol){
+    pop.innerHTML = `<div class=\"tvwrap\" id=\"tvwrap\"></div><div class=\"links\">${links}</div>`;
+    const s = document.createElement('script');
+    s.src = 'https://s3.tradingview.com/external-embedding/embed-widget-mini-symbol-overview.js';
+    s.async = true;
+    s.innerHTML = JSON.stringify({
+      symbol: u.tvSymbol,
+      width: 560,
+      height: 340,
+      locale: 'en',
+      dateRange: '12M',
+      colorTheme: 'dark',
+      trendLineColor: '#37a6ef',
+      underLineColor: 'rgba(55,166,239,0.15)',
+      isTransparent: false,
+      autosize: false
+    });
+    const tvwrap = pop.querySelector('#tvwrap');
+    tvwrap.appendChild(s);
+    // Fallback if widget fails to load within 1500ms
+    setTimeout(()=>{
+      const hasWidget = pop.querySelector('iframe');
+      if(!hasWidget){
+        // Finviz fallback
+        pop.innerHTML = `<img id=\"chart-pop-img\" src=\"${u.img}\" alt=\"${sym} chart\"><div class=\"links\">${links}</div>`;
+        const imgEl = document.getElementById('chart-pop-img');
+        if(imgEl){
+          imgEl.onerror = ()=>{
+            pop.innerHTML = `<div class=\"links\"><a href=\"${u.yf}\" target=\"_blank\" rel=\"noopener\">Yahoo Chart</a> · No Chart. Check Ticker</div>`;
+          };
+        }
+      }
+    },1500);
+  } else {
+    // Symbols with dot/unknown mapping → Finviz image immediately, then Yahoo if image fails
+    pop.innerHTML = `<img id=\"chart-pop-img\" src=\"${u.img}\" alt=\"${sym} chart\"><div class=\"links\">${links}</div>`;
+    const imgEl = document.getElementById('chart-pop-img');
+    if(imgEl){
+      imgEl.onerror = ()=>{
+        pop.innerHTML = `<div class=\"links\"><a href=\"${u.yf}\" target=\"_blank\" rel=\"noopener\">Yahoo Chart</a> · No Chart. Check Ticker</div>`;
+      };
+    }
+  }
+}
+function hideChartPop(){ const pop=document.getElementById('chart-pop'); if(pop) pop.style.display='none'; }
+function buildDrift(){
+  const tbody = document.querySelector('#drift tbody');
+  if(!tbody) return;
+  tbody.innerHTML='';
+  for(const k of ORDER){
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${labelFor(k)}</td>`+
+                   `<td class="right" data-k="t"></td>`+
+                   `<td class="right"><input data-k="c" type="number" value=""></td>`+
+                   `<td class="right" data-k="d"></td>`;
+    tbody.appendChild(tr);
+  }
+}
+
+function updateDrift(){
+  const rows = document.querySelectorAll('#drift tbody tr');
+  rows.forEach((tr,idx)=>{
+    const key = ORDER[idx];
+    const target = BASKETS[key].target||0;
+    const cur = +tr.querySelector('input[data-k="c"]').value||0;
+    const drift = cur===0?0:((cur-target)/target*100);
+    tr.querySelector('[data-k="t"]').textContent = '$'+fmt(target);
+    const d = tr.querySelector('[data-k="d"]');
+    d.textContent = (drift>0?'+':'')+drift.toFixed(1)+'%';
+    d.className = 'right '+(Math.abs(drift)>=5?'bad':Math.abs(drift)>=3?'warn':'ok');
+  });
+}
+
+buildDrift();
+recompute();
+updateDrift();
+
+// Events
+['input','change'].forEach(evt=>{
+  const baseEl = document.getElementById('base');
+  const ladderEl = document.getElementById('ladder');
+  const driftEl = document.getElementById('drift');
+  if(baseEl) baseEl.addEventListener(evt,recompute);
+  if(ladderEl) ladderEl.addEventListener(evt,recompute);
+  if(driftEl) driftEl.addEventListener(evt,updateDrift);
+});
+const ticketsEl = document.getElementById('tickets');
+if(ticketsEl){
+  // recalc on price input
+  ticketsEl.addEventListener('input', (e)=>{
+    if(e.target && e.target.classList.contains('last')){ recalcAllQty(); }
+  });
+  // hover chart preview
+  ticketsEl.addEventListener('mouseenter', (e)=>{
+    if(e.target && e.target.classList.contains('ticker-link')){
+      showChartPop(e.target.dataset.sym, e.clientX, e.clientY);
+    }
+  }, true);
+  ticketsEl.addEventListener('mousemove', (e)=>{
+    const pop = document.getElementById('chart-pop');
+    if(e.target && e.target.classList.contains('ticker-link') && pop && pop.style.display==='block'){
+      pop.style.left = Math.min(window.innerWidth-580, e.clientX+12)+"px";
+      pop.style.top  = Math.min(window.innerHeight-360, e.clientY+12)+"px";
+    }
+  });
+
+  ticketsEl.addEventListener('mouseleave', (e)=>{
+    if(e.target && e.target.classList.contains('ticker-link')){ hideChartPop(); }
+  }, true);
+}
+
+// ---- Config Controls (GUI) ----
+function renderCfgJson(){
+  const pre = document.getElementById('cfg');
+  if(pre) pre.textContent = JSON.stringify({WEIGHTS,BASKETS},null,2);
+}
+function updateWeightsNote(){
+  const sum = Object.values(WEIGHTS).reduce((a,b)=>a+Number(b||0),0);
+  const el = document.getElementById('weights-note');
+  if(!el) return;
+  el.textContent = 'Sum = '+sum+'%'+(sum!==100?' (adjust to 100%)':'');
+  el.className = (sum!==100?'warn':'ok');
+}
+function mountCfgControls(){
+  const map = {ai:'w-ai', quantum:'w-quantum', space:'w-space', robotics:'w-robotics', blockchain:'w-blockchain', printing:'w-printing'};
+  for(const k in map){
+    const inp = document.getElementById(map[k]);
+    if(inp){ inp.value = WEIGHTS[k] ?? 0; }
+  }
+  updateWeightsNote();
+}
+function readWeightsFromControls(){
+  const map = {ai:'w-ai', quantum:'w-quantum', space:'w-space', robotics:'w-robotics', blockchain:'w-blockchain', printing:'w-printing'};
+  const out = {};
+  for(const k in map){ const v = parseFloat(document.getElementById(map[k]).value)||0; out[k]=v; }
+  return out;
+}
+function setWeights(obj){
+  WEIGHTS = Object.assign({}, WEIGHTS, obj);
+  recompute(); updateDrift(); renderCfgJson(); updateWeightsNote();
+}
+// Bind config GUI
+(function(){
+  const j = document.getElementById('btn-json');
+  if(j){ j.addEventListener('click', ()=>{
+    const pre=document.getElementById('cfg');
+    if(pre){ pre.style.display = (pre.style.display==='none' || pre.style.display==='') ? 'block' : 'none'; }
+  }); }
+  const a = document.getElementById('btn-apply');
+  if(a){ a.addEventListener('click', ()=> setWeights(readWeightsFromControls())); }
+  const r = document.getElementById('btn-reset');
+  if(r){ r.addEventListener('click', ()=>{ WEIGHTS = Object.assign({}, DEFAULT_WEIGHTS); mountCfgControls(); setWeights(WEIGHTS); }); }
+  // mount once
+  mountCfgControls(); renderCfgJson(); updateWeightsNote();
+})();
+</script>
+<div id="chart-pop" class="chart-pop"></div>
+</body>
+</html>
