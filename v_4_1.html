@@ -1,0 +1,575 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>v4.1 — Turtle Shell White Paper — Part 1 (Sections 0–8)</title>
+<style>
+  :root{--ink:#e8efff;--ink-strong:#ffffff;--sub:#b8c4e3;--glass:rgba(18,22,34,.55);--border:rgba(84,101,145,.35);--a1:#7c5cff;--a2:#00d4ff;--risk:#f87171;--good:#34d399;--warn:#fbbf24;--paper:#0b0d12;--card:#0f1424;--line:#23314d;--accent:#7dd3fc;--accent2:#c4b5fd}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.65 Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial}
+  .aurora{position:fixed;inset:0;background:#0b0d12;z-index:-2}
+  .aurora::before,.aurora::after{content:"";position:absolute;inset:-20%;filter:blur(60px);opacity:.6}
+  .aurora::before{background:radial-gradient(50% 60% at 20% 20%,rgba(124,92,255,.33),transparent 60%),radial-gradient(40% 50% at 78% 30%,rgba(0,212,255,.28),transparent 60%),radial-gradient(30% 40% at 40% 80%,rgba(255,93,115,.18),transparent 68%)}
+  .aurora::after{background:radial-gradient(45% 55% at 10% 85%,rgba(16,185,129,.25),transparent 60%),radial-gradient(40% 45% at 90% 80%,rgba(250,204,21,.16),transparent 60%)}
+  .grain{position:fixed;inset:0;pointer-events:none;z-index:-1;background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="100%"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.7" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)" opacity="0.025"/></svg>');mix-blend-mode:soft-light}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px 18px 80px}
+  .topbar{position:sticky;top:0;z-index:30;background:linear-gradient(180deg,rgba(11,13,18,.85),rgba(11,13,18,.55));backdrop-filter:saturate(140%) blur(6px);border-bottom:1px solid var(--border)}
+  .brand{display:flex;align-items:center;gap:10px;padding:10px 2px}
+  .pill{padding:6px 10px;border-radius:999px;background:linear-gradient(90deg,var(--a1),#9b5cff);font-size:12px;letter-spacing:.2px;color:#f8faff}
+  h1{margin:4px 0 2px;font-size:34px;line-height:1.2;background:linear-gradient(90deg,#fff,#76e7ff 35%,#cbb2ff 70%,#fff);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .deck{margin:0;color:var(--sub)}
+  .nav{display:flex;gap:8px;flex-wrap:wrap;padding:8px 0}
+  .nav a{display:inline-block;padding:8px 10px;border:1px solid var(--border);border-radius:10px;background:rgba(0,0,0,.25);color:var(--ink);text-decoration:none;font-size:13px}
+  .nav a:hover{border-color:var(--a2)}
+  section{margin-top:18px}
+  .card{background:var(--glass);border:1px solid var(--border);border-radius:18px;padding:16px;box-shadow:0 10px 26px rgba(0,0,0,.35),inset 0 1px 0 rgba(255,255,255,.05);overflow:visible;break-inside:avoid;page-break-inside:avoid}
+  h2{margin:0 0 8px;font-size:22px}
+  h3{margin:10px 0 6px;font-size:18px}
+  p{margin:10px 0}
+  .k{font-weight:800;color:#eaf2ff}
+  .muted{color:var(--sub)}
+  .box{border:1px solid var(--line);border-radius:14px;padding:12px;background:rgba(12,18,34,.55);margin:12px 0}
+  .box.accent{border-left:4px solid var(--a2)}
+  .box.warn{border-left:4px solid var(--warn)}
+  .box.ok{border-left:4px solid var(--good)}
+  .two-col{column-count:2;column-gap:30px}
+  .two-col>*{break-inside:avoid}
+  .span-all{column-span:all;display:block;margin:10px 0}
+  .chart{height:380px}
+  table.table-wide{width:100%;table-layout:auto}
+  @media (max-width:980px){.two-col{column-count:1}}
+  figure{margin:14px 0;border:1px solid var(--line);border-radius:14px;background:#0b1326;padding:12px}
+  figcaption{font-size:12.5px;color:#9fb4de;padding:6px 10px;border-top:1px solid var(--line)}
+  svg{display:block;width:100%;height:360px}
+  .axis{stroke:#9fb4de;stroke-width:1}
+  .grid{stroke:#23314d;stroke-dasharray:4 4}
+  .label{fill:#cfe0ff;font-size:12px}
+  .tick{fill:#9fb4de;font-size:11px}
+  pre{white-space:pre-wrap;word-break:break-word;background:#0a1222;border:1px dashed var(--line);border-radius:12px;padding:10px;color:#e6ecff}
+  .toc{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:10px}
+  .toc a{display:block;border:1px solid var(--border);border-radius:12px;padding:10px 12px;background:rgba(8,12,24,.55);text-decoration:none;color:var(--ink)}
+  .toc a:hover{border-color:var(--a2)}
+  .toplink{display:inline-block;margin-top:8px;font-size:12px;color:#cfe0ff;text-decoration:none}
+  @page{size:Letter;margin:0.6in}
+  @media print{
+    .topbar{position:static}
+    .nav{display:none}
+    .aurora,.grain{display:none}
+    .two-col{column-count:1}
+    .card,figure,pre,table{break-inside:avoid;page-break-inside:avoid}
+    h2,h3{break-after:avoid;page-break-after:avoid}
+    p,li{orphans:3;widows:3}
+    svg{max-height:6.5in}
+    body{print-color-adjust:exact;-webkit-print-color-adjust:exact}
+  }
+</style>
+</head>
+<body>
+<div class="aurora"></div><div class="grain"></div>
+<header class="topbar">
+  <div class="wrap brand">
+    <span class="pill">SHADOW MONKEY</span>
+    <div>
+      <h1>v4.1 — Turtle Shell Strategy — Part 1 (Sections 0–8)</h1>
+      <p class="deck">Daily rails for intent · 5–30m execution for precision · Options for convexity · Tax‑aware structure for capital efficiency</p>
+    </div>
+  </div>
+  <nav class="wrap nav">
+    <a href="#toc">Contents</a>
+    <a href="#sec1">1. Motivation</a>
+    <a href="#sec2">2. Evidence</a>
+    <a href="#sec3">3. Methodology</a>
+    <a href="#sec4">4. Intraday</a>
+    <a href="#sec5">5. Regimes</a>
+    <a href="#sec6">6. Models</a>
+    <a href="#sec7">7. Options</a>
+    <a href="#sec8">8. Risk</a>
+    <a href="v_4_2.html" title="Open Part 2 (Sections 9–13 & Appendices)" data-target="part2">Part 2</a>
+    <a href="v_4_3.html" title="Open Part 3 (Appendices)" data-target="part3">Appendices</a>
+  </nav>
+</header>
+<main class="wrap">
+  <section id="qstart" class="card">
+    <h2>Abstract & Quick Start</h2>
+    <div class="two-col">
+      <div>
+        <p><span class="k">Abstract.</span> This white paper presents a practical, legally compliant, multi‑horizon program that fuses the classical Turtle framework (Donchian breakouts with ATR‑based risk) with regime detection and options overlays. We show how to operate across futures, FX, and equities, scale intraday execution from daily context, and incorporate tax‑aware structuring without diluting the system’s core statistical edge. Charts and diagrams are schematic and designed to be read without software.</p>
+        <div class="box ok"><span class="k">Author:</span> Shadow Monkey (Advisor)</div>
+      </div>
+      <div class="box accent">
+        <h3>0) Quick Start — ES Intraday Turtle</h3>
+        <p>Pull the <span class="k">daily</span> Donchian rails (H20/L20; H55/L55) and <span class="k">Nᵈ = ATR(20)</span>. Drop to <span class="k">5–30m</span> and compute <span class="k">Nⁱ</span>. Accept a breakout only on a <span class="k">5m close</span> beyond the rail (or body ≥ ~0.2×Nⁱ). <span class="k">Stop</span>=2×Nⁱ; <span class="k">Adds</span>=0.5×Nⁱ steps; <span class="k">Exit</span>=L10ⁱ/H10ⁱ (S1) or L20ⁱ/H20ⁱ (S2). Flat by EOD unless risk is handed to a defined‑risk option.</p>
+        <p class="muted">Example: H20=5530; Nᵈ≈75; Nⁱ=12.5 → Entry 5530.25; Stop 5505.25; Adds 5536.50/5542.75/5549.00; Equity 100k @ 0.5% → UnitRisk $500; N/ES $625 → 8 MES per unit.</p>
+      </div>
+    </div>
+  </section>
+  <section id="toc" class="card">
+    <h2>Table of Contents (Part 1)</h2>
+    <div class="toc">
+      <a href="#sec1">1. Motivation & Executive Thesis</a>
+      <a href="#sec2">2. Evidence for Trend & Why It Persists</a>
+      <a href="#sec3">3. Core Methodology (Turtle S1/S2)</a>
+      <a href="#sec4">4. Intraday From Daily Rails (5–30m Execution)</a>
+      <a href="#sec5">5. Regime Classification: Trending, Balanced, Stressed</a>
+      <a href="#sec6">6. Model Suite per Regime (with Scalping Protocols)</a>
+      <a href="#sec7">7. Options Overlay (Range Income, Breakout Convexity, Crisis Hedge)</a>
+      <a href="#sec8">8. Risk Model, Position Heat & Kill‑Switches</a>
+    </div>
+  </section>
+  <section id="sec1" class="card">
+    <h2>1) Motivation & Executive Thesis</h2>
+    <div class="two-col">
+      <p>Most discretionary programs fail by wagering on direction while ignoring risk translation. <span class="k">Turtle Shell</span> corrects that: it buys strength, sells weakness, and standardizes every decision in the volatility unit <span class="k">N = ATR(20)</span>. Small, bounded losses finance episodic large gains. The <em>Shell</em>—a separate options sleeve—adds income in balanced regimes and convexity in trends without capping the futures’ first unit. The result is a positively skewed return stream that remains robust across assets and market cycles.</p>
+      <div class="box accent"><span class="k">Thesis.</span> Daily rails for intent; 5–30‑minute execution for precision; options for regime‑aware carry/convexity; tax‑aware structure for capital efficiency. Keep rules mechanical and throttle only by regime.</div>
+      <div class="box ok"><span class="k">Action items.</span> (1) Fix default risk/unit at 0.25–0.50% (evaluation) then 0.5–1.0%. (2) Enforce daily stop 1.5–2.0R and a two‑strike rule. (3) Pyramid only after progress at +0.5N steps; never add to losers. (4) Maintain an audit log of rails, N, orders, fills, and rule adherence.</div>
+      <p>Supporting evidence from managed‑futures indices shows that programs which enforce volatility‑scaled losses and allow asymmetric gains have historically delivered positive skew and low correlation to equities during crisis windows. While edges compress in quiet regimes, disciplined risk translation into <em>N</em> maintains survival until the opportunity set expands.</p>
+      <p class="muted">Research note: volatility targeting (via <em>N</em>) reduces variance of drawdowns and keeps realized leverage stable; behavioral under‑reaction and mandate constraints provide the economic fuel for breakouts.</p>
+    </div>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+  <section id="sec2" class="card">
+    <h2>2) Evidence for Trend & Why It Persists</h2>
+    <div class="two-col">
+      <p>Time‑series momentum appears across commodities, rates, FX, and equities, with the strongest Sharpe at 6–12‑month horizons and defensive behavior in equity sell‑offs. Donchian‑style breakouts harvest this by forcing participation only when price escapes its recent bounds; risk measured in <em>N</em> keeps losses comparable across markets and regimes.</p>
+      <p>Persistence arises from under‑reaction, slow‑moving capital, mandates, and policy cycles; these create delayed diffusion of information. Volatility targeting stabilizes realized leverage so the same rules work in both quiet and stormy periods, reducing the urge to over‑fit.</p>
+      <div class="box ok"><span class="k">Action items.</span> (1) Track <em>N</em> percentiles and ADX slope as regime tells. (2) Pre‑declare “trend‑eligible” vs “range‑only” each morning. (3) Report weekly KPIs by regime: hit rate, avg win/loss (R), time‑in‑market, and Shell contribution.</div>
+      <p>Meta‑analyses comparing breakout and moving‑average rules find broadly similar performance once risk is expressed in common units; the heavy lifting comes from cutting losses quickly and letting trends breathe, not from a specific filter. Transaction‑cost‑adjusted tests remain positive across futures complexes with turnover similar to S1/S2.</p>
+      <p class="muted">Research note: diversification across asset classes and term structures (e.g., STIRs vs bonds) increases crisis‑hedge reliability as correlation regimes shift.</p>
+    </div>
+    <div class="span-all">
+      <figure>
+        <svg viewBox="0 0 860 300" aria-label="Trend-following equity curve with axes and grid" class="chart">
+          <rect width="860" height="300" fill="#0b1326"/>
+          <g class="grid">
+            <line x1="70" y1="260" x2="820" y2="260"/>
+            <line x1="70" y1="220" x2="820" y2="220"/>
+            <line x1="70" y1="180" x2="820" y2="180"/>
+            <line x1="70" y1="140" x2="820" y2="140"/>
+            <line x1="70" y1="100" x2="820" y2="100"/>
+            <line x1="70" y1="60"  x2="820" y2="60"/>
+            <line x1="70" y1="20"  x2="820" y2="20"/>
+            <line x1="70" y1="20"  x2="70"  y2="260"/>
+            <line x1="220" y1="20" x2="220" y2="260"/>
+            <line x1="370" y1="20" x2="370" y2="260"/>
+            <line x1="520" y1="20" x2="520" y2="260"/>
+            <line x1="670" y1="20" x2="670" y2="260"/>
+            <line x1="820" y1="20" x2="820" y2="260"/>
+          </g>
+          <g class="axis">
+            <line x1="70" y1="20" x2="70" y2="260"/>
+            <line x1="70" y1="260" x2="820" y2="260"/>
+          </g>
+          <path d="M70 252 L130 248 L190 251 L250 245 L310 250 L370 237 L430 244 L490 230 L550 233 L610 222 L670 238 L730 205 L790 160 L820 162" stroke="#7dd3fc" stroke-width="2.8" fill="none"/>
+          <text class="label" x="20" y="18">Equity (R)</text>
+          <text class="label" x="740" y="295">Time →</text>
+        </svg>
+        <figcaption>Empirical shape: many small losses, episodic large gains — positive skew.</figcaption>
+      </figure>
+    </div>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+  <section id="sec3" class="card">
+    <h2>3) Core Methodology (Turtle S1/S2)</h2>
+    <div class="two-col">
+      <p><span class="k">Signals.</span> <strong>S1</strong>: enter on H20/L20 breakout; exit on L10/H10. <strong>S2</strong>: enter on H55/L55 breakout; exit on L20/H20. Compute channels on prior bars (offset=1) so orders are staged at known prices.</p>
+      <p><span class="k">Risk unit N.</span> <em>N=ATR(20)</em> (Wilder). <span class="k">$ per 1N/contract = N×PV×Mult</span>. <span class="k">Contracts per unit</span> = floor(UnitRisk$ / $ per 1N/contract). Portfolio heat ≤ 4–6%.</p>
+      <p><span class="k">Stops & Adds.</span> Initial stop = 2N. Adds at +0.5N steps (long) or −0.5N (short) up to four units; never add to losers. Skip the very next re‑entry after an S1 loss to reduce immediate whipsaw.</p>
+      <div class="box ok"><span class="k">Action items.</span> (1) Lock add spacing at 0.5N; (2) Do not trail stops discretionarily—exit only on L10/L20; (3) Use micros whenever $ per 1N/ES exceeds UnitRisk$.</div>
+      <p class="muted">Research note: Donchian rules pass robustness tests across lookbacks (10–60 bars) when combined with ATR‑based stops and fixed add spacing; the close‑beyond filter reduces microstructure whipsaws.</p>
+    </div>
+    <div class="span-all">
+      <h3>Example — /ES S1 Long (H20 Break)</h3>
+      <p>Assume prior‑day <strong>H20 = 5530.00</strong>, daily <strong>Nᵈ ≈ 75</strong>, and on 5‑minute bars <strong>Nⁱ = 12.5</strong>. Place a stop‑buy at <strong>5530.25</strong> (+1 tick). On fill, initial stop = <strong>5530.25 − 2×12.5 = 5505.25</strong>. Add levels at <strong>+0.5×Nⁱ</strong>: 5536.50, 5542.75, 5549.00. With $100k equity and 0.5% risk/unit, UnitRisk$ = $500. $ per 1N/ES = 12.5×$50 = $625 → trade <strong>MES</strong>: $ per 1N/MES = $62.50 → <strong>8 MES</strong> per unit.</p>
+      <h3>Example — /ES S2 Short (L55 Break)</h3>
+      <p>Suppose <strong>L55 = 5450.00</strong>, <strong>Nⁱ = 14.0</strong>. Stop‑sell at <strong>5449.75</strong>. Initial stop = <strong>5449.75 + 2×14.0 = 5477.75</strong>. Adds at −0.5×Nⁱ: 5442.75, 5435.75, 5428.75. Size as above using $ per 1N = Nⁱ×$50 (ES) or ×$5 (MES).</p>
+      <figure>
+        <svg viewBox="0 0 820 240" aria-label="Entry/Stop/Add ladder with axes" class="chart">
+          <rect width="820" height="240" fill="#0b1326"/>
+          <g class="grid">
+            <line x1="70" y1="210" x2="790" y2="210"/>
+            <line x1="70" y1="180" x2="790" y2="180"/>
+            <line x1="70" y1="150" x2="790" y2="150"/>
+            <line x1="70" y1="120" x2="790" y2="120"/>
+            <line x1="70" y1="90"  x2="790" y2="90"/>
+            <line x1="70" y1="60"  x2="790" y2="60"/>
+          </g>
+          <g class="axis">
+            <line x1="70" y1="40" x2="70" y2="210"/>
+            <line x1="70" y1="210" x2="790" y2="210"/>
+          </g>
+          <text class="label" x="18" y="50">Price</text>
+          <text class="label" x="730" y="230">Time →</text>
+          <g>
+            <text x="82" y="80" class="label">Add #3 (E + 1.5N)</text>
+            <text x="82" y="110" class="label">Add #2 (E + 1.0N)</text>
+            <text x="82" y="140" class="label">Add #1 (E + 0.5N)</text>
+            <text x="82" y="170" class="label">Entry E</text>
+            <text x="600" y="200" class="label">Stop (E − 2N)</text>
+          </g>
+        </svg>
+        <figcaption>Long ladder. Mirror distances for shorts.</figcaption>
+      </figure>
+    </div>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+  <section id="sec4" class="card">
+    <h2>4) Intraday From Daily Rails (5–30m Execution)</h2>
+    <div class="two-col">
+      <p><span class="k">Overview.</span> Use daily H20/L20 (H55/L55 for S2) and Nᵈ for context; execute on 5–30‑minute bars with <em>Nⁱ=ATR(20,5m)</em> for stops, adds, and unit size. Flat by EOD unless risk is consciously handed to an option.</p>
+      <p><span class="k">Trigger.</span> Arm a stop at the daily rail (+1 tick). Accept only if a 5‑minute bar <em>closes</em> beyond the line or shows ≥0.2×Nⁱ body past it; this filters wick‑throughs while preserving trend participation.</p>
+      <p><span class="k">Sizing.</span> $ per 1N/contract = Nⁱ×PV×Mult. Contracts/unit = floor(UnitRisk$ / $ per 1N/contract). Keep heat ≤ 4–6%.</p>
+      <div class="box ok"><span class="k">Action items.</span> (1) Compute Nᵈ on the close; Nⁱ intraday. (2) Stage adds at fill time; no manual “chasing”. (3) Time‑stop into the close if exit signal hasn’t printed.</div>
+      <p class="muted">Research note: requiring a bar <em>close</em> beyond a threshold improves post‑signal drift vs intrabar triggers; sizing by Nⁱ aligns stop distance with realized noise of the traded timeframe.</p>
+    </div>
+    <div class="span-all">
+      <h3>Concrete /ES Examples</h3>
+      <p><strong>Daily trigger:</strong> Prior‑day H20=5530.00. Arm stop‑buy 5530.25. <strong>Intraday confirm:</strong> take only if a 5m candle <em>closes</em> above 5530.00 or has ≥0.2×Nⁱ body beyond. <strong>Stops/Adds:</strong> Nⁱ=12.5 → stop 2×Nⁱ (−25.0) and adds every +6.25 points.</p>
+      <figure>
+        <svg viewBox="0 0 860 300" aria-label="Daily trigger vs intraday confirmation with axes" class="chart">
+          <rect width="860" height="300" fill="#0b1326"/>
+          <g class="grid">
+            <line x1="70" y1="260" x2="820" y2="260"/>
+            <line x1="70" y1="220" x2="820" y2="220"/>
+            <line x1="70" y1="180" x2="820" y2="180"/>
+            <line x1="70" y1="140" x2="820" y2="140"/>
+            <line x1="70" y1="100" x2="820" y2="100"/>
+            <line x1="70" y1="60"  x2="820" y2="60"/>
+            <line x1="70" y1="20"  x2="820" y2="20"/>
+            <line x1="70" y1="20"  x2="70"  y2="260"/>
+            <line x1="220" y1="20" x2="220" y2="260"/>
+            <line x1="370" y1="20" x2="370" y2="260"/>
+            <line x1="520" y1="20" x2="520" y2="260"/>
+            <line x1="670" y1="20" x2="670" y2="260"/>
+            <line x1="820" y1="20" x2="820" y2="260"/>
+          </g>
+          <g class="axis">
+            <line x1="70" y1="20" x2="70" y2="260"/>
+            <line x1="70" y1="260" x2="820" y2="260"/>
+          </g>
+          <line x1="70" x2="820" y1="150" y2="150" stroke="#7dd3fc" stroke-dasharray="6 5"/>
+          <text x="74" y="142" class="label">Daily H20 (trigger)</text>
+          <path d="M70 250 C 150 242, 210 220, 270 236 S 390 148, 450 142 S 560 150, 820 120" stroke="#e8efff" stroke-width="2.8" fill="none"/>
+          <text class="label" x="20" y="18">Price</text>
+          <text class="label" x="740" y="295">Time (5m) →</text>
+        </svg>
+        <figcaption>Only a close beyond the dashed rail qualifies; wicks alone are ignored.</figcaption>
+      </figure>
+    </div>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+  <section id="sec5" class="card">
+    <h2>5) Regime Classification: Trending · Balanced · Stressed</h2>
+    <div class="two-col">
+      <p><span class="k">Purpose.</span> Regime tagging doesn’t change the Turtle math; it changes the <em>throttle</em>. We classify each session using price state (inside/outside Donchian rails), directional strength (ADX slope), realized volatility percentiles (<em>Nⁱ</em>), and a compact set of <em>market internals</em>: <span class="k">VIX</span>, <span class="k">TRIN</span> (Arms Index), <span class="k">NYSE TICK</span>, breadth, and opening gap size. Levels are indicative; use z‑scores vs a rolling window to adapt thresholds by product.</p>
+      <p><span class="k">Interpretation.</span> <em>Trending</em> days feature price escaping the rails with rising ADX and internals aligned (e.g., TRIN persistently < 0.8 for uptrends or > 1.2 for downtrends; TICK clustering on the dominant side). <em>Balanced</em> days show price inside rails, ADX flat, and internals oscillating around neutral (TRIN ~0.9–1.2; TICK mean near 0 with shallow tails). <em>Stressed</em> days combine top‑decile <em>Nⁱ</em>, outsized gaps, and disorderly internals (VIX spike > ~24, repeated ±1000 TICK prints, TRIN > 1.5).</p>
+      <div class="box ok"><span class="k">Action items.</span> (1) Morning dashboard: ADX slope (5m), <em>Nⁱ</em> percentile, VIX level & z‑score, TRIN (open + 60‑min avg), cumulative TICK slope. (2) If conflict, default to Balanced until the rail resolves. (3) Freeze regime for 30–60 minutes after tagging to avoid thrash.</div>
+      <p class="muted">Research note: internals are context, not triggers; they reduce false positives by requiring breadth/volume participation and aligned risk appetite.</p>
+    </div>
+    <div class="span-all">
+      <figure>
+        <table class="table-wide" style="width:100%;border-collapse:collapse;border:1px solid var(--line);background:#0b1326">
+          <thead>
+            <tr style="border-bottom:1px solid var(--line)">
+              <th style="padding:8px;text-align:left">Signal</th>
+              <th style="padding:8px;text-align:left">Trending (Up)</th>
+              <th style="padding:8px;text-align:left">Trending (Down)</th>
+              <th style="padding:8px;text-align:left">Balanced</th>
+              <th style="padding:8px;text-align:left">Stressed</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:8px">Price state</td><td style="padding:8px">Close > H20/H55</td><td style="padding:8px">Close < L20/L55</td><td style="padding:8px">Inside H20/L20</td><td style="padding:8px">Gap > 1.0% + expanding range</td></tr>
+            <tr><td style="padding:8px">ADX(14, 5m)</td><td style="padding:8px">Rising, > 18</td><td style="padding:8px">Rising, > 18</td><td style="padding:8px">Flat/declining, 10–18</td><td style="padding:8px">Spike > 25</td></tr>
+            <tr><td style="padding:8px">Nⁱ percentile</td><td style="padding:8px">≥ 60th</td><td style="padding:8px">≥ 60th</td><td style="padding:8px">≤ 40th</td><td style="padding:8px">≥ 90th</td></tr>
+            <tr><td style="padding:8px">VIX</td><td style="padding:8px">10–20 / z ≤ 0</td><td style="padding:8px">> 20, z rising</td><td style="padding:8px">12–20 / z ~ 0</td><td style="padding:8px">> 24 or z ≥ +1.5</td></tr>
+            <tr><td style="padding:8px">TRIN</td><td style="padding:8px">< 0.8 sustained</td><td style="padding:8px">> 1.2 sustained</td><td style="padding:8px">0.9–1.2 near 1.0</td><td style="padding:8px">≥ 1.5</td></tr>
+            <tr><td style="padding:8px">NYSE TICK</td><td style="padding:8px">Clusters > +600</td><td style="padding:8px">Clusters < −600</td><td style="padding:8px">Mean −200..+200</td><td style="padding:8px">Frequent ±1000 prints</td></tr>
+            <tr><td style="padding:8px">Breadth</td><td style="padding:8px">A/D > +1500</td><td style="padding:8px">A/D < −1500</td><td style="padding:8px">−400..+400</td><td style="padding:8px">|A/D| > 2000</td></tr>
+            <tr><td style="padding:8px">Up/Down Vol</td><td style="padding:8px">> 2:1</td><td style="padding:8px">> 2:1 (down)</td><td style="padding:8px">~1:1</td><td style="padding:8px">> 4:1</td></tr>
+            <tr><td style="padding:8px">Put/Call</td><td style="padding:8px">≤ 0.9</td><td style="padding:8px">≥ 1.1</td><td style="padding:8px">~1.0</td><td style="padding:8px">≥ 1.3</td></tr>
+          </tbody>
+        </table>
+        <figcaption>Objective internals by regime for /ES context. Thresholds are heuristic guides, not strict triggers.</figcaption>
+      </figure>
+    </div>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+  <section id="sec6" class="card">
+    <h2>6) Model Suite per Regime (with Scalping Protocols)</h2>
+    <div class="two-col">
+      <p><span class="k">Trending (S1 default; S2 when stressed).</span> Trade with the daily break; confirm with a 5‑minute close beyond H20/L20 (or H55/L55 when stressed). Initial stop = 2×Nⁱ; adds at ±0.5×Nⁱ up to four units as price makes you right. Exit on L10ⁱ/H10ⁱ (S1) or L20ⁱ/H20ⁱ (S2). Avoid counter‑trend scalps; internals should rhyme with direction.</p>
+      <p><span class="k">Balanced (range).</span> Inside H20/L20 with muted ADX and neutral internals: small, symmetric mean‑reversion around VWAP. Stops 1.0×Nⁱ; targets 1.0–1.5×Nⁱ. Two‑strike rule per side; abandon immediately on expansion or rail break. Shell (Sec. 7) may run income (condors/flies) around the rails.</p>
+      <p><span class="k">Stressed (volatile).</span> Widen buffers (+2–3 ticks), halve per‑unit risk, prefer micros, require S2 context. Catastrophic stops ≥ 2×Nⁱ. Trade only with the break direction; if TICK is disorderly (±1000), wait for the second push rather than the first spike.</p>
+      <div class="box ok"><span class="k">Action items.</span> (1) Bracket logic: parent STOP at rail, OCO STOP = 2×Nⁱ, staged add STOPs at E ± 0.5×Nⁱ. (2) Kill switch after two −1R attempts in a session. (3) Shift to Shell overlays when regime = Balanced or when holding overnight risk intentionally.</div>
+      <p class="muted">Research note: separating playbooks reduces cognitive switching costs and preserves expectancy; pyramids are earned only after realized progress; flat by EOD keeps trailing drawdowns stable.</p>
+    </div>
+    <div class="span-all">
+      <figure>
+        <table class="table-wide" style="width:100%;border-collapse:collapse;border:1px solid var(--line);background:#0b1326">
+          <thead>
+            <tr style="border-bottom:1px solid var(--line)">
+              <th style="padding:8px;text-align:left">Regime</th>
+              <th style="padding:8px;text-align:left">Entry</th>
+              <th style="padding:8px;text-align:left">Stop / Adds</th>
+              <th style="padding:8px;text-align:left">Exit</th>
+              <th style="padding:8px;text-align:left">Attempts</th>
+              <th style="padding:8px;text-align:left">/ES Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td style="padding:8px">Trending (up)</td><td style="padding:8px">Stop‑buy H20 + 1 tick (post 5m close)</td><td style="padding:8px">Stop = 2×Nⁱ; adds +0.5×Nⁱ</td><td style="padding:8px">L10ⁱ (S1) / L20ⁱ (S2)</td><td style="padding:8px">Unlimited until heat cap</td><td style="padding:8px">H20=5530; Nⁱ=12.5 → E 5530.25; Stop 5505.25; Adds 5536.50/5542.75/5549.00</td></tr>
+            <tr><td style="padding:8px">Trending (down)</td><td style="padding:8px">Stop‑sell L20 − 1 tick (post 5m close)</td><td style="padding:8px">Stop = 2×Nⁱ; adds −0.5×Nⁱ</td><td style="padding:8px">H10ⁱ (S1) / H20ⁱ (S2)</td><td style="padding:8px">—</td><td style="padding:8px">L20=5488; Nⁱ=14.0 → E 5487.75; Stop 5515.75; Adds 5480.75/5473.75/5466.75</td></tr>
+            <tr><td style="padding:8px">Balanced</td><td style="padding:8px">Fade toward VWAP from pinches</td><td style="padding:8px">Stop = 1.0×Nⁱ; target = 1.0–1.5×Nⁱ</td><td style="padding:8px">Time‑stop by EOD or on rail break</td><td style="padding:8px">Max two per side</td><td style="padding:8px">H20=5530/L20=5500; VWAP 5516; Nⁱ=9.0 → Short 5515.25; Stop 5524.25; Target 5506.25</td></tr>
+            <tr><td style="padding:8px">Stressed</td><td style="padding:8px">S2 only; wait for second push if TICK ±1000</td><td style="padding:8px">Stop ≥ 2×Nⁱ; +2–3 tick buffer; micros</td><td style="padding:8px">L20ⁱ/H20ⁱ</td><td style="padding:8px">One attempt/side</td><td style="padding:8px">Gap −1.2%; Nⁱ=18 → Short L55; Stop 36 pts; MES; no counter‑trend</td></tr>
+          </tbody>
+        </table>
+        <figcaption>Per‑regime trade plan for /ES. Compute values from live <em>N</em> and rails.</figcaption>
+      </figure>
+    </div>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+  <section id="sec7" class="card">
+    <h2>7) Turtle Shell Option Layer — Hedge on Balanced Days, Hyper‑Growth on Trend Days</h2>
+    <div class="two-col">
+      <p><span class="k">Purpose.</span> The Shell exists to <strong>protect the futures book on non‑trending days</strong> and to <strong>hyper‑extend winners on trending days</strong>. In ranges, we <em>sell premium for credit</em> so theta offsets the small −1R futures scratches. In trends, we <em>buy convexity</em> (long OTM calls/puts or debit structures) keyed to the breakout so upside accelerates without capping the first futures unit.</p>
+      <p><span class="k">Underlying choices.</span> Use <strong>SPX/NDX</strong> (cash‑settled, broad‑based), or highly liquid ETFs such as <strong>SPY/QQQ/IWM</strong> and sector ETFs (<strong>XLK/XLF/XLE/XLY</strong>) when you want finer granularity or correlation tilts. For /NQ exposure via options, prefer <strong>NDX or QQQ</strong>; for /ES, prefer <strong>SPX or SPY</strong>. Choose by liquidity, slippage, and margin efficiency.</p>
+      <p><span class="k">Technical gating (when to deploy each).</span> 
+        <em>Balanced:</em> price inside H20/L20, ADX flat, Nⁱ ≤ 40th pct, IV Rank (IVR) 20–60 → favor credit spreads/condors/flies around rails. 
+        <em>Trending:</em> 5m close beyond rail with ADX rising, IVR 10–40 → debit verticals, calendars/diagonals, or long OTM options. 
+        <em>Stressed:</em> Nⁱ ≥ 90th pct, VIX z ≥ +1.5 → collars, put spreads, backspreads. Switch automatically when regime flips.</p>
+      <p><span class="k">Credit objective in ranges.</span> Target total daily option <strong>credit ≈ 0.25–0.50×UnitRisk</strong> per futures unit at risk (e.g., if UnitRisk = $500, aim for $125–$250/day net credit across one or two structures). Cap maximum defined option risk ≤ <strong>1.0×UnitRisk</strong> so the hedge never dominates heat.</p>
+    </div>
+
+    <div class="span-all"><figure>
+        <table class="table-wide" style="width:100%;border-collapse:collapse;border:1px solid var(--line);background:#0b1326">
+          <thead>
+            <tr style="border-bottom:1px solid var(--line)">
+              <th style="padding:8px;text-align:left">Regime</th>
+              <th style="padding:8px;text-align:left">Objective</th>
+              <th style="padding:8px;text-align:left">Preferred Structures</th>
+              <th style="padding:8px;text-align:left">Underlyings</th>
+              <th style="padding:8px;text-align:left">Setup (technical)</th>
+              <th style="padding:8px;text-align:left">Risk/Management</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td style="padding:8px">Balanced (range)</td>
+              <td style="padding:8px">Offset −1R futures scratches; earn theta</td>
+              <td style="padding:8px">Iron Condor · Iron Fly · Broken‑Wing Butterfly (BWB) · Short Verticals</td>
+              <td style="padding:8px">SPX/SPY · NDX/QQQ · IWM · XLK/XLF</td>
+              <td style="padding:8px">Short strikes ~ H20+0.5×Nᵈ / L20−0.5×Nᵈ; wings 1.0–1.5×Nᵈ; IVR 20–60; center near VWAP</td>
+              <td style="padding:8px">Take profits at 40–60% of max credit; stop at 1.5× credit or on confirmed rail breach; roll threatened side when Δ ≥ 0.35 or price within 0.25×Nᵈ of short strike</td>
+            </tr>
+            <tr>
+              <td style="padding:8px">Trending (breakout)</td>
+              <td style="padding:8px">Add convexity to futures trend</td>
+              <td style="padding:8px">Debit Verticals · Calendars/Diagonals · Long OTM options · LEAPS + covered calls</td>
+              <td style="padding:8px">SPX/SPY · NDX/QQQ</td>
+              <td style="padding:8px">Trigger on 5m close beyond rail; 25–40Δ longs; calendars when IVR ≤ 30 and realized vol rising</td>
+              <td style="padding:8px">Budget ≤ 0.5×UnitRisk per futures unit; roll on Add #2 or IV crush ≥ 20%; exit on 5m close back through rail by ≥ 0.25×Nⁱ or at EOD</td>
+            </tr>
+            <tr>
+              <td style="padding:8px">Stressed (high vol)</td>
+              <td style="padding:8px">Bound left tail; keep participation</td>
+              <td style="padding:8px">Collars · Put Spreads · Put Backspreads · Wide BWBs</td>
+              <td style="padding:8px">SPX/SPY · NDX/QQQ</td>
+              <td style="padding:8px">Activate when Nⁱ ≥ 90th pct or VIX z ≥ +1.5; place puts near daily 2×Nᵈ stop zone</td>
+              <td style="padding:8px">Hedge cost ≤ 5–10% of open trend P&L; remove as regime normalizes or delta hedged by futures exit</td>
+            </tr>
+            <tr>
+              <td style="padding:8px">Scalp days (low vol, flat futures)</td>
+              <td style="padding:8px">Harvest theta intraday</td>
+              <td style="padding:8px">0–7 DTE Calendars · Narrow Iron Flies · Butterflies</td>
+              <td style="padding:8px">SPY/QQQ</td>
+              <td style="padding:8px">Center at VWAP ±0.3–0.5×Nⁱ; avoid earnings/major data</td>
+              <td style="padding:8px">Flat by EOD; target 30–50% credit; cut if price dwells near a short strike</td>
+            </tr>
+          </tbody>
+        </table>
+        <figcaption>“Shell” mapping: options adapt to regime while futures remain purely mechanical.</figcaption>
+      </figure></div>
+
+    <div class="two-col">
+      <p><span class="k">Credit offset math (per session).</span> If UnitRisk = $500 and you take two −1R futures attempts in a Balanced day, the shell aims to harvest ≈ $250–$500 in net credit so the session P&L skews toward flat to small‑positive while preserving readiness for the next breakout.</p>
+      <p><span class="k">Management protocol.</span> Enter with defined‑risk structures only; size option risk ≤ futures heat allowance. Standard exits: (1) take 40–60% credit; (2) rail breach → close/flip to trend overlay; (3) short‑strike Delta ≥ 0.35 or price within 0.25×Nᵈ of short strike → roll/flatten that side; (4) flat by EOD unless the shell is the intended overnight carrier.</p>
+      <p><span class="k">Technical trader enhancements.</span> Place short strikes where Donchian rails and visible supply/demand zones converge; bias condor width by ADX slope; choose calendars when HV>IV and a squeeze is forming; prefer BWBs when skew is elevated so the broken wing reduces debit while keeping convexity toward the breakout side.</p>
+    </div>
+
+    <div class="span-all">
+      <div class="box ok"><strong>Action items — Shell</strong>
+        <ol>
+          <li>Morning: tag regime; compute Nᵈ; record IV Rank for SPX/NDX/SPY/QQQ; pre‑define rail distances in Nᵈ for strike placement.</li>
+          <li>Balanced: deploy 1–2 defined‑risk credit structures sized so total at‑risk ≤ 1.0×UnitRisk; target 40–60% credit; auto‑close on rail breach.</li>
+          <li>Trending: on breakout confirmation, add a debit structure (Δ 25–40) with cost ≤ 0.5×UnitRisk per futures unit; roll on Add #2 or IV crush.</li>
+          <li>Stressed: attach collars/put spreads sized at 5–10% of open trend P&L; remove when Nⁱ and VIX normalize.</li>
+          <li>Logging: store Greeks (Δ, Γ, Θ), IVR, distance‑to‑rail (in Nᵈ), and rule‑based exits; attribute shell P&L by regime.</li>
+        </ol>
+      </div>
+    </div>
+
+    <!-- Trend overlay chart: debit call vertical atop futures -->
+    <div class="span-all">
+      <figure>
+        <svg viewBox="0 0 860 280" aria-label="Debit call vertical payoff atop futures trend" class="chart">
+          <rect width="860" height="280" fill="#0b1326"/>
+          <g class="grid">
+            <line x1="70" y1="240" x2="820" y2="240"/>
+            <line x1="70" y1="200" x2="820" y2="200"/>
+            <line x1="70" y1="160" x2="820" y2="160"/>
+            <line x1="70" y1="120" x2="820" y2="120"/>
+            <line x1="70" y1="80"  x2="820" y2="80"/>
+            <line x1="70" y1="40"  x2="820" y2="40"/>
+          </g>
+          <g class="axis"><line x1="70" y1="30" x2="70" y2="240"/><line x1="70" y1="240" x2="820" y2="240"/></g>
+          <text class="label" x="12" y="36">P&L ↑</text>
+          <text class="label" x="720" y="262">Underlying →</text>
+          <path d="M70 220 L740 60" stroke="#7dd3fc" stroke-width="2.6" fill="none"/>
+          <path d="M70 220 L300 220 L560 140 L740 140" stroke="#34d399" stroke-width="2.8" fill="none"/>
+          <text class="label" x="300" y="235">K1</text>
+          <text class="label" x="560" y="235">K2</text>
+        </svg>
+        <figcaption>Trend overlay: convex payoff layered on linear futures exposure; capped option P&L, uncapped futures.</figcaption>
+      </figure>
+    </div>
+
+    <!-- Balanced overlay chart: iron condor -->
+    <div class="span-all">
+      <figure>
+        <svg viewBox="0 0 860 280" aria-label="Iron condor payoff in balanced regime" class="chart">
+          <rect width="860" height="280" fill="#0b1326"/>
+          <g class="grid">
+            <line x1="70" y1="240" x2="820" y2="240"/>
+            <line x1="70" y1="200" x2="820" y2="200"/>
+            <line x1="70" y1="160" x2="820" y2="160"/>
+            <line x1="70" y1="120" x2="820" y2="120"/>
+            <line x1="70" y1="80"  x2="820" y2="80"/>
+            <line x1="70" y1="40"  x2="820" y2="40"/>
+          </g>
+          <g class="axis"><line x1="70" y1="30" x2="70" y2="240"/><line x1="70" y1="240" x2="820" y2="240"/></g>
+          <text class="label" x="12" y="36">P&L ↑</text>
+          <text class="label" x="720" y="262">Underlying →</text>
+          <path d="M70 210 L260 210 L320 230 L560 230 L620 210 L820 210" stroke="#c4b5fd" stroke-width="2.8" fill="none"/>
+          <text class="label" x="260" y="245">Kp</text>
+          <text class="label" x="620" y="245">Kc</text>
+        </svg>
+        <figcaption>Balanced overlay: condor earns theta between rails with capped wings; rules close on rail breach.</figcaption>
+      </figure>
+    </div>
+
+    <!-- Stress overlay chart: collar -->
+    <div class="span-all">
+      <figure>
+        <svg viewBox="0 0 860 280" aria-label="Collar payoff (long underlying / protective put / short call)" class="chart">
+          <rect width="860" height="280" fill="#0b1326"/>
+          <g class="grid">
+            <line x1="70" y1="240" x2="820" y2="240"/>
+            <line x1="70" y1="200" x2="820" y2="200"/>
+            <line x1="70" y1="160" x2="820" y2="160"/>
+            <line x1="70" y1="120" x2="820" y2="120"/>
+            <line x1="70" y1="80"  x2="820" y2="80"/>
+            <line x1="70" y1="40"  x2="820" y2="40"/>
+          </g>
+          <g class="axis"><line x1="70" y1="30" x2="70" y2="240"/><line x1="70" y1="240" x2="820" y2="240"/></g>
+          <text class="label" x="10" y="36">P&L ↑</text>
+          <text class="label" x="720" y="262">Underlying →</text>
+          <path d="M70 220 L220 210 L360 180 L520 160 L660 160 L740 175 L820 175" stroke="#fbbf24" stroke-width="2.8" fill="none"/>
+        </svg>
+        <figcaption>Stress overlay: collar defines downside while financing protection with a short call — useful in stressed regimes or overnight carries.</figcaption>
+      </figure>
+    </div>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
+  <section id="sec8" class="card">
+    <h2>8) Risk Model, Position Heat & Kill‑Switches</h2>
+    <div class="two-col">
+      <p><span class="k">Purpose & context.</span> The risk engine is the <em>shell’s spine</em>: it converts volatile, path‑dependent prices into constant‑risk bets expressed in <strong>N</strong>. Its job is simple and ruthless — <em>cap the left tail</em> so the right tail can pay. Position risk lives at three layers: <strong>trade</strong> (2×Nⁱ stops), <strong>session</strong> (two‑strike rule; daily stop 1.5–2.0R), and <strong>portfolio</strong> (heat cap ≤ 4–6% with correlated‑sleeve checks). This section formalizes the math, then explains each factor and the behavioral traps it protects you from.</p>
+
+      <p><span class="k">Preface to formulas (why this framing).</span> Markets change noise faster than they change structure. Expressing entries, stops, adds, and size in <em>N</em> lets you <em>hold policy constant</em> while microstructure and volatility breathe. Standardization makes outcomes comparable across regimes and products, enabling disciplined pyramids and reliable drawdown control.</p>
+
+      <h3>Core formulas (mechanics first)</h3>
+      <pre>Risk unit (daily):            Nᵈ = ATR(20, daily, Wilder)
+Risk unit (intraday):         Nⁱ = ATR(20, 5‑minute, Wilder)
+$ per 1N / contract:          $1N = Nⁱ × PV × Mult      # ES PV×Mult = $50/pt; MES = $5/pt
+Unit risk (dollars):          UnitRisk$ = Equity × risk%
+Contracts per unit:           C = floor( UnitRisk$ / $1N )
+Initial stop distance:        Stop = 2 × Nⁱ (from entry; long subtract, short add)
+Add spacing:                  Ladder = entry ± {0.5, 1.0, 1.5} × Nⁱ
+Portfolio heat (cap):         Heat% = Σ(UnitRisk$)/Equity  ≤ 4–6%
+Daily risk stop:              Stop_day = 1.5–2.0R (flatten + disable adds)
+Drawdown throttles:           −3R (halve unit risk), −5R (micros only), −7R (flat)
+Slippage budget (planning):   0.05–0.10 × Nⁱ per touch (enter/exit/add)
+Volatility guardrails:        Nⁱ ∈ [ max(Nⁱ, 0.3×Nᵈ), 1.5×median₍20₎(Nⁱ) ]</pre>
+
+      <h3>Factor explanations (what each knob controls)</h3>
+      <p><span class="k">Nᵈ vs Nⁱ.</span> Use <em>Nᵈ</em> to define the playground (rails, option winging) and <em>Nⁱ</em> to size and protect what you actually trade (5–30m execution). Separating intent from protection allows you to respect daily structure without letting intraday noise overwhelm stops.</p>
+      <p><span class="k">$1N and contracts C.</span> Translating N into dollars ensures the same R‑risk today as yesterday. When $1N per ES exceeds UnitRisk$, drop to <em>MES</em>. This preserves add logic and exit math instead of silently widening stops or shrinking R.</p>
+      <p><span class="k">Heat.</span> Summing UnitRisk across open units/sleeves caps correlated exposure. A 4–6% range balances compounding with survivability; the shell’s risk counts toward heat only while option gamma/theta materially affects P&L intra‑session.</p>
+      <p><span class="k">Stops and adds.</span> Fixed <em>2×Nⁱ</em> catastrophic stops and <em>0.5×Nⁱ</em> spacing are empirically robust; they keep you in winners long enough to pyramid while ejecting you quickly from fakes. Do not trail discretionarily — exits are <em>L10ⁱ/H10ⁱ</em> (S1) or <em>L20ⁱ/H20ⁱ</em> (S2).</p>
+      <p><span class="k">Guardrails.</span> The volatility floor (0.3×Nᵈ) prevents unrealistically tight stops in sleepy sessions; the ceiling (1.5× median Nⁱ) avoids ballooning unit sizes on panic prints. Slippage budgeting keeps expectancy realistic in fast tape.</p>
+
+      <h3>Theoretical outcomes (what the distribution looks like)</h3>
+      <p>Let hit rate <em>h</em>=38%, average win <em>W</em>=2.2R, average loss <em>L</em>=1.0R. Expectancy per trade is <em>E</em>=h×W − (1−h)×L = 0.38×2.2 − 0.62×1.0 = <strong>+0.36R</strong>. Over 300 trades, cost‑adjusted, the <em>median</em> path compounds modestly while the <em>right‑tail</em> (trend clusters) drives most of the total return. Heat caps and daily stops constrain the left‑tail so losing streaks (−3R to −6R) do not cascade into ruin. The shell improves the <em>balanced‑regime</em> slope (credit income) and the <em>trend‑regime</em> convexity (debit verticals/diagonals) without diluting first‑unit futures.</p>
+
+      <h3>Emotional barriers (and how the system neutralizes them)</h3>
+      <p><span class="k">Widening stops.</span> Loss aversion tempts late stop moves. Countermeasure: pre‑staged OCO at 2×Nⁱ, broker‑server‑side; <em>no cancel/replace</em> allowed except for volatility guardrails.</p>
+      <p><span class="k">Adding early.</span> FOMO invites adds before +0.5×Nⁱ. Countermeasure: stage adds as STOPs at ladder prices; disable market orders for adds.</p>
+      <p><span class="k">Revenge trades.</span> Two quick losses trigger over‑trading. Countermeasure: <em>two‑strike</em> rule + 60–90 min cooldown; hide P&L during active management.</p>
+      <p><span class="k">Narrative drift.</span> News headlines hijack plan. Countermeasure: only rails trigger. Internals are context filters, not signals; if conflicted, default to Balanced and stand down.</p>
+
+      <div class="box ok"><strong>Operational defenses</strong>
+        <ul>
+          <li><em>Kill‑switch:</em> One command cancels staged adds, tightens all stops to market, and flattens if daily stop is breached.</li>
+          <li><em>Throttle ladder:</em> −3R (halve risk), −5R (micros only), −7R (flat) — auto‑enforced by the daemon.</li>
+          <li><em>Heat police:</em> reject new units when projected heat > cap; allow only exits and hedges.</li>
+          <li><em>Audit trail:</em> every order carries N, rail, risk%, and regime tags; violations are surfaced on the dashboard.</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="span-all">
+      <h3>Illustrative risk charts</h3>
+      <figure>
+        <svg viewBox="0 0 860 280" class="chart" aria-label="Expected equity (R) with and without Shell">
+          <rect width="860" height="280" fill="#0b1326"/>
+          <g class="grid">
+            <line x1="70" y1="240" x2="820" y2="240"/>
+            <line x1="70" y1="200" x2="820" y2="200"/>
+            <line x1="70" y1="160" x2="820" y2="160"/>
+            <line x1="70" y1="120" x2="820" y2="120"/>
+            <line x1="70" y1="80"  x2="820" y2="80"/>
+            <line x1="70" y1="40"  x2="820" y2="40"/>
+          </g>
+          <g class="axis"><line x1="70" y1="30" x2="70" y2="240"/><line x1="70" y1="240" x2="820" y2="240"/></g>
+          <text class="label" x="10" y="36">Equity (R) ↑</text>
+          <text class="label" x="720" y="262">Trades →</text>
+          <path d="M70 232 L130 228 L190 231 L250 222 L310 226 L370 212 L430 219 L490 205 L550 210 L610 200 L670 214 L730 186 L790 158 L820 170" stroke="#7dd3fc" stroke-width="2.6" fill="none"/>
+          <path d="M70 232 L130 229 L190 231 L250 222 L310 226 L370 212 L430 219 L490 205 L550 210 L610 200 L670 214 L730 186 L790 158 L820 176" stroke="#34d399" stroke-width="2.6" fill="none"/>
+        </svg>
+        <figcaption>Conceptual: options Shell raises the median slope in balanced regimes and retains convexity in trends.</figcaption>
+      </figure>
+
+      <figure>
+        <svg viewBox="0 0 860 280" class="chart" aria-label="Portfolio heat vs. probability of ruin (stylized)">
+          <rect width="860" height="280" fill="#0b1326"/>
+          <g class="grid">
+            <line x1="70" y1="240" x2="820" y2="240"/>
+            <line x1="70" y1="200" x2="820" y2="200"/>
+            <line x1="70" y1="160" x2="820" y2="160"/>
+            <line x1="70" y1="120" x2="820" y2="120"/>
+            <line x1="70" y1="80"  x2="820" y2="80"/>
+            <line x1="70" y1="40"  x2="820" y2="40"/>
+          </g>
+          <g class="axis"><line x1="70" y1="30" x2="70" y2="240"/><line x1="70" y1="240" x2="820" y2="240"/></g>
+          <text class="label" x="10" y="36">Prob. of Ruin ↑</text>
+          <text class="label" x="700" y="262">Heat % →</text>
+          <path d="M70 220 C 220 210, 350 180, 470 160 S 620 130, 700 110 S 780 70, 820 40" stroke="#f87171" stroke-width="2.6" fill="none"/>
+          <line x1="520" y1="40" x2="520" y2="240" stroke="#9fb4de" stroke-dasharray="6 5"/>
+          <text class="label" x="505" y="54">≈ 6% heat</text>
+        </svg>
+        <figcaption>Stylized: as portfolio heat rises, ruin risk accelerates non‑linearly. Keeping heat ≤ 4–6% preserves survivability.</figcaption>
+      </figure>
+    </div>
+    <a class="toplink" href="#toc">↑ Back to contents</a>
+  </section>
