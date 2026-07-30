@@ -154,11 +154,17 @@ function Candle({ o, h, l, c }: { o: number; h: number; l: number; c: number }) 
 // Genuine live TradingView chart, embedded via their free public widget
 // script (no API key — same embed anyone can drop into any site). Loads
 // s3.tradingview.com/tv.js once and reuses it across multiple widget
-// instances on the page. Uses the continuous front-month contract (ES1!/
-// NQ1!) rather than the specific Sep 2026 contract the rest of this
-// dashboard tracks (ESU26/NQU26) — TradingView's exact symbol notation for
-// a dated futures contract isn't something this build has verified, while
-// the continuous front-month symbol is guaranteed to exist and stay live.
+// instances on the page.
+//
+// CME futures data (ES/NQ) is NOT usable here — confirmed directly against
+// TradingView's own widget FAQ: the embeddable widgets have separate data
+// licensing from tradingview.com itself, some exchanges' data isn't licensed
+// for widget redistribution at all, and — critically — a paid TradingView
+// plan does NOT change what's available in the widget (that's an explicit
+// line in their FAQ). CME_MINI:ES1!/NQ1! surfaced "This symbol is only
+// available on TradingView" and silently fell back to AAPL — that's the
+// widget's default-on-failure behavior, not a symbol-formatting bug. SPY/QQQ
+// below are ordinary listed ETFs with no such restriction.
 let tvScriptPromise: Promise<void> | null = null
 function loadTradingViewScript(): Promise<void> {
   if (typeof window !== 'undefined' && (window as any).TradingView) return Promise.resolve()
@@ -502,25 +508,38 @@ function FuturesStrip() {
   )
 }
 
-// Live TradingView charts for /ES and /NQ — a separate section from
-// FuturesStrip's technical panel above, since this is a genuine embedded
-// third-party chart, not derived/computed data like the rest of this file.
+// Live TradingView charts — a separate section from FuturesStrip's technical
+// panel above, since this is a genuine embedded third-party chart, not
+// derived/computed data like the rest of this file. Shows SPY/QQQ (real,
+// embeddable ETF data, highly correlated to /ES and /NQ) rather than the
+// futures themselves, which TradingView's free widget can't display — see
+// the comment above TradingViewWidget for why. Each panel links out to the
+// genuine /ES or /NQ futures chart on tradingview.com itself for when the
+// real contract, not the ETF proxy, is what's needed.
 function LiveCharts() {
   return (
     <section>
       <div className="flex items-center gap-3 mb-3">
         <span className="text-[10px] font-semibold tracking-[0.18em] uppercase text-primary">Live Charts — TradingView</span>
         <span className="pulse-dot amber" />
-        <span className="text-[10px] text-dim">Continuous front-month (ES1! / NQ1!), not the specific ESU26/NQU26 contract tracked above</span>
+        <span className="text-[10px] text-dim">SPY/QQQ shown — CME futures (/ES, /NQ) aren't licensed for TradingView's embeddable widget at any plan tier</span>
       </div>
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         <Panel>
-          <PanelHeader label="/ES — E-Mini S&P 500" meta="TradingView, live" />
-          <div className="p-2"><TradingViewWidget symbol="CME_MINI:ES1!" containerId="tv_es_widget" /></div>
+          <PanelHeader label="SPY — S&P 500 ETF (proxy for /ES)" meta="TradingView, live" right={
+            <a href="https://www.tradingview.com/chart/?symbol=CME_MINI%3AES1%21" target="_blank" rel="noreferrer" className="text-[10px] text-primary hover:underline inline-flex items-center gap-1">
+              Real /ES futures chart <ExternalLink className="w-2.5 h-2.5" />
+            </a>
+          } />
+          <div className="p-2"><TradingViewWidget symbol="AMEX:SPY" containerId="tv_spy_widget" /></div>
         </Panel>
         <Panel>
-          <PanelHeader label="/NQ — E-Mini Nasdaq 100" meta="TradingView, live" />
-          <div className="p-2"><TradingViewWidget symbol="CME_MINI:NQ1!" containerId="tv_nq_widget" /></div>
+          <PanelHeader label="QQQ — Nasdaq-100 ETF (proxy for /NQ)" meta="TradingView, live" right={
+            <a href="https://www.tradingview.com/chart/?symbol=CME_MINI%3ANQ1%21" target="_blank" rel="noreferrer" className="text-[10px] text-primary hover:underline inline-flex items-center gap-1">
+              Real /NQ futures chart <ExternalLink className="w-2.5 h-2.5" />
+            </a>
+          } />
+          <div className="p-2"><TradingViewWidget symbol="NASDAQ:QQQ" containerId="tv_qqq_widget" /></div>
         </Panel>
       </div>
     </section>
