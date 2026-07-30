@@ -48,6 +48,11 @@ const CRYPTO_KEYWORDS = /\b(bitcoin|btc|ethereum|eth|crypto|cryptocurrency|block
 const NEWS_FEEDS = [
   'https://feeds.reuters.com/reuters/businessNews',
   'https://www.benzinga.com/market-moving-exclusives/feed',
+  // Added for premarket review — overnight action specifically, not just
+  // general market-moving news. Confirmed against Benzinga's own public feed
+  // directory (benzinga.com/feeds/list), not guessed.
+  'https://www.benzinga.com/pre-market-outlook/feed',
+  'https://www.benzinga.com/markets/asia/feed',
 ]
 
 function fgiLabel(score: number): string {
@@ -92,9 +97,12 @@ export function useLiveSnapshot(): LiveData {
       })
       .catch(() => { /* leave fgi/vixLive null — baseline fallback handles it */ })
 
-    // 3. News headlines — rss2json, no key, CORS-enabled. Same two feeds and
-    // crypto keyword filter as production (applied to every source, not a
-    // feed-choice substitute — see mmm_dashboard.html's comment for why).
+    // 3. News headlines — rss2json, no key, CORS-enabled. Four feeds now
+    // (general market-moving + dedicated premarket outlook + Asia overnight
+    // session), same crypto keyword filter applied to every source. Limit
+    // bumped from 8 to 14 since 4 feeds need more room than 2 did, and
+    // sorted newest-first so overnight/premarket items surface even though
+    // they're spread across more sources.
     Promise.all(
       NEWS_FEEDS.map((feedUrl) =>
         fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl))
@@ -111,7 +119,8 @@ export function useLiveSnapshot(): LiveData {
         if (cancelled) return
         const all = results.flat().filter((it) => !CRYPTO_KEYWORDS.test(it.title || ''))
         if (!all.length) return
-        const items: LiveNewsItem[] = all.slice(0, 8).map((it) => ({
+        all.sort((a, b) => new Date(b.pubDate).getTime() - new Date(a.pubDate).getTime())
+        const items: LiveNewsItem[] = all.slice(0, 14).map((it) => ({
           time: ptTime(it.pubDate),
           headline: it.title,
           source: it._source,
