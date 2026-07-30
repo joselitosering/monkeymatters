@@ -393,23 +393,28 @@ async function main() {
     raw.aaii = { bull: aaii.bull, bear: aaii.bear, spread: aaii.spread, source: 'AAII' };
   }
 
-  // 6. Indices (SPX/NDX), Crypto (BTC/ETH), and GDX — same Massive key, no
-  // scraping, no new provider. GDX is just another ETF, same category as the
-  // sector ETFs above; SPX/NDX use Massive's "I:" index ticker prefix; BTC/ETH
-  // use the "X:" crypto prefix. Replaces the previously-manual SPX/BTC values.
+  // 6. Indices (SPX/NDX), Crypto (BTC/ETH), and ETF equivalents (GDX, UUP for
+  // dollar, GLD for gold) — same Massive key, no scraping, no new provider.
+  // UUP/GLD/GDX are plain ETFs, same category as the sector ETFs above; SPX/
+  // NDX use Massive's "I:" index ticker prefix; BTC/ETH use the "X:" crypto
+  // prefix. No confirmed direct DXY/gold-index ticker on the free tier, so
+  // UUP/GLD stand in as the ETF equivalents rather than guess at an index
+  // symbol that might not exist. Replaces the previously-manual SPX/BTC/XAU
+  // values.
   if (MASSIVE_KEY) {
-    const PREV_CLOSE_TICKERS = { spx: 'I:SPX', ndx: 'I:NDX', gdx: 'GDX', btc: 'X:BTCUSD', eth: 'X:ETHUSD' };
+    const PREV_CLOSE_TICKERS = { spx: 'I:SPX', ndx: 'I:NDX', gdx: 'GDX', dxy: 'UUP', gold: 'GLD', btc: 'X:BTCUSD', eth: 'X:ETHUSD' };
     for (const [key, ticker] of Object.entries(PREV_CLOSE_TICKERS)) {
       const bar = await fetchMassivePrevClose(ticker);
       if (bar) {
         raw[key] = { value: fmt(bar.close), open: fmt(bar.open), high: fmt(bar.high), low: fmt(bar.low), source: `Massive (${ticker})` };
         if (key === 'spx') values['top.spx.last'] = fmt(bar.close);
         if (key === 'btc') values['top.btc.last'] = `$${fmt(bar.close)}`;
+        if (key === 'gold') values['top.xau.last'] = `$${fmt(bar.close)}`;
       }
       await new Promise((r) => setTimeout(r, 1500)); // stagger — stay under 5 req/min
     }
   } else {
-    console.error('[Massive] MASSIVE_API_KEY not set — skipping SPX/NDX/GDX/BTC/ETH prev-close.');
+    console.error('[Massive] MASSIVE_API_KEY not set — skipping SPX/NDX/GDX/UUP/GLD/BTC/ETH prev-close.');
   }
 
   // ── Write results into the dashboard's TEXT snapshot object ──

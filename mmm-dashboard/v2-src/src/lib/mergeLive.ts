@@ -43,6 +43,13 @@ export function mergeLiveSnapshot(live: LiveData): typeof baseline {
   if (j?.gdx) merged.command.gdx = { value: j.gdx.value, gated: false, reason: j.gdx.source } as any
   if (j?.eth) merged.command.eth = { value: j.eth.value, gated: false, reason: j.eth.source } as any
 
+  // DXY/Gold: no confirmed direct index ticker on Massive's free tier, so
+  // these carry UUP/GLD ETF values instead (see generate_snapshot.mjs) — DXY
+  // un-gates the same way NDX/GDX do; gold replaces the manually-curated XAU
+  // baseline the same way SPX/BTC do above.
+  if (j?.dxy) merged.command.dxy = { value: j.dxy.value, gated: false, reason: j.dxy.source } as any
+  if (j?.gold) merged.command.xau = { value: j.gold.value, src: j.gold.source }
+
   if (j?.putCall?.total || j?.putCall?.equity) {
     merged.command.putCall = {
       total: j.putCall.total ?? merged.command.putCall.total,

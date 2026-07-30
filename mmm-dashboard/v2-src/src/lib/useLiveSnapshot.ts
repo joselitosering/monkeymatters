@@ -27,6 +27,8 @@ export interface LiveSnapshotJson {
   spx?: { value: string; open: string; high: string; low: string; source: string }
   ndx?: { value: string; open: string; high: string; low: string; source: string }
   gdx?: { value: string; open: string; high: string; low: string; source: string }
+  dxy?: { value: string; open: string; high: string; low: string; source: string }
+  gold?: { value: string; open: string; high: string; low: string; source: string }
   btc?: { value: string; open: string; high: string; low: string; source: string }
   eth?: { value: string; open: string; high: string; low: string; source: string }
 }
