@@ -50,6 +50,26 @@ function hyOasNote(v: string | null): string {
   return 'Credit stress — risk-off signal'
 }
 
+// Derives a Scanner "Signal" badge from the field's OWN source/reason string
+// — never a second, independently-hardcoded guess. Several fields (SPX, NDX,
+// GDX, DXY, XAU) can legitimately come from more than one provider depending
+// on which one succeeded that run (Massive end-of-day vs. Schwab/Finnhub
+// real-time), so a fixed label drifts out of sync with reality the moment a
+// different source takes over — which is exactly what was happening here:
+// DXY's badge said "GATED" unconditionally, even after it had a real live
+// value sitting right next to it. Deriving the badge from the same string
+// already driving the sub-text closes that gap structurally, not just for
+// today's sources.
+function srcTag(s: string | null | undefined): string {
+  if (!s) return 'GATED'
+  if (s.includes('Schwab')) return 'SCHWAB'
+  if (s.includes('Finnhub')) return 'FINNHUB'
+  if (s.includes('Massive')) return 'MASSIVE'
+  if (s.includes('FRED')) return 'FRED'
+  if (s.includes('CBOE')) return 'CBOE'
+  return 'GATED'
+}
+
 // ── Shared primitives ──
 
 function Panel({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -631,13 +651,13 @@ function Scanner() {
     }))
     if (tab === 'macro') return [
       { sym: 'VIX', name: 'CBOE Volatility', val1: c.vix.value, val2: vixNote(c.vix.value), tone: 'neutral' as const, signal: 'FRED' },
-      { sym: 'SPX', name: 'S&P 500 Cash', val1: c.spx.value, val2: c.spx.src, tone: 'neutral' as const, signal: 'MASSIVE' },
-      { sym: 'NDX', name: 'Nasdaq-100 Cash', val1: c.ndx.gated ? '—' : c.ndx.value, val2: c.ndx.reason, tone: 'neutral' as const, signal: c.ndx.gated ? 'GATED' : 'MASSIVE' },
-      { sym: 'DXY', name: 'US Dollar Index', val1: c.dxy.gated ? '—' : c.dxy.value, val2: c.dxy.reason, tone: 'neutral' as const, signal: 'GATED' },
+      { sym: 'SPX', name: 'S&P 500 Cash', val1: c.spx.value, val2: c.spx.src, tone: 'neutral' as const, signal: srcTag(c.spx.src) },
+      { sym: 'NDX', name: 'Nasdaq-100 Cash', val1: c.ndx.gated ? '—' : c.ndx.value, val2: c.ndx.reason, tone: 'neutral' as const, signal: c.ndx.gated ? 'GATED' : srcTag(c.ndx.reason) },
+      { sym: 'DXY', name: 'US Dollar Index', val1: c.dxy.gated ? '—' : c.dxy.value, val2: c.dxy.reason, tone: 'neutral' as const, signal: c.dxy.gated ? 'GATED' : srcTag(c.dxy.reason) },
       { sym: '10Y', name: 'US 10-Year Yield', val1: c.tenYear.gated ? '—' : `${c.tenYear.value}%`, val2: c.tenYear.gated ? c.tenYear.reason : tenYearNote(c.tenYear.value), tone: 'neutral' as const, signal: c.tenYear.gated ? 'GATED' : 'FRED' },
       { sym: 'WTI', name: 'Crude Oil (WTI)', val1: c.wti.gated ? '—' : `$${c.wti.value}`, val2: c.wti.gated ? c.wti.reason : wtiNote(c.wti.value), tone: 'neutral' as const, signal: c.wti.gated ? 'GATED' : 'FRED' },
-      { sym: 'GDX', name: 'Gold Miners ETF', val1: c.gdx.gated ? '—' : c.gdx.value, val2: c.gdx.reason, tone: 'neutral' as const, signal: c.gdx.gated ? 'GATED' : 'MASSIVE' },
-      { sym: 'XAU', name: 'Gold Spot', val1: `$${c.xau.value}`, val2: c.xau.src, tone: 'neutral' as const, signal: 'MANUAL' },
+      { sym: 'GDX', name: 'Gold Miners ETF', val1: c.gdx.gated ? '—' : c.gdx.value, val2: c.gdx.reason, tone: 'neutral' as const, signal: c.gdx.gated ? 'GATED' : srcTag(c.gdx.reason) },
+      { sym: 'XAU', name: 'Gold Spot', val1: `$${c.xau.value}`, val2: c.xau.src, tone: 'neutral' as const, signal: srcTag(c.xau.src) },
       { sym: 'BTC', name: 'Bitcoin', val1: `$${c.btc.value}`, val2: c.btc.src, tone: 'bull' as const, signal: 'MASSIVE' },
       { sym: 'ETH', name: 'Ethereum', val1: c.eth.gated ? '—' : `$${c.eth.value}`, val2: c.eth.reason, tone: 'bull' as const, signal: c.eth.gated ? 'GATED' : 'MASSIVE' },
       { sym: 'HY OAS', name: 'High-Yield Credit Spread', val1: `${c.hyOas.value} bps`, val2: hyOasNote(c.hyOas.value), tone: 'neutral' as const, signal: 'FRED' },
