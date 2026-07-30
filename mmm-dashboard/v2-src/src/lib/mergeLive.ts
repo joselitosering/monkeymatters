@@ -24,7 +24,13 @@ export function mergeLiveSnapshot(live: LiveData): typeof baseline {
     merged.command.vix = { value: live.vixLive.toFixed(2), src: 'feargreedchart.com, live' }
   }
 
-  if (j?.hyOas) merged.command.hyOas = { value: j.hyOas.value, unit: 'bps', asOf: `${j.hyOas.date} (FRED)` }
+  // FRED's BAMLH0A0HYM2 series returns a PERCENTAGE (e.g. "2.87" = 2.87%),
+  // not basis points — multiply by 100 for the correct bps figure instead of
+  // mislabeling the raw percentage as "287 bps" would otherwise become "2.87 bps".
+  if (j?.hyOas) {
+    const pct = parseFloat(j.hyOas.value)
+    merged.command.hyOas = { value: Number.isFinite(pct) ? (pct * 100).toFixed(0) : j.hyOas.value, unit: 'bps', asOf: `${j.hyOas.date} (FRED)` }
+  }
   if (j?.tenYear) merged.command.tenYear = { value: j.tenYear.value, gated: false, reason: `${j.tenYear.date} (FRED DGS10)` } as any
   if (j?.wti) merged.command.wti = { value: j.wti.value, gated: false, reason: `${j.wti.date} (FRED DCOILWTICO)` } as any
   if (j?.putCall?.total || j?.putCall?.equity) {

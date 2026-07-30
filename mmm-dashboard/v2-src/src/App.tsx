@@ -18,6 +18,38 @@ function fmtNum(v: unknown): string {
   return Number.isFinite(n) ? n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) : '—'
 }
 
+// Standard, well-established market-convention thresholds — not fabricated
+// data, just widely-used reference ranges applied to the real fetched value.
+function vixNote(v: string | null): string {
+  const n = toNum(v)
+  if (!Number.isFinite(n)) return '—'
+  if (n < 15) return 'Complacent — low hedging demand'
+  if (n < 20) return 'Normal range'
+  if (n < 30) return 'Elevated — hedging demand rising'
+  return 'Fear/panic zone — historically overshoots'
+}
+function tenYearNote(v: string | null): string {
+  const n = toNum(v)
+  if (!Number.isFinite(n)) return '—'
+  if (n < 3.5) return 'Low-rate regime — growth/tech tailwind'
+  if (n < 4.5) return 'Neutral-to-restrictive'
+  return 'Restrictive — headwind for long-duration equities'
+}
+function wtiNote(v: string | null): string {
+  const n = toNum(v)
+  if (!Number.isFinite(n)) return '—'
+  if (n < 70) return 'Soft demand / oversupply regime'
+  if (n < 85) return 'Normal range'
+  return 'Elevated — inflation/CPI pressure risk'
+}
+function hyOasNote(v: string | null): string {
+  const n = toNum(v)
+  if (!Number.isFinite(n)) return '—'
+  if (n < 300) return 'Healthy credit conditions'
+  if (n < 500) return 'Caution — spreads widening'
+  return 'Credit stress — risk-off signal'
+}
+
 // ── Shared primitives ──
 
 function Panel({ children, className }: { children: React.ReactNode; className?: string }) {
@@ -214,22 +246,38 @@ function Ticker() {
 function TopAlerts() {
   const snapshot = useSnapshot()
   const c = snapshot.command
+
+  // Derived, not fabricated — computed straight off real sector/spotlight data.
+  const topSector = [...snapshot.sectors.all].sort((a, b) => Math.abs(b.d1 ?? 0) - Math.abs(a.d1 ?? 0))[0]
+  const topSectorReal = topSector?.real && topSector.d1 != null
+  const topStock = snapshot.spotlight.items[0]
+
+  const cards: { label: string; value: React.ReactNode; sub?: string; tone?: 'gain' | 'loss' }[] = [
+    { label: 'VIX', value: c.vix.value, sub: c.vix.src },
+    { label: 'SPX', value: c.spx.value, sub: c.spx.src },
+    { label: 'NDX', value: c.ndx.gated ? null : c.ndx.value, sub: c.ndx.reason },
+    { label: 'DXY', value: c.dxy.gated ? null : c.dxy.value, sub: c.dxy.reason },
+    { label: 'GDX', value: c.gdx.gated ? null : c.gdx.value, sub: c.gdx.reason },
+    { label: 'BTC', value: `$${c.btc.value}`, sub: c.btc.src },
+    { label: 'WTI', value: c.wti.gated ? null : `$${c.wti.value}`, sub: c.wti.gated ? c.wti.reason : c.wti.reason },
+    { label: 'GAP (ES)', value: snapshot.futures.es.gapProbClosePct ?? null, sub: 'Needs live/intraday feed — Massive Basic is prior-session only' },
+    { label: 'TOP SECTOR', value: topSector ? `${topSector.etf} ${topSectorReal ? `${(topSector.d1! >= 0 ? '+' : '')}${topSector.d1!.toFixed(2)}%` : 'est.'}` : null, sub: topSector?.sector, tone: topSectorReal ? ((topSector.d1 ?? 0) >= 0 ? 'gain' : 'loss') : undefined },
+    { label: 'TOP STOCK', value: topStock?.ticker ?? null, sub: topStock ? `Spotlight — ${topStock.catalyst}` : undefined },
+    { label: 'MOOD', value: c.newsMood.score, sub: `${c.newsMood.heatCount} items / ${c.newsMood.windowMin}m`, tone: c.newsMood.tone },
+    { label: 'FEAR', value: `${c.fgi.value}`, sub: c.fgi.label },
+  ]
+
   return (
     <Panel>
       <PanelHeader label="Top Alerts" accent dotTone="amber" />
       <div className="p-4">
         <div className="flex flex-wrap gap-1.5 mb-3">{snapshot.tags.map((t) => <Chip key={t}>{t}</Chip>)}</div>
-        <div className="grid grid-cols-4 md:grid-cols-8 gap-2 mb-3">
-          {[
-            { label: 'SPX', value: c.spx.value, sub: c.spx.src },
-            { label: 'DXY', value: c.dxy.gated ? null : c.dxy.value, sub: c.dxy.reason },
-            { label: 'News Mood', value: c.newsMood.score, sub: `${c.newsMood.heatCount} items / ${c.newsMood.windowMin}m`, tone: c.newsMood.tone },
-            { label: 'SPX>50DMA', value: c.breadth.gated ? null : c.breadth.value, sub: c.breadth.reason },
-          ].map((m) => (
+        <div className="grid grid-cols-3 md:grid-cols-6 gap-2 mb-3">
+          {cards.map((m) => (
             <div key={m.label} className="border border-border rounded px-2.5 py-1.5">
               <div className="text-[9px] tracking-wider text-dim uppercase leading-none">{m.label}</div>
-              <div className={cx('font-mono-data font-semibold text-[13px] mt-1', (m as any).tone === 'gain' && 'text-gain', (m as any).tone === 'loss' && 'text-loss')}>{m.value ?? <Gated />}</div>
-              <div className="text-[8.5px] text-dim mt-0.5 truncate">{m.sub}</div>
+              <div className={cx('font-mono-data font-semibold text-[13px] mt-1', m.tone === 'gain' && 'text-gain', m.tone === 'loss' && 'text-loss')}>{m.value ?? <Gated />}</div>
+              <div className="text-[8.5px] text-dim mt-0.5 truncate" title={m.sub}>{m.sub}</div>
             </div>
           ))}
         </div>
@@ -254,9 +302,7 @@ function DadJoke() {
 }
 
 function Header() {
-  const snapshot = useSnapshot()
   const cd = useCountdown()
-  const c = snapshot.command
   return (
     <header className="border-b border-border bg-bg-elev/80 backdrop-blur sticky top-0 z-50">
       <div className="px-6 py-3 flex items-center justify-between gap-6 flex-wrap">
@@ -294,10 +340,6 @@ function Header() {
         </div>
 
         <div className="flex items-center gap-4 text-xs">
-          <div><div className="text-[9px] tracking-[0.2em] text-dim uppercase">VIX</div><div className="font-mono-data font-semibold">{c.vix.value}</div></div>
-          <div><div className="text-[9px] tracking-[0.2em] text-dim uppercase">10Y</div><div className="font-mono-data font-semibold">{c.tenYear.gated ? <Gated /> : `${c.tenYear.value}%`}</div></div>
-          <div><div className="text-[9px] tracking-[0.2em] text-dim uppercase">WTI</div><div className="font-mono-data font-semibold">{c.wti.gated ? <Gated /> : `$${c.wti.value}`}</div></div>
-          <div><div className="text-[9px] tracking-[0.2em] text-dim uppercase">HY OAS</div><div className="font-mono-data font-semibold">{c.hyOas.value} bps</div></div>
           <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary to-accent-deep flex items-center justify-center text-background font-bold text-xs">SM</div>
         </div>
       </div>
@@ -446,10 +488,11 @@ function TradeArchitecture() {
                   <div className="text-[10px] text-dim">{idea.strikes} · exp {idea.expiry}</div>
                 </div>
               </div>
+              <p className="text-[10.5px] text-primary/85 leading-relaxed mb-2 border-l-2 border-primary/40 pl-2">{idea.trigger}</p>
               <LevelLines entry={entry} stop={stop} target={target} />
               <div className="grid grid-cols-2 gap-x-4 gap-y-1.5 text-xs mt-2 mb-1">
-                <div className="flex justify-between border-b border-border pb-1"><span className="text-dim uppercase text-[9px]">Entry</span><span className="font-mono-data text-primary">{idea.entry}</span></div>
-                <div className="flex justify-between border-b border-border pb-1"><span className="text-dim uppercase text-[9px]">Stop</span><span className="font-mono-data text-loss">{idea.stop}</span></div>
+                <div className="flex justify-between border-b border-border pb-1"><span className="text-dim uppercase text-[9px]">Trigger</span><span className="font-mono-data text-primary">{idea.entry}</span></div>
+                <div className="flex justify-between border-b border-border pb-1"><span className="text-dim uppercase text-[9px]">Escape</span><span className="font-mono-data text-loss">{idea.stop}</span></div>
                 <div className="flex justify-between"><span className="text-dim uppercase text-[9px]">Target</span><span className="font-mono-data text-gain">{idea.target}</span></div>
                 <div className="flex justify-between"><span className="text-dim uppercase text-[9px]">R/R</span><span className="font-mono-data text-primary font-semibold">{idea.rr}</span></div>
               </div>
@@ -485,13 +528,30 @@ function Spotlight() {
 function HeatmapAndSentiment() {
   const snapshot = useSnapshot()
   const all = snapshot.sectors.all
-  function Cell({ s, big }: { s: typeof all[number]; big?: boolean }) {
+  const [drillSector, setDrillSector] = useState<string | null>(null)
+  const maxAbs = Math.max(...all.map((s) => Math.abs(s.d1 ?? 0)), 0.01)
+  // Rank by |move| so the strongest movers get the biggest cells — a real
+  // (if simplified) size-by-magnitude treemap, not just a uniform grid.
+  const ranked = [...all].sort((a, b) => Math.abs(b.d1 ?? 0) - Math.abs(a.d1 ?? 0))
+  function spanFor(rank: number) {
+    if (rank === 0) return 'col-span-2 row-span-2'
+    if (rank <= 2) return 'col-span-2 row-span-1'
+    return 'col-span-1 row-span-1'
+  }
+  function Cell({ s, rank }: { s: typeof all[number]; rank: number }) {
     const positive = (s.d1 ?? 0) >= 0
+    const strength = s.real && s.d1 != null ? Math.min(1, Math.abs(s.d1) / maxAbs) : 0
+    const alpha = 0.08 + strength * 0.32 // stronger move = stronger fill
     const bg = s.real
-      ? `linear-gradient(135deg, hsl(var(--${positive ? 'gain' : 'loss'}) / 0.20), hsl(var(--${positive ? 'gain' : 'loss'}) / 0.06))`
+      ? `linear-gradient(135deg, hsl(var(--${positive ? 'gain' : 'loss'}) / ${alpha.toFixed(2)}), hsl(var(--${positive ? 'gain' : 'loss'}) / ${(alpha * 0.3).toFixed(2)}))`
       : 'hsl(var(--secondary))'
+    const big = rank === 0
     return (
-      <div className="rounded p-3 flex flex-col justify-between border border-transparent hover:border-border-bright transition h-full" style={{ background: bg }}>
+      <button
+        onClick={() => setDrillSector(s.sector)}
+        className="rounded p-3 flex flex-col justify-between border border-transparent hover:border-border-bright transition h-full text-left w-full"
+        style={{ background: bg }}
+      >
         <div className="flex items-start justify-between">
           <div className={cx('font-display font-bold leading-none', big ? 'text-base' : 'text-xs')}>{s.sector}</div>
           <div className={cx('font-mono-data font-bold', big ? 'text-lg' : 'text-sm', s.real ? (positive ? 'text-gain' : 'text-loss') : 'text-dim')}>
@@ -499,7 +559,7 @@ function HeatmapAndSentiment() {
           </div>
         </div>
         <div className="text-[9px] text-dim">{s.etf}</div>
-      </div>
+      </button>
     )
   }
   const c = snapshot.command
@@ -509,9 +569,18 @@ function HeatmapAndSentiment() {
         <PanelHeader label="Sector Snapshot" meta={snapshot.sectors.asof} />
         <div className="p-4">
           <div className="grid grid-cols-4 gap-2" style={{ gridAutoRows: '76px' }}>
-            {all.map((s) => (<div key={s.etf} className={s.real ? 'col-span-2 row-span-2' : 'col-span-1'}><Cell s={s} big={s.real} /></div>))}
+            {ranked.map((s, i) => (<div key={s.etf} className={spanFor(i)}><Cell s={s} rank={i} /></div>))}
           </div>
-          <p className="text-[10px] text-dim mt-3">All 11 S&amp;P sector ETFs — only real % values get colored and sized up; "est." cells stay neutral by design.</p>
+          {drillSector && (
+            <div className="mt-3 border border-border-bright rounded p-3 bg-secondary/40 text-[11px] text-muted-foreground leading-relaxed flex items-start justify-between gap-3">
+              <div>
+                <span className="text-primary font-medium">{drillSector} industry breakdown — </span>
+                not available yet. Drilling into industry- and stock-level heatmaps needs sector constituent + industry-classification data that isn't wired into <code className="text-dim">generate_snapshot.mjs</code> yet — real feature, not built, no placeholder numbers shown in its place.
+              </div>
+              <button onClick={() => setDrillSector(null)} className="text-dim hover:text-foreground flex-none">✕</button>
+            </div>
+          )}
+          <p className="text-[10px] text-dim mt-3">All 11 S&amp;P sectors, sized and shaded by move strength — biggest mover gets the biggest cell. "est." cells (if any) stay neutral. Click a cell for industry detail.</p>
         </div>
       </Panel>
       <Panel className="lg:col-span-4 flex flex-col">
@@ -561,11 +630,16 @@ function Scanner() {
       tone: s.real ? ((s.d1 ?? 0) >= 0 ? 'bull' as const : 'bear' as const) : 'neutral' as const, signal: s.real ? 'REAL' : 'EST.',
     }))
     if (tab === 'macro') return [
-      { sym: 'VIX', name: 'CBOE Volatility', val1: c.vix.value, val2: c.vix.src, tone: 'neutral' as const, signal: 'FRED' },
-      { sym: '10Y', name: 'US 10-Year Yield', val1: c.tenYear.gated ? '—' : `${c.tenYear.value}%`, val2: 'FRED DGS10', tone: 'neutral' as const, signal: c.tenYear.gated ? 'GATED' : 'FRED' },
-      { sym: 'WTI', name: 'Crude Oil', val1: c.wti.gated ? '—' : `$${c.wti.value}`, val2: 'FRED DCOILWTICO', tone: 'neutral' as const, signal: c.wti.gated ? 'GATED' : 'FRED' },
+      { sym: 'VIX', name: 'CBOE Volatility', val1: c.vix.value, val2: vixNote(c.vix.value), tone: 'neutral' as const, signal: 'FRED' },
+      { sym: 'SPX', name: 'S&P 500 Cash', val1: c.spx.value, val2: c.spx.src, tone: 'neutral' as const, signal: 'MANUAL' },
+      { sym: 'NDX', name: 'Nasdaq-100 Cash', val1: c.ndx.gated ? '—' : c.ndx.value, val2: c.ndx.reason, tone: 'neutral' as const, signal: 'GATED' },
+      { sym: 'DXY', name: 'US Dollar Index', val1: c.dxy.gated ? '—' : c.dxy.value, val2: c.dxy.reason, tone: 'neutral' as const, signal: 'GATED' },
+      { sym: '10Y', name: 'US 10-Year Yield', val1: c.tenYear.gated ? '—' : `${c.tenYear.value}%`, val2: c.tenYear.gated ? c.tenYear.reason : tenYearNote(c.tenYear.value), tone: 'neutral' as const, signal: c.tenYear.gated ? 'GATED' : 'FRED' },
+      { sym: 'WTI', name: 'Crude Oil (WTI)', val1: c.wti.gated ? '—' : `$${c.wti.value}`, val2: c.wti.gated ? c.wti.reason : wtiNote(c.wti.value), tone: 'neutral' as const, signal: c.wti.gated ? 'GATED' : 'FRED' },
+      { sym: 'GDX', name: 'Gold Miners ETF', val1: c.gdx.gated ? '—' : c.gdx.value, val2: c.gdx.reason, tone: 'neutral' as const, signal: 'GATED' },
+      { sym: 'XAU', name: 'Gold Spot', val1: `$${c.xau.value}`, val2: c.xau.src, tone: 'neutral' as const, signal: 'MANUAL' },
       { sym: 'BTC', name: 'Bitcoin', val1: `$${c.btc.value}`, val2: c.btc.src, tone: 'bull' as const, signal: 'MANUAL' },
-      { sym: 'XAU', name: 'Gold', val1: `$${c.xau.value}`, val2: c.xau.src, tone: 'neutral' as const, signal: 'MANUAL' },
+      { sym: 'HY OAS', name: 'High-Yield Credit Spread', val1: `${c.hyOas.value} bps`, val2: hyOasNote(c.hyOas.value), tone: 'neutral' as const, signal: 'FRED' },
     ]
     return snapshot.ideas.items.map((idea) => ({
       sym: idea.ticker, name: idea.strategy, val1: idea.entry, val2: `R/R ${idea.rr}`,
@@ -585,13 +659,16 @@ function Scanner() {
         </div>
       } />
       <div className="grid grid-cols-[80px_1fr_120px_90px] gap-3 px-4 py-2 text-[9px] text-dim uppercase tracking-wider border-b border-border">
-        <div>Symbol</div><div>Name</div><div className="text-right">Value</div><div className="text-right">Signal</div>
+        <div>Symbol</div><div>Name / Note</div><div className="text-right">Value</div><div className="text-right">Signal</div>
       </div>
       <div>
         {rows.map((r, i) => (
           <div key={i} className="grid grid-cols-[80px_1fr_120px_90px] gap-3 px-4 py-2.5 items-center border-b border-border/60 last:border-0 hover:bg-secondary/50 transition text-xs">
             <div className="font-display font-bold">{r.sym}</div>
-            <div className="text-dim text-[11px]">{r.name}</div>
+            <div>
+              <div className="text-dim text-[11px]">{r.name}</div>
+              {r.val2 && <div className="text-dim/70 text-[9.5px] italic mt-0.5">{r.val2}</div>}
+            </div>
             <div className={cx('text-right font-mono-data', r.tone === 'bull' && 'text-gain', r.tone === 'bear' && 'text-loss')}>{r.val1}</div>
             <div className="text-right"><Chip tone={r.tone}>{r.signal}</Chip></div>
           </div>

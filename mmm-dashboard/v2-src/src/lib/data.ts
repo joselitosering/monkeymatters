@@ -51,6 +51,8 @@ export const snapshot = {
     spx: { value: "7,437", src: "24/7 Wall St., pre-mkt" },
     btc: { value: "64,343", src: "CoinStats" },
     xau: { value: "4,087.70", src: "TheStreet, pre-mkt" },
+    ndx: { value: null, gated: true, reason: "No Nasdaq-100 cash index feed wired" },
+    gdx: { value: null, gated: true, reason: "No GDX (gold miners ETF) feed wired" },
     dxy: { value: null, gated: true, reason: "Forex API req." },
     breadth: { value: null, gated: true, reason: "Polygon key req." },
     tenYear: { value: null, gated: true, reason: "Pending FRED DGS10 fetch" },
@@ -188,9 +190,9 @@ export const snapshot = {
 
   ideas: {
     items: [
-      { ticker: "META", strategy: "Straddle (ATM)", expiry: "Jul 30", strikes: "ATM (est. ~$520)", entry: "≤$8–10 debit (est.)", stop: "Straddle debit", target: "Break-even ± the debit", rr: "Est. 1.5:1" },
-      { ticker: "VIX", strategy: "Call Spread (Fed hedge)", expiry: "Jul 30", strikes: "18/22 (est.)", entry: "Market price", stop: "Full debit", target: "22 strike", rr: "Est. 2:1" },
-      { ticker: "XLE", strategy: "Long (Momentum)", expiry: "N/A", strikes: "ATM", entry: "Market open", stop: "Below $80 oil", target: "Oil continuation", rr: "2:1" },
+      { ticker: "META", strategy: "Straddle (ATM)", trigger: "Enter before 3:30 PM close, ahead of the AC earnings binary — not on a price break.", expiry: "Jul 30", strikes: "ATM (est. ~$520)", entry: "≤$8–10 debit (est.)", stop: "Straddle debit", target: "Break-even ± the debit", rr: "Est. 1.5:1" },
+      { ticker: "VIX", strategy: "Call Spread (Fed hedge)", trigger: "Enter pre-2 PM ET, ahead of the Fed decision — hedge, not a breakout trade.", expiry: "Jul 30", strikes: "18/22 (est.)", entry: "Market price", stop: "Full debit", target: "22 strike", rr: "Est. 2:1" },
+      { ticker: "XLE", strategy: "Long (Momentum)", trigger: "Enter on continuation while oil holds above $80; escape below $80 oil, not a fixed equity stop.", expiry: "N/A", strikes: "ATM", entry: "Market open", stop: "Below $80 oil", target: "Oil continuation", rr: "2:1" },
     ],
     caveat: "Exact strike prices and premiums require live options chain data. Levels above are illustrative — size small, verify with real quotes before entering.",
     analysis: "Three ideas for today: (1) META straddle — binary event, 84% beat prob, but capex surprise creates two-way volatility; ATM straddle captures either direction. (2) VIX call spread — Fed Day hedge; if Warsh is more hawkish than expected, VIX could spike; cost-defined upside. (3) XLE long — oil geopolitical momentum; duration unclear so use tight stop. ALL ideas require live options chain verification before entry.",
