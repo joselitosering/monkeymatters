@@ -67,13 +67,9 @@ export function mergeLiveSnapshot(live: LiveData): typeof baseline {
       src: 'CBOE, live',
     }
   }
-  if (j?.aaii) {
-    merged.command.aaii = {
-      spread: `${j.aaii.spread > 0 ? '+' : ''}${j.aaii.spread}`,
-      bull: j.aaii.bull, bear: j.aaii.bear,
-      weekOf: 'Published this week (AAII)',
-    }
-  }
+  // AAII intentionally not merged — generate_snapshot.mjs no longer fetches
+  // it (scraper removed, see that file's comment for why). command.aaii
+  // stays permanently gated from the data.ts baseline.
 
   // Futures — prior-session OHLC/pivots/fibs from Massive, computed server-side.
   for (const key of ['es', 'nq'] as const) {

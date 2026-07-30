@@ -230,35 +230,6 @@ async function fetchCboePutCall() {
 }
 
 /**
- * Parses AAII's free weekly sentiment survey page/article for Bullish/
- * Neutral/Bearish percentages. Pattern matched against real AAII article
- * text sampled 2026-07-29 (format: "Bullish: NN.N%, up/down N.N points").
- * Same caveat as CBOE: if AAII changes their template wording, this needs
- * re-tuning — logs clearly on a miss rather than fabricating a number.
- */
-async function fetchAaiiSentiment() {
-  const url = 'https://www.aaii.com/sentimentsurvey';
-  try {
-    const res = await fetch(url);
-    const html = await res.text();
-    const bullMatch = html.match(/Bullish:?\s*(\d{1,2}\.\d)%/i);
-    const neutMatch = html.match(/Neutral:?\s*(\d{1,2}\.\d)%/i);
-    const bearMatch = html.match(/Bearish:?\s*(\d{1,2}\.\d)%/i);
-    if (!bullMatch || !bearMatch) {
-      console.error('[AAII] Could not find Bullish/Bearish figures on the page — template may have changed, or this ran before Thursday\'s weekly update. Needs manual check.');
-      return null;
-    }
-    const bull = parseFloat(bullMatch[1]);
-    const bear = parseFloat(bearMatch[1]);
-    const neutral = neutMatch ? parseFloat(neutMatch[1]) : null;
-    return { bull, bear, neutral, spread: +(bull - bear).toFixed(1) };
-  } catch (e) {
-    console.error('[AAII] fetch failed:', e.message);
-    return null;
-  }
-}
-
-/**
  * Exchanges the long-lived (~7 day) SCHWAB_REFRESH_TOKEN secret for a fresh
  * 30-minute access token. Manual browser re-auth is required roughly weekly
  * when the refresh token itself expires — confirmed directly with Schwab
@@ -458,13 +429,11 @@ async function main() {
     raw.putCall = { total: pc.total, equity: pc.equity, source: 'CBOE' };
   }
 
-  // 5. AAII Bull-Bear spread (free public page, no key — best-effort parse, see function docstring)
-  const aaii = await fetchAaiiSentiment();
-  if (aaii) {
-    values['sent.aaii.spread'] = `${aaii.spread > 0 ? '+' : ''}${aaii.spread} pts (Bull ${aaii.bull}% / Bear ${aaii.bear}%)`;
-    values['sent.aaii.week_of'] = `Published this week (AAII)`;
-    raw.aaii = { bull: aaii.bull, bear: aaii.bear, spread: aaii.spread, source: 'AAII' };
-  }
+  // 5. (Removed) AAII Bull-Bear spread — the scraper never reliably worked:
+  // /sentimentsurvey turned out to be an evergreen "about the survey" page
+  // with no weekly data, and the corrected target (/investorupdate) hit bot
+  // detection on every direct-fetch test. Rather than ship something fragile
+  // that silently goes stale, this stays gated in the React UI (see data.ts).
 
   // 6. Indices (SPX/NDX), Crypto (BTC/ETH), and ETF equivalents (GDX, UUP for
   // dollar, GLD for gold) — same Massive key, no scraping, no new provider.

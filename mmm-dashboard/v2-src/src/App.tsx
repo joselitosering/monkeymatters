@@ -604,8 +604,8 @@ function HeatmapAndSentiment() {
           </div>
           <div className="signature-line my-4" />
           <div>
-            <div className="flex justify-between text-xs mb-1"><span className="text-muted-foreground">AAII Bull / Bear</span><span className="font-mono-data text-primary">{c.aaii.bull}% / {c.aaii.bear}%</span></div>
-            <div className="text-[10px] text-dim">{c.aaii.weekOf}</div>
+            <div className="flex justify-between text-xs mb-1"><span className="text-muted-foreground">AAII Bull / Bear</span><span className="font-mono-data text-primary">{c.aaii.gated ? <Gated /> : `${c.aaii.bull}% / ${c.aaii.bear}%`}</span></div>
+            <div className="text-[10px] text-dim">{c.aaii.gated ? c.aaii.reason : c.aaii.weekOf}</div>
           </div>
         </div>
       </Panel>
@@ -755,7 +755,7 @@ function Footer() {
         </div>
         <div className="flex items-center gap-3 flex-wrap">
           <span>Markets are risky. Not investment advice.</span><span>·</span>
-          <span className="font-mono-data">Data: FRED · CBOE · AAII · Massive · feargreedchart · rss2json</span>
+          <span className="font-mono-data">Data: FRED · CBOE · Massive · Schwab · Finnhub · feargreedchart · rss2json</span>
         </div>
       </div>
     </footer>

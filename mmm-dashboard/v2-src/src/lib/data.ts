@@ -46,7 +46,7 @@ export const snapshot = {
     fgi: { value: 37, label: "Fear", note: "cross-source estimate" },
     vix: { value: "18.21", src: "FRED VIXCLS, close Jul 28" },
     putCall: { total: "0.96", equity: "0.71", src: "CBOE, live" },
-    aaii: { spread: "-12.8", bull: 29.6, bear: 42.3, weekOf: "week ending Jul 22" },
+    aaii: { bull: null, bear: null, weekOf: null, gated: true, reason: "No reliable AAII source wired — scraper removed rather than shipped fragile" },
     hyOas: { value: "277", unit: "bps", asOf: "Jul 23 (FRED)" },
     spx: { value: "7,437", src: "24/7 Wall St., pre-mkt" },
     btc: { value: "64,343", src: "CoinStats" },
