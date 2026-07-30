@@ -50,6 +50,14 @@ export function mergeLiveSnapshot(live: LiveData): typeof baseline {
   if (j?.dxy) merged.command.dxy = { value: j.dxy.value, gated: false, reason: j.dxy.source } as any
   if (j?.gold) merged.command.xau = { value: j.gold.value, src: j.gold.source }
 
+  // Real futures prices for the TopAlerts "US$ IDX" / "GOLD FUT" cards — Massive
+  // Futures Basic (GC/DX contracts), distinct from the dxy/xau ETF-proxy
+  // fields above (which Scanner's macro tab still uses). See generate_snapshot.mjs
+  // section 1b for the honesty note on DX specifically (unverified against
+  // Massive's symbol directory — comes back gated here if Massive rejects it).
+  if (j?.dollarIndexFutures) merged.command.usdIdx = { value: j.dollarIndexFutures.value, gated: false, reason: j.dollarIndexFutures.source } as any
+  if (j?.goldFutures) merged.command.goldFut = { value: j.goldFutures.value, gated: false, reason: j.goldFutures.source } as any
+
   // Finnhub real-time quotes (client-side, only present if VITE_FINNHUB_KEY
   // was set at build time) take priority over Massive's end-of-day UUP/GLD/
   // GDX values above when available — genuinely current beats yesterday's
@@ -87,8 +95,10 @@ export function mergeLiveSnapshot(live: LiveData): typeof baseline {
       const lastFmt = f.live.last.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
       dest.live = { last: lastFmt, asOf: `${asOfPt} (Schwab)` } as any
     }
-    if (f.gapProbClosePct != null) {
-      dest.gapProbClosePct = `${f.gapProbClosePct >= 0 ? '+' : ''}${f.gapProbClosePct}%` as any
+    if (f.gapProbClosePct != null && f.gapPoints != null) {
+      const pts = `${f.gapPoints >= 0 ? '+' : ''}${f.gapPoints.toFixed(2)}`
+      const pct = `${f.gapProbClosePct >= 0 ? '+' : ''}${f.gapProbClosePct}%`
+      dest.gapProbClosePct = `${pts} pts (${pct})` as any
     }
   }
 

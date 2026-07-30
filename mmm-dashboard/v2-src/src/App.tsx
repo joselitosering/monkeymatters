@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { useLiveSnapshot } from '@/lib/useLiveSnapshot'
 import { mergeLiveSnapshot } from '@/lib/mergeLive'
 import { useCountdown } from '@/lib/useCountdown'
@@ -151,6 +151,66 @@ function Candle({ o, h, l, c }: { o: number; h: number; l: number; c: number }) 
   )
 }
 
+// Genuine live TradingView chart, embedded via their free public widget
+// script (no API key — same embed anyone can drop into any site). Loads
+// s3.tradingview.com/tv.js once and reuses it across multiple widget
+// instances on the page. Uses the continuous front-month contract (ES1!/
+// NQ1!) rather than the specific Sep 2026 contract the rest of this
+// dashboard tracks (ESU26/NQU26) — TradingView's exact symbol notation for
+// a dated futures contract isn't something this build has verified, while
+// the continuous front-month symbol is guaranteed to exist and stay live.
+let tvScriptPromise: Promise<void> | null = null
+function loadTradingViewScript(): Promise<void> {
+  if (typeof window !== 'undefined' && (window as any).TradingView) return Promise.resolve()
+  if (tvScriptPromise) return tvScriptPromise
+  tvScriptPromise = new Promise((resolve, reject) => {
+    const script = document.createElement('script')
+    script.src = 'https://s3.tradingview.com/tv.js'
+    script.async = true
+    script.onload = () => resolve()
+    script.onerror = () => reject(new Error('TradingView widget script failed to load'))
+    document.head.appendChild(script)
+  })
+  return tvScriptPromise
+}
+
+function TradingViewWidget({ symbol, containerId }: { symbol: string; containerId: string }) {
+  const containerRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    let cancelled = false
+    loadTradingViewScript()
+      .then(() => {
+        if (cancelled || !containerRef.current) return
+        containerRef.current.innerHTML = ''
+        new (window as any).TradingView.widget({
+          autosize: true,
+          symbol,
+          interval: '5',
+          timezone: 'America/Los_Angeles',
+          theme: 'dark',
+          style: '1',
+          locale: 'en',
+          toolbar_bg: '#0b0d12',
+          enable_publishing: false,
+          hide_top_toolbar: false,
+          hide_legend: false,
+          save_image: false,
+          container_id: containerId,
+        })
+      })
+      .catch((e) => {
+        if (containerRef.current) {
+          containerRef.current.innerHTML = `<div style="padding:1rem;color:hsl(var(--dim));font-size:11px;">Chart failed to load — ${String(e?.message || e)}</div>`
+        }
+      })
+    return () => { cancelled = true }
+  }, [symbol, containerId])
+
+  return <div ref={containerRef} id={containerId} style={{ height: 460 }} />
+}
+
+
 // Real entry/stop/target as horizontal reference lines — no fabricated price
 // path, since we don't have a live tick series backing these trade ideas.
 function LevelLines({ entry, stop, target, label2 }: { entry: number; stop: number; target: number; label2?: number }) {
@@ -273,11 +333,10 @@ function TopAlerts() {
   const topStock = snapshot.spotlight.items[0]
 
   const cards: { label: string; value: React.ReactNode; sub?: string; tone?: 'gain' | 'loss' }[] = [
-    { label: 'VIX', value: c.vix.value, sub: c.vix.src },
     { label: 'SPX', value: c.spx.value, sub: c.spx.src },
     { label: 'NDX', value: c.ndx.gated ? null : c.ndx.value, sub: c.ndx.reason },
-    { label: 'DXY', value: c.dxy.gated ? null : c.dxy.value, sub: c.dxy.reason },
-    { label: 'GDX', value: c.gdx.gated ? null : c.gdx.value, sub: c.gdx.reason },
+    { label: 'US$ IDX', value: c.usdIdx.gated ? null : c.usdIdx.value, sub: c.usdIdx.reason },
+    { label: 'GOLD FUT', value: c.goldFut.gated ? null : `$${c.goldFut.value}`, sub: c.goldFut.reason },
     { label: 'BTC', value: `$${c.btc.value}`, sub: c.btc.src },
     { label: 'WTI', value: c.wti.gated ? null : `$${c.wti.value}`, sub: c.wti.gated ? c.wti.reason : c.wti.reason },
     { label: 'GAP (ES)', value: snapshot.futures.es.gapProbClosePct ?? null, sub: snapshot.futures.es.gapProbClosePct != null ? 'Live vs. prior close (Schwab)' : 'Needs live/intraday feed — Massive Basic is prior-session only' },
@@ -285,6 +344,7 @@ function TopAlerts() {
     { label: 'TOP STOCK', value: topStock?.ticker ?? null, sub: topStock ? `Spotlight — ${topStock.catalyst}` : undefined },
     { label: 'MOOD', value: c.newsMood.score, sub: `${c.newsMood.heatCount} items / ${c.newsMood.windowMin}m`, tone: c.newsMood.tone },
     { label: 'FEAR', value: `${c.fgi.value}`, sub: c.fgi.label },
+    { label: 'VIX', value: c.vix.value, sub: c.vix.src },
   ]
 
   return (
@@ -437,6 +497,31 @@ function FuturesStrip() {
             </Panel>
           )
         })}
+      </div>
+    </section>
+  )
+}
+
+// Live TradingView charts for /ES and /NQ — a separate section from
+// FuturesStrip's technical panel above, since this is a genuine embedded
+// third-party chart, not derived/computed data like the rest of this file.
+function LiveCharts() {
+  return (
+    <section>
+      <div className="flex items-center gap-3 mb-3">
+        <span className="text-[10px] font-semibold tracking-[0.18em] uppercase text-primary">Live Charts — TradingView</span>
+        <span className="pulse-dot amber" />
+        <span className="text-[10px] text-dim">Continuous front-month (ES1! / NQ1!), not the specific ESU26/NQU26 contract tracked above</span>
+      </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        <Panel>
+          <PanelHeader label="/ES — E-Mini S&P 500" meta="TradingView, live" />
+          <div className="p-2"><TradingViewWidget symbol="CME_MINI:ES1!" containerId="tv_es_widget" /></div>
+        </Panel>
+        <Panel>
+          <PanelHeader label="/NQ — E-Mini Nasdaq 100" meta="TradingView, live" />
+          <div className="p-2"><TradingViewWidget symbol="CME_MINI:NQ1!" containerId="tv_nq_widget" /></div>
+        </Panel>
       </div>
     </section>
   )
@@ -798,6 +883,7 @@ function App() {
         <main className="max-w-[1600px] mx-auto px-6 py-6 space-y-6">
           <TopAlerts />
           <FuturesStrip />
+          <LiveCharts />
           <Spotlight />
           <BuzzAndSources />
           <BriefAndLevels />

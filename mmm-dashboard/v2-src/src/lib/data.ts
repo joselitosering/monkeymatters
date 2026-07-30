@@ -58,6 +58,13 @@ export const snapshot = {
     gdx: { value: null, gated: true, reason: "No GDX (gold miners ETF) feed wired" },
     eth: { value: null, gated: true, reason: "No Ethereum feed wired" },
     dxy: { value: null, gated: true, reason: "Forex API req." },
+    // Real futures prices (Massive Futures Basic, GC/DX contracts) — used by
+    // TopAlerts specifically, distinct from the dxy/gdx ETF-proxy fields
+    // above which Scanner's macro tab still shows. DX is unverified against
+    // Massive's symbol directory (see generate_snapshot.mjs) — stays gated
+    // here until a live run confirms it either way.
+    usdIdx: { value: null, gated: true, reason: "Massive Futures (DX) — unverified symbol, pending live run" },
+    goldFut: { value: null, gated: true, reason: "Massive Futures (GC) — pending server-side generation" },
     breadth: { value: null, gated: true, reason: "Polygon key req." },
     tenYear: { value: null, gated: true, reason: "Pending FRED DGS10 fetch" },
     wti: { value: null, gated: true, reason: "Pending FRED DCOILWTICO fetch" },

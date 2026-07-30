@@ -51,6 +51,21 @@ const SCHWAB_FUTURES = {
   NQ: '/NQU26', // September 2026
 };
 
+// Gold and Dollar Index FUTURES (not the UUP/GLD ETF proxies used previously)
+// — same Massive Futures endpoint and ticker format as ES/NQ above. GC (gold)
+// is confirmed supported: the original FUTURES comment above used "GCJ5" as
+// its own example of Massive's ticker format. DX (ICE Dollar Index futures)
+// is NOT independently confirmed the same way — it's the standard root
+// symbol for Dollar Index futures on most platforms, but this hasn't been
+// verified against Massive's specific symbol directory. If Massive rejects
+// it, this field will simply come back gated (see fetchMassiveFuturesSession's
+// null-on-failure handling) rather than silently show a wrong number — check
+// the Action run's logs after the first live run to confirm either way.
+const COMMODITY_FUTURES = {
+  GOLD: 'GCU6', // September 2026
+  DXY: 'DXU6',  // September 2026 — unverified against Massive, see comment above
+};
+
 // SPDR sector ETFs — Massive Stocks Basic covers all of these.
 const SECTOR_ETFS = {
   XLK: 'Technology', XLF: 'Financials', XLE: 'Energy', XLV: 'Health Care',
@@ -390,6 +405,21 @@ async function main() {
     console.error(SNAPSHOT_MODE === 'light' ? '[Massive] Light mode — skipping futures (carried forward from existing snapshot).' : '[Massive] MASSIVE_API_KEY not set — skipping futures.');
   }
 
+  // 1b. Gold futures (GC) and Dollar Index futures (DX) — real futures
+  // prices, not the UUP/GLD ETF proxies section 6 used to supply. Same
+  // fetcher/ticker-format as ES/NQ above; only the prior-session close is
+  // kept (TopAlerts just needs one number, not a full pivot ladder).
+  if (SNAPSHOT_MODE === 'full' && MASSIVE_KEY) {
+    for (const [sym, ticker] of Object.entries(COMMODITY_FUTURES)) {
+      const bar = await fetchMassiveFuturesSession(ticker);
+      if (bar) {
+        if (sym === 'GOLD') raw.goldFutures = { value: fmt(bar.close), sessionDate: bar.sessionDate, source: `Massive Futures (${ticker})` };
+        if (sym === 'DXY') raw.dollarIndexFutures = { value: fmt(bar.close), sessionDate: bar.sessionDate, source: `Massive Futures (${ticker})` };
+      }
+      await new Promise((r) => setTimeout(r, 1500)); // stagger — stay under 5 req/min
+    }
+  }
+
   // 2. Sectors — 3 grouped-daily calls (T, T-1, T-5) cover ALL tickers at once
   let sectorRowsLeaders = [];
   let sectorRowsLaggards = [];
@@ -546,6 +576,7 @@ async function main() {
           const priorClose = raw.futures[prefix].priorOhlc?.c;
           if (priorClose != null) {
             raw.futures[prefix].gapProbClosePct = +(((q.last - priorClose) / priorClose) * 100).toFixed(2);
+            raw.futures[prefix].gapPoints = +(q.last - priorClose).toFixed(2);
           }
           values[`fut.${prefix}.live.last`] = fmt(q.last);
           values[`fut.${prefix}.live.as_of`] = nowIso;

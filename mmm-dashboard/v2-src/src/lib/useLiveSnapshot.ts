@@ -12,6 +12,7 @@ export interface LiveFutures {
   fibs: { f38: number; f50: number; f62: number }
   live?: { last: number; asOf: string }
   gapProbClosePct?: number
+  gapPoints?: number
 }
 
 export interface LiveSectorRow { etf: string; sector: string; close: number; d1: number; d5: number | null }
@@ -32,6 +33,11 @@ export interface LiveSnapshotJson {
   gold?: { value: string; open: string; high: string; low: string; source: string }
   btc?: { value: string; open: string; high: string; low: string; source: string }
   eth?: { value: string; open: string; high: string; low: string; source: string }
+  // Real futures prices (Massive Futures Basic, GC/DX contracts) — distinct
+  // from gdx/dxy/gold above, which are ETF-proxy prev-close values. Used
+  // specifically for the TopAlerts "GOLD FUT" / "US$ IDX" cards.
+  goldFutures?: { value: string; sessionDate: string; source: string }
+  dollarIndexFutures?: { value: string; sessionDate: string; source: string }
 }
 
 export interface LiveNewsItem { time: string; headline: string; source: string }
