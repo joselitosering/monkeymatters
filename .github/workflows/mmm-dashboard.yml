@@ -54,6 +54,11 @@ jobs:
         with:
           version: 11
 
+      - name: Set up Node for pnpm build (needs >=22.13 for pnpm 11)
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
       - name: Build Daybreak (React v2)
         working-directory: mmm-dashboard/v2-src
         run: |
