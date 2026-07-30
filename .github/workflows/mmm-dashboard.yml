@@ -45,9 +45,29 @@ jobs:
         run: |
           git config user.name "mmm-dashboard-bot"
           git config user.email "actions@users.noreply.github.com"
-          git add mmm-dashboard/mmm_dashboard.html
+          git add mmm-dashboard/mmm_dashboard.html mmm-dashboard/snapshot.json
           git diff --staged --quiet && echo "No changes to commit" || git commit -m "Daily snapshot $(date -u +%Y-%m-%d)"
           git push
+
+      - name: Set up pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - name: Build Daybreak (React v2)
+        working-directory: mmm-dashboard/v2-src
+        run: |
+          pnpm approve-builds --all || true
+          pnpm install
+          pnpm run build
+
+      - name: Assemble v2 output
+        run: |
+          mkdir -p mmm-dashboard/v2
+          cp -r mmm-dashboard/v2-src/dist/. mmm-dashboard/v2/
+          # Same-origin relative fetch in useLiveSnapshot.ts expects ./snapshot.json
+          # next to index.html — copy the just-generated snapshot alongside it.
+          cp mmm-dashboard/snapshot.json mmm-dashboard/v2/snapshot.json
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
@@ -63,5 +83,14 @@ jobs:
 #        FRED_API_KEY    = <your FRED key>
 #   2. Repo Settings > Pages > Source: "GitHub Actions"
 #   3. Files live in mmm-dashboard/ — mmm_dashboard.html + generate_snapshot.mjs
+#      (vanilla dashboard) and mmm-dashboard/v2-src/ (React "Daybreak" source,
+#      built fresh each run into mmm-dashboard/v2/ for Pages)
 #   4. First run: use the "Run workflow" button (workflow_dispatch) to test
 #      before trusting the cron schedule
+#   5. Live URLs after first successful run:
+#        <pages-base>/mmm_dashboard.html   — vanilla dashboard
+#        <pages-base>/v2/                  — Daybreak (React)
+#      pnpm-lock.yaml is NOT committed (only package.json), so each CI run
+#      resolves fresh compatible versions via `pnpm install` rather than a
+#      frozen lockfile — acceptable for a low-churn internal dashboard, but
+#      worth knowing if a future dependency bump ever needs to be pinned.

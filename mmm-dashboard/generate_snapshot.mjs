@@ -29,6 +29,7 @@
  */
 
 import { readFileSync, writeFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
 
 // ── CONFIG ──
 // Update these each quarterly futures rollover (Mar/Jun/Sep/Dec -> H/M/U/Z).
@@ -104,9 +105,14 @@ async function fetchMassiveFuturesSession(ticker) {
   const url = `https://api.massive.com/futures/v1/aggs/${ticker}?resolution=1session&limit=1&apiKey=${MASSIVE_KEY}`;
   try {
     const res = await fetch(url);
+    if (!res.ok) {
+      const bodyText = await res.text().catch(() => '(no body)');
+      console.error(`[Massive Futures] ${ticker}: HTTP ${res.status} ${res.statusText} — ${bodyText.slice(0, 200) || '(empty body)'}`);
+      return null;
+    }
     const data = await res.json();
     if (data.status !== 'OK' || !data.results || !data.results.length) {
-      console.error(`[Massive Futures] ${ticker}: no results (status=${data.status}, message=${data.message || 'n/a'})`);
+      console.error(`[Massive Futures] ${ticker}: no results (status=${data.status}, message=${data.message || data.error || 'n/a'})`);
       return null;
     }
     const bar = data.results[0];
@@ -122,9 +128,16 @@ async function fetchMassiveGroupedDaily(dateStr) {
   const url = `https://api.massive.com/v2/aggs/grouped/locale/us/market/stocks/${dateStr}?apiKey=${MASSIVE_KEY}`;
   try {
     const res = await fetch(url);
+    if (!res.ok) {
+      // Non-2xx (e.g. 401/429) may not have a JSON body at all — read as text
+      // first so we always log something useful instead of a JSON-parse crash.
+      const bodyText = await res.text().catch(() => '(no body)');
+      console.error(`[Massive Stocks] ${dateStr}: HTTP ${res.status} ${res.statusText} — ${bodyText.slice(0, 200) || '(empty body)'}`);
+      return null;
+    }
     const data = await res.json();
     if (data.status !== 'OK' || !data.results) {
-      console.error(`[Massive Stocks] ${dateStr}: no results (status=${data.status})`);
+      console.error(`[Massive Stocks] ${dateStr}: no results (status=${data.status}, message=${data.message || data.error || 'n/a'})`);
       return null;
     }
     const map = new Map();
@@ -218,6 +231,13 @@ async function fetchAaiiSentiment() {
 
 async function main() {
   const values = {}; // dataId -> string, only populated on success
+  // Mirrors `values` but keeps numeric/structured shapes instead of the
+  // display strings — this is what gets written to snapshot.json for the
+  // React build (mmm-dashboard/v2) to fetch at runtime. Same source calls,
+  // same null-on-failure discipline, just a second, machine-readable output
+  // alongside the existing HTML string-injection. Never fabricate a value
+  // here that isn't also backed by a successful fetch above.
+  const raw = { generatedAt: new Date().toISOString(), futures: {}, sectors: null };
   const today = new Date();
 
   // 1. Futures — Massive Basic (8h-delayed, but prior session is always fully settled)
@@ -243,6 +263,12 @@ async function main() {
         values[`fut.${prefix}.fibs.f38`] = fmt(fib.f38);
         values[`fut.${prefix}.fibs.f50`] = fmt(fib.f50);
         values[`fut.${prefix}.fibs.f62`] = fmt(fib.f62);
+        raw.futures[prefix] = {
+          contract: ticker,
+          priorOhlc: { o: bar.open, h: bar.high, l: bar.low, c: bar.close, sessionDate: bar.sessionDate },
+          pivots: piv,
+          fibs: fib,
+        };
       }
       await new Promise((r) => setTimeout(r, 1500)); // stagger — stay under 5 req/min
     }
@@ -259,11 +285,16 @@ async function main() {
     let d5 = dT;
     for (let i = 0; i < 5; i++) d5 = previousTradingDay(d5);
 
-    const [mapT, mapT1, mapT5] = await Promise.all([
-      fetchMassiveGroupedDaily(ymd(dT)),
-      (async () => { await new Promise((r) => setTimeout(r, 1500)); return fetchMassiveGroupedDaily(ymd(dT1)); })(),
-      (async () => { await new Promise((r) => setTimeout(r, 3000)); return fetchMassiveGroupedDaily(ymd(d5)); })(),
-    ]);
+    // Sequential with a wait after each call — matches the futures loop's
+    // pattern. The previous version used Promise.all with staggered START
+    // times (0/1500/3000ms), which still lets all three requests be in
+    // flight close together under network latency; fully sequential is the
+    // safer bet against a 5-req/min limit, even though it's ~1.5s slower.
+    const mapT = await fetchMassiveGroupedDaily(ymd(dT));
+    await new Promise((r) => setTimeout(r, 1500));
+    const mapT1 = await fetchMassiveGroupedDaily(ymd(dT1));
+    await new Promise((r) => setTimeout(r, 1500));
+    const mapT5 = await fetchMassiveGroupedDaily(ymd(d5));
 
     if (mapT && mapT1 && mapT5) {
       const rows = Object.entries(SECTOR_ETFS).map(([etf, sector]) => {
@@ -288,6 +319,7 @@ async function main() {
       values['sectors.asof'] = `${ymd(dT)} close (Massive Stocks Basic, end-of-day)`;
       values['sectors.leaders'] = sectorRowsLeaders.join('');
       values['sectors.laggards'] = sectorRowsLaggards.join('');
+      raw.sectors = { asOf: ymd(dT), rows }; // full sorted rows — React derives leaders/laggards itself
     } else {
       console.error('[Massive Stocks] One or more grouped-daily calls failed — leaving sectors on existing snapshot.');
     }
@@ -296,13 +328,23 @@ async function main() {
   // 3. FRED — VIX close + HY OAS (works fine server-side; CORS only blocks browsers)
   if (FRED_KEY) {
     const vix = await fetchFredSeries('VIXCLS');
-    if (vix) values['top.vix.close'] = `${vix.value} (FRED, ${vix.date})`;
+    if (vix) {
+      values['top.vix.close'] = `${vix.value} (FRED, ${vix.date})`;
+      raw.vix = { value: vix.value, date: vix.date, source: 'FRED VIXCLS' };
+    }
     await new Promise((r) => setTimeout(r, 500));
     const hyOas = await fetchFredSeries('BAMLH0A0HYM2');
     if (hyOas) {
       values['sent.credit.hy_oas.value'] = `${hyOas.value} bps`;
       values['sent.credit.hy_oas.dod'] = `as of ${hyOas.date} (FRED)`;
+      raw.hyOas = { value: hyOas.value, date: hyOas.date, source: 'FRED BAMLH0A0HYM2' };
     }
+    await new Promise((r) => setTimeout(r, 500));
+    const tenYear = await fetchFredSeries('DGS10');
+    if (tenYear) raw.tenYear = { value: tenYear.value, date: tenYear.date, source: 'FRED DGS10' };
+    await new Promise((r) => setTimeout(r, 500));
+    const wti = await fetchFredSeries('DCOILWTICO');
+    if (wti) raw.wti = { value: wti.value, date: wti.date, source: 'FRED DCOILWTICO' };
   } else {
     console.error('[FRED] FRED_API_KEY not set — skipping VIX/HY OAS.');
   }
@@ -312,6 +354,7 @@ async function main() {
   if (pc) {
     if (pc.total) values['top.pc.total.value'] = pc.total;
     if (pc.equity) values['top.pc.equity.value'] = pc.equity;
+    raw.putCall = { total: pc.total, equity: pc.equity, source: 'CBOE' };
   }
 
   // 5. AAII Bull-Bear spread (free public page, no key — best-effort parse, see function docstring)
@@ -319,6 +362,7 @@ async function main() {
   if (aaii) {
     values['sent.aaii.spread'] = `${aaii.spread > 0 ? '+' : ''}${aaii.spread} pts (Bull ${aaii.bull}% / Bear ${aaii.bear}%)`;
     values['sent.aaii.week_of'] = `Published this week (AAII)`;
+    raw.aaii = { bull: aaii.bull, bear: aaii.bear, spread: aaii.spread, source: 'AAII' };
   }
 
   // ── Write results into the dashboard's TEXT snapshot object ──
@@ -361,6 +405,15 @@ async function main() {
   }
 
   writeFileSync(DASHBOARD_PATH, html, 'utf8');
+
+  // ── Also write the machine-readable snapshot for the React build (v2) ──
+  // Same directory as the dashboard HTML, so both the classic dashboard and
+  // any co-located React build (e.g. mmm-dashboard/v2/) can find it via a
+  // same-directory relative fetch regardless of the Pages base path.
+  const jsonPath = join(dirname(DASHBOARD_PATH), 'snapshot.json');
+  writeFileSync(jsonPath, JSON.stringify(raw, null, 2), 'utf8');
+  console.log(`Wrote ${jsonPath}`);
+
   console.log(`Done. ${written} field(s) written, ${skipped} skipped (missing source data or key not found).`);
 }
 

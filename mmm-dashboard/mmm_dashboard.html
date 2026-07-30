@@ -5,10 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
 <title>Morning Market Monitor — Jul 29, 2026</title>
 <style>
-:root{--bg:#0c0f14;--panel:#11161f;--panel-2:#0e1420;--ink:#e6edf7;--muted:#8fa2bf;--line:#1b2331;--brand:#5ac8fa;--green:#2ecc71;--red:#ff6b6b;--amber:#ffb74d}
+:root{--bg:#0a0d14;--panel:#141926;--panel-2:#171d2c;--ink:#f2f5fa;--muted:#8b93a8;--line:rgba(255,255,255,.08);--brand:#7ce3cf;--purple:#a78bfa;--lime:#d7f56a;--green:#34c77b;--red:#ff6b6b;--amber:#ffb74d;--radius-lg:20px;--radius-md:14px}
 *{box-sizing:border-box}
 html,body{height:100%}
-body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:var(--ink);font:14px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial}
+body{margin:0;background:var(--bg);color:var(--ink);font:14px/1.6 Inter,system-ui,Segoe UI,Roboto,Arial}
 .wrap{max-width:1280px;margin:auto;padding:20px}
 .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:14px}
 .title{font-size:22px;font-weight:800;letter-spacing:.3px}
@@ -20,23 +20,23 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
 .cols-3-1{grid-template-columns:3fr 1fr}
 @media (max-width:1100px){.cols-3{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:900px){.cols-2,.cols-2-even,.cols-3,.cols-3-1{grid-template-columns:1fr}}
-.card{background:linear-gradient(180deg,var(--panel),var(--panel-2));border:1px solid var(--line);border-radius:16px;padding:16px;box-shadow:0 10px 28px rgba(0,0,0,.25)}
-.h2{margin:0 0 12px 0;font-size:16px;font-weight:800;letter-spacing:.2px}
-.label{color:var(--muted);font-size:12px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius-lg);padding:18px;box-shadow:0 12px 32px rgba(0,0,0,.28)}
+.h2{margin:0 0 12px 0;font-size:15px;font-weight:800;letter-spacing:.2px}
+.label{color:var(--muted);font-size:11px;font-weight:600;letter-spacing:.02em}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}
-.kpi{background:#0b121e;border:1px solid var(--line);border-radius:12px;padding:12px;min-height:84px;display:grid;gap:6px;align-content:start}
-.kpi .v{font-size:18px;font-weight:900}
-.kpi .l{color:var(--muted);font-size:12px}
-.progress{height:8px;background:#0b121e;border:1px solid var(--line);border-radius:999px;overflow:hidden}
-.progress>span{display:block;height:100%;background:linear-gradient(90deg,#ff6b6b,#ffb74d,#2ecc71);width:0%}
+.kpi{background:var(--panel-2);border:1px solid var(--line);border-radius:var(--radius-md);padding:13px;min-height:84px;display:grid;gap:6px;align-content:start}
+.kpi .v{font-size:19px;font-weight:800}
+.kpi .l{color:var(--muted);font-size:11px;font-weight:600}
+.progress{height:8px;background:var(--panel-2);border:1px solid var(--line);border-radius:999px;overflow:hidden}
+.progress>span{display:block;height:100%;background:linear-gradient(90deg,var(--red),var(--amber),var(--green));width:0%}
 .tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
-.tag{display:inline-block;padding:6px 8px;border:1px solid var(--line);border-radius:10px;color:#cbd7ee;background:#0b121e;font-size:12px}
-.note{background:#0b121e;border-left:4px solid var(--brand);padding:12px;border-radius:10px;margin-top:10px}
+.tag{display:inline-block;padding:6px 8px;border:1px solid var(--line);border-radius:10px;color:#cbd7ee;background:var(--panel-2);font-size:12px}
+.note{background:var(--panel-2);border-left:3px solid var(--brand);padding:12px;border-radius:10px;margin-top:10px}
 .table{width:100%;border-collapse:collapse;margin-top:6px;table-layout:fixed}
 .table th,.table td{border-bottom:1px solid var(--line);padding:10px;text-align:left;overflow:hidden;text-overflow:clip;white-space:normal;word-break:break-word;overflow-wrap:anywhere}
-.table th{color:#a9c8ff;font-weight:800;font-size:12px;letter-spacing:.3px;background:#0c1320}
+.table th{color:var(--muted);font-weight:700;font-size:11px;letter-spacing:.06em;text-transform:uppercase;background:transparent}
 .small{color:#cbd5e1;font-size:12px}
-.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;border:1px solid var(--line);color:#cbd5e1;background:#0b121e}
+.pill{display:inline-block;padding:3px 9px;border-radius:999px;font-size:12px;border:1px solid var(--line);color:#cbd5e1;background:var(--panel-2)}
 .row2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 @media (max-width:980px){.row2{grid-template-columns:1fr}}
 .table thead th[data-id*="cols.ticker"]{width:72px;white-space:nowrap}
@@ -62,19 +62,99 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
 .api-notice b{color:#b5d67a}
 .sev-high{color:#ff6b6b;font-weight:700}
 .sev-med{color:#ffb74d;font-weight:700}
-.sev-low{color:#2ecc71;font-weight:700}
+.sev-low{color:var(--green);font-weight:700}
+
+/* Tabular numerals — digits align in fixed-width columns even in a proportional
+   font, so scanning a column of prices/percents is faster. Zero risk (no font
+   swap needed) since it's a CSS feature of the existing font stack. */
+.kpi .v, .table td, .mono{ font-variant-numeric: tabular-nums; }
+
+/* ── Sticky header: always-visible orientation while scrolling ── */
+.header{
+  position:sticky; top:0; z-index:50;
+  background:rgba(10,14,22,.92); backdrop-filter:blur(8px);
+  margin:0 -20px 14px; padding:14px 20px;
+  border-bottom:1px solid var(--line);
+}
+.header-bias{
+  font-weight:800; font-size:13px; padding:5px 12px; border-radius:999px;
+  border:1px solid var(--line); background:rgba(15,23,36,.6);
+}
+.header-bias.bias-fear{ color:#ff8a8a; border-color:rgba(255,107,107,.4); background:rgba(255,107,107,.08); }
+.header-bias.bias-greed{ color:#7ee8a2; border-color:rgba(46,204,113,.4); background:rgba(46,204,113,.08); }
+.header-bias.bias-neutral{ color:#ffd08a; border-color:rgba(255,183,77,.4); background:rgba(255,183,77,.08); }
+.header-nav{ display:flex; gap:6px; flex-wrap:wrap; }
+.header-nav a{
+  font-size:11px; font-weight:700; color:var(--muted); text-decoration:none;
+  padding:4px 10px; border-radius:8px; border:1px solid var(--line);
+  background:var(--panel-2); transition:color .15s, border-color .15s;
+}
+.header-nav a:hover{ color:var(--brand); border-color:var(--brand); }
+
+/* ── Deep-dive accordion sections ── */
+.section-details{ margin:0; }
+.section-details > summary{
+  list-style:none; cursor:pointer; user-select:none;
+  display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  padding:14px 18px; border-radius:var(--radius-lg);
+  background:var(--panel);
+  border:1px solid var(--line); box-shadow:0 12px 32px rgba(0,0,0,.2);
+}
+.section-details > summary::-webkit-details-marker{ display:none; }
+.section-details > summary .chevron{
+  display:inline-block; transition:transform .15s ease; color:var(--brand); font-size:12px;
+}
+.section-details[open] > summary .chevron{ transform:rotate(90deg); }
+.section-details[open] > summary{ border-radius:var(--radius-lg) var(--radius-lg) 0 0; box-shadow:none; }
+.section-details > summary .section-title{ font-size:15px; font-weight:800; }
+.section-details > summary .section-preview{
+  font-size:12px; color:var(--muted); flex:1; min-width:0;
+  overflow:hidden; text-overflow:ellipsis; white-space:nowrap;
+}
+.section-details > .card{
+  border-radius:0 0 var(--radius-lg) var(--radius-lg); border-top:none; margin-top:0;
+  box-shadow:0 12px 32px rgba(0,0,0,.28);
+}
+.section-details + .section-details{ margin-top:16px; }
+
+/* ── Gauge (real data: bull/bear 0-100 score as a semi-donut arc) ── */
+.gauge-card{ display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.gauge{ width:180px; height:92px; position:relative; }
+.gauge svg{ width:180px; height:180px; display:block; margin-top:-2px; }
+.gauge-label{ text-align:center; margin-top:-64px; }
+.gauge-label .gv{ font-size:24px; font-weight:800; }
+.gauge-label .gl{ font-size:11px; color:var(--muted); font-weight:600; letter-spacing:.04em; margin-top:2px; }
+
+/* ── Magnitude bar lists (sector leaders/laggards — bar length = |1D%|, real data) ── */
+.bar-list{ display:flex; flex-direction:column; gap:9px; }
+.bar-row{ display:grid; grid-template-columns:56px 1fr 68px; align-items:center; gap:10px; }
+.bar-row .b-label{ font-size:12px; font-weight:700; color:var(--ink); overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.bar-track{ height:9px; background:var(--panel-2); border-radius:999px; overflow:hidden; border:1px solid var(--line); }
+.bar-fill{ height:100%; border-radius:999px; }
+.bar-fill.pos{ background:linear-gradient(90deg,var(--brand),var(--green)); }
+.bar-fill.neg{ background:linear-gradient(90deg,var(--red),#ff9a7a); }
+.bar-row .b-val{ font-size:12px; font-weight:700; text-align:right; font-variant-numeric:tabular-nums; }
+
 </style>
 </head>
 <body>
 <div class="wrap">
 
-  <!-- ── HEADER ── -->
+  <!-- ── HEADER (sticky) ── -->
   <div class="header">
-    <div class="title">Morning Market Monitor — Hedge Fund Dashboard</div>
+    <div class="title">Morning Market Monitor</div>
+    <div class="header-nav">
+      <a href="#top-alerts">Top Alerts</a>
+      <a href="#futures-details">Futures</a>
+      <a href="#stocks-details">Stocks</a>
+      <a href="#options-details">Options</a>
+      <a href="#chatter-details">Chatter</a>
+      <a href="#sources-details">Sources</a>
+    </div>
     <div class="badge">
       <span data-id="header.updated_at_pt"></span>
       <span>•</span>
-      <span data-id="header.bias.flag"></span>
+      <span class="header-bias" id="header-bias-badge" data-id="header.bias.flag"></span>
     </div>
   </div>
 
@@ -129,6 +209,33 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
       <div class="h2">Top Alerts <span class="small" data-id="top.asof_pt"></span></div>
       <div class="label" style="margin-top:6px">Snapshot tags</div>
       <div class="tags" data-id="top.tags"></div>
+
+      <div class="row2" style="grid-template-columns:200px 1fr; align-items:center; margin-top:12px;">
+        <div class="gauge-card">
+          <div class="gauge">
+            <svg viewBox="0 0 200 110" aria-hidden="true">
+              <defs>
+                <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stop-color="var(--red)"/>
+                  <stop offset="50%" stop-color="var(--amber)"/>
+                  <stop offset="100%" stop-color="var(--green)"/>
+                </linearGradient>
+              </defs>
+              <path d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="var(--panel-2)" stroke-width="14" stroke-linecap="round"/>
+              <path id="gaugeArc" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="url(#gaugeGrad)" stroke-width="14" stroke-linecap="round" stroke-dasharray="251.3" stroke-dashoffset="251.3"/>
+            </svg>
+          </div>
+          <div class="gauge-label">
+            <div class="gv" data-id="top.bullbear.score_0_100"></div>
+            <div class="gl">Bull/Bear — <span class="pill" data-id="top.bullbear.label" style="padding:1px 8px;"></span></div>
+          </div>
+        </div>
+        <div>
+          <div class="label">Fear &amp; Greed</div>
+          <div class="v" style="font-size:22px;font-weight:800;" data-id="top.fgi.value"></div>
+          <div class="small" style="margin-top:6px;">Gauge reflects the same 0-100 Bull/Bear score shown in the KPI grid below — one real number, two views.</div>
+        </div>
+      </div>
       <div class="kpis">
         <div class="kpi"><div class="l">Fear &amp; Greed</div><div class="v" data-id="top.fgi.value"></div></div>
         <div class="kpi"><div class="l">VIX (prior close) <span class="api-badge">API</span></div><div class="v" data-id="top.vix.close"></div></div>
@@ -178,6 +285,13 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
 
   <!-- ── FUTURES ── -->
   <div class="grid">
+    <details class="section-details" id="futures-details">
+      <summary>
+        <span class="chevron">▶</span>
+        <span class="section-title">📉 Futures — /ES /NQ</span>
+        <span class="section-preview">/ES: <span data-id="fut.es.plan.dir"></span> · /NQ: <span data-id="fut.nq.plan.dir"></span> · prior-session pivots &amp; fibs</span>
+        <span class="api-badge">API</span>
+      </summary>
     <div class="card" id="futures">
       <div class="h2">Futures — Reference Levels (prior session) <span class="api-badge">API</span></div>
       <div class="row2">
@@ -225,10 +339,18 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
         </div>
       </div>
     </div>
+    </details>
   </div>
 
   <!-- ── STOCKS ── -->
   <div class="grid">
+    <details class="section-details" id="stocks-details">
+      <summary>
+        <span class="chevron">▶</span>
+        <span class="section-title">📊 Stocks — Sectors &amp; Spotlight</span>
+        <span class="section-preview" data-id="sectors.asof"></span>
+        <span class="api-badge">API</span>
+      </summary>
     <div class="card" id="stocks">
       <div class="h2">Stocks</div>
       <div class="small" style="color:#8fa2bf;margin-bottom:8px">OPG gap-closer screening removed — it requires today's live opening print vs. prior close, which isn't obtainable on Massive's free Basic tier (end-of-day only) regardless of what time this runs. Needs a real-time/15-min-delayed Stocks plan to bring back.</div>
@@ -254,10 +376,18 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
       <table class="table"><thead><tr><th data-id="spot.cols.ticker">Ticker</th><th data-id="spot.cols.theme">Theme</th><th data-id="spot.cols.key_levels">Key Levels</th><th data-id="spot.cols.valuation">Valuation</th><th data-id="spot.cols.catalyst">Catalyst</th><th data-id="spot.cols.plan">Plan</th></tr></thead><tbody data-id="spot.items" data-limit="6"></tbody></table>
       <div class="row2"><div class="note"><b>Analysis:</b> <div data-id="spot.notes.summary"></div></div><div><div class="label">Action Items — Spotlight</div><table class="table"><thead><tr><th data-id="spot.actions.cols.ticker">Ticker</th><th data-id="spot.actions.cols.levels">Levels</th><th data-id="spot.actions.cols.strategy">Strategy</th></tr></thead><tbody data-id="spot.actions.items"></tbody></table></div></div>
     </div>
+    </details>
   </div>
 
   <!-- ── OPTIONS ── -->
   <div class="grid">
+    <details class="section-details" id="options-details">
+      <summary>
+        <span class="chevron">▶</span>
+        <span class="section-title">🎯 Options — UOA &amp; Trade Ideas</span>
+        <span class="section-preview" data-id="ideas.asof"></span>
+        <span class="api-badge">API</span>
+      </summary>
     <div class="card" id="options">
       <div class="h2">Options</div>
       <div class="label">Unusual Options Flow <span class="api-badge">API</span> <span class="small" data-id="uoa.asof"></span></div>
@@ -267,10 +397,18 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
       <table class="table"><thead><tr><th data-id="ideas.cols.ticker">Ticker</th><th data-id="ideas.cols.strategy">Strategy</th><th data-id="ideas.cols.expiry">Expiry</th><th data-id="ideas.cols.strikes">Strike(s)</th><th data-id="ideas.cols.entry">Entry</th><th data-id="ideas.cols.stop">Stop</th><th data-id="ideas.cols.target">Target</th><th data-id="ideas.cols.rr">R/R</th></tr></thead><tbody data-id="ideas.items" data-limit="6"></tbody></table>
       <div class="row2"><div class="note"><b>Analysis:</b> <div data-id="ideas.notes.summary"></div></div><div><div class="label">Action Items — Ideas</div><table class="table"><thead><tr><th data-id="ideas.actions.cols.ticker">Ticker</th><th data-id="ideas.actions.cols.levels">Levels</th><th data-id="ideas.actions.cols.strategy">Strategy</th></tr></thead><tbody data-id="ideas.actions.items"></tbody></table></div></div>
     </div>
+    </details>
   </div>
 
   <!-- ── CHATTER ── -->
   <div class="grid">
+    <details class="section-details" id="chatter-details">
+      <summary>
+        <span class="chevron">▶</span>
+        <span class="section-title">💬 Chatter — Buzz &amp; Earnings</span>
+        <span class="section-preview" data-id="earn.asof"></span>
+        <span class="api-badge">API</span>
+      </summary>
     <div class="card" id="chatter">
       <div class="h2">Chatter</div>
       <div class="label">Ticker Talk (Buzz) <span class="api-badge">API</span> <span class="small" data-id="buzz.asof"></span></div>
@@ -283,10 +421,17 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
       <table class="table"><thead><tr><th>Ticker</th><th>Company</th><th>When (ET)</th><th>Analyst Rating</th><th>Consensus EPS/Rev</th><th>Recommendations</th></tr></thead><tbody data-id="earn.rest.items" data-limit="20"></tbody></table>
       <div class="row2"><div class="note"><b>Analysis:</b> <div data-id="earn.notes.summary"></div></div><div><div class="label">Action Items — Earnings</div><table class="table"><thead><tr><th data-id="earn.actions.cols.ticker">Ticker</th><th data-id="earn.actions.cols.levels">Levels</th><th data-id="earn.actions.cols.strategy">Strategy</th></tr></thead><tbody data-id="earn.actions.items"></tbody></table></div></div>
     </div>
+    </details>
   </div>
 
   <!-- ── SOURCES + FUN ── -->
   <div class="grid cols-3-1">
+    <details class="section-details" id="sources-details">
+      <summary>
+        <span class="chevron">▶</span>
+        <span class="section-title">📚 Sources — MLA Citations</span>
+        <span class="section-preview">Every data-driven claim, sourced and timestamped</span>
+      </summary>
     <div class="card" id="sources">
       <div class="h2">Sources / Footnotes (MLA)</div>
       <table class="table">
@@ -300,6 +445,7 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
         </tr>
       </template>
     </div>
+    </details>
     <div class="card" id="fun">
       <div class="h2">Daily Dad Joke</div>
       <div class="small" data-id="fun.joke.text"></div>
@@ -311,7 +457,16 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
 </div>
 
 <!-- ── EXISTING UTILITY SCRIPTS (unchanged) ── -->
-<script>(function(){var el=document.querySelector('[data-id="top.bullbear.score_0_100"]');var bar=document.querySelector('[data-id="top.bullbear.score_bar"]');if(el&&bar){var n=parseFloat(el.textContent);if(!isNaN(n))bar.style.width=Math.max(0,Math.min(100,n))+'%';}})();</script>
+<script>(function(){
+  window.updateGaugeArc = function(score){
+    var arc = document.getElementById('gaugeArc');
+    if (!arc) return;
+    var circumference = 251.3; // path length of the M20,100 A80,80 semicircle
+    var clamped = Math.max(0, Math.min(100, score));
+    arc.style.strokeDashoffset = String(circumference * (1 - clamped / 100));
+  };
+  var el=document.querySelector('[data-id="top.bullbear.score_0_100"]');var bar=document.querySelector('[data-id="top.bullbear.score_bar"]');if(el&&bar){var n=parseFloat(el.textContent);if(!isNaN(n)){bar.style.width=Math.max(0,Math.min(100,n))+'%';window.updateGaugeArc(n);}}
+})();</script>
 <script>(function(){document.querySelectorAll('tbody[data-limit]').forEach(function(tb){var lim=parseInt(tb.getAttribute('data-limit')||'0',10);if(!lim||isNaN(lim))return;var rows=[].slice.call(tb.querySelectorAll('tr'));if(rows.length<=lim)return;for(var i=lim;i<rows.length;i++){rows[i].style.display='none';}var more=document.createElement('button');more.className='pill';more.textContent='Show more';more.style.marginTop='6px';more.onclick=function(){for(var i=lim;i<rows.length;i++){rows[i].style.display='';}more.remove();};var tbl=tb.closest('table');if(tbl)tbl.parentNode.insertBefore(more,tbl.nextSibling);});})();</script>
 <script>(function(){document.querySelectorAll('table').forEach(function(tbl){var ths=tbl.querySelectorAll('thead th');var idx=-1;ths.forEach(function(th,i){var id=th.getAttribute('data-id')||'';if(id.indexOf('cols.ticker')!==-1)idx=i;});if(idx===-1)return;var width='72px';var th=ths[idx];if(th){th.style.width=width;th.style.whiteSpace='nowrap';}tbl.querySelectorAll('tbody tr').forEach(function(tr){var td=tr.children[idx];if(td){td.style.width=width;td.style.whiteSpace='nowrap';}});});})();</script>
 
@@ -575,6 +730,17 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
   // Set bullbear progress bar
   var bar = document.querySelector('[data-id="top.bullbear.score_bar"]');
   if (bar) bar.style.width = '37%';
+  if (window.updateGaugeArc) window.updateGaugeArc(37);
+
+  // Header bias badge — color-code from the flag text (🔴/🟡/🟢) so the
+  // sticky header gives an instant signal without reading the words.
+  var biasBadge = document.getElementById('header-bias-badge');
+  if (biasBadge) {
+    var biasText = biasBadge.textContent || '';
+    if (biasText.indexOf('🔴') !== -1) biasBadge.classList.add('bias-fear');
+    else if (biasText.indexOf('🟢') !== -1) biasBadge.classList.add('bias-greed');
+    else if (biasText.indexOf('🟡') !== -1) biasBadge.classList.add('bias-neutral');
+  }
 
   // Morning Brief collapse toggle
   var btn = document.getElementById('brief-toggle-btn');
@@ -623,6 +789,7 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
         setText('top.bullbear.label', label);
         var bar = document.querySelector('[data-id="top.bullbear.score_bar"]');
         if (bar) bar.style.width = Math.max(0, Math.min(100, s)) + '%';
+        if (window.updateGaugeArc) window.updateGaugeArc(s);
       }
       // Bonus: VIX rides along on this same call at zero extra cost — used as the live
       // source for top.vix.close since FRED (the "official" source) can't be called
@@ -698,17 +865,31 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
       .catch(function(e){ console.error('[MMM] Finnhub earnings fetch failed:', e); });
   }
 
-  // ── 5. News headlines (rss2json — no key, CORS enabled, per brief's RSS feed list) ──
+  // ── 5. News headlines (rss2json — no key, CORS enabled) ──
   // Schema verified 2026-07-29 via rss2json.com/docs: {"status":"ok","items":[{title,pubDate,link,...}]}.
   // Wires sent.news.items only. buzz.items is intentionally NOT wired here: its columns
   // (Signal / Status / Trends Δ / Now / PrevC) require ticker extraction and sentiment
   // scoring that raw RSS headlines don't provide — faking those values would violate the
   // no-hallucination standard, so buzz.items stays on the curated/manual snapshot until
   // there's a real ticker/signal pipeline behind it.
+  //
+  // Feed choice verified 2026-07-29 against benzinga.com/feeds/list (the real, current
+  // published list): swapped the general benzinga.com/feed firehose for their dedicated
+  // "Market-Moving Exclusives" channel (benzinga.com/market-moving-exclusives/feed) —
+  // Benzinga's own curated designation for exactly what was asked for, rather than trying
+  // to keyword-filter their general feed down to "important" stories after the fact.
+  // Crypto lives in its own separate channel there (benzinga.com/markets/cryptocurrency/feed),
+  // confirming it's not inherently mixed into market-moving coverage — but a crypto story
+  // significant enough to move broader markets (e.g. a spot-ETF ruling) could still
+  // legitimately appear, so isCryptoHeadline() below is a keyword safety net applied to
+  // EVERY source (Reuters included), not a replacement for the feed swap.
   var newsFeeds = [
     'https://feeds.reuters.com/reuters/businessNews',
-    'https://www.benzinga.com/feed'
+    'https://www.benzinga.com/market-moving-exclusives/feed'
   ];
+  var CRYPTO_KEYWORDS = /\b(bitcoin|btc|ethereum|eth|crypto|cryptocurrency|blockchain|altcoin|stablecoin|defi|nft|coinbase|binance|dogecoin|solana|xrp|ripple)\b/i;
+  function isCryptoHeadline(title){ return CRYPTO_KEYWORDS.test(title || ''); }
+
   Promise.all(newsFeeds.map(function(feedUrl){
     return fetch('https://api.rss2json.com/v1/api.json?rss_url=' + encodeURIComponent(feedUrl))
       .then(function(r){ return r.json(); })
@@ -720,6 +901,11 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
       .catch(function(e){ console.error('[MMM] rss2json fetch failed for ' + feedUrl + ':', e); return []; });
   })).then(function(results){
     var all = results.reduce(function(a,b){ return a.concat(b); }, []);
+    if (!all.length) return;
+    var before = all.length;
+    all = all.filter(function(it){ return !isCryptoHeadline(it.title); });
+    var excluded = before - all.length;
+    if (excluded > 0) console.log('[MMM] Excluded ' + excluded + ' crypto headline(s) from news feed.');
     if (!all.length) return;
     all.sort(function(a,b){ return new Date(b.pubDate) - new Date(a.pubDate); });
     var rows = all.slice(0,5).map(function(it){
@@ -738,7 +924,7 @@ body{margin:0;background:linear-gradient(180deg,#0b1018 0%,#0c121e 100%);color:v
 
 <!-- FEED MAP (updated for Massive + FRED + CBOE + AAII server-side pipeline, 2026-07-29) -->
 <script type="application/json" id="mmm-feed-map">
-{"version":"3.2-massive","snapshot_pt":"2026-07-29T06:15:00-0700","limits":{"sectors_leaders":6,"sectors_laggards":6,"components_per_side":10,"spotlight":6,"uoa":10,"ideas":6,"buzz":12,"earn_today":15,"earn_week":20},"removed_fields":{"reason":"Not obtainable on Massive Basic (free) — requires live/intraday or real-time-tier data","fields":["fut.*.now.last (live futures price)","fut.*.fmv.* (live fair value / basis)","fut.*.gap.prob_close_pct","fut.*.value_area.* (needs intraday volume profile, not in scope this pass)","opg.* (gap screener — needs live opening print)","sectors.*.now (live intraday price)","sectors.components.*.rec (analyst ratings — not in Massive Basic)"]},"sections":{"top_alerts":{"kpis":{"fgi":null,"vix_close":null,"pc_total":null,"pc_equity":null,"aaii_spread":null,"hy_oas":null,"hy_oas_dd":null,"breadth_pct_above_50dma":null,"dxy":null,"btc":null,"xau":null,"spx":null},"analysis":"","actions":[]},"futures":{"es":{"contract":null,"prior_session":{"open":null,"high":null,"low":null,"close":null,"pp":null,"r1":null,"r2":null,"r3":null,"s1":null,"s2":null,"s3":null,"fib38":null,"fib50":null,"fib62":null},"analysis":"","actions":[]},"nq":{"contract":null,"prior_session":{"open":null,"high":null,"low":null,"close":null,"pp":null,"r1":null,"r2":null,"r3":null,"s1":null,"s2":null,"s3":null,"fib38":null,"fib50":null,"fib62":null},"analysis":"","actions":[]}}},"stocks":{"sectors":{"leaders":[],"laggards":[],"components":{"leaders":[],"laggards":[]},"analysis":"","actions":[]},"spotlight":{"rows":[],"analysis":"","actions":[]}},"options":{"uoa":{"rows":[],"analysis":"","actions":[]},"ideas":{"rows":[],"analysis":"","actions":[]}},"chatter":{"buzz":{"rows":[],"analysis":"","actions":[]},"earnings":{"today":[],"week":[],"analysis":"","actions":[]}},"sources":[]},"api_keys_required":{"MASSIVE_API_KEY":["Futures prior-session OHLC (Futures Basic, 8h-delayed)","Sector prior-close + 1D/5D% (Stocks Basic, end-of-day)"],"FRED_API_KEY":["VIX VIXCLS close","HY OAS spread — server-side only, CORS-blocked in-browser"],"CBOE":["Put/Call total + equity — free public page, requires HTML parse, no key"],"AAII":["Bull-Bear sentiment survey — free public page, requires HTML parse, no key"],"OPTIONS_FLOW_VENDOR":["Unusual options activity — no free source found"],"SOCIAL_RSS":["Buzz/chatter ticker-level trend data — raw RSS insufficient, needs ticker/signal pipeline"]},"feed_map":{"prov":{"massive":{"b":"https://api.massive.com","k":"${MASSIVE_API_KEY}"},"frd":{"b":"https://api.stlouisfed.org/fred/series/observations","k":"${FRED_API_KEY}"},"cbo":{"b":"https://www.cboe.com/markets/us/options/market-statistics/daily/"},"aaii":{"b":"https://www.aaii.com/sentimentsurvey"},"rss":{"f":["https://feeds.reuters.com/reuters/businessNews","https://www.benzinga.com/feed"]}}}}
+{"version":"3.2-massive","snapshot_pt":"2026-07-29T06:15:00-0700","limits":{"sectors_leaders":6,"sectors_laggards":6,"components_per_side":10,"spotlight":6,"uoa":10,"ideas":6,"buzz":12,"earn_today":15,"earn_week":20},"removed_fields":{"reason":"Not obtainable on Massive Basic (free) — requires live/intraday or real-time-tier data","fields":["fut.*.now.last (live futures price)","fut.*.fmv.* (live fair value / basis)","fut.*.gap.prob_close_pct","fut.*.value_area.* (needs intraday volume profile, not in scope this pass)","opg.* (gap screener — needs live opening print)","sectors.*.now (live intraday price)","sectors.components.*.rec (analyst ratings — not in Massive Basic)"]},"sections":{"top_alerts":{"kpis":{"fgi":null,"vix_close":null,"pc_total":null,"pc_equity":null,"aaii_spread":null,"hy_oas":null,"hy_oas_dd":null,"breadth_pct_above_50dma":null,"dxy":null,"btc":null,"xau":null,"spx":null},"analysis":"","actions":[]},"futures":{"es":{"contract":null,"prior_session":{"open":null,"high":null,"low":null,"close":null,"pp":null,"r1":null,"r2":null,"r3":null,"s1":null,"s2":null,"s3":null,"fib38":null,"fib50":null,"fib62":null},"analysis":"","actions":[]},"nq":{"contract":null,"prior_session":{"open":null,"high":null,"low":null,"close":null,"pp":null,"r1":null,"r2":null,"r3":null,"s1":null,"s2":null,"s3":null,"fib38":null,"fib50":null,"fib62":null},"analysis":"","actions":[]}}},"stocks":{"sectors":{"leaders":[],"laggards":[],"components":{"leaders":[],"laggards":[]},"analysis":"","actions":[]},"spotlight":{"rows":[],"analysis":"","actions":[]}},"options":{"uoa":{"rows":[],"analysis":"","actions":[]},"ideas":{"rows":[],"analysis":"","actions":[]}},"chatter":{"buzz":{"rows":[],"analysis":"","actions":[]},"earnings":{"today":[],"week":[],"analysis":"","actions":[]}},"sources":[]},"api_keys_required":{"MASSIVE_API_KEY":["Futures prior-session OHLC (Futures Basic, 8h-delayed)","Sector prior-close + 1D/5D% (Stocks Basic, end-of-day)"],"FRED_API_KEY":["VIX VIXCLS close","HY OAS spread — server-side only, CORS-blocked in-browser"],"CBOE":["Put/Call total + equity — free public page, requires HTML parse, no key"],"AAII":["Bull-Bear sentiment survey — free public page, requires HTML parse, no key"],"OPTIONS_FLOW_VENDOR":["Unusual options activity — no free source found"],"SOCIAL_RSS":["Buzz/chatter ticker-level trend data — raw RSS insufficient, needs ticker/signal pipeline"]},"feed_map":{"prov":{"massive":{"b":"https://api.massive.com","k":"${MASSIVE_API_KEY}"},"frd":{"b":"https://api.stlouisfed.org/fred/series/observations","k":"${FRED_API_KEY}"},"cbo":{"b":"https://www.cboe.com/markets/us/options/market-statistics/daily/"},"aaii":{"b":"https://www.aaii.com/sentimentsurvey"},"rss":{"f":["https://feeds.reuters.com/reuters/businessNews","https://www.benzinga.com/market-moving-exclusives/feed"]}}}}
 </script>
 
 
