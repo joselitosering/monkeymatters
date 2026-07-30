@@ -149,6 +149,34 @@ async function fetchMassiveGroupedDaily(dateStr) {
   }
 }
 
+/**
+ * Previous-day OHLC bar for any Massive ticker — stocks, indices ("I:" prefix,
+ * e.g. I:SPX, I:NDX — confirmed via massive.com/blog/indices-data-has-arrived),
+ * or crypto ("X:" prefix, e.g. X:BTCUSD — confirmed via Massive's own MACD/EMA/
+ * RSI endpoint docs). Same shape and auth as the futures/stocks fetchers above.
+ */
+async function fetchMassivePrevClose(ticker) {
+  const url = `https://api.massive.com/v2/aggs/ticker/${encodeURIComponent(ticker)}/prev?apiKey=${MASSIVE_KEY}`;
+  try {
+    const res = await fetch(url);
+    if (!res.ok) {
+      const bodyText = await res.text().catch(() => '(no body)');
+      console.error(`[Massive PrevClose] ${ticker}: HTTP ${res.status} ${res.statusText} — ${bodyText.slice(0, 200) || '(empty body)'}`);
+      return null;
+    }
+    const data = await res.json();
+    if (data.status !== 'OK' || !data.results || !data.results.length) {
+      console.error(`[Massive PrevClose] ${ticker}: no results (status=${data.status}, message=${data.message || data.error || 'n/a'})`);
+      return null;
+    }
+    const bar = data.results[0];
+    return { open: bar.o, high: bar.h, low: bar.l, close: bar.c };
+  } catch (e) {
+    console.error(`[Massive PrevClose] ${ticker} fetch failed:`, e.message);
+    return null;
+  }
+}
+
 async function fetchFredSeries(seriesId) {
   const url = `https://api.stlouisfed.org/fred/series/observations?series_id=${seriesId}&api_key=${FRED_KEY}&limit=1&sort_order=desc&file_type=json`;
   try {
@@ -363,6 +391,25 @@ async function main() {
     values['sent.aaii.spread'] = `${aaii.spread > 0 ? '+' : ''}${aaii.spread} pts (Bull ${aaii.bull}% / Bear ${aaii.bear}%)`;
     values['sent.aaii.week_of'] = `Published this week (AAII)`;
     raw.aaii = { bull: aaii.bull, bear: aaii.bear, spread: aaii.spread, source: 'AAII' };
+  }
+
+  // 6. Indices (SPX/NDX), Crypto (BTC/ETH), and GDX — same Massive key, no
+  // scraping, no new provider. GDX is just another ETF, same category as the
+  // sector ETFs above; SPX/NDX use Massive's "I:" index ticker prefix; BTC/ETH
+  // use the "X:" crypto prefix. Replaces the previously-manual SPX/BTC values.
+  if (MASSIVE_KEY) {
+    const PREV_CLOSE_TICKERS = { spx: 'I:SPX', ndx: 'I:NDX', gdx: 'GDX', btc: 'X:BTCUSD', eth: 'X:ETHUSD' };
+    for (const [key, ticker] of Object.entries(PREV_CLOSE_TICKERS)) {
+      const bar = await fetchMassivePrevClose(ticker);
+      if (bar) {
+        raw[key] = { value: fmt(bar.close), open: fmt(bar.open), high: fmt(bar.high), low: fmt(bar.low), source: `Massive (${ticker})` };
+        if (key === 'spx') values['top.spx.last'] = fmt(bar.close);
+        if (key === 'btc') values['top.btc.last'] = `$${fmt(bar.close)}`;
+      }
+      await new Promise((r) => setTimeout(r, 1500)); // stagger — stay under 5 req/min
+    }
+  } else {
+    console.error('[Massive] MASSIVE_API_KEY not set — skipping SPX/NDX/GDX/BTC/ETH prev-close.');
   }
 
   // ── Write results into the dashboard's TEXT snapshot object ──

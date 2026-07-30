@@ -33,6 +33,16 @@ export function mergeLiveSnapshot(live: LiveData): typeof baseline {
   }
   if (j?.tenYear) merged.command.tenYear = { value: j.tenYear.value, gated: false, reason: `${j.tenYear.date} (FRED DGS10)` } as any
   if (j?.wti) merged.command.wti = { value: j.wti.value, gated: false, reason: `${j.wti.date} (FRED DCOILWTICO)` } as any
+
+  // SPX/BTC replace the manually-curated baseline values once real Massive
+  // data lands; NDX/GDX/ETH un-gate from "no feed wired" the same way
+  // tenYear/wti do above — no scraping, same Massive key/pipeline as futures.
+  if (j?.spx) merged.command.spx = { value: j.spx.value, src: j.spx.source }
+  if (j?.btc) merged.command.btc = { value: j.btc.value, src: j.btc.source }
+  if (j?.ndx) merged.command.ndx = { value: j.ndx.value, gated: false, reason: j.ndx.source } as any
+  if (j?.gdx) merged.command.gdx = { value: j.gdx.value, gated: false, reason: j.gdx.source } as any
+  if (j?.eth) merged.command.eth = { value: j.eth.value, gated: false, reason: j.eth.source } as any
+
   if (j?.putCall?.total || j?.putCall?.equity) {
     merged.command.putCall = {
       total: j.putCall.total ?? merged.command.putCall.total,

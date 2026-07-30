@@ -24,6 +24,11 @@ export interface LiveSnapshotJson {
   wti?: { value: string; date: string; source: string }
   putCall?: { total: string | null; equity: string | null; source: string }
   aaii?: { bull: number; bear: number; spread: number; source: string }
+  spx?: { value: string; open: string; high: string; low: string; source: string }
+  ndx?: { value: string; open: string; high: string; low: string; source: string }
+  gdx?: { value: string; open: string; high: string; low: string; source: string }
+  btc?: { value: string; open: string; high: string; low: string; source: string }
+  eth?: { value: string; open: string; high: string; low: string; source: string }
 }
 
 export interface LiveNewsItem { time: string; headline: string; source: string }

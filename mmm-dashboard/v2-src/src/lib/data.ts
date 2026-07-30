@@ -53,6 +53,7 @@ export const snapshot = {
     xau: { value: "4,087.70", src: "TheStreet, pre-mkt" },
     ndx: { value: null, gated: true, reason: "No Nasdaq-100 cash index feed wired" },
     gdx: { value: null, gated: true, reason: "No GDX (gold miners ETF) feed wired" },
+    eth: { value: null, gated: true, reason: "No Ethereum feed wired" },
     dxy: { value: null, gated: true, reason: "Forex API req." },
     breadth: { value: null, gated: true, reason: "Polygon key req." },
     tenYear: { value: null, gated: true, reason: "Pending FRED DGS10 fetch" },

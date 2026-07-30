@@ -631,14 +631,15 @@ function Scanner() {
     }))
     if (tab === 'macro') return [
       { sym: 'VIX', name: 'CBOE Volatility', val1: c.vix.value, val2: vixNote(c.vix.value), tone: 'neutral' as const, signal: 'FRED' },
-      { sym: 'SPX', name: 'S&P 500 Cash', val1: c.spx.value, val2: c.spx.src, tone: 'neutral' as const, signal: 'MANUAL' },
-      { sym: 'NDX', name: 'Nasdaq-100 Cash', val1: c.ndx.gated ? '—' : c.ndx.value, val2: c.ndx.reason, tone: 'neutral' as const, signal: 'GATED' },
+      { sym: 'SPX', name: 'S&P 500 Cash', val1: c.spx.value, val2: c.spx.src, tone: 'neutral' as const, signal: 'MASSIVE' },
+      { sym: 'NDX', name: 'Nasdaq-100 Cash', val1: c.ndx.gated ? '—' : c.ndx.value, val2: c.ndx.reason, tone: 'neutral' as const, signal: c.ndx.gated ? 'GATED' : 'MASSIVE' },
       { sym: 'DXY', name: 'US Dollar Index', val1: c.dxy.gated ? '—' : c.dxy.value, val2: c.dxy.reason, tone: 'neutral' as const, signal: 'GATED' },
       { sym: '10Y', name: 'US 10-Year Yield', val1: c.tenYear.gated ? '—' : `${c.tenYear.value}%`, val2: c.tenYear.gated ? c.tenYear.reason : tenYearNote(c.tenYear.value), tone: 'neutral' as const, signal: c.tenYear.gated ? 'GATED' : 'FRED' },
       { sym: 'WTI', name: 'Crude Oil (WTI)', val1: c.wti.gated ? '—' : `$${c.wti.value}`, val2: c.wti.gated ? c.wti.reason : wtiNote(c.wti.value), tone: 'neutral' as const, signal: c.wti.gated ? 'GATED' : 'FRED' },
-      { sym: 'GDX', name: 'Gold Miners ETF', val1: c.gdx.gated ? '—' : c.gdx.value, val2: c.gdx.reason, tone: 'neutral' as const, signal: 'GATED' },
+      { sym: 'GDX', name: 'Gold Miners ETF', val1: c.gdx.gated ? '—' : c.gdx.value, val2: c.gdx.reason, tone: 'neutral' as const, signal: c.gdx.gated ? 'GATED' : 'MASSIVE' },
       { sym: 'XAU', name: 'Gold Spot', val1: `$${c.xau.value}`, val2: c.xau.src, tone: 'neutral' as const, signal: 'MANUAL' },
-      { sym: 'BTC', name: 'Bitcoin', val1: `$${c.btc.value}`, val2: c.btc.src, tone: 'bull' as const, signal: 'MANUAL' },
+      { sym: 'BTC', name: 'Bitcoin', val1: `$${c.btc.value}`, val2: c.btc.src, tone: 'bull' as const, signal: 'MASSIVE' },
+      { sym: 'ETH', name: 'Ethereum', val1: c.eth.gated ? '—' : `$${c.eth.value}`, val2: c.eth.reason, tone: 'bull' as const, signal: c.eth.gated ? 'GATED' : 'MASSIVE' },
       { sym: 'HY OAS', name: 'High-Yield Credit Spread', val1: `${c.hyOas.value} bps`, val2: hyOasNote(c.hyOas.value), tone: 'neutral' as const, signal: 'FRED' },
     ]
     return snapshot.ideas.items.map((idea) => ({
