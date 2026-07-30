@@ -10,6 +10,8 @@ export interface LiveFutures {
   priorOhlc: { o: number; h: number; l: number; c: number; sessionDate: string }
   pivots: { pp: number; r1: number; r2: number; r3: number; s1: number; s2: number; s3: number }
   fibs: { f38: number; f50: number; f62: number }
+  live?: { last: number; asOf: string }
+  gapProbClosePct?: number
 }
 
 export interface LiveSectorRow { etf: string; sector: string; close: number; d1: number; d5: number | null }

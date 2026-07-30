@@ -72,6 +72,9 @@ export function mergeLiveSnapshot(live: LiveData): typeof baseline {
   // stays permanently gated from the data.ts baseline.
 
   // Futures — prior-session OHLC/pivots/fibs from Massive, computed server-side.
+  // Live/gapProbClosePct (when present) come from Schwab instead — see that
+  // section's comment in generate_snapshot.mjs for why gapProbClosePct is a
+  // plain computed percentage, not a modeled probability despite the name.
   for (const key of ['es', 'nq'] as const) {
     const f = j?.futures?.[key]
     if (!f) continue
@@ -79,6 +82,14 @@ export function mergeLiveSnapshot(live: LiveData): typeof baseline {
     dest.priorOhlc = { o: f.priorOhlc.o, h: f.priorOhlc.h, l: f.priorOhlc.l, c: f.priorOhlc.c, sessionDate: f.priorOhlc.sessionDate }
     dest.pivots = f.pivots
     dest.fibs = f.fibs
+    if (f.live) {
+      const asOfPt = new Date(f.live.asOf).toLocaleTimeString('en-US', { timeZone: 'America/Los_Angeles', hour: 'numeric', minute: '2-digit' }) + ' PT'
+      const lastFmt = f.live.last.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+      dest.live = { last: lastFmt, asOf: `${asOfPt} (Schwab)` } as any
+    }
+    if (f.gapProbClosePct != null) {
+      dest.gapProbClosePct = `${f.gapProbClosePct >= 0 ? '+' : ''}${f.gapProbClosePct}%` as any
+    }
   }
 
   // Sectors — overlay real 1D% for any ETF the server actually computed,

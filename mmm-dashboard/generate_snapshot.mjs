@@ -39,6 +39,18 @@ const FUTURES = {
   NQ: 'NQU6', // September 2026
 };
 
+// Schwab's futures symbol format is completely different from Massive's above
+// — thinkorswim convention: "/" + root + month-code + TWO-digit year (e.g.
+// /ESU26 = E-mini S&P 500, September 2026). Confirmed via Schwab's own
+// Futures FAQ page and schwab-py's docs (which flag the "/" as needing
+// URL-encoding, handled automatically by encodeURIComponent below). Update
+// BOTH this and FUTURES above at each quarterly rollover — they drift
+// independently since the formats don't share a source string.
+const SCHWAB_FUTURES = {
+  ES: '/ESU26', // September 2026
+  NQ: '/NQU26', // September 2026
+};
+
 // SPDR sector ETFs — Massive Stocks Basic covers all of these.
 const SECTOR_ETFS = {
   XLK: 'Technology', XLF: 'Financials', XLE: 'Energy', XLV: 'Health Care',
@@ -459,16 +471,20 @@ async function main() {
     console.error('[Massive] MASSIVE_API_KEY not set — skipping SPX/NDX/GDX/UUP/GLD/BTC/ETH prev-close.');
   }
 
-  // 7. Schwab real-time SPX/NDX — overrides the Massive end-of-day values set
-  // above when available. Real-time as of THIS run only (once/weekday at
-  // cron time), not continuously live for the rest of the day — but that's
-  // exactly the 6am pre-market window this was built for. Requires all three
-  // SCHWAB_* secrets; silently skips (leaving Massive's values in place) if
-  // any are missing or the refresh token has expired past its ~7-day life.
+  // 7. Schwab real-time SPX/NDX/ES/NQ — overrides the Massive end-of-day
+  // values set above when available, and for ES/NQ specifically, fills the
+  // Live Last/As-Of/Gap% fields that have been gated since the start of this
+  // build (Massive Basic has no live/intraday feed). Real-time as of THIS
+  // run only (once/weekday at cron time), not continuously live for the rest
+  // of the day — but that's exactly the 6am pre-market window this was built
+  // for. Requires all three SCHWAB_* secrets; silently skips (leaving
+  // Massive's values / gated state in place) if any are missing or the
+  // refresh token has expired past its ~7-day life.
   if (SCHWAB_CLIENT_ID && SCHWAB_CLIENT_SECRET && SCHWAB_REFRESH_TOKEN) {
     const accessToken = await fetchSchwabAccessToken();
     if (accessToken) {
-      const quotes = await fetchSchwabQuotes(accessToken, ['$SPX', '$NDX']);
+      const symbols = ['$SPX', '$NDX', ...Object.values(SCHWAB_FUTURES)];
+      const quotes = await fetchSchwabQuotes(accessToken, symbols);
       if (quotes) {
         const spx = quotes.get('$SPX');
         const ndx = quotes.get('$NDX');
@@ -479,10 +495,30 @@ async function main() {
         if (ndx) {
           raw.ndx = { value: fmt(ndx.last), open: null, high: null, low: null, source: 'Schwab, real-time (as of run)' };
         }
+
+        // ES/NQ: live price + a straightforward computed gap% against the
+        // prior close section 1 already captured (live vs. prior settle,
+        // NOT a modeled "probability" — the field name gapProbClosePct
+        // predates this and is kept as-is for compatibility with existing
+        // UI wiring rather than renamed mid-project).
+        for (const [sym, ticker] of Object.entries(SCHWAB_FUTURES)) {
+          const prefix = sym.toLowerCase();
+          const q = quotes.get(ticker);
+          if (!q) continue;
+          const nowIso = new Date().toISOString();
+          if (!raw.futures[prefix]) raw.futures[prefix] = {};
+          raw.futures[prefix].live = { last: q.last, asOf: nowIso };
+          const priorClose = raw.futures[prefix].priorOhlc?.c;
+          if (priorClose != null) {
+            raw.futures[prefix].gapProbClosePct = +(((q.last - priorClose) / priorClose) * 100).toFixed(2);
+          }
+          values[`fut.${prefix}.live.last`] = fmt(q.last);
+          values[`fut.${prefix}.live.as_of`] = nowIso;
+        }
       }
     }
   } else {
-    console.error('[Schwab] One or more of SCHWAB_CLIENT_ID/SCHWAB_CLIENT_SECRET/SCHWAB_REFRESH_TOKEN not set — SPX/NDX stay on Massive end-of-day.');
+    console.error('[Schwab] One or more of SCHWAB_CLIENT_ID/SCHWAB_CLIENT_SECRET/SCHWAB_REFRESH_TOKEN not set — SPX/NDX/ES/NQ live stay on Massive end-of-day / gated.');
   }
 
   // ── Write results into the dashboard's TEXT snapshot object ──

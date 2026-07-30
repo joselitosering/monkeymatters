@@ -260,7 +260,7 @@ function TopAlerts() {
     { label: 'GDX', value: c.gdx.gated ? null : c.gdx.value, sub: c.gdx.reason },
     { label: 'BTC', value: `$${c.btc.value}`, sub: c.btc.src },
     { label: 'WTI', value: c.wti.gated ? null : `$${c.wti.value}`, sub: c.wti.gated ? c.wti.reason : c.wti.reason },
-    { label: 'GAP (ES)', value: snapshot.futures.es.gapProbClosePct ?? null, sub: 'Needs live/intraday feed — Massive Basic is prior-session only' },
+    { label: 'GAP (ES)', value: snapshot.futures.es.gapProbClosePct ?? null, sub: snapshot.futures.es.gapProbClosePct != null ? 'Live vs. prior close (Schwab)' : 'Needs live/intraday feed — Massive Basic is prior-session only' },
     { label: 'TOP SECTOR', value: topSector ? `${topSector.etf} ${topSectorReal ? `${(topSector.d1! >= 0 ? '+' : '')}${topSector.d1!.toFixed(2)}%` : 'est.'}` : null, sub: topSector?.sector, tone: topSectorReal ? ((topSector.d1 ?? 0) >= 0 ? 'gain' : 'loss') : undefined },
     { label: 'TOP STOCK', value: topStock?.ticker ?? null, sub: topStock ? `Spotlight — ${topStock.catalyst}` : undefined },
     { label: 'MOOD', value: c.newsMood.score, sub: `${c.newsMood.heatCount} items / ${c.newsMood.windowMin}m`, tone: c.newsMood.tone },
