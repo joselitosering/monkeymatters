@@ -59,20 +59,24 @@ async function main() {
 
   const redirectedUrl = (await ask('--- Step 2 ---\nPaste the full redirected URL here: ')).trim();
 
-  let code;
-  try {
-    const parsed = new URL(redirectedUrl);
-    code = parsed.searchParams.get('code');
-  } catch {
-    console.error('\nCould not parse that as a URL. Make sure you pasted the entire address bar contents.');
-    rl.close();
-    process.exit(1);
+  // Extract via regex rather than new URL() parsing — resilient to a pasted
+  // value accidentally containing the URL twice (e.g. a double-paste landing
+  // in one input line), which happened on a real run here: new URL() grabbed
+  // the FIRST ?code= match, but when duplicated the real/complete one is the
+  // LAST occurrence. Taking the last match handles both the clean case (only
+  // one match, trivially "last") and the duplicated case correctly.
+  const codeMatches = [...redirectedUrl.matchAll(/[?&]code=([^&\s]+)/g)];
+  const code = codeMatches.length ? decodeURIComponent(codeMatches[codeMatches.length - 1][1]) : null;
+
+  if (codeMatches.length > 1) {
+    console.log(`\nNote: found ${codeMatches.length} "code=" matches in what you pasted — using the last one. If this run fails, the paste may have duplicated; try pasting fresh (a single right-click paste, not repeated).`);
   }
 
   if (!code) {
     console.error('\nNo ?code= parameter found in that URL. Did the redirect actually happen? Try again from Step 1.');
     rl.close();
-    process.exit(1);
+    process.exitCode = 1;
+    return;
   }
 
   console.log('\n--- Step 3 --- Exchanging code for tokens...\n');
@@ -97,22 +101,25 @@ async function main() {
     const text = await res.text();
     if (!res.ok) {
       console.error(`HTTP ${res.status} ${res.statusText}\n${text}`);
-      rl.close();
-      process.exit(1);
+      if (text.includes('invalid_grant') || text.includes('invalid')) {
+        console.error('\nThis usually means the code expired (they\'re short-lived — often under a minute)');
+        console.error('or got garbled in the paste. Restart from Step 1 and complete Step 2 quickly.');
+      }
+      process.exitCode = 1;
+    } else {
+      const data = JSON.parse(text);
+      console.log('SUCCESS. Save these now — the refresh_token is what goes into GitHub Secrets:\n');
+      console.log('  refresh_token (-> GitHub secret SCHWAB_REFRESH_TOKEN):');
+      console.log(`  ${data.refresh_token}\n`);
+      console.log('  access_token (valid 30 min, informational only, generate_snapshot.mjs');
+      console.log('  will fetch its own each run using the refresh_token above):');
+      console.log(`  ${data.access_token}\n`);
+      console.log('This refresh_token is valid for ~7 days. When it stops working, re-run');
+      console.log('this script to get a new one and update the GitHub secret again.');
     }
-
-    const data = JSON.parse(text);
-    console.log('SUCCESS. Save these now — the refresh_token is what goes into GitHub Secrets:\n');
-    console.log('  refresh_token (-> GitHub secret SCHWAB_REFRESH_TOKEN):');
-    console.log(`  ${data.refresh_token}\n`);
-    console.log('  access_token (valid 30 min, informational only, generate_snapshot.mjs');
-    console.log('  will fetch its own each run using the refresh_token above):');
-    console.log(`  ${data.access_token}\n`);
-    console.log('This refresh_token is valid for ~7 days. When it stops working, re-run');
-    console.log('this script to get a new one and update the GitHub secret again.');
   } catch (e) {
     console.error('Token exchange failed:', e.message);
-    process.exit(1);
+    process.exitCode = 1;
   }
 
   rl.close();
