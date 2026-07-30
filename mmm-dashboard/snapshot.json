@@ -1,7 +1,27 @@
 {
-  "generatedAt": "2026-07-30T16:42:25.806Z",
+  "generatedAt": "2026-07-30T17:02:42.632Z",
   "futures": {},
   "sectors": null,
+  "vix": {
+    "value": "18.21",
+    "date": "2026-07-28",
+    "source": "FRED VIXCLS"
+  },
+  "hyOas": {
+    "value": "2.87",
+    "date": "2026-07-29",
+    "source": "FRED BAMLH0A0HYM2"
+  },
+  "tenYear": {
+    "value": "4.6100000000",
+    "date": "2026-07-28",
+    "source": "FRED DGS10"
+  },
+  "wti": {
+    "value": "84.25",
+    "date": "2026-07-27",
+    "source": "FRED DCOILWTICO"
+  },
   "putCall": {
     "total": "1.05",
     "equity": "0.61",
