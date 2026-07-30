@@ -1,0 +1,67 @@
+name: MMM Dashboard — Daily Snapshot & Deploy
+
+on:
+  schedule:
+    # Cron is UTC. Target ~6:10 AM PT weekdays with buffer before the 6:25 AM
+    # notification. PT is UTC-8 (PST, Nov–Mar) or UTC-7 (PDT, Mar–Nov) —
+    # GitHub cron has no DST awareness, so this runs at a fixed UTC time and
+    # will drift by an hour across the DST boundary twice a year. Pick ONE:
+    #   - '10 13 * * 1-5'  -> 6:10 AM PDT (UTC-7) / 5:10 AM PST — use for summer
+    #   - '10 14 * * 1-5'  -> 6:10 AM PST (UTC-8) / 7:10 AM PDT — use for winter
+    # Currently set for PDT (matches July 2026). Flip the hour at each DST change,
+    # or replace this with two schedule entries and let the script itself check
+    # America/Los_Angeles time and no-op outside the target window.
+    - cron: '10 13 * * 1-5'
+  workflow_dispatch: {} # allows manual "Run workflow" button for testing
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  generate-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Run snapshot generator
+        env:
+          MASSIVE_API_KEY: ${{ secrets.MASSIVE_API_KEY }}
+          FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+        run: node mmm-dashboard/generate_snapshot.mjs mmm-dashboard/mmm_dashboard.html
+
+      - name: Commit updated snapshot
+        run: |
+          git config user.name "mmm-dashboard-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add mmm-dashboard/mmm_dashboard.html
+          git diff --staged --quiet && echo "No changes to commit" || git commit -m "Daily snapshot $(date -u +%Y-%m-%d)"
+          git push
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: mmm-dashboard   # scoped to this folder only — keeps turtleshell/ and focusplanner/ unpublished
+
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
+
+# ── Setup checklist (one-time, not automated by this file) ──
+#   1. Repo Settings > Secrets and variables > Actions > New repository secret:
+#        MASSIVE_API_KEY = <your Massive Basic key>
+#        FRED_API_KEY    = <your FRED key>
+#   2. Repo Settings > Pages > Source: "GitHub Actions"
+#   3. Files live in mmm-dashboard/ — mmm_dashboard.html + generate_snapshot.mjs
+#   4. First run: use the "Run workflow" button (workflow_dispatch) to test
+#      before trusting the cron schedule
