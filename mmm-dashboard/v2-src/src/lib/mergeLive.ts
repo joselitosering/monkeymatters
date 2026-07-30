@@ -50,6 +50,16 @@ export function mergeLiveSnapshot(live: LiveData): typeof baseline {
   if (j?.dxy) merged.command.dxy = { value: j.dxy.value, gated: false, reason: j.dxy.source } as any
   if (j?.gold) merged.command.xau = { value: j.gold.value, src: j.gold.source }
 
+  // Finnhub real-time quotes (client-side, only present if VITE_FINNHUB_KEY
+  // was set at build time) take priority over Massive's end-of-day UUP/GLD/
+  // GDX values above when available — genuinely current beats yesterday's
+  // close. Falls through to whatever was just set above if Finnhub's fetch
+  // failed or the key wasn't configured, per the same no-fabrication rule.
+  const fmtQuote = (n: number) => n.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })
+  if (live.finnhub?.gdx) merged.command.gdx = { value: fmtQuote(live.finnhub.gdx.value), gated: false, reason: 'Finnhub, real-time' } as any
+  if (live.finnhub?.dxy) merged.command.dxy = { value: fmtQuote(live.finnhub.dxy.value), gated: false, reason: 'Finnhub, real-time' } as any
+  if (live.finnhub?.gold) merged.command.xau = { value: fmtQuote(live.finnhub.gold.value), src: 'Finnhub, real-time' }
+
   if (j?.putCall?.total || j?.putCall?.equity) {
     merged.command.putCall = {
       total: j.putCall.total ?? merged.command.putCall.total,

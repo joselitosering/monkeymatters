@@ -35,6 +35,8 @@ export interface LiveSnapshotJson {
 
 export interface LiveNewsItem { time: string; headline: string; source: string }
 
+export interface LiveFinnhubQuote { value: number; prevClose: number }
+
 export interface LiveData {
   json: LiveSnapshotJson | null
   jsonError: string | null
@@ -42,6 +44,7 @@ export interface LiveData {
   vixLive: number | null // feargreedchart's live VIX confirmation, separate from FRED's json.vix
   news: LiveNewsItem[] | null
   newsError: string | null
+  finnhub: { gdx?: LiveFinnhubQuote; dxy?: LiveFinnhubQuote; gold?: LiveFinnhubQuote } | null
 }
 
 const CRYPTO_KEYWORDS = /\b(bitcoin|btc|ethereum|eth|crypto|cryptocurrency|blockchain|altcoin|stablecoin|defi|nft|coinbase|binance|dogecoin|solana|xrp|ripple)\b/i
@@ -54,6 +57,12 @@ const NEWS_FEEDS = [
   'https://www.benzinga.com/pre-market-outlook/feed',
   'https://www.benzinga.com/markets/asia/feed',
 ]
+
+// ETF equivalents for gold/dollar (see generate_snapshot.mjs — no confirmed
+// direct index ticker for DXY/gold on Massive's free tier), plus GDX. Finnhub
+// gives genuinely real-time quotes for these on its free tier, unlike
+// Massive's end-of-day — see mergeLive.ts for how these two sources combine.
+const FINNHUB_TICKERS: Record<'gdx' | 'dxy' | 'gold', string> = { gdx: 'GDX', dxy: 'UUP', gold: 'GLD' }
 
 function fgiLabel(score: number): string {
   return score <= 20 ? 'Extreme Fear' : score <= 40 ? 'Fear' : score <= 60 ? 'Neutral' : score <= 80 ? 'Greed' : 'Extreme Greed'
@@ -69,7 +78,7 @@ function ptTime(iso: string): string {
 
 export function useLiveSnapshot(): LiveData {
   const [state, setState] = useState<LiveData>({
-    json: null, jsonError: null, fgi: null, vixLive: null, news: null, newsError: null,
+    json: null, jsonError: null, fgi: null, vixLive: null, news: null, newsError: null, finnhub: null,
   })
 
   useEffect(() => {
@@ -128,6 +137,27 @@ export function useLiveSnapshot(): LiveData {
         setState((s) => ({ ...s, news: items }))
       })
       .catch((e) => { if (!cancelled) setState((s) => ({ ...s, newsError: String(e?.message || e) })) })
+
+    // 4. Finnhub real-time quotes for GDX/UUP(DXY proxy)/GLD(gold proxy) —
+    // optional: only runs if VITE_FINNHUB_KEY was set at build time (see
+    // .github/workflows/mmm-dashboard.yml). Silently no-ops without a key —
+    // Massive's end-of-day values (already in json.gdx/dxy/gold) remain the
+    // fallback either way, per the no-fabrication discipline.
+    const finnhubKey = import.meta.env.VITE_FINNHUB_KEY
+    if (finnhubKey) {
+      Promise.all(
+        (Object.entries(FINNHUB_TICKERS) as [keyof typeof FINNHUB_TICKERS, string][]).map(([key, ticker]) =>
+          fetch(`https://finnhub.io/api/v1/quote?symbol=${ticker}&token=${finnhubKey}`)
+            .then((r) => r.json())
+            .then((d) => (d && typeof d.c === 'number' && d.c > 0 ? [key, { value: d.c, prevClose: d.pc }] as const : null))
+            .catch(() => null)
+        )
+      ).then((results) => {
+        if (cancelled) return
+        const entries = results.filter((r): r is [keyof typeof FINNHUB_TICKERS, LiveFinnhubQuote] => r != null)
+        if (entries.length) setState((s) => ({ ...s, finnhub: Object.fromEntries(entries) }))
+      })
+    }
 
     return () => { cancelled = true }
   }, [])

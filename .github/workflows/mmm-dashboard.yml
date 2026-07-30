@@ -61,6 +61,16 @@ jobs:
 
       - name: Build Daybreak (React v2)
         working-directory: mmm-dashboard/v2-src
+        env:
+          # VITE_ prefix is required — Vite only bakes VITE_-prefixed vars into
+          # the client bundle at build time. This is the ONLY way a client-side
+          # key reaches the browser: unlike MASSIVE_API_KEY/FRED_API_KEY above
+          # (server-side only, never shipped), this one WILL be visible in the
+          # deployed page's JS bundle to anyone who opens dev tools — that's
+          # inherent to client-side API usage on a static site with no backend
+          # proxy, not a mistake. Keeping it in Secrets instead of hardcoded in
+          # source at least keeps it out of the git repo/commit history.
+          VITE_FINNHUB_KEY: ${{ secrets.FINNHUB_API_KEY }}
         run: |
           pnpm approve-builds --all || true
           pnpm install
@@ -86,6 +96,9 @@ jobs:
 #   1. Repo Settings > Secrets and variables > Actions > New repository secret:
 #        MASSIVE_API_KEY = <your Massive Basic key>
 #        FRED_API_KEY    = <your FRED key>
+#        FINNHUB_API_KEY = <your Finnhub free-tier key> (client-side/public
+#                           once deployed — see the Build Daybreak step's env
+#                           comment for why this one differs from the two above)
 #   2. Repo Settings > Pages > Source: "GitHub Actions"
 #   3. Files live in mmm-dashboard/ — mmm_dashboard.html + generate_snapshot.mjs
 #      (vanilla dashboard) and mmm-dashboard/v2-src/ (React "Daybreak" source,
