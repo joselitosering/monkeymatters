@@ -39,6 +39,16 @@ jobs:
         env:
           MASSIVE_API_KEY: ${{ secrets.MASSIVE_API_KEY }}
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          # Server-side only, same as the two above — never shipped to the
+          # browser. SCHWAB_REFRESH_TOKEN expires ~7 days after it's issued
+          # (confirmed by Schwab support — no programmatic renewal exists),
+          # so this secret needs manual updating roughly weekly via
+          # mmm-dashboard/schwab-setup/get_refresh_token.mjs. If it's missing
+          # or expired, generate_snapshot.mjs logs it clearly and SPX/NDX
+          # fall back to Massive's end-of-day values — the run never fails.
+          SCHWAB_CLIENT_ID: ${{ secrets.SCHWAB_CLIENT_ID }}
+          SCHWAB_CLIENT_SECRET: ${{ secrets.SCHWAB_CLIENT_SECRET }}
+          SCHWAB_REFRESH_TOKEN: ${{ secrets.SCHWAB_REFRESH_TOKEN }}
         run: node mmm-dashboard/generate_snapshot.mjs mmm-dashboard/mmm_dashboard.html
 
       - name: Commit updated snapshot
@@ -99,6 +109,12 @@ jobs:
 #        FINNHUB_API_KEY = <your Finnhub free-tier key> (client-side/public
 #                           once deployed — see the Build Daybreak step's env
 #                           comment for why this one differs from the two above)
+#        SCHWAB_CLIENT_ID     = <Schwab app's Client ID / App Key>
+#        SCHWAB_CLIENT_SECRET = <Schwab app's Client Secret>
+#        SCHWAB_REFRESH_TOKEN = <from schwab-setup/get_refresh_token.mjs — expires
+#                                ~7 days, re-run that script and update this secret
+#                                weekly-ish. Missing/expired = SPX/NDX silently fall
+#                                back to Massive's end-of-day values, run still succeeds.>
 #   2. Repo Settings > Pages > Source: "GitHub Actions"
 #   3. Files live in mmm-dashboard/ — mmm_dashboard.html + generate_snapshot.mjs
 #      (vanilla dashboard) and mmm-dashboard/v2-src/ (React "Daybreak" source,

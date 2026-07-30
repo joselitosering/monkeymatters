@@ -48,6 +48,9 @@ const SECTOR_ETFS = {
 
 const MASSIVE_KEY = process.env.MASSIVE_API_KEY || '';
 const FRED_KEY = process.env.FRED_API_KEY || '';
+const SCHWAB_CLIENT_ID = process.env.SCHWAB_CLIENT_ID || '';
+const SCHWAB_CLIENT_SECRET = process.env.SCHWAB_CLIENT_SECRET || '';
+const SCHWAB_REFRESH_TOKEN = process.env.SCHWAB_REFRESH_TOKEN || '';
 const DASHBOARD_PATH = process.argv[2];
 
 if (!DASHBOARD_PATH) {
@@ -255,6 +258,76 @@ async function fetchAaiiSentiment() {
   }
 }
 
+/**
+ * Exchanges the long-lived (~7 day) SCHWAB_REFRESH_TOKEN secret for a fresh
+ * 30-minute access token. Manual browser re-auth is required roughly weekly
+ * when the refresh token itself expires — confirmed directly with Schwab
+ * (TraderAPI@Schwab.com): there is no programmatic way to renew a refresh
+ * token past 7 days. See mmm-dashboard/schwab-setup/get_refresh_token.mjs.
+ */
+async function fetchSchwabAccessToken() {
+  const basicAuth = Buffer.from(`${SCHWAB_CLIENT_ID}:${SCHWAB_CLIENT_SECRET}`).toString('base64');
+  const body = new URLSearchParams({ grant_type: 'refresh_token', refresh_token: SCHWAB_REFRESH_TOKEN });
+  try {
+    const res = await fetch('https://api.schwabapi.com/v1/oauth/token', {
+      method: 'POST',
+      headers: { Authorization: `Basic ${basicAuth}`, 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: body.toString(),
+    });
+    const bodyText = await res.text();
+    if (!res.ok) {
+      console.error(`[Schwab OAuth] HTTP ${res.status} ${res.statusText} — ${bodyText.slice(0, 300)}. Refresh token likely expired (~7 day lifetime) — re-run schwab-setup/get_refresh_token.mjs and update the SCHWAB_REFRESH_TOKEN secret.`);
+      return null;
+    }
+    const data = JSON.parse(bodyText);
+    if (!data.access_token) {
+      console.error('[Schwab OAuth] No access_token in response:', bodyText.slice(0, 300));
+      return null;
+    }
+    return data.access_token;
+  } catch (e) {
+    console.error('[Schwab OAuth] Token refresh failed:', e.message);
+    return null;
+  }
+}
+
+/**
+ * Real-time-as-of-this-run quotes for one or more Schwab-format symbols
+ * (index tickers use a "$" prefix, e.g. $SPX, $NDX — confirmed directly from
+ * Schwab's own developer support correspondence). Returns Map<symbol,
+ * {last, netChange}> or null. Parses defensively against two possible
+ * response nesting shapes (top-level vs nested under "quote") and logs the
+ * raw shape on a miss rather than guessing wrong a second time.
+ */
+async function fetchSchwabQuotes(accessToken, symbols) {
+  const url = `https://api.schwabapi.com/marketdata/v1/quotes?symbols=${encodeURIComponent(symbols.join(','))}`;
+  try {
+    const res = await fetch(url, { headers: { Authorization: `Bearer ${accessToken}` } });
+    const bodyText = await res.text();
+    if (!res.ok) {
+      console.error(`[Schwab Quotes] HTTP ${res.status} ${res.statusText} — ${bodyText.slice(0, 300)}`);
+      return null;
+    }
+    const data = JSON.parse(bodyText);
+    const map = new Map();
+    for (const sym of symbols) {
+      const entry = data[sym];
+      if (!entry) { console.error(`[Schwab Quotes] No entry for ${sym} in response — symbol may be wrong or market closed.`); continue; }
+      const q = entry.quote || entry; // defend against either nesting shape
+      const last = q.lastPrice ?? q.mark ?? q.closePrice;
+      if (last == null) {
+        console.error(`[Schwab Quotes] ${sym}: couldn't find lastPrice/mark/closePrice. Raw entry: ${JSON.stringify(entry).slice(0, 300)}`);
+        continue;
+      }
+      map.set(sym, { last, netChange: q.netChange ?? null });
+    }
+    return map.size ? map : null;
+  } catch (e) {
+    console.error('[Schwab Quotes] fetch failed:', e.message);
+    return null;
+  }
+}
+
 // ── Main ──
 
 async function main() {
@@ -415,6 +488,32 @@ async function main() {
     }
   } else {
     console.error('[Massive] MASSIVE_API_KEY not set — skipping SPX/NDX/GDX/UUP/GLD/BTC/ETH prev-close.');
+  }
+
+  // 7. Schwab real-time SPX/NDX — overrides the Massive end-of-day values set
+  // above when available. Real-time as of THIS run only (once/weekday at
+  // cron time), not continuously live for the rest of the day — but that's
+  // exactly the 6am pre-market window this was built for. Requires all three
+  // SCHWAB_* secrets; silently skips (leaving Massive's values in place) if
+  // any are missing or the refresh token has expired past its ~7-day life.
+  if (SCHWAB_CLIENT_ID && SCHWAB_CLIENT_SECRET && SCHWAB_REFRESH_TOKEN) {
+    const accessToken = await fetchSchwabAccessToken();
+    if (accessToken) {
+      const quotes = await fetchSchwabQuotes(accessToken, ['$SPX', '$NDX']);
+      if (quotes) {
+        const spx = quotes.get('$SPX');
+        const ndx = quotes.get('$NDX');
+        if (spx) {
+          raw.spx = { value: fmt(spx.last), open: null, high: null, low: null, source: 'Schwab, real-time (as of run)' };
+          values['top.spx.last'] = fmt(spx.last);
+        }
+        if (ndx) {
+          raw.ndx = { value: fmt(ndx.last), open: null, high: null, low: null, source: 'Schwab, real-time (as of run)' };
+        }
+      }
+    }
+  } else {
+    console.error('[Schwab] One or more of SCHWAB_CLIENT_ID/SCHWAB_CLIENT_SECRET/SCHWAB_REFRESH_TOKEN not set — SPX/NDX stay on Massive end-of-day.');
   }
 
   // ── Write results into the dashboard's TEXT snapshot object ──
