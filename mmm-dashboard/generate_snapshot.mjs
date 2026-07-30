@@ -63,6 +63,16 @@ const FRED_KEY = process.env.FRED_API_KEY || '';
 const SCHWAB_CLIENT_ID = process.env.SCHWAB_CLIENT_ID || '';
 const SCHWAB_CLIENT_SECRET = process.env.SCHWAB_CLIENT_SECRET || '';
 const SCHWAB_REFRESH_TOKEN = process.env.SCHWAB_REFRESH_TOKEN || '';
+// 'full' (default) runs every section — Massive/FRED/CBOE/Schwab. 'light'
+// runs ONLY the Schwab section, loading the existing snapshot.json as a base
+// and carrying forward everything else unchanged. This exists because most
+// of what this script fetches (sectors, FRED series, CBOE) is end-of-day or
+// daily data that genuinely can't change intraday — refetching it every 5
+// minutes during the pre-market window would be pure waste, and for CBOE
+// specifically, more requests means more exposure to its bot detection for
+// zero benefit. See .github/workflows/mmm-dashboard.yml for how mode is
+// chosen based on which cron entry fired.
+const SNAPSHOT_MODE = process.env.SNAPSHOT_MODE === 'light' ? 'light' : 'full';
 const DASHBOARD_PATH = process.argv[2];
 
 if (!DASHBOARD_PATH) {
@@ -321,11 +331,31 @@ async function main() {
   // same null-on-failure discipline, just a second, machine-readable output
   // alongside the existing HTML string-injection. Never fabricate a value
   // here that isn't also backed by a successful fetch above.
-  const raw = { generatedAt: new Date().toISOString(), futures: {}, sectors: null };
+  //
+  // Same directory as the dashboard HTML, so both the classic dashboard and
+  // any co-located React build (e.g. mmm-dashboard/v2/) can find it via a
+  // same-directory relative fetch regardless of the Pages base path. Computed
+  // here (not just at write time) because light mode needs to READ this file
+  // as its starting point, not just write it.
+  const jsonPath = join(dirname(DASHBOARD_PATH), 'snapshot.json');
+
+  let raw;
+  if (SNAPSHOT_MODE === 'light') {
+    try {
+      raw = JSON.parse(readFileSync(jsonPath, 'utf8'));
+      console.log(`[Light mode] Loaded existing ${jsonPath} as base — only the Schwab section runs; everything else carries forward unchanged.`);
+    } catch (e) {
+      console.error(`[Light mode] Could not read existing ${jsonPath} (first run of the day?) — starting from an empty snapshot instead:`, e.message);
+      raw = { generatedAt: new Date().toISOString(), futures: {}, sectors: null };
+    }
+  } else {
+    raw = { generatedAt: new Date().toISOString(), futures: {}, sectors: null };
+  }
+  raw.generatedAt = new Date().toISOString(); // always reflects THIS run, even in light mode
   const today = new Date();
 
   // 1. Futures — Massive Basic (8h-delayed, but prior session is always fully settled)
-  if (MASSIVE_KEY) {
+  if (SNAPSHOT_MODE === 'full' && MASSIVE_KEY) {
     for (const [sym, ticker] of Object.entries(FUTURES)) {
       const prefix = sym.toLowerCase(); // 'es' | 'nq'
       const bar = await fetchMassiveFuturesSession(ticker);
@@ -357,13 +387,13 @@ async function main() {
       await new Promise((r) => setTimeout(r, 1500)); // stagger — stay under 5 req/min
     }
   } else {
-    console.error('[Massive] MASSIVE_API_KEY not set — skipping futures.');
+    console.error(SNAPSHOT_MODE === 'light' ? '[Massive] Light mode — skipping futures (carried forward from existing snapshot).' : '[Massive] MASSIVE_API_KEY not set — skipping futures.');
   }
 
   // 2. Sectors — 3 grouped-daily calls (T, T-1, T-5) cover ALL tickers at once
   let sectorRowsLeaders = [];
   let sectorRowsLaggards = [];
-  if (MASSIVE_KEY) {
+  if (SNAPSHOT_MODE === 'full' && MASSIVE_KEY) {
     const dT = previousTradingDay(today); // most recent completed session
     const dT1 = previousTradingDay(dT);
     let d5 = dT;
@@ -410,7 +440,7 @@ async function main() {
   }
 
   // 3. FRED — VIX close + HY OAS (works fine server-side; CORS only blocks browsers)
-  if (FRED_KEY) {
+  if (SNAPSHOT_MODE === 'full' && FRED_KEY) {
     const vix = await fetchFredSeries('VIXCLS');
     if (vix) {
       values['top.vix.close'] = `${vix.value} (FRED, ${vix.date})`;
@@ -430,15 +460,20 @@ async function main() {
     const wti = await fetchFredSeries('DCOILWTICO');
     if (wti) raw.wti = { value: wti.value, date: wti.date, source: 'FRED DCOILWTICO' };
   } else {
-    console.error('[FRED] FRED_API_KEY not set — skipping VIX/HY OAS.');
+    console.error(SNAPSHOT_MODE === 'light' ? '[FRED] Light mode — skipping (carried forward from existing snapshot).' : '[FRED] FRED_API_KEY not set — skipping VIX/HY OAS.');
   }
 
-  // 4. CBOE Put/Call (free public page, no key — best-effort parse, see function docstring)
-  const pc = await fetchCboePutCall();
-  if (pc) {
-    if (pc.total) values['top.pc.total.value'] = pc.total;
-    if (pc.equity) values['top.pc.equity.value'] = pc.equity;
-    raw.putCall = { total: pc.total, equity: pc.equity, source: 'CBOE' };
+  // 4. CBOE Put/Call (free public page, no key — best-effort parse, see
+  // function docstring). Full mode only — see SNAPSHOT_MODE comment above
+  // for why: more requests to a scraped page = more bot-detection exposure
+  // for data that only changes a few times a day at most.
+  if (SNAPSHOT_MODE === 'full') {
+    const pc = await fetchCboePutCall();
+    if (pc) {
+      if (pc.total) values['top.pc.total.value'] = pc.total;
+      if (pc.equity) values['top.pc.equity.value'] = pc.equity;
+      raw.putCall = { total: pc.total, equity: pc.equity, source: 'CBOE' };
+    }
   }
 
   // 5. (Removed) AAII Bull-Bear spread — the scraper never reliably worked:
@@ -455,7 +490,7 @@ async function main() {
   // UUP/GLD stand in as the ETF equivalents rather than guess at an index
   // symbol that might not exist. Replaces the previously-manual SPX/BTC/XAU
   // values.
-  if (MASSIVE_KEY) {
+  if (SNAPSHOT_MODE === 'full' && MASSIVE_KEY) {
     const PREV_CLOSE_TICKERS = { spx: 'I:SPX', ndx: 'I:NDX', gdx: 'GDX', dxy: 'UUP', gold: 'GLD', btc: 'X:BTCUSD', eth: 'X:ETHUSD' };
     for (const [key, ticker] of Object.entries(PREV_CLOSE_TICKERS)) {
       const bar = await fetchMassivePrevClose(ticker);
@@ -468,7 +503,7 @@ async function main() {
       await new Promise((r) => setTimeout(r, 1500)); // stagger — stay under 5 req/min
     }
   } else {
-    console.error('[Massive] MASSIVE_API_KEY not set — skipping SPX/NDX/GDX/UUP/GLD/BTC/ETH prev-close.');
+    console.error(SNAPSHOT_MODE === 'light' ? '[Massive] Light mode — skipping SPX/NDX/GDX/UUP/GLD/BTC/ETH prev-close (carried forward from existing snapshot; Schwab section below still refreshes SPX/NDX).' : '[Massive] MASSIVE_API_KEY not set — skipping SPX/NDX/GDX/UUP/GLD/BTC/ETH prev-close.');
   }
 
   // 7. Schwab real-time SPX/NDX/ES/NQ — overrides the Massive end-of-day
@@ -563,14 +598,12 @@ async function main() {
   writeFileSync(DASHBOARD_PATH, html, 'utf8');
 
   // ── Also write the machine-readable snapshot for the React build (v2) ──
-  // Same directory as the dashboard HTML, so both the classic dashboard and
-  // any co-located React build (e.g. mmm-dashboard/v2/) can find it via a
-  // same-directory relative fetch regardless of the Pages base path.
-  const jsonPath = join(dirname(DASHBOARD_PATH), 'snapshot.json');
+  // jsonPath was already computed at the top of main() (light mode needs it
+  // for reading); reused here for writing, same path either way.
   writeFileSync(jsonPath, JSON.stringify(raw, null, 2), 'utf8');
   console.log(`Wrote ${jsonPath}`);
 
-  console.log(`Done. ${written} field(s) written, ${skipped} skipped (missing source data or key not found).`);
+  console.log(`Done (${SNAPSHOT_MODE} mode). ${written} field(s) written, ${skipped} skipped (missing source data or key not found).`);
 }
 
 main().catch((e) => {

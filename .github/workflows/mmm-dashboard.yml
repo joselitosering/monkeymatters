@@ -2,17 +2,22 @@ name: MMM Dashboard — Daily Snapshot & Deploy
 
 on:
   schedule:
-    # Cron is UTC. Target ~6:10 AM PT weekdays with buffer before the 6:25 AM
-    # notification. PT is UTC-8 (PST, Nov–Mar) or UTC-7 (PDT, Mar–Nov) —
-    # GitHub cron has no DST awareness, so this runs at a fixed UTC time and
-    # will drift by an hour across the DST boundary twice a year. Pick ONE:
-    #   - '10 13 * * 1-5'  -> 6:10 AM PDT (UTC-7) / 5:10 AM PST — use for summer
-    #   - '10 14 * * 1-5'  -> 6:10 AM PST (UTC-8) / 7:10 AM PDT — use for winter
-    # Currently set for PDT (matches July 2026). Flip the hour at each DST change,
-    # or replace this with two schedule entries and let the script itself check
-    # America/Los_Angeles time and no-op outside the target window.
-    - cron: '10 13 * * 1-5'
-  workflow_dispatch: {} # allows manual "Run workflow" button for testing
+    # Cron is UTC. PT is UTC-8 (PST, Nov–Mar) or UTC-7 (PDT, Mar–Nov) — GitHub
+    # cron has no DST awareness, so ALL four entries below drift by an hour
+    # across the DST boundary twice a year and need their hour digit flipped
+    # together (13->14 for PST, or vice versa for PDT). Currently set for PDT
+    # (matches July 2026).
+    #
+    # Full fetch (Massive/FRED/CBOE/Schwab) — the one "real" refresh of the
+    # slower-moving data, timed for right before market open.
+    - cron: '10 13 * * 1-5'        # 6:10 AM PDT — FULL
+    # Light fetch (Schwab only — SPX/NDX/ES/NQ) — brackets the full run
+    # with 5-minute-interval real-time reads through the pre-market window,
+    # without re-hitting Massive/FRED/CBOE for data that can't have changed.
+    - cron: '30-59/5 12 * * 1-5'   # 5:30-5:55 AM PDT — light
+    - cron: '0,5 13 * * 1-5'       # 6:00, 6:05 AM PDT — light
+    - cron: '15-30/5 13 * * 1-5'   # 6:15-6:30 AM PDT — light
+  workflow_dispatch: {} # allows manual "Run workflow" button for testing — always runs FULL
 
 permissions:
   contents: write
@@ -35,6 +40,21 @@ jobs:
         with:
           node-version: '20'
 
+      - name: Determine snapshot mode
+        # github.event.schedule carries the exact cron string that fired this
+        # run — only populated for schedule-triggered runs. Anything that
+        # isn't the FULL anchor cron (including workflow_dispatch, where this
+        # is empty) gets 'light'. Update this string if the FULL cron entry
+        # above ever changes.
+        run: |
+          if [ "${{ github.event.schedule }}" = "10 13 * * 1-5" ]; then
+            echo "SNAPSHOT_MODE=full" >> "$GITHUB_ENV"
+          elif [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "SNAPSHOT_MODE=full" >> "$GITHUB_ENV"
+          else
+            echo "SNAPSHOT_MODE=light" >> "$GITHUB_ENV"
+          fi
+
       - name: Run snapshot generator
         env:
           MASSIVE_API_KEY: ${{ secrets.MASSIVE_API_KEY }}
@@ -49,6 +69,7 @@ jobs:
           SCHWAB_CLIENT_ID: ${{ secrets.SCHWAB_CLIENT_ID }}
           SCHWAB_CLIENT_SECRET: ${{ secrets.SCHWAB_CLIENT_SECRET }}
           SCHWAB_REFRESH_TOKEN: ${{ secrets.SCHWAB_REFRESH_TOKEN }}
+          SNAPSHOT_MODE: ${{ env.SNAPSHOT_MODE }}
         run: node mmm-dashboard/generate_snapshot.mjs mmm-dashboard/mmm_dashboard.html
 
       - name: Commit updated snapshot
@@ -56,7 +77,7 @@ jobs:
           git config user.name "mmm-dashboard-bot"
           git config user.email "actions@users.noreply.github.com"
           git add mmm-dashboard/mmm_dashboard.html mmm-dashboard/snapshot.json
-          git diff --staged --quiet && echo "No changes to commit" || git commit -m "Daily snapshot $(date -u +%Y-%m-%d)"
+          git diff --staged --quiet && echo "No changes to commit" || git commit -m "Snapshot ($SNAPSHOT_MODE) $(date -u +%Y-%m-%dT%H:%M)Z"
           git push
 
       - name: Set up pnpm
@@ -128,3 +149,11 @@ jobs:
 #      resolves fresh compatible versions via `pnpm install` rather than a
 #      frozen lockfile — acceptable for a low-churn internal dashboard, but
 #      worth knowing if a future dependency bump ever needs to be pinned.
+#   6. Schedule now runs 13x/weekday, 5:30-6:30 AM PDT (see the four cron
+#      entries at the top): one FULL fetch at 6:10 AM, twelve 5-minute-
+#      interval LIGHT fetches (Schwab SPX/NDX/ES/NQ only) bracketing it. This
+#      means ~13 commits/day instead of 1 — expected, not a bug; each one
+#      captures a genuinely fresh Schwab read. If that commit-history noise
+#      ever becomes a problem, the fix is squashing old commits periodically,
+#      not reducing the schedule (that would just bring back stale readings
+#      through the exact window that matters most for premarket review).
