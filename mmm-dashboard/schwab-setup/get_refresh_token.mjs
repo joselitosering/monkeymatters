@@ -79,7 +79,22 @@ async function main() {
     return;
   }
 
-  console.log('\n--- Step 3 --- Exchanging code for tokens...\n');
+  // Diagnostic — print before attempting the exchange so we can SEE what was
+  // actually extracted rather than guess. A clean code should be one
+  // contiguous token with no "http" or a second "code=" inside it.
+  console.log('\n--- Diagnostic (check this before continuing) ---');
+  console.log(`Pasted input length: ${redirectedUrl.length} chars`);
+  console.log(`Extracted+decoded code length: ${code.length} chars`);
+  console.log(`Code starts: ${code.slice(0, 20)}...`);
+  console.log(`Code ends:   ...${code.slice(-20)}`);
+  if (/https?:\/\//i.test(code) || code.includes('code=')) {
+    console.log('\n*** WARNING: the extracted code still contains "http" or "code=" — it is');
+    console.log('*** almost certainly still duplicated/corrupted. Do not proceed; Ctrl+C and');
+    console.log('*** restart from Step 1 with a single, careful paste.');
+  }
+  console.log('---\n');
+
+  console.log('--- Step 3 --- Exchanging code for tokens...\n');
 
   const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
   const body = new URLSearchParams({
