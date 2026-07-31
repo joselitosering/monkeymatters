@@ -62,11 +62,21 @@ jobs:
         run: node mmm-dashboard/generate_snapshot.mjs mmm-dashboard/mmm_dashboard.html
 
       - name: Commit updated snapshot
+        # git pull --rebase before pushing — this job checks out main at the
+        # START of the run, then spends several minutes fetching data and
+        # building. Anything pushed directly to main during that window
+        # (e.g. a manual commit from local dev) makes the later `git push`
+        # below a non-fast-forward and the whole job fails, silently
+        # discarding this run's freshly-fetched snapshot data since the
+        # runner is ephemeral. Rebasing onto the latest remote state right
+        # before pushing closes that race — same discipline already used for
+        # every manual push in this repo's history, just applied here too.
         run: |
           git config user.name "mmm-dashboard-bot"
           git config user.email "actions@users.noreply.github.com"
           git add mmm-dashboard/mmm_dashboard.html mmm-dashboard/snapshot.json
           git diff --staged --quiet && echo "No changes to commit" || git commit -m "Daily snapshot $(date -u +%Y-%m-%d)"
+          git pull --rebase --autostash origin main
           git push
 
       - name: Set up pnpm
