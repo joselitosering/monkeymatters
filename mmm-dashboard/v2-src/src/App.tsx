@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef, useState } from 'react'
+import { useMemo, useState } from 'react'
 import { useLiveSnapshot } from '@/lib/useLiveSnapshot'
 import { mergeLiveSnapshot } from '@/lib/mergeLive'
 import { useCountdown } from '@/lib/useCountdown'
@@ -100,10 +100,18 @@ function Chip({ tone, children }: { tone?: 'bull' | 'bear' | 'neutral'; children
   )
 }
 
-function Gated() { return <span className="text-dim">—</span> }
+// Contrast fix: was text-dim (28,9%,38% — genuinely hard to see at small
+// sizes against this dark theme, and with several fields still gated pending
+// a live data run, that made real placeholders read as "values missing"
+// rather than as intentional gating). muted-foreground (33,14%,59%) is
+// meaningfully lighter while still visually secondary to real data.
+function Gated() { return <span className="text-muted-foreground">—</span> }
 
+// Contrast fix: was text-[11px] text-muted-foreground — reported unreadable.
+// Bumped to near-full-brightness foreground and a slightly larger size; this
+// is the primary analytical content on the page, it shouldn't be the dimmest.
 function AnalysisNote({ text }: { text: string }) {
-  return <div className="text-[11px] text-muted-foreground leading-relaxed"><span className="text-primary/80 font-medium">Analysis  </span>{text}</div>
+  return <div className="text-[12.5px] text-foreground/90 leading-relaxed"><span className="text-primary font-medium">Analysis  </span>{text}</div>
 }
 function ActionsList({ rows }: { rows: { ticker: string; levels: string; strategy: string }[] }) {
   return (
@@ -151,71 +159,32 @@ function Candle({ o, h, l, c }: { o: number; h: number; l: number; c: number }) 
   )
 }
 
-// Genuine live TradingView chart, embedded via their free public widget
-// script (no API key — same embed anyone can drop into any site). Loads
-// s3.tradingview.com/tv.js once and reuses it across multiple widget
-// instances on the page.
-//
-// CME futures data (ES/NQ) is NOT usable here — confirmed directly against
-// TradingView's own widget FAQ: the embeddable widgets have separate data
-// licensing from tradingview.com itself, some exchanges' data isn't licensed
-// for widget redistribution at all, and — critically — a paid TradingView
-// plan does NOT change what's available in the widget (that's an explicit
-// line in their FAQ). CME_MINI:ES1!/NQ1! surfaced "This symbol is only
-// available on TradingView" and silently fell back to AAPL — that's the
-// widget's default-on-failure behavior, not a symbol-formatting bug. SPY/QQQ
-// below are ordinary listed ETFs with no such restriction.
-let tvScriptPromise: Promise<void> | null = null
-function loadTradingViewScript(): Promise<void> {
-  if (typeof window !== 'undefined' && (window as any).TradingView) return Promise.resolve()
-  if (tvScriptPromise) return tvScriptPromise
-  tvScriptPromise = new Promise((resolve, reject) => {
-    const script = document.createElement('script')
-    script.src = 'https://s3.tradingview.com/tv.js'
-    script.async = true
-    script.onload = () => resolve()
-    script.onerror = () => reject(new Error('TradingView widget script failed to load'))
-    document.head.appendChild(script)
-  })
-  return tvScriptPromise
+// Real, honest trend indicator for the futures panels — never a fabricated
+// intraday path. Uses live price vs. prior close when Schwab data is
+// available (genuinely "trend since close"); falls back to the prior
+// session's own open→close move when it isn't. Two real data points either
+// way, same discipline as Candle above.
+function TrendLine({ from, to, label }: { from: number; to: number; label: string }) {
+  if (!Number.isFinite(from) || !Number.isFinite(to)) {
+    return <span className="text-[10px] text-dim">Trend pending live/prior-session data</span>
+  }
+  const up = to >= from
+  const pct = from !== 0 ? ((to - from) / from) * 100 : 0
+  const color = up ? 'hsl(var(--gain))' : 'hsl(var(--loss))'
+  const y1 = up ? 22 : 4, y2 = up ? 4 : 22
+  return (
+    <div className="flex items-center gap-2">
+      <svg viewBox="0 0 44 26" className="w-11 h-6 flex-none">
+        <line x1="3" y1={y1} x2="33" y2={y2} stroke={color} strokeWidth="2.5" strokeLinecap="round" />
+        <polygon points={up ? '33,4 27,10 39,10' : '33,22 27,16 39,16'} fill={color} />
+      </svg>
+      <span className={cx('font-mono-data text-[11px] font-semibold', up ? 'text-gain' : 'text-loss')}>
+        {up ? '+' : ''}{pct.toFixed(2)}%
+      </span>
+      <span className="text-[9.5px] text-dim">{label}</span>
+    </div>
+  )
 }
-
-function TradingViewWidget({ symbol, containerId }: { symbol: string; containerId: string }) {
-  const containerRef = useRef<HTMLDivElement>(null)
-
-  useEffect(() => {
-    let cancelled = false
-    loadTradingViewScript()
-      .then(() => {
-        if (cancelled || !containerRef.current) return
-        containerRef.current.innerHTML = ''
-        new (window as any).TradingView.widget({
-          autosize: true,
-          symbol,
-          interval: '5',
-          timezone: 'America/Los_Angeles',
-          theme: 'dark',
-          style: '1',
-          locale: 'en',
-          toolbar_bg: '#0b0d12',
-          enable_publishing: false,
-          hide_top_toolbar: false,
-          hide_legend: false,
-          save_image: false,
-          container_id: containerId,
-        })
-      })
-      .catch((e) => {
-        if (containerRef.current) {
-          containerRef.current.innerHTML = `<div style="padding:1rem;color:hsl(var(--dim));font-size:11px;">Chart failed to load — ${String(e?.message || e)}</div>`
-        }
-      })
-    return () => { cancelled = true }
-  }, [symbol, containerId])
-
-  return <div ref={containerRef} id={containerId} style={{ height: 460 }} />
-}
-
 
 // Real entry/stop/target as horizontal reference lines — no fabricated price
 // path, since we don't have a live tick series backing these trade ideas.
@@ -259,31 +228,6 @@ function FGIGauge({ score, label }: { score: number; label: string }) {
       </svg>
       <div className="font-display text-3xl font-bold text-primary -mt-2 leading-none">{Math.round(clamped)}</div>
       <div className="text-[10px] tracking-[0.2em] text-primary/80 uppercase mt-0.5">{label}</div>
-    </div>
-  )
-}
-
-function PivotBars({ pivots, live }: { pivots: { r2: number | null; r1: number | null; pp: number | null; s1: number | null; s2: number | null }; live?: number | null }) {
-  const rows: { k: string; v: number | null; tone: 'bear' | 'amber' | 'bull' }[] = [
-    { k: 'R2', v: pivots.r2, tone: 'bear' }, { k: 'R1', v: pivots.r1, tone: 'bear' },
-    { k: 'PIV', v: pivots.pp, tone: 'amber' },
-    { k: 'S1', v: pivots.s1, tone: 'bull' }, { k: 'S2', v: pivots.s2, tone: 'bull' },
-  ]
-  if (rows.every((r) => r.v == null)) {
-    return <p className="text-[10.5px] text-dim border-l-2 border-border pl-2 leading-relaxed">Pivots populate once the futures snapshot has real prior-session OHLC.</p>
-  }
-  return (
-    <div className="space-y-1">
-      {live != null && <div className="flex justify-between text-[10px] text-dim uppercase tracking-wider mb-1"><span>Prior Close</span><span className="font-mono-data text-foreground">{fmtNum(live)}</span></div>}
-      {rows.map((r) => (
-        <div key={r.k} className="flex items-center gap-2 text-xs">
-          <span className={cx('font-mono-data w-8 text-[10px]', r.tone === 'amber' ? 'text-primary font-semibold' : 'text-dim')}>{r.k}</span>
-          <div className="flex-1 h-1 bg-secondary rounded relative overflow-hidden">
-            <div className={cx('absolute inset-y-0 rounded', r.tone === 'bear' && 'right-0 bg-loss/50 w-1/3', r.tone === 'bull' && 'left-0 bg-gain/50 w-1/3', r.tone === 'amber' && 'left-1/2 -translate-x-1/2 w-1 bg-primary')} />
-          </div>
-          <span className={cx('font-mono-data w-14 text-right text-[11px]', r.tone === 'bear' && 'text-loss', r.tone === 'bull' && 'text-gain', r.tone === 'amber' && 'text-primary font-semibold')}>{r.v != null ? fmtNum(r.v) : <Gated />}</span>
-        </div>
-      ))}
     </div>
   )
 }
@@ -448,6 +392,8 @@ function FuturesStrip() {
           const f = snapshot.futures[key]
           const bearish = f.dir.toLowerCase().includes('bear')
           const o = toNum(f.priorOhlc.o), h = toNum(f.priorOhlc.h), l = toNum(f.priorOhlc.l), c = toNum(f.priorOhlc.c)
+          const liveLast = toNum(f.live.last)
+          const hasLive = Number.isFinite(liveLast)
           const piv = f.pivots
           return (
             <Panel key={key} className="flex flex-col">
@@ -457,6 +403,9 @@ function FuturesStrip() {
                   <div>
                     <div className="font-mono-data text-2xl font-semibold leading-none">{Number.isFinite(c) ? fmtNum(c) : <Gated />}</div>
                     <div className="text-[10px] text-dim mt-1">prior session close</div>
+                    <div className="mt-2">
+                      <TrendLine from={hasLive ? c : o} to={hasLive ? liveLast : c} label={hasLive ? 'since close (Schwab)' : 'prior session'} />
+                    </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <Candle o={o} h={h} l={l} c={c} />
@@ -508,83 +457,82 @@ function FuturesStrip() {
   )
 }
 
-// Live TradingView charts — a separate section from FuturesStrip's technical
-// panel above, since this is a genuine embedded third-party chart, not
-// derived/computed data like the rest of this file. Shows SPY/QQQ (real,
-// embeddable ETF data, highly correlated to /ES and /NQ) rather than the
-// futures themselves, which TradingView's free widget can't display — see
-// the comment above TradingViewWidget for why. Each panel links out to the
-// genuine /ES or /NQ futures chart on tradingview.com itself for when the
-// real contract, not the ETF proxy, is what's needed.
-function LiveCharts() {
-  return (
-    <section>
-      <div className="flex items-center gap-3 mb-3">
-        <span className="text-[10px] font-semibold tracking-[0.18em] uppercase text-primary">Live Charts — TradingView</span>
-        <span className="pulse-dot amber" />
-        <span className="text-[10px] text-dim">SPY/QQQ shown — CME futures (/ES, /NQ) aren't licensed for TradingView's embeddable widget at any plan tier</span>
-      </div>
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Panel>
-          <PanelHeader label="SPY — S&P 500 ETF (proxy for /ES)" meta="TradingView, live" right={
-            <a href="https://www.tradingview.com/chart/?symbol=CME_MINI%3AES1%21" target="_blank" rel="noreferrer" className="text-[10px] text-primary hover:underline inline-flex items-center gap-1">
-              Real /ES futures chart <ExternalLink className="w-2.5 h-2.5" />
-            </a>
-          } />
-          <div className="p-2"><TradingViewWidget symbol="AMEX:SPY" containerId="tv_spy_widget" /></div>
-        </Panel>
-        <Panel>
-          <PanelHeader label="QQQ — Nasdaq-100 ETF (proxy for /NQ)" meta="TradingView, live" right={
-            <a href="https://www.tradingview.com/chart/?symbol=CME_MINI%3ANQ1%21" target="_blank" rel="noreferrer" className="text-[10px] text-primary hover:underline inline-flex items-center gap-1">
-              Real /NQ futures chart <ExternalLink className="w-2.5 h-2.5" />
-            </a>
-          } />
-          <div className="p-2"><TradingViewWidget symbol="NASDAQ:QQQ" containerId="tv_qqq_widget" /></div>
-        </Panel>
-      </div>
-    </section>
-  )
-}
-
-function BriefAndLevels() {
+// Styled to match a proper morning-brief newsletter (numbered sections,
+// generous prose, real headers) rather than a cramped terminal widget —
+// full width, placed directly below Top Alerts. "Market Pulse" reuses the
+// same live news[] the Ticker already shows; nothing new is fetched or
+// invented for this section, just presented as readable prose instead of a
+// scrolling marquee line.
+function MorningBrief() {
   const snapshot = useSnapshot()
   const b = snapshot.brief
-  const es = snapshot.futures.es
   return (
-    <section className="grid grid-cols-1 lg:grid-cols-12 gap-4">
-      <Panel className="lg:col-span-7 flex flex-col">
-        <PanelHeader label="The Morning Brief" accent dotTone="amber" meta={b.day} />
-        <div className="p-5 flex-1">
-          <h2 className="font-display text-2xl font-bold leading-tight mb-3"><span className="gradient-text">{b.oneThing.prompt}</span></h2>
-          <p className="text-muted-foreground text-[13px] leading-relaxed mb-2">{b.oneThing.note}</p>
-          <p className="text-foreground/85 text-[13px] leading-relaxed">{b.lens.text}</p>
-          <p className="text-[11.5px] italic text-muted-foreground mt-2">{b.lens.prompt}</p>
-          <div className="signature-line my-4" />
-          <div className="grid grid-cols-3 gap-4 mb-4">
-            <div><div className="text-[9px] tracking-wider text-dim uppercase mb-1">Focus Block</div><Chip>{b.oneThing.block}</Chip></div>
-            <div><div className="text-[9px] tracking-wider text-dim uppercase mb-1">Lens</div><Chip>{b.lens.title}</Chip></div>
-            <div><div className="text-[9px] tracking-wider text-dim uppercase mb-1">Bias</div><Chip tone={snapshot.bias.tone === 'loss' ? 'bear' : 'bull'}>{snapshot.bias.flag}</Chip></div>
+    <Panel>
+      <PanelHeader label="Morning Brief" accent dotTone="amber" meta={b.day} />
+      <div className="px-6 py-8 md:px-10">
+        <div className="max-w-3xl mx-auto">
+          <h2 className="font-display text-3xl font-bold text-center leading-tight mb-1">
+            <span className="gradient-text">🌅 Morning Brief</span>
+          </h2>
+          <p className="text-center text-dim text-[11px] uppercase tracking-[0.15em] mb-7">{b.day}</p>
+
+          <h3 className="font-display text-xl font-bold text-primary mb-3">1. Market Pulse</h3>
+          <div className="space-y-3 mb-7">
+            {snapshot.news.map((n, i) => (
+              <p key={i} className="text-[14px] text-foreground/90 leading-relaxed">
+                <span className="mr-1.5">📌</span>{n.headline}{' '}
+                <span className="text-dim text-[11.5px]">[Source: {n.source}, {n.time}]</span>
+              </p>
+            ))}
           </div>
-          <div className="text-center">
-            <span className="font-display text-[12.5px] italic text-foreground/85">"{b.mindset.quote}"</span>
-            <span className="text-[11px] text-dim ml-2">— {b.mindset.author}</span>
-            <p className="text-[10.5px] text-dim italic mt-1">{b.mindset.note}</p>
-          </div>
+
+          <div className="signature-line mb-7" />
+
+          <h3 className="font-display text-xl font-bold text-primary mb-3">2. Founder Focus — Prioritization Framework</h3>
+          <blockquote className="border-l-2 border-primary/50 pl-4 italic text-foreground text-[15px] leading-relaxed mb-3">
+            "{b.oneThing.prompt}"
+          </blockquote>
+          <p className="text-foreground/85 text-[14px] leading-relaxed mb-7">
+            {b.oneThing.note} Protect <strong className="text-foreground font-semibold">{b.oneThing.block}</strong> for that outcome alone — no meetings, no notifications.
+          </p>
+
+          <div className="signature-line mb-7" />
+
+          <h3 className="font-display text-xl font-bold text-primary mb-3">3. Strategic Lens — {b.lens.title}</h3>
+          <p className="text-foreground/90 text-[14px] leading-relaxed mb-2">{b.lens.text}</p>
+          <p className="text-foreground/75 text-[13.5px] italic leading-relaxed mb-7">{b.lens.prompt}</p>
+
+          <div className="signature-line mb-7" />
+
+          <h3 className="font-display text-xl font-bold text-primary mb-3">
+            4. Quick Wins <span className="text-dim text-[12px] font-normal tracking-normal">(≤15 min each)</span>
+          </h3>
+          <ol className="space-y-2.5 text-[14px] text-foreground/90 leading-relaxed mb-7">
+            {b.quickWins.map((w, i) => (
+              <li key={i} className="flex gap-2.5">
+                <span className="text-primary font-semibold flex-none">{['①', '②', '③', '④', '⑤'][i] ?? `${i + 1}.`}</span>
+                <span>{w}</span>
+              </li>
+            ))}
+          </ol>
+
+          <div className="signature-line mb-7" />
+
+          <h3 className="font-display text-xl font-bold text-primary mb-3 text-center">5. Mindset Moment</h3>
+          <blockquote className="text-center">
+            <p className="font-display text-[17px] italic text-foreground/90 leading-snug">"{b.mindset.quote}"</p>
+            <p className="text-primary text-[12.5px] mt-1.5">— {b.mindset.author}</p>
+            <p className="text-foreground/70 text-[13px] italic mt-3 max-w-lg mx-auto leading-relaxed">{b.mindset.note}</p>
+          </blockquote>
+
+          <div className="signature-line my-7" />
+
+          <p className="text-[11px] text-dim text-center leading-relaxed">
+            Brief compiled from live headlines and curated frameworks. Full MLA-formatted sources below in "Sources (MLA)."
+          </p>
         </div>
-      </Panel>
-      <Panel className="lg:col-span-5 flex flex-col">
-        <PanelHeader label="Key Levels · /ES" meta={es.pivots.pp ? `Pivot ${es.pivots.pp}` : undefined} />
-        <div className="p-4 space-y-3 flex-1">
-          <PivotBars pivots={es.pivots} live={es.priorOhlc.c} />
-          <div className="border-t border-border pt-2.5">
-            <div className="text-[9px] tracking-wider text-dim uppercase mb-1.5">Quick Wins Today</div>
-            <ol className="space-y-1.5 text-[11px] text-foreground/85 list-decimal list-inside leading-relaxed">
-              {b.quickWins.map((w, i) => <li key={i}>{w}</li>)}
-            </ol>
-          </div>
-        </div>
-      </Panel>
-    </section>
+      </div>
+    </Panel>
   )
 }
 
@@ -901,11 +849,10 @@ function App() {
         <Ticker />
         <main className="max-w-[1600px] mx-auto px-6 py-6 space-y-6">
           <TopAlerts />
+          <MorningBrief />
           <FuturesStrip />
-          <LiveCharts />
           <Spotlight />
           <BuzzAndSources />
-          <BriefAndLevels />
           <TradeArchitecture />
           <HeatmapAndSentiment />
           <Scanner />
