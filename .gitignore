@@ -22,3 +22,7 @@ hhh/manual_accounts.json
 hhh/ratings.json
 hhh/analysis.json
 hhh/HHH_Latest.html
+
+# ── Google OAuth credentials — never commit ───────────────
+scripts/credentials.json
+scripts/token.json
