@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-08-17",
+  "lessons": [
+    {
+      "id": "L001",
+      "rule": "Keep taking event straddles that state an explicit expected-move threshold; skip ones that don't.",
+      "evidence": "2/2 wins (CSCO Aug 11 + Aug 12); straddles without stated thresholds were ungradable.",
+      "source_ids": ["2026-08-11-T21", "2026-08-12-T06"],
+      "week_adopted": "2026-W33",
+      "status": "adopted"
+    },
+    {
+      "id": "L002",
+      "rule": "Stand down when the open gaps beyond the entry/stop/target geometry. Do not chase re-anchored entries.",
+      "evidence": "Multiple NQ setups invalidated by gap-opens. Gold stop-out: planned 4430, filled 4468, stopped 4400.",
+      "source_ids": ["2026-08-11-T07", "2026-08-12-T13", "2026-08-13-T08", "2026-08-13-T09"],
+      "week_adopted": "2026-W33",
+      "status": "adopted"
+    },
+    {
+      "id": "L003",
+      "rule": "On macro-miss days, enforce PP-hold confirmation before sizing intraday index longs.",
+      "evidence": "W33 Friday: both index longs closed red (-0.88R combined) on double-miss day. Day advisory said 'below PP = sidelines'.",
+      "source_ids": ["2026-08-14-T01", "2026-08-14-T06"],
+      "week_adopted": "2026-W33",
+      "status": "watch"
+    }
+  ]
+}

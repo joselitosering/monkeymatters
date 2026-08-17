@@ -1,0 +1,117 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Shadow Monkey Daily MMM Data",
+  "type": "object",
+  "required": ["date", "generated_at", "regime", "kpis", "levels", "advisory", "trade_ideas"],
+  "properties": {
+    "date":         { "type": "string", "format": "date" },
+    "generated_at": { "type": "string" },
+    "regime": {
+      "type": "object",
+      "required": ["label"],
+      "properties": {
+        "label":   { "type": "string", "enum": ["BULL","BEAR","MIXED","CHOPPY","EVENT"] },
+        "summary": { "type": "string" }
+      }
+    },
+    "kpis": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "price":      { "type": ["number","null"] },
+          "change":     { "type": ["number","null"] },
+          "change_pct": { "type": ["number","null"] },
+          "volume":     { "type": ["number","null"] }
+        }
+      }
+    },
+    "sentiment": {
+      "type": "object",
+      "properties": {
+        "vix":       { "type": ["number","null"] },
+        "put_call":  { "type": ["number","null"] },
+        "aaii_bull": { "type": ["number","null"] }
+      }
+    },
+    "levels": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "PP": { "type": ["number","null"] }, "R1": { "type": ["number","null"] },
+          "R2": { "type": ["number","null"] }, "R3": { "type": ["number","null"] },
+          "S1": { "type": ["number","null"] }, "S2": { "type": ["number","null"] },
+          "S3": { "type": ["number","null"] }
+        }
+      }
+    },
+    "calendar": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "time":   { "type": "string" },
+          "event":  { "type": "string" },
+          "impact": { "type": "string", "enum": ["HIGH","MED","LOW"] },
+          "prior":  { "type": ["string","null"] },
+          "est":    { "type": ["string","null"] }
+        }
+      }
+    },
+    "earnings": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "symbol": { "type": "string" },
+          "timing": { "type": "string", "enum": ["BMO","AMC","DNK"] },
+          "eps_est":{ "type": ["number","null"] },
+          "rev_est":{ "type": ["string","null"] }
+        }
+      }
+    },
+    "sectors":      { "type": "object", "additionalProperties": { "type": ["number","null"] } },
+    "options_flow": {
+      "type": "object",
+      "properties": {
+        "unusual": { "type": "array" },
+        "summary": { "type": "string" }
+      }
+    },
+    "advisory": {
+      "type": "object",
+      "required": ["headline","body"],
+      "properties": {
+        "headline":   { "type": "string" },
+        "body":       { "type": "string" },
+        "bias":       { "type": "string", "enum": ["BULLISH","BEARISH","NEUTRAL","EVENT"] },
+        "key_levels": { "type": "array", "items": { "type": "string" } },
+        "risk_flags": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "trade_ideas": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id","instrument","direction","setup","entry_type","stop","target"],
+        "properties": {
+          "id":         { "type": "string", "pattern": "^\\d{4}-\\d{2}-\\d{2}-T\\d{2}$" },
+          "instrument": { "type": "string" },
+          "direction":  { "type": "string", "enum": ["long","short"] },
+          "setup":      { "type": "string" },
+          "entry_type": { "type": "string", "enum": ["price","or_break","pm_high_offset","vwap","market"] },
+          "entry":      { "type": ["number","null"] },
+          "stop":       { "type": ["number","null"] },
+          "target":     { "type": ["number","null"] },
+          "rr":         { "type": ["number","null"] },
+          "horizon":    { "type": "string", "enum": ["intraday","swing","multi-day"] },
+          "priority":   { "type": "integer", "minimum": 1, "maximum": 3 },
+          "notes":      { "type": "string" },
+          "catalyst":   { "type": "string" }
+        }
+      }
+    },
+    "lessons_applied": { "type": "array", "items": { "type": "string" } }
+  }
+}
