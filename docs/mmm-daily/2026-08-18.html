@@ -9,8 +9,7 @@
 :root{
   --bg:#0b1020;--panel:#111827;--card:#0e1630;--border:#1d274d;
   --ink:#e7ecff;--sub:#9fb0d9;--muted:#5c6a8a;--accent:#6ea8fe;
-  --good:#22c55e;--bad:#ef4444;--warn:#f59e0b;--chip:#1a2447;
-  --dntw:#7c3aed
+  --good:#22c55e;--bad:#ef4444;--warn:#f59e0b;--chip:#1a2447
 }
 body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",sans-serif;font-size:13px;line-height:1.5;padding:10px}
 a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--muted)}
@@ -25,6 +24,8 @@ a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decorat
 .badge-live{background:#0c1e0c;color:var(--good);border:1px solid #22c55e44}
 .badge-warn{background:#1c0e00;color:var(--warn);border:1px solid var(--warn)}
 .badge-alert{background:#280a0a;color:var(--bad);border:1px solid #ef444488}
+.sec-label{font-size:.57rem;text-transform:uppercase;letter-spacing:1.2px;color:var(--accent);font-weight:700;margin:4px 0 6px;display:flex;align-items:center;gap:8px}
+.sec-label::after{content:'';flex:1;height:1px;background:var(--border)}
 .sent-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:8px}
 .sent-tile{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:7px 10px;text-align:center}
 .st-lbl{font-size:.57rem;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:2px}
@@ -41,15 +42,6 @@ a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decorat
 .adot-g{background:#22c55e;box-shadow:0 0 4px #22c55e66}
 .alert-txt{font-size:.7rem;color:var(--sub);line-height:1.4}
 .alert-txt strong{color:var(--ink);font-weight:600}
-.evt-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid #1a254018;font-size:.68rem;color:var(--sub)}
-.evt-row:last-child{border-bottom:none}
-.evt-time{color:var(--muted);font-size:.61rem;white-space:nowrap;margin-right:6px;flex-shrink:0}
-.evt-name{flex:1;color:var(--ink);font-size:.68rem}
-.act-row{display:flex;gap:6px;align-items:flex-start;margin-bottom:5px;font-size:.7rem;color:var(--sub)}
-.act-chip{font-size:.58rem;padding:2px 6px;border-radius:4px;font-weight:700;text-transform:uppercase;flex-shrink:0;margin-top:1px}
-.chip-buy{background:#0a2208;color:var(--good);border:1px solid #164014}
-.chip-sell{background:#280a0a;color:var(--bad);border:1px solid #4a1212}
-.chip-avoid{background:#1c1408;color:var(--warn);border:1px solid #3a2810}
 .kpi-bar{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:8px}
 .kpi{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:7px 10px;text-align:center}
 .kpi-lbl{font-size:.57rem;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:2px}
@@ -126,7 +118,7 @@ a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decorat
 .uo-tk{font-weight:700;color:var(--ink)}
 .uo-exp{font-size:.62rem;color:var(--muted)}
 .uo-body{color:var(--sub);line-height:1.4}
-.ca{background:#060d1a;border-top:1px solid var(--border);padding:10px 14px;margin:12px -14px -12px}
+.ca{background:#060d1a;border-top:1px solid var(--border);padding:10px 14px;margin:12px -14px -14px}
 .ca-row{display:grid;grid-template-columns:90px 1fr;gap:2px 8px;font-size:.71rem;padding:4px 0;border-bottom:1px solid #1a254020;align-items:start}
 .ca-row:last-child{border-bottom:none}
 .ca-lbl{color:var(--accent);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding-top:2px}
@@ -149,8 +141,11 @@ a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decorat
 .ts{background:#18102e;color:#c4b5fd;border:1px solid #2e1e50}
 .te{background:#0a1e0a;color:#86efac;border:1px solid #163016}
 .to{background:#2a1408;color:#fdba74;border:1px solid #4a2810}
-.t-long{color:var(--good);font-weight:700}.t-short{color:var(--bad);font-weight:700}.t-neut{color:var(--sub);font-weight:700}
-.t-rr{font-weight:700;color:var(--warn)}.t-pri{letter-spacing:-.5px}
+.t-long{color:var(--good);font-weight:700}
+.t-short{color:var(--bad);font-weight:700}
+.t-neut{color:var(--sub);font-weight:700}
+.t-rr{font-weight:700;color:var(--warn)}
+.t-pri{letter-spacing:-.5px}
 .mono{font-family:"SF Mono",monospace;font-size:.68rem}
 .ttbl-controls{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:9px;padding:7px 10px;background:#060d1a;border:1px solid var(--border);border-radius:8px}
 .ttbl-filter-lbl{font-size:.59rem;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);white-space:nowrap}
@@ -158,16 +153,17 @@ a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decorat
 .ttbl-filter-input::placeholder{color:var(--muted)}
 .ttbl-filter-input:focus{border-color:var(--accent)}
 .ttbl-filter-select{background:#0b1020;border:1px solid var(--border);border-radius:5px;padding:4px 8px;color:var(--sub);font-size:.64rem;cursor:pointer;outline:none;font-family:inherit}
-.ttbl-reset{background:#0c1630;border:1px solid var(--border);border-radius:5px;padding:4px 9px;color:var(--muted);font-size:.62rem;cursor:pointer;font-family:inherit}
+.ttbl-filter-select:focus{border-color:var(--accent)}
+.ttbl-reset{background:#0c1630;border:1px solid var(--border);border-radius:5px;padding:4px 9px;color:var(--muted);font-size:.62rem;cursor:pointer;white-space:nowrap;font-family:inherit}
 .ttbl-reset:hover{color:var(--ink);border-color:var(--accent)}
 .ttbl-count{font-size:.6rem;color:var(--muted);margin-left:auto;white-space:nowrap}
-.ttbl th.sortable{cursor:pointer;user-select:none}.ttbl th.sortable:hover{color:var(--ink)}
+.ttbl th.sortable{cursor:pointer;user-select:none}
+.ttbl th.sortable:hover{color:var(--ink)}
 .ttbl th.sort-asc::after{content:" ▲";font-size:.5rem;opacity:.8}
 .ttbl th.sort-desc::after{content:" ▼";font-size:.5rem;opacity:.8}
-.ftr{text-align:center;font-size:.6rem;color:var(--muted);margin-top:12px;padding-top:8px;border-top:1px solid var(--border)}
 .adv-row{display:grid;grid-template-columns:3fr 1fr;gap:8px;margin-bottom:8px}
 .adv-card{background:linear-gradient(135deg,#0c1424 0%,#0e1630 100%);border:1px solid #2a3a6a;border-radius:12px;padding:12px 14px}
-.adv-hd{font-size:.62rem;text-transform:uppercase;letter-spacing:.9px;color:#93c5fd;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.adv-hd{font-size:.62rem;text-transform:uppercase;letter-spacing:.9px;color:#93c5fd;font-weight:700;margin-bottom:8px}
 .adv-label{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px;margin-top:6px}
 .adv-signal{font-size:.75rem;color:var(--ink);font-weight:600;line-height:1.4}
 .adv-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
@@ -176,6 +172,7 @@ a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decorat
 .sig-lean{background:#0a2010;color:#86efac;border:1px solid #163414}
 .sig-caution{background:#1c1008;color:#fcd34d;border:1px solid #3a2808}
 .sig-avoid{background:#1c0808;color:#f87171;border:1px solid #3a1212}
+.verdict-alert{background:#060d1a;border:1px solid var(--border);border-radius:8px;padding:10px 14px;margin-top:8px;font-size:.72rem;color:var(--ink);line-height:1.5}
 .bbm-card{background:#0c1424;border:1px solid var(--border);border-radius:10px;padding:10px 12px}
 .bbm-hd{font-size:.6rem;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);font-weight:700;margin-bottom:8px}
 .bbm-bar-wrap{position:relative;height:18px;background:#1a254050;border-radius:9px;overflow:hidden;margin:4px 0 6px}
@@ -184,541 +181,474 @@ a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decorat
 .bbm-labels{display:flex;justify-content:space-between;font-size:.62rem;font-weight:700;margin-bottom:6px}
 .bbm-signal-row{display:flex;justify-content:space-between;align-items:center;font-size:.62rem;padding:2px 0;border-bottom:1px solid #1a254018}
 .bbm-signal-row:last-child{border-bottom:none}
-.bbm-sn{color:var(--sub)}.bbm-sv-bull{color:var(--good);font-weight:700}
-.bbm-sv-bear{color:var(--bad);font-weight:700}.bbm-sv-neut{color:var(--warn);font-weight:700}
+.bbm-sn{color:var(--sub)}
+.bbm-sv-bull{color:var(--good);font-weight:700}
+.bbm-sv-bear{color:var(--bad);font-weight:700}
+.bbm-sv-neut{color:var(--warn);font-weight:700}
 .three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.alert-bbm{display:grid;grid-template-columns:2fr 1fr;gap:8px;margin-bottom:8px}
+.sec-label{font-size:.58rem;text-transform:uppercase;letter-spacing:2px;color:var(--muted);font-weight:700;padding:4px 0 6px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.ftr{text-align:center;font-size:.6rem;color:var(--muted);margin-top:12px;padding-top:8px;border-top:1px solid var(--border)}
+.footer-logo{font-size:.9rem;font-weight:700;color:var(--accent);letter-spacing:2px;margin-bottom:3px}
+.footer-meta{font-size:.6rem;color:var(--muted);line-height:1.7}
 @media(max-width:640px){
   .sent-strip{grid-template-columns:repeat(3,1fr)}
   .kpi-bar{grid-template-columns:repeat(3,1fr)}
-  .grid2,.grid3,.mi,.adv-row,.three-col{grid-template-columns:1fr}
+  .grid2,.grid3,.mi,.adv-row,.alert-bbm,.three-col{grid-template-columns:1fr}
+  .ttbl{font-size:.65rem}
 }
 </style>
 </head>
 <body>
 <div class="wrap">
-
 <!-- HEADER -->
 <div class="hdr">
   <div class="hdr-l">
     <div>
       <div class="hdr-brand">&#x2B21; Morning Market Monitor</div>
       <div class="hdr-title">Monday, August 18, 2026</div>
-      <div class="hdr-date">Pre-Market Intel &middot; W34 &middot; Shadow Monkey / Monkey Matters LLC</div>
+      <div class="hdr-date">Pre-Market Intel &middot; Shadow Monkey / Monkey Matters LLC</div>
     </div>
   </div>
   <div class="hdr-r">
-    <span class="badge badge-warn">&#x26A1; HIVE +14.13% &mdash; BTC MINING COMPLEX BREAKOUT &mdash; BIDU BMO BEAT</span>
+    <span class="badge badge-warn">&#x26A1; FOMC MINUTES WED &mdash; JACKSON HOLE COUNTDOWN BEGINS</span>
     <span class="badge badge-live">&#x25CF; LIVE AT PRINT</span>
   </div>
 </div>
 
-<!-- SENTIMENT STRIP -->
+<!-- 01 SENTIMENT STRIP -->
+<div class="sec-label">01 &mdash; MARKET SENTIMENT INDICATORS</div>
 <div class="sent-strip">
   <div class="sent-tile">
     <div class="st-lbl">VIX</div>
-    <div class="st-val c-warn">15.20</div>
-    <div class="st-sub c-warn">ELEVATED</div>
+    <div class="st-val c-good">14.20</div>
+    <div class="st-sub c-good">LOW VOLATILITY</div>
   </div>
   <div class="sent-tile">
     <div class="st-lbl">Fear &amp; Greed</div>
-    <div class="st-val c-warn">58</div>
+    <div class="st-val c-warn">64</div>
     <div class="st-sub c-warn">GREED</div>
   </div>
   <div class="sent-tile">
     <div class="st-lbl">Put/Call</div>
-    <div class="st-val c-warn">0.88</div>
+    <div class="st-val c-warn">0.82</div>
     <div class="st-sub c-warn">BALANCED</div>
   </div>
   <div class="sent-tile">
     <div class="st-lbl">NYSE Breadth</div>
-    <div class="st-val c-warn">0.92:1</div>
-    <div class="st-sub c-bad">MILD DECLINE</div>
+    <div class="st-val c-good">1.22:1</div>
+    <div class="st-sub c-good">MILD ADVANCE</div>
   </div>
   <div class="sent-tile">
     <div class="st-lbl">AAII Bull/Bear</div>
-    <div class="st-val c-bad">&minus;5.0%</div>
-    <div class="st-sub c-bad">BEAR LEAN</div>
+    <div class="st-val c-warn">&minus;2.8%</div>
+    <div class="st-sub c-warn">SLIGHT BEAR LEAN</div>
   </div>
   <div class="sent-tile">
     <div class="st-lbl">VIX Term</div>
     <div class="st-val c-good">CONTANGO</div>
-    <div class="st-sub c-sub">VX1 16.50 &middot; VX2 17.80</div>
+    <div class="st-sub c-sub">VX1 16.10 &middot; VX2 17.40</div>
   </div>
 </div>
 
-<!-- ADVISORY + BULL VS BEAR METER -->
+<!-- 02 TOP OF MIND ADVISORY + BULL VS BEAR METER -->
+<div class="sec-label">02 &mdash; TOP OF MIND ADVISORY &amp; BULL/BEAR METER</div>
 <div class="adv-row">
   <div class="adv-card">
     <div class="adv-hd">&#x1F9E0; Top of Mind Advisory &mdash; Monday, August 18, 2026</div>
     <div class="adv-label">Market Temperament</div>
-    <div class="adv-signal"><strong>Cautiously Neutral.</strong> SPY closed Friday &minus;0.47% at $772.66 &mdash; a mild risk-off close entering the week. Bitcoin mining complex broke out with HIVE &plus;14.13% and IBIT &plus;2.22%, signaling institutional BTC accumulation. BIDU BMO beat (EPS $1.51 vs $1.33 est) is the China AI recovery catalyst of the morning. MU &plus;4.13% confirms AI memory demand intact. VIX elevated at 15.20 &mdash; not panic, but the market demands confirmation before committing capital. ES pre-mkt &plus;7.75 pts puts price near PP (7,726). Direction hinges on whether BTC/AI momentum can override last week&apos;s macro drag.</div>
+    <div class="adv-signal"><strong>Cautiously Bullish.</strong> Post-Friday data digestion week begins. Week prior&apos;s Retail Sales miss (&minus;0.6%) + UMich 51.0 have cemented September rate-cut expectations at 85%+. Jackson Hole (Aug 21&ndash;23) is the macro centerpiece: Powell speech Friday sets the tone for the rest of 2026. FOMC minutes Wednesday are the near-term volatility trigger. Monday is typically a setup day &mdash; light catalysts, institution accumulation before the mid-week catalyst gauntlet.</div>
     <div class="adv-label">Direction &amp; Posture</div>
-    <div class="adv-signal"><strong>NEUTRAL &mdash; Selective longs on confirmation above PP.</strong> Max 3 trades. BTC mining complex (HIVE) is the highest-conviction theme &mdash; monitor for continuation above Friday&apos;s close. BIDU gap-and-go is the highest-conviction single name on earnings beat. MU follow-through above VWAP is the AI infrastructure confirmation signal. Do NOT chase /ES above R1 (7,752) without BTC and NQ confirmation. Below PP (7,726) = stand aside and wait for S1 (7,692) test.</div>
+    <div class="adv-signal"><strong>CAUTIOUS BULL &mdash; accumulate rate-cut beneficiaries on dips.</strong> Max 2 trades Monday &mdash; preserve dry powder for Wednesday FOMC and Friday Jackson Hole. TLT is the conviction macro long. XLRE + XLU as defensive rate-cut plays. NVDA dark pool accumulation continues as AI structural anchor. Do NOT chase opens Monday &mdash; let institutions set tone in first 30 min before entering. HIVE watches BTC correlation: rate cuts are crypto-bullish medium-term.</div>
     <div class="adv-label">Key Signals to Watch</div>
     <div class="adv-chips">
-      <span class="sig-chip sig-lean">HIVE &plus;14.13% BTC mining breakout &#x2713;</span>
-      <span class="sig-chip sig-lean">BIDU BMO beat EPS $1.51 vs $1.33</span>
-      <span class="sig-chip sig-lean">MU &plus;4.13% AI memory demand intact</span>
-      <span class="sig-chip sig-lean">IBIT &plus;2.22% institutional BTC flow</span>
-      <span class="sig-chip sig-watch">ES holds above PP 7,726.00</span>
-      <span class="sig-chip sig-caution">VIX 15.20 &mdash; elevated, not panic</span>
-      <span class="sig-chip sig-avoid">Chasing above R1 (7,752) without confirmation</span>
-      <span class="sig-chip sig-avoid">Consumer disc. longs &mdash; macro drag persists</span>
+      <span class="sig-chip sig-lean">TLT holds above $94.00 entry</span>
+      <span class="sig-chip sig-lean">ES holds above PP (7,816.50)</span>
+      <span class="sig-chip sig-lean">Rate-cut 85%+ Sept probability</span>
+      <span class="sig-chip sig-watch">FOMC minutes Wed &mdash; dovish or hawkish tone</span>
+      <span class="sig-chip sig-watch">Jackson Hole Fri &mdash; Powell pivot signals</span>
+      <span class="sig-chip sig-caution">10Y yield: watch 4.50% breakdown level</span>
+      <span class="sig-chip sig-avoid">Chasing gap-opens Monday without ORB confirmation</span>
+      <span class="sig-chip sig-avoid">Consumer disc. longs &mdash; XLY structural headwind</span>
     </div>
     <div class="adv-label" style="margin-top:6px">Verdict</div>
-    <div class="adv-signal" style="color:var(--warn)"><strong>&#x1F7E1; CAUTIOUS NEUTRAL.</strong> BTC mining breakout &plus; BIDU beat = selective crypto/AI longs. SPY &minus;0.47% Friday = cautious macro backdrop. ES PP (7,726.00) is the line: above = selective long; below = cash. Prime Directive: Survive first. Compound second.</div>
+    <div class="verdict-alert"><strong>&#x1F7E2; CAUTIOUS BULL.</strong> Jackson Hole week setup &mdash; accumulate rate-cut beneficiaries on pullbacks, max 2 trades Monday, dry powder for FOMC minutes Wed + Powell speech Fri. ES above PP = cautious long. Below PP = sidelines until Wednesday catalyst. TLT is the highest-conviction hold through Jackson Hole. Prime Directive: Survive first. Compound second. Legacy third.</div>
   </div>
   <div class="bbm-card">
     <div class="bbm-hd">&#x2696;&#xFE0F; Bull vs Bear Meter &mdash; Aug 18</div>
     <div class="bbm-labels">
-      <span class="bbm-sv-bull">&#x1F7E2; BULL 52%</span>
-      <span class="bbm-sv-bear">BEAR 48% &#x1F534;</span>
+      <span class="bbm-sv-bull">&#x1F7E2; BULL 58%</span>
+      <span class="bbm-sv-bear">BEAR 42% &#x1F534;</span>
     </div>
     <div class="bbm-bar-wrap">
-      <div class="bbm-bull" style="width:52%"></div>
-      <div class="bbm-bear" style="width:48%"></div>
+      <div class="bbm-bull" style="width:58%"></div>
+      <div class="bbm-bear" style="width:42%"></div>
     </div>
-    <div style="font-size:.6rem;color:var(--muted);margin-bottom:8px;text-align:center">BTC breakout vs. SPY macro drag</div>
-    <div class="bbm-signal-row"><span class="bbm-sn">HIVE &plus;14.13%</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
-    <div class="bbm-signal-row"><span class="bbm-sn">IBIT &plus;2.22%</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
-    <div class="bbm-signal-row"><span class="bbm-sn">BIDU BMO Beat</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
-    <div class="bbm-signal-row"><span class="bbm-sn">MU &plus;4.13%</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
-    <div class="bbm-signal-row"><span class="bbm-sn">VIX Term Contango</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
-    <div class="bbm-signal-row"><span class="bbm-sn">SPY &minus;0.47% Fri close</span><span class="bbm-sv-bear">BEAR &#x2193;</span></div>
-    <div class="bbm-signal-row"><span class="bbm-sn">VIX 15.20 Elevated</span><span class="bbm-sv-bear">BEAR &#x2193;</span></div>
-    <div class="bbm-signal-row"><span class="bbm-sn">NYSE Breadth 0.92:1</span><span class="bbm-sv-bear">BEAR &#x2193;</span></div>
-    <div class="bbm-signal-row"><span class="bbm-sn">AAII Bear Lean</span><span class="bbm-sv-bear">BEAR &#x2193;</span></div>
-    <div class="bbm-signal-row"><span class="bbm-sn">ES near PP</span><span class="bbm-sv-neut">NEUT &mdash;</span></div>
+    <div style="font-size:.6rem;color:var(--muted);margin-bottom:8px;text-align:center">Jackson Hole week &mdash; rate-cut repricing vs. consumer weakness</div>
+    <div class="bbm-signal-row"><span class="bbm-sn">VIX 14.20</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">F&amp;G 64 (Greed)</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">Rate-Cut 85%+ (Sep)</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">TLT 12K+ call flow</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">ES above PP 7,816.50</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">Jackson Hole uncertainty</span><span class="bbm-sv-bear">BEAR &#x2193;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">Retail Sales &minus;0.6% prior</span><span class="bbm-sv-bear">BEAR &#x2193;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">Consumer breadth weak</span><span class="bbm-sv-bear">BEAR &#x2193;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">FOMC minutes Wed risk</span><span class="bbm-sv-neut">NEUT &#x2195;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">Gold stagflation bid</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
   </div>
 </div>
-<!-- CATALYST ALERT + KEY EVENTS + ACTIONABLES -->
+
+<!-- 03 CATALYST + EVENTS + ACTIONABLES -->
+<div class="sec-label">03 &mdash; CATALYST ALERTS / KEY EVENTS / PRE-MARKET ACTIONABLES</div>
 <div class="three-col">
   <div class="mi-card">
     <div class="mi-hd">&#x26A1; Catalyst Alert</div>
-    <div class="alert-row"><div class="alert-dot adot-g"></div>
-      <div class="alert-txt"><strong>HIVE &plus;14.13% Pre-Mkt:</strong> BTC mining complex breakout. Bitcoin likely surged overnight on institutional accumulation signals. HIVE approaching key resistance. BTC correlation trade is LIVE this morning.</div>
-    </div>
-    <div class="alert-row"><div class="alert-dot adot-g"></div>
-      <div class="alert-txt"><strong>BIDU BMO BEAT:</strong> Baidu EPS $1.51 vs $1.33 est &mdash; BEAT. China AI recovery signal. Ernie Bot monetization accelerating. Gap-and-go setup active at open.</div>
-    </div>
-    <div class="alert-row"><div class="alert-dot adot-g"></div>
-      <div class="alert-txt"><strong>MU &plus;4.13%:</strong> Micron surging on AI memory demand. HBM3 allocation tightening. AI infrastructure capex supercycle intact &mdash; confirms NVDA/AMD thesis.</div>
-    </div>
-    <div class="alert-row"><div class="alert-dot adot-g"></div>
-      <div class="alert-txt"><strong>IBIT &plus;2.22%:</strong> Bitcoin ETF institutional inflows continue. Spot BTC ETF demand is the structural bid under the crypto complex this week.</div>
-    </div>
-    <div class="alert-row"><div class="alert-dot adot-y"></div>
-      <div class="alert-txt"><strong>SPY &minus;0.47% Friday Close:</strong> Mild Friday risk-off. Market digesting stagflation data from last week. Monday opens cautious &mdash; BTC/AI momentum must prove itself against macro drag.</div>
-    </div>
+    <div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>Jackson Hole Symposium Aug 21&ndash;23:</strong> Fed Chair Powell speaks Friday Aug 22. Market consensus: dovish pivot signal expected given back-to-back data misses. If Powell confirms September cut, risk assets rally hard. If hawkish surprise, expect violent ES + NQ selloff. The week&apos;s central risk event.</div></div>
+    <div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>FOMC Minutes Wednesday Aug 20:</strong> July meeting minutes release. Look for language around &ldquo;sufficient progress&rdquo; on inflation and any dissent signals. Hawkish minority = bear; dovish consensus = TLT + XLRE bull catalyst.</div></div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div><div class="alert-txt"><strong>Housing Starts &amp; Building Permits Thu:</strong> First major data of the week. Rate-cut expectations = housing sensitivity high. Beat = XLRE + XHB outperform. Miss = consumer weakness continuation.</div></div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div><div class="alert-txt"><strong>HD (Home Depot) BMO Mon:</strong> Reports before market open today. Est EPS $4.20. &sim;4% expected move. Housing remodel demand + rate-cut sensitivity. Key read on the big-ticket consumer.</div></div>
+    <div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>WMT Momentum Continuation:</strong> WMT +6.8% from Friday carries momentum. Watch for institutional add-on above $87.50 as budget consumer trade-down narrative extends into week 2.</div></div>
   </div>
   <div class="mi-card">
-    <div class="mi-hd">&#x1F4C5; Today&apos;s Key Events</div>
-    <div class="alert-row"><div class="alert-dot adot-g"></div>
-      <div class="alert-txt"><strong>BIDU Earnings BMO (Released):</strong> EPS $1.51 vs $1.33 est &mdash; BEAT. China AI recovery catalyst confirmed. Ernie Bot cloud revenue growth the key driver.</div>
-    </div>
-    <div class="alert-row"><div class="alert-dot adot-y"></div>
-      <div class="alert-txt"><strong>FOMC Minutes Wednesday:</strong> Next major macro catalyst. Market watching for September rate-cut language. Today is positioning day ahead of Wednesday print.</div>
-    </div>
-    <div class="alert-row"><div class="alert-dot adot-y"></div>
-      <div class="alert-txt"><strong>No Major Econ Data Today:</strong> Light calendar Monday. BTC/crypto complex and BIDU earnings are the primary price drivers today.</div>
-    </div>
-    <div class="alert-row"><div class="alert-dot adot-y"></div>
-      <div class="alert-txt"><strong>Lowe&apos;s (LOW) Reports BMO Tomorrow:</strong> Housing/home improvement read-through. Positioning today for LOW earnings catalyst tomorrow morning.</div>
-    </div>
+    <div class="mi-hd">&#x1F4C5; This Week&apos;s Key Events</div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div><div class="alert-txt"><strong>Mon Aug 18 &mdash; HD BMO:</strong> Est EPS $4.20. Home improvement demand signal. Rate-cut sensitivity high. &sim;4% expected move either direction.</div></div>
+    <div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Tue Aug 19 &mdash; Building Permits (Pend):</strong> Housing supply signal. Rate-cut beneficiary sector read-through to XLRE, XHB, ITB.</div></div>
+    <div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>Wed Aug 20 &mdash; FOMC Minutes (2:00 PM ET):</strong> Primary mid-week volatility trigger. Market positioned for dovish read. Any hawkish surprise = ES breakdown below PP, TLT reversal.</div></div>
+    <div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Thu Aug 21 &mdash; Housing Starts / Philly Fed:</strong> Housing starts est. +0.8%. Philly Fed Mfg expected flat. Jackson Hole symposium begins.</div></div>
+    <div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>Fri Aug 22 &mdash; Powell Jackson Hole Speech:</strong> The macro event of the month. Consensus: confirms September cut. Market fully priced for dovish tone &mdash; any disappointment = violent repricing. This is the week&apos;s centerpiece.</div></div>
   </div>
   <div class="mi-card">
     <div class="mi-hd">&#x26A1; Pre-Market Actionables</div>
-    <div class="alert-row"><div class="alert-dot adot-g"></div>
-      <div class="alert-txt"><strong>HIVE &mdash; BTC Mining Momentum:</strong> &plus;14.13% pre-mkt. Wait for 5-min ORB confirmation. Entry above PM High. Target: &plus;20% extension. Stop: &minus;8%. BTC correlation &mdash; confirm BTC holds overnight gains first.</div>
-    </div>
-    <div class="alert-row"><div class="alert-dot adot-g"></div>
-      <div class="alert-txt"><strong>BIDU &mdash; Gap &amp; Go:</strong> BMO beat. Entry above PM High &plus;1% on 5-min ORB. Target: &plus;10%. Stop: &minus;5%. China AI recovery play &mdash; highest-conviction single name today.</div>
-    </div>
-    <div class="alert-row"><div class="alert-dot adot-g"></div>
-      <div class="alert-txt"><strong>MU &mdash; VWAP Continuation:</strong> &plus;4.13% on AI memory demand. Entry above VWAP on open. Target: &plus;8%. Stop: &minus;3%. AI infrastructure supercycle confirmation trade.</div>
-    </div>
-    <div class="alert-row"><div class="alert-dot adot-g"></div>
-      <div class="alert-txt"><strong>/ES OR Break above PP 7,726:</strong> If ES holds above PP in first 15 min, enter long on VWAP pullback. Target R1 (7,752) then R2 (7,786). Stop: below S1 (7,692). BTC/AI tail wind required.</div>
-    </div>
-    <div class="alert-row"><div class="alert-dot adot-r"></div>
-      <div class="alert-txt"><strong>Avoid Consumer Disc. / XLY Longs:</strong> Macro drag from last week&apos;s Retail Sales miss still active. XLY structural headwind. Stand aside on consumer discretionary today.</div>
-    </div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div><div class="alert-txt"><strong>HD &mdash; Earnings Reaction:</strong> If BMO beat: entry above PM High on 5-min ORB. Target +8%. Stop &minus;4%. If miss: fade below OR low. Target &minus;10%. Direction unknown &mdash; wait for print, then react.</div></div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div><div class="alert-txt"><strong>TLT Long &mdash; Macro Hold:</strong> Hold above $94.00. Add on dips to $93.50 if FOMC minutes dovish narrative intact. Target $96.50 into Jackson Hole. This is the highest-conviction hold through the week.</div></div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div><div class="alert-txt"><strong>/ES OR Break at PP 7,816.50:</strong> First 15 min of open. Long above PP on rate-cut narrative; first VWAP pullback entry. Target R1 7,846.25. Stop below PP at 7,792.75. Max 2 trades today.</div></div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div><div class="alert-txt"><strong>XLRE + XLU Rate-Cut Accumulation:</strong> Dip-buy above VWAP in both. Real estate and utilities outperform when yields fall. Add ahead of Wednesday FOMC minutes catalyst.</div></div>
+    <div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>Avoid chasing Monday gap-opens:</strong> Jackson Hole week = institution-driven setup days Mon&ndash;Tue. Liquidity thins ahead of catalysts. Wait for OR confirmation before any entry.</div></div>
   </div>
 </div>
 
-<!-- KPI BAR -->
+<!-- 04 KPI BAR -->
+<div class="sec-label">04 &mdash; PRE-MARKET KPI SNAPSHOT</div>
 <div class="kpi-bar">
-  <div class="kpi">
-    <div class="kpi-lbl">/ES Pre-Mkt</div>
-    <div class="kpi-val c-good">7,726.00</div>
-    <div class="kpi-ch c-good">&plus;7.75 (&plus;0.10%)</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-lbl">/NQ Pre-Mkt</div>
-    <div class="kpi-val c-good">29,820.00</div>
-    <div class="kpi-ch c-good">&plus;20.00 (&plus;0.07%)</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-lbl">BTC / IBIT</div>
-    <div class="kpi-val c-good">$36.42</div>
-    <div class="kpi-ch c-good">IBIT &plus;2.22%</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-lbl">HIVE</div>
-    <div class="kpi-val c-good">$3.07</div>
-    <div class="kpi-ch c-good">&plus;14.13%</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-lbl">10Y Treasury</div>
-    <div class="kpi-val c-warn">4.62%</div>
-    <div class="kpi-ch c-warn">Stable &mdash; FOMC watch</div>
-  </div>
-  <div class="kpi">
-    <div class="kpi-lbl">EUR/USD</div>
-    <div class="kpi-val c-warn">1.0840</div>
-    <div class="kpi-ch c-warn">&minus;0.12% (USD firm)</div>
-  </div>
+  <div class="kpi"><div class="kpi-lbl">/ES Pre-Mkt</div><div class="kpi-val c-good">7,832.50</div><div class="kpi-ch c-good">&plus;10.00 (&plus;0.13%)</div></div>
+  <div class="kpi"><div class="kpi-lbl">/NQ Pre-Mkt</div><div class="kpi-val c-good">30,240.00</div><div class="kpi-ch c-good">&plus;53.00 (&plus;0.18%)</div></div>
+  <div class="kpi"><div class="kpi-lbl">Brent Crude</div><div class="kpi-val c-bad">$87.20</div><div class="kpi-ch c-bad">&minus;0.18% (supply ease)</div></div>
+  <div class="kpi"><div class="kpi-lbl">Gold</div><div class="kpi-val c-good">$4,524.00</div><div class="kpi-ch c-good">&plus;0.54% (stagflation bid)</div></div>
+  <div class="kpi"><div class="kpi-lbl">10Y Treasury</div><div class="kpi-val c-good">4.54%</div><div class="kpi-ch c-good">&#x2193; Jackson Hole bid</div></div>
+  <div class="kpi"><div class="kpi-lbl">EUR/USD</div><div class="kpi-val c-good">1.0878</div><div class="kpi-ch c-good">&plus;0.15% (USD soft)</div></div>
 </div>
-<!-- REGIME BAR -->
+
+<!-- 05 REGIME BAR -->
+<div class="sec-label">05 &mdash; REGIME &amp; SESSION PARAMETERS</div>
 <div class="regime">
-  <span class="reg-badge reg-mixed">&#x1F7E1; CHOPPY / NEUTRAL</span>
+  <span class="reg-badge reg-bull">&#x1F7E2; CAUTIOUS BULL</span>
   <div class="reg-div"></div>
-  <div class="reg-item">Catalyst: <strong>HIVE &plus;14.13% BTC BREAKOUT &middot; BIDU BMO BEAT &#x26A1;</strong></div>
+  <div class="reg-item">Catalyst: <strong>JACKSON HOLE WEEK &bull; HD BMO &bull; FOMC MINUTES WED</strong></div>
   <div class="reg-div"></div>
-  <div class="reg-item">ES Gap: <strong class="c-good">&plus;7.75 pts (&plus;0.10%)</strong> &middot; ADR &sim;52 pts &middot; Gap/ADR: <strong>0.15&times;</strong></div>
+  <div class="reg-item">ES Gap: <strong class="c-good">&plus;10.00 pts (&plus;0.13%)</strong> &middot; ADR &sim;50 pts &middot; Gap/ADR: <strong>0.20&times;</strong></div>
   <div class="reg-div"></div>
-  <div class="reg-item">NQ Gap: <strong class="c-good">&plus;20.00 pts (&plus;0.07%)</strong> &middot; ADR &sim;620 pts &middot; Gap/ADR: <strong>0.03&times;</strong></div>
+  <div class="reg-item">NQ Gap: <strong class="c-good">&plus;53.00 pts (&plus;0.18%)</strong> &middot; ADR &sim;610 pts &middot; Gap/ADR: <strong>0.09&times;</strong></div>
   <div class="reg-div"></div>
-  <div class="reg-item">Max Trades: <strong>3</strong></div>
+  <div class="reg-item">Max Trades: <strong>2</strong></div>
   <div class="reg-div"></div>
   <div class="reg-item">Daily Stop: <strong>&minus;2R</strong></div>
   <div class="reg-div"></div>
-  <div class="reg-item">Setups: <strong>BTC_Mining_Momentum &middot; China_AI_Gap_Go &middot; OR_Break_Above_PP</strong></div>
+  <div class="reg-item">Setups: <strong>Rate_Cut_Dip_Buy &middot; HD_Earnings_Reaction &middot; Stagflation_Hold</strong></div>
 </div>
 
-<!-- FUTURES: ES + NQ -->
+<!-- 06 FUTURES: /ES + /NQ -->
+<div class="sec-label">06 &mdash; FUTURES INTELLIGENCE &mdash; /ES &amp; /NQ</div>
 <div class="grid2">
   <div class="card">
     <div class="card-hd">&#x1F4C8; /ES &mdash; E-Mini S&amp;P 500 &middot; Aug 15 Settlement</div>
     <table class="ftbl">
-      <tr><td>Prev High &dagger;</td><td class="acc">7,760.00</td></tr>
-      <tr><td>Prev Low &dagger;</td><td class="acc">7,700.00</td></tr>
-      <tr><td>Settlement</td><td class="acc">7,718.25</td></tr>
-      <tr><td>Pre-Mkt</td><td class="good">7,726.00 (&plus;7.75)</td></tr>
-      <tr><td>Gap / ADR</td><td>&plus;7.75 pts / &sim;52 = <strong>0.15&times;</strong></td></tr>
-    </table>
-    <table class="ftbl">
+      <tr><td>Prev High &dagger;</td><td class="acc">7,858.00</td></tr>
+      <tr><td>Prev Low &dagger;</td><td class="acc">7,802.00</td></tr>
+      <tr><td>Settlement</td><td class="acc">7,822.50</td></tr>
+      <tr><td>Pre-Mkt</td><td class="good">7,832.50 (&plus;10.00)</td></tr>
+      <tr><td>Gap / ADR</td><td>&plus;10.00 pts / &sim;50 = <strong>0.20&times;</strong></td></tr>
       <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Pivot Levels (Classic Formula) &mdash;</td></tr>
-      <tr><td>PP</td><td class="acc">7,726.08</td></tr>
-      <tr><td>R3</td><td class="good">7,812.00</td></tr>
-      <tr><td>R2</td><td class="good">7,786.00</td></tr>
-      <tr><td>R1</td><td class="good">7,752.00</td></tr>
-      <tr><td>S1</td><td class="bad">7,692.00</td></tr>
-      <tr><td>S2</td><td class="bad">7,666.00</td></tr>
-      <tr><td>S3</td><td class="bad">7,632.00</td></tr>
+      <tr><td>PP</td><td class="acc">7,827.50</td></tr>
+      <tr><td>R3</td><td class="good">7,910.75</td></tr>
+      <tr><td>R2</td><td class="good">7,884.25</td></tr>
+      <tr><td>R1</td><td class="good">7,853.75</td></tr>
+      <tr><td>S1</td><td class="bad">7,799.75</td></tr>
+      <tr><td>S2</td><td class="bad">7,773.25</td></tr>
+      <tr><td>S3</td><td class="bad">7,742.75</td></tr>
       <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Volume Profile &dagger; &mdash;</td></tr>
-      <tr><td>VAH</td><td>7,748.00</td></tr>
-      <tr><td>POC</td><td>7,724.00</td></tr>
-      <tr><td>VAL</td><td>7,706.00</td></tr>
-      <tr><td>Prev VWAP</td><td>7,722.00</td></tr>
+      <tr><td>VAH</td><td>7,846.00</td></tr>
+      <tr><td>POC</td><td>7,828.00</td></tr>
+      <tr><td>VAL</td><td>7,808.00</td></tr>
+      <tr><td>Prev VWAP</td><td>7,830.00</td></tr>
       <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Fibonacci (Weekly Swing) &mdash;</td></tr>
-      <tr><td>Fib 38.2%</td><td>7,710.00</td></tr>
-      <tr><td>Fib 50.0%</td><td>7,692.00</td></tr>
-      <tr><td>Fib 61.8%</td><td>7,674.00</td></tr>
+      <tr><td>Fib 38.2%</td><td>7,812.00</td></tr>
+      <tr><td>Fib 50.0%</td><td>7,792.00</td></tr>
+      <tr><td>Fib 61.8%</td><td>7,772.00</td></tr>
       <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Momentum &dagger; &mdash;</td></tr>
-      <tr><td>RSI (14)</td><td>51.8</td></tr>
-      <tr><td>MACD / Sig</td><td class="warn">&plus;1.2 / &plus;0.8</td></tr>
-      <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Weekly S/R &mdash;</td></tr>
-      <tr><td>Wkly R1</td><td class="good">7,800.00</td></tr>
-      <tr><td>Wkly PP</td><td>7,680.00</td></tr>
-      <tr><td>Wkly S1</td><td class="bad">7,600.00</td></tr>
+      <tr><td>RSI (14)</td><td>55.8</td></tr>
+      <tr><td>MACD / Sig</td><td class="good">&plus;4.2 / &plus;3.1</td></tr>
     </table>
-    <p class="tfoot-note">&dagger; H/L/Volume/Momentum estimated from session analysis; verify at CME.com &middot; TradingView</p>
+    <p class="tfoot-note">&dagger; H/L/Volume/Momentum estimated; verify at CME.com &middot; TradingView</p>
     <div class="ca">
-      <div class="ca-row">
-        <div class="ca-lbl">Analysis</div>
-        <div class="ca-val">ES settled <strong>7,718.25</strong> Friday, pre-mkt &plus;7.75 (&plus;0.10%) opens near PP (7,726.08). Gap is small (0.15&times; ADR) &mdash; not a conviction move. HIVE &plus;14.13% &amp; IBIT &plus;2.22% suggest BTC-driven risk appetite, but SPY &minus;0.47% Friday close imposes a cautious open. RSI 51.8 (neutral); MACD barely positive. POC at 7,724 aligns with PP &mdash; market is coiled for a directional break.</div>
-      </div>
-      <div class="ca-row">
-        <div class="ca-lbl">Spec. Move</div>
-        <div class="ca-val">If BTC/AI momentum holds: ES breaks above PP (7,726) &rarr; VAH (7,748) &rarr; R1 (7,752). If macro drag dominates: ES fades below PP &rarr; S1 (7,692) &rarr; Fib 50% (7,692). Range: <strong>7,692&ndash;7,752</strong>.</div>
-      </div>
-      <div class="ca-row">
-        <div class="ca-lbl">Trade Idea</div>
-        <div class="ca-val"><strong>LONG:</strong> OR break &plus; hold above PP 7,726 &rarr; R1 7,752 &rarr; R2 7,786. <strong>SHORT:</strong> Failure below PP &rarr; S1 7,692. <strong>Wait:</strong> 5-min ORB for direction; VWAP alignment required.</div>
-      </div>
-      <div class="ca-row">
-        <div class="ca-lbl">Levels</div>
-        <div class="ca-val"><div class="ca-lvls">
-          <span class="lv lv-e">L Entry: 7,726</span><span class="lv lv-s">L Stop: 7,692</span>
-          <span class="lv lv-t">L Target: 7,786</span><span class="lv lv-e">S Entry: 7,726</span>
-          <span class="lv lv-s">S Stop: 7,752</span><span class="lv lv-t">S Target: 7,692</span>
-          <span class="lv lv-n">VWAP: 7,722</span><span class="lv lv-n">PP: 7,726</span>
-        </div></div>
-      </div>
+      <div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">ES pre-mkt at <strong>7,832.50</strong>, gap of <strong>+10.00 pts (0.20&times; ADR)</strong> opens above PP (7,827.50). Jackson Hole week setup: institutions positioning before Wed FOMC minutes and Fri Powell speech. HD earnings today a near-term binary. RSI 55.8 mild bull; MACD positive. Friday&apos;s data-driven rate-cut trade carries into Monday as the structural narrative intact.</div></div>
+      <div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">Open above PP (7,827.50) &rarr; first 30 min consolidation &rarr; VWAP pull to 7,828 area &rarr; break R1 (7,853.75) if HD beat confirms momentum. Downside: gap fill to S1 (7,799.75) if HD misses or opening sellers dominate. Range: <strong>7,799&ndash;7,884</strong>.</div></div>
+      <div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val"><strong>LONG:</strong> Hold above PP 7,827.50 after ORB (15 min) &rarr; target R1 7,853.75 &rarr; R2 7,884.25. <strong>SHORT:</strong> Failure below PP &rarr; S1 7,799.75. <strong>Bias:</strong> Monday setup day &mdash; wait for OR, max 2 trades total.</div></div>
+      <div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">Rate_Cut_Long (above PP on VWAP pullback); Failed_PP_Short (below PP, confirmed rejection); 15-min ORB required before entry. Jackson Hole week = elevated intraday volatility around news flow; size down vs. normal.</div></div>
+      <div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls">
+        <span class="lv lv-e">L Entry: 7,827.50</span>
+        <span class="lv lv-s">L Stop: 7,799.75</span>
+        <span class="lv lv-t">L Target: 7,884.25</span>
+        <span class="lv lv-e">S Entry: 7,827.50</span>
+        <span class="lv lv-s">S Stop: 7,853.75</span>
+        <span class="lv lv-t">S Target: 7,799.75</span>
+        <span class="lv lv-n">VWAP: 7,830.00</span>
+        <span class="lv lv-n">PP: 7,827.50</span>
+      </div></div></div>
     </div>
   </div>
+
   <div class="card">
     <div class="card-hd">&#x1F4C8; /NQ &mdash; E-Mini Nasdaq-100 &middot; Aug 15 Settlement</div>
     <table class="ftbl">
-      <tr><td>Prev High &dagger;</td><td class="acc">30,100.00</td></tr>
-      <tr><td>Prev Low &dagger;</td><td class="acc">29,600.00</td></tr>
-      <tr><td>Settlement</td><td class="acc">29,800.00</td></tr>
-      <tr><td>Pre-Mkt</td><td class="good">29,820.00 (&plus;20.00)</td></tr>
-      <tr><td>Gap / ADR</td><td>&plus;20.00 pts / &sim;620 = <strong>0.03&times;</strong></td></tr>
-    </table>
-    <table class="ftbl">
+      <tr><td>Prev High &dagger;</td><td class="acc">30,310.00</td></tr>
+      <tr><td>Prev Low &dagger;</td><td class="acc">29,720.00</td></tr>
+      <tr><td>Settlement</td><td class="acc">30,187.00</td></tr>
+      <tr><td>Pre-Mkt</td><td class="good">30,240.00 (&plus;53.00)</td></tr>
+      <tr><td>Gap / ADR</td><td>&plus;53.00 pts / &sim;610 = <strong>0.09&times;</strong></td></tr>
       <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Pivot Levels &mdash;</td></tr>
-      <tr><td>PP</td><td class="acc">29,833.00</td></tr>
-      <tr><td>R2</td><td class="good">30,333.00</td></tr>
-      <tr><td>R1</td><td class="good">30,066.00</td></tr>
-      <tr><td>S1</td><td class="bad">29,566.00</td></tr>
-      <tr><td>S2</td><td class="bad">29,333.00</td></tr>
+      <tr><td>PP</td><td class="acc">30,072.33</td></tr>
+      <tr><td>R2</td><td class="good">30,662.67</td></tr>
+      <tr><td>R1</td><td class="good">30,449.33</td></tr>
+      <tr><td>S1</td><td class="bad">29,859.33</td></tr>
+      <tr><td>S2</td><td class="bad">29,482.00</td></tr>
       <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Volume Profile &dagger; &mdash;</td></tr>
-      <tr><td>VAH</td><td>29,960.00</td></tr>
-      <tr><td>POC</td><td>29,820.00</td></tr>
-      <tr><td>VAL</td><td>29,680.00</td></tr>
-      <tr><td>Prev VWAP</td><td>29,810.00</td></tr>
+      <tr><td>VAH</td><td>30,280.00</td></tr>
+      <tr><td>POC</td><td>30,120.00</td></tr>
+      <tr><td>VAL</td><td>30,010.00</td></tr>
+      <tr><td>Prev VWAP</td><td>30,105.00</td></tr>
       <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Momentum &dagger; &mdash;</td></tr>
-      <tr><td>RSI (14)</td><td>52.4</td></tr>
-      <tr><td>MACD / Sig</td><td class="warn">&plus;14.8 / &plus;10.2</td></tr>
-      <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Weekly S/R &mdash;</td></tr>
-      <tr><td>Wkly R1</td><td class="good">30,400.00</td></tr>
-      <tr><td>Wkly PP</td><td>29,600.00</td></tr>
-      <tr><td>Wkly S1</td><td class="bad">29,100.00</td></tr>
+      <tr><td>RSI (14)</td><td>54.6</td></tr>
+      <tr><td>MACD / Sig</td><td class="warn">&plus;22.4 / &plus;16.8</td></tr>
     </table>
-    <p class="tfoot-note">&dagger; H/L/Volume/Momentum estimated from session analysis; verify at CME.com &middot; TradingView</p>
+    <p class="tfoot-note">&dagger; H/L/Volume/Momentum estimated; verify at CME.com &middot; TradingView</p>
     <div class="ca">
-      <div class="ca-row">
-        <div class="ca-lbl">Analysis</div>
-        <div class="ca-val">NQ pre-mkt &plus;0.07% &mdash; essentially flat. Pre-mkt at 29,820 is near POC (29,820) and below PP (29,833). BIDU beat &amp; MU &plus;4.13% are the AI/tech catalysts. NVDA dark pool accumulation ongoing. RSI 52.4 neutral; MACD mildly positive. NQ needs to clear PP (29,833) &amp; VAH (29,960) to confirm bullish structure.</div>
-      </div>
-      <div class="ca-row">
-        <div class="ca-lbl">Trade Idea</div>
-        <div class="ca-val"><strong>LONG:</strong> Above PP 29,833 &rarr; VAH 29,960 &rarr; R1 30,066. <strong>SHORT:</strong> Below PP &rarr; S1 29,566. Confirm ES direction first; MU and BIDU are the tech catalysts to watch.</div>
-      </div>
-      <div class="ca-row">
-        <div class="ca-lbl">Levels</div>
-        <div class="ca-val"><div class="ca-lvls">
-          <span class="lv lv-e">L Entry: 29,833</span><span class="lv lv-s">L Stop: 29,566</span>
-          <span class="lv lv-t">L Target: 30,066</span><span class="lv lv-n">VWAP: 29,810</span>
-          <span class="lv lv-n">PP: 29,833</span>
-        </div></div>
-      </div>
+      <div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">NQ pre-mkt +0.18% at <strong>30,240</strong> &mdash; tech leading modestly vs. ES. Pre-mkt above PP (30,072) and above Friday VWAP. NVDA dark pool accumulation continues as AI structural anchor; tech benefits from rate-cut repricing as growth multiple expands. RSI 54.6 mild bull; MACD positive but moderating. Jackson Hole uncertainty keeps institutions cautious on tech adds Monday.</div></div>
+      <div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">NQ opens near 30,240&ndash;30,260, VWAP pull to 30,105&ndash;30,120 zone likely first 30 min. If ES leads above PP and rate-cut narrative holds, NQ targets R1 (30,449). Tail risk: FOMC minutes Wed hawkish surprise causes NQ to underperform ES on tech valuation compression. Range: <strong>29,860&ndash;30,449</strong>.</div></div>
+      <div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val"><strong>LONG:</strong> Above PP 30,072 on VWAP pullback &rarr; R1 30,449. <strong>SHORT:</strong> Below PP (30,072) &rarr; S1 29,859. <strong>Neutral:</strong> Let ES set tone; if HD beat dominates narrative, XLRE/XLU outperform NQ &mdash; stand aside and trade rate-cut ETFs.</div></div>
+      <div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">Rate_Cut_Long (above PP on pullback, after ES confirms); Failed_PP_Short (below 30,072); confirm ES first before NQ entry. Monday setup day = smaller size, wider stops, 15-min ORB required.</div></div>
+      <div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls">
+        <span class="lv lv-e">L Entry: 30,072</span>
+        <span class="lv lv-s">L Stop: 29,860</span>
+        <span class="lv lv-t">L Target: 30,449</span>
+        <span class="lv lv-e">S Entry: 30,072</span>
+        <span class="lv lv-s">S Stop: 30,240</span>
+        <span class="lv lv-t">S Target: 29,860</span>
+        <span class="lv lv-n">VWAP: 30,105</span>
+        <span class="lv lv-n">PP: 30,072</span>
+      </div></div></div>
     </div>
   </div>
 </div>
 
-<!-- ECON + EARNINGS + SECTORS -->
+<!-- 07 ECON + EARNINGS + SECTORS -->
+<div class="sec-label">07 &mdash; ECONOMIC CALENDAR / EARNINGS / SECTOR ROTATION</div>
 <div class="grid3">
   <div class="card">
-    <div class="card-hd">&#x1F4C5; Economic Calendar</div>
+    <div class="card-hd">&#x1F4C5; Economic Calendar &mdash; This Week</div>
     <table class="etbl">
-      <tr><th>Time (PT)</th><th>Event</th><th>Est</th><th>Act</th></tr>
-      <tr><td>No Major</td><td><strong>Light Calendar &mdash; Monday</strong></td><td>&mdash;</td><td class="warn">BTC Focus</td></tr>
-      <tr><td>TUE</td><td><strong>Housing Starts Jul</strong></td><td>1.32M</td><td class="warn">Pending</td></tr>
-      <tr><td>WED</td><td><strong>FOMC Minutes</strong></td><td>&mdash;</td><td class="warn">KEY</td></tr>
-      <tr><td>WED</td><td><strong>Existing Home Sales Jul</strong></td><td>3.92M</td><td class="warn">Pending</td></tr>
+      <tr><th>Day</th><th>Event</th><th>Est</th><th>Status</th></tr>
+      <tr><td>Mon</td><td><strong>No Major Data</strong></td><td>&mdash;</td><td class="chk">&#x2713;</td></tr>
+      <tr><td>Tue</td><td><strong>Building Permits Jul</strong></td><td>&plus;0.8%</td><td class="evt-live">PEND</td></tr>
+      <tr><td>Tue</td><td><strong>Housing Starts Jul</strong></td><td>&plus;1.2%</td><td class="evt-live">PEND</td></tr>
+      <tr><td>Wed</td><td><strong>FOMC Minutes</strong></td><td>Dovish?</td><td class="evt-live">KEY &#x26A0;</td></tr>
+      <tr><td>Thu</td><td><strong>Philly Fed Mfg</strong></td><td>&minus;2.0</td><td class="evt-live">PEND</td></tr>
+      <tr><td>Thu</td><td><strong>Jobless Claims</strong></td><td>228K</td><td class="evt-live">PEND</td></tr>
+      <tr><td>Fri</td><td><strong>Powell Jackson Hole</strong></td><td>Dovish</td><td class="evt-live">&#x1F525; KEY</td></tr>
     </table>
     <div class="ca">
-      <div class="ca-row">
-        <div class="ca-lbl">Analysis</div>
-        <div class="ca-val">Light calendar Monday &mdash; BTC/AI complex &amp; BIDU earnings are the primary drivers. FOMC Minutes Wednesday is the macro catalyst that matters most this week. If minutes signal September rate-cut confidence, expect bonds, crypto, and rate-sensitive sectors to rally mid-week.</div>
-      </div>
-      <div class="ca-row">
-        <div class="ca-lbl">Trade Idea</div>
-        <div class="ca-val"><strong>TLT pre-FOMC positioning:</strong> Accumulate TLT calls ahead of Wednesday minutes. September rate-cut probability at 85%&plus;. If minutes confirm dovish lean, TLT targets $96.50.</div>
-      </div>
+      <div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">Light data Monday &mdash; institution setup day. FOMC minutes Wed = near-term vol trigger; Powell speech Fri = week&apos;s primary macro event. Market pricing 85%+ Sept cut; any hawkish surprise is the bear tail. Rate-cut narrative supported by prior Retail Sales miss + UMich collapse.</div></div>
+      <div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">Dovish FOMC minutes Wed &rarr; TLT +1.5%, XLRE +1%, ES R2 test. Hawkish surprise &rarr; ES below PP, TLT reversal, 10Y spikes above 4.65%. Powell dovish Fri &rarr; broad risk-on surge; hawkish Fri &rarr; -2% ES flush.</div></div>
+      <div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val"><strong>LONG TLT</strong> through FOMC minutes (rate-cut conviction). <strong>LONG XLRE</strong> on housing starts beat. <strong>SHORT XLF</strong> on confirmed rate-cut trajectory (NIM compression).</div></div>
+      <div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls">
+        <span class="lv lv-n">10Y Key: 4.50%</span>
+        <span class="lv lv-e">TLT Entry: $94.00</span>
+        <span class="lv lv-t">TLT Target: $96.50</span>
+        <span class="lv lv-s">TLT Stop: $93.00</span>
+      </div></div></div>
     </div>
   </div>
   <div class="card">
     <div class="card-hd">&#x1F4B0; Earnings Watch</div>
     <table class="erntbl">
-      <tr><td>BIDU</td><td><span class="timing reported">BMO &#x2713;</span></td>
-        <td style="color:var(--good);font-weight:700">&plus;Beat</td>
-        <td style="font-size:.65rem;color:var(--sub)">EPS $1.51 vs $1.33 est; Ernie Bot revenue surge</td></tr>
-      <tr><td>LOW</td><td><span class="timing bmo">BMO TUE</span></td>
-        <td style="color:var(--warn);">&mdash;</td>
-        <td style="font-size:.65rem;color:var(--sub)">Est EPS $4.15; housing read-through; &sim;4% move</td></tr>
-      <tr><td>TGT</td><td><span class="timing bmo">BMO WED</span></td>
-        <td style="color:var(--warn);">&mdash;</td>
-        <td style="font-size:.65rem;color:var(--sub)">Est EPS $2.10; consumer read post-Retail Sales miss</td></tr>
+      <tr><td>HD</td><td><span class="timing bmo">BMO</span></td><td style="color:var(--warn)">&mdash;</td><td style="font-size:.65rem;color:var(--sub)">Est EPS $4.20; &sim;4% move; housing remodel read-thru</td></tr>
+      <tr><td>LOW</td><td><span class="timing bmo">BMO Tue</span></td><td style="color:var(--warn)">&mdash;</td><td style="font-size:.65rem;color:var(--sub)">Lowe&apos;s; paired housing read with HD</td></tr>
+      <tr><td>TGT</td><td><span class="timing bmo">BMO Wed</span></td><td style="color:var(--warn)">&mdash;</td><td style="font-size:.65rem;color:var(--sub)">Target; consumer disc. vs WMT trade-down thesis test</td></tr>
+      <tr><td>NVDA</td><td><span class="timing amc">AMC Aug 27</span></td><td style="color:var(--warn)">&mdash;</td><td style="font-size:.65rem;color:var(--sub)">Primary AI earnings catalyst; forward guidance critical</td></tr>
     </table>
     <div class="ca">
-      <div class="ca-row">
-        <div class="ca-lbl">Analysis</div>
-        <div class="ca-val">BIDU BMO beat (EPS $1.51 vs $1.33) is the China AI recovery signal. Ernie Bot cloud monetization accelerating &mdash; confirms the China AI infrastructure thesis and provides a read-through for NVDA H20 chip demand. LOW tomorrow is the housing catalyst; TGT Wednesday gives the consumer health read in a post-Retail Sales miss environment.</div>
-      </div>
-      <div class="ca-row">
-        <div class="ca-lbl">Trade Idea</div>
-        <div class="ca-val"><strong>BIDU gap-and-go:</strong> Entry above PM High &plus;1%, target &plus;10%, stop &minus;5%. <strong>TGT straddle pre-WED:</strong> Consumer miss risk elevated after last week&apos;s Retail Sales data. ATM straddle captures directional uncertainty.</div>
-      </div>
+      <div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">HD is today&apos;s binary &mdash; beat = big-ticket consumer still spending on home remodel; miss = consumer weakness broadening beyond mid-market to premium home improvement. LOW (Tue) provides second data point. TGT (Wed) is the WMT trade-down thesis stress test: if TGT beats, bifurcation less extreme; if TGT misses, WMT narrative strengthens.</div></div>
+      <div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val"><strong>HD beat &rarr;</strong> entry above PM High ORB, target +8%, stop &minus;4%. <strong>HD miss &rarr;</strong> short below OR low, target &minus;10%, stop +5%. <strong>TGT Wed:</strong> straddle ATM &mdash; direction unclear, 3&ndash;5% expected move.</div></div>
+      <div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls">
+        <span class="lv lv-t">HD Beat: PM Hi ORB</span>
+        <span class="lv lv-s">HD Miss: OR Low</span>
+        <span class="lv lv-n">TGT Wed: ATM straddle</span>
+      </div></div></div>
     </div>
   </div>
   <div class="card">
     <div class="card-hd">&#x1F5C2;&#xFE0F; Sector Performance &mdash; Aug 15</div>
-    <div class="sector-row"><span class="sec-etf">IBIT</span><span class="sec-name">Bitcoin ETF</span>
-      <div class="sec-bar-wrap"><div class="sec-bar" style="width:80%;background:var(--good)"></div></div>
-      <span class="sec-val c-good">&plus;2.22%</span></div>
-    <div class="sector-row"><span class="sec-etf">XLK</span><span class="sec-name">Technology</span>
-      <div class="sec-bar-wrap"><div class="sec-bar" style="width:45%;background:var(--good)"></div></div>
-      <span class="sec-val c-good">&plus;0.90%</span></div>
-    <div class="sector-row"><span class="sec-etf">XLC</span><span class="sec-name">Comm. Svcs</span>
-      <div class="sec-bar-wrap"><div class="sec-bar" style="width:30%;background:var(--good)"></div></div>
-      <span class="sec-val c-good">&plus;0.60%</span></div>
-    <div class="sector-row"><span class="sec-etf">XLP</span><span class="sec-name">Cons. Staples</span>
-      <div class="sec-bar-wrap"><div class="sec-bar" style="width:15%;background:var(--warn)"></div></div>
-      <span class="sec-val c-warn">&plus;0.20%</span></div>
-    <div class="sector-row"><span class="sec-etf">XLF</span><span class="sec-name">Financials</span>
-      <div class="sec-bar-wrap"><div class="sec-bar" style="width:25%;background:var(--bad)"></div></div>
-      <span class="sec-val c-bad">&minus;0.50%</span></div>
-    <div class="sector-row"><span class="sec-etf">XLE</span><span class="sec-name">Energy</span>
-      <div class="sec-bar-wrap"><div class="sec-bar" style="width:35%;background:var(--bad)"></div></div>
-      <span class="sec-val c-bad">&minus;0.70%</span></div>
-    <div class="sector-row"><span class="sec-etf">XLY</span><span class="sec-name">Cons. Disc.</span>
-      <div class="sec-bar-wrap"><div class="sec-bar" style="width:50%;background:var(--bad)"></div></div>
-      <span class="sec-val c-bad">&minus;1.00%</span></div>
+    <div class="sector-row"><span class="sec-etf">TLT</span><span class="sec-name">Bonds (20Y+)</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:75%;background:var(--good)"></div></div><span class="sec-val c-good">&plus;1.40%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLRE</span><span class="sec-name">Real Estate</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:62%;background:var(--good)"></div></div><span class="sec-val c-good">&plus;1.25%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLU</span><span class="sec-name">Utilities</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:55%;background:var(--good)"></div></div><span class="sec-val c-good">&plus;1.10%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLP</span><span class="sec-name">Consumer Staples</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:38%;background:var(--good)"></div></div><span class="sec-val c-good">&plus;0.76%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLK</span><span class="sec-name">Technology / AI</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:28%;background:var(--good)"></div></div><span class="sec-val c-good">&plus;0.55%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLI</span><span class="sec-name">Industrials</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:15%;background:var(--bad)"></div></div><span class="sec-val c-bad">&minus;0.30%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLF</span><span class="sec-name">Financials</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:32%;background:var(--bad)"></div></div><span class="sec-val c-bad">&minus;0.65%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLE</span><span class="sec-name">Energy</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:42%;background:var(--bad)"></div></div><span class="sec-val c-bad">&minus;0.84%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLY</span><span class="sec-name">Consumer Disc.</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:68%;background:var(--bad)"></div></div><span class="sec-val c-bad">&minus;1.36%</span></div>
+    <div class="ca" style="margin-top:8px">
+      <div class="ca-row"><div class="ca-lbl">Rotation</div><div class="ca-val">Rate-cut regime rotation continues into week 2: Bonds &gt; XLRE &gt; XLU &gt; XLP all bid. XLY worst on Retail miss persistence. XLF under NIM compression pressure. XLE continued oil weakness. <strong>Rotate into: TLT, XLRE, XLU, XLP. Rotate out of: XLY, XLF, XLE.</strong> Jackson Hole Fri confirmation of rate-cut path = XLRE + XLU outperform extends.</div></div>
+    </div>
   </div>
 </div>
-<!-- GAINERS + DECLINERS -->
+
+<!-- 08 GAINERS + DECLINERS -->
+<div class="sec-label">08 &mdash; PRE-MARKET GAINERS &amp; DECLINERS</div>
 <div class="grid2">
   <div class="card">
     <div class="card-hd">&#x1F4C8; Pre-Market Gainers</div>
     <table class="pmtbl">
-      <tr><td>HIVE</td><td><span class="pm-cat pm-ai">BTC</span></td>
-        <td class="c-good" style="font-weight:700;text-align:right">&plus;14.13%</td>
-        <td style="font-size:.65rem;color:var(--sub)">BTC mining breakout; institutional accumulation signal</td></tr>
-      <tr><td>BIDU</td><td><span class="pm-cat pm-earn">EARN</span><span class="pm-cat pm-beat">BEAT</span></td>
-        <td class="c-good" style="font-weight:700;text-align:right">&plus;est</td>
-        <td style="font-size:.65rem;color:var(--sub)">BMO beat $1.51 vs $1.33; China AI recovery</td></tr>
-      <tr><td>MU</td><td><span class="pm-cat pm-ai">AI</span></td>
-        <td class="c-good" style="font-weight:700;text-align:right">&plus;4.13%</td>
-        <td style="font-size:.65rem;color:var(--sub)">HBM3 demand surge; AI memory capex intact</td></tr>
-      <tr><td>IBIT</td><td><span class="pm-cat pm-ai">BTC</span></td>
-        <td class="c-good" style="font-weight:700;text-align:right">&plus;2.22%</td>
-        <td style="font-size:.65rem;color:var(--sub)">BTC ETF institutional inflows; spot demand</td></tr>
-      <tr><td>NVDA</td><td><span class="pm-cat pm-ai">AI</span></td>
-        <td class="c-good" style="font-weight:700;text-align:right">&plus;est</td>
-        <td style="font-size:.65rem;color:var(--sub)">Dark pool accumulation; BIDU beat = H20 chip demand</td></tr>
+      <tr><td>WMT</td><td><span class="pm-cat pm-beat">MOMO</span></td><td class="c-good" style="font-weight:700;text-align:right">&plus;1.20%</td><td style="font-size:.65rem;color:var(--sub)">Fri BMO beat momentum carry; budget consumer thesis</td></tr>
+      <tr><td>TLT</td><td><span class="pm-cat pm-geo">MACRO</span></td><td class="c-good" style="font-weight:700;text-align:right">&plus;0.82%</td><td style="font-size:.65rem;color:var(--sub)">Jackson Hole week rate-cut positioning continues</td></tr>
+      <tr><td>GLD</td><td><span class="pm-cat pm-geo">MACRO</span></td><td class="c-good" style="font-weight:700;text-align:right">&plus;0.54%</td><td style="font-size:.65rem;color:var(--sub)">Stagflation hedge; Jackson Hole uncertainty bid</td></tr>
+      <tr><td>NVDA</td><td><span class="pm-cat pm-ai">AI</span></td><td class="c-good" style="font-weight:700;text-align:right">&plus;0.72%</td><td style="font-size:.65rem;color:var(--sub)">Dark pool accumulation; AI capex supercycle intact</td></tr>
+      <tr><td>XLRE</td><td><span class="pm-cat pm-geo">MACRO</span></td><td class="c-good" style="font-weight:700;text-align:right">&plus;0.68%</td><td style="font-size:.65rem;color:var(--sub)">Rate-cut regime rotation; best sector long this week</td></tr>
     </table>
   </div>
   <div class="card">
     <div class="card-hd">&#x1F4C9; Pre-Market Decliners</div>
     <table class="pmtbl">
-      <tr><td>SPY</td><td><span class="pm-cat pm-geo">MACRO</span></td>
-        <td class="c-bad" style="font-weight:700;text-align:right">&minus;0.47%</td>
-        <td style="font-size:.65rem;color:var(--sub)">Friday close; stagflation macro drag persists</td></tr>
-      <tr><td>XLY</td><td><span class="pm-cat pm-geo">MACRO</span></td>
-        <td class="c-bad" style="font-weight:700;text-align:right">&minus;1.00%</td>
-        <td style="font-size:.65rem;color:var(--sub)">Consumer disc. structural headwind; avoid longs</td></tr>
-      <tr><td>XLE</td><td><span class="pm-cat pm-geo">MACRO</span></td>
-        <td class="c-bad" style="font-weight:700;text-align:right">&minus;0.70%</td>
-        <td style="font-size:.65rem;color:var(--sub)">Brent soft; energy sector rotation out</td></tr>
-      <tr><td>XLF</td><td><span class="pm-cat pm-geo">MACRO</span></td>
-        <td class="c-bad" style="font-weight:700;text-align:right">&minus;0.50%</td>
-        <td style="font-size:.65rem;color:var(--sub)">Rate-cut NIM compression concern; banks under pressure</td></tr>
+      <tr><td>XLY</td><td><span class="pm-cat pm-geo">MACRO</span></td><td class="c-bad" style="font-weight:700;text-align:right">&minus;0.92%</td><td style="font-size:.65rem;color:var(--sub)">Retail Sales &minus;0.6% structural headwind continues</td></tr>
+      <tr><td>XLF</td><td><span class="pm-cat pm-geo">MACRO</span></td><td class="c-bad" style="font-weight:700;text-align:right">&minus;0.58%</td><td style="font-size:.65rem;color:var(--sub)">Rate-cut NIM compression; banks face headwind all week</td></tr>
+      <tr><td>XLE</td><td><span class="pm-cat pm-geo">GEO</span></td><td class="c-bad" style="font-weight:700;text-align:right">&minus;0.48%</td><td style="font-size:.65rem;color:var(--sub)">Brent &minus;0.18%; supply ease narrative extends</td></tr>
+      <tr><td>DKS</td><td><span class="pm-cat pm-miss">MISS</span></td><td class="c-bad" style="font-weight:700;text-align:right">&minus;2.10%</td><td style="font-size:.65rem;color:var(--sub)">Continued post-AMC miss fade; no recovery in sight</td></tr>
+      <tr><td>TPR</td><td><span class="pm-cat pm-miss">MISS</span></td><td class="c-bad" style="font-weight:700;text-align:right">&minus;1.40%</td><td style="font-size:.65rem;color:var(--sub)">Tapestry post-guide-miss continuation fade</td></tr>
     </table>
   </div>
 </div>
-<!-- SPOTLIGHT + OPTIONS IDEAS -->
+
+<!-- 09 SPOTLIGHT + OPTIONS IDEAS -->
+<div class="sec-label">09 &mdash; SPOTLIGHT &amp; OPTIONS IDEAS</div>
 <div class="grid2">
   <div class="card">
     <div class="card-hd">&#x1F50D; Spotlight</div>
     <div class="spot-item">
-      <div class="spot-hd"><span class="spot-tk">HIVE</span><span class="spot-mv c-good">&plus;14.13% BTC Mining Breakout</span></div>
-      <div class="spot-body">The BTC mining complex is breaking out this morning with HIVE leading the sector. IBIT &plus;2.22% confirms institutional BTC demand at the ETF level. When HIVE moves &plus;14%+, BTC has typically moved &plus;4&ndash;6% overnight &mdash; miners leverage the underlying. Rate-cut thesis (85%&plus; September probability) is crypto-bullish: lower rates = dollar weakness = BTC outperformance. The monkey sees this as the highest-conviction theme of the morning. Monitor BTC for continuation above overnight highs before adding to HIVE position.</div>
+      <div class="spot-hd"><span class="spot-tk">TLT</span><span class="spot-mv c-good">Jackson Hole Rate-Cut Conviction Hold</span></div>
+      <div class="spot-body">The macro trade of the week and the highest-conviction position through Friday. Two consecutive data misses (Retail Sales &minus;0.6%, UMich 51.0) have locked in 85%+ Sept cut probability. Powell speaks Friday at Jackson Hole &mdash; the entire week is a setup for that speech. TLT holds above $94.00; add on dips to $93.50. Sep 95C flow of 12K+ contracts is institutional conviction. Target $96.50 on dovish Powell confirmation. Stop $93.00 only on hawkish FOMC minutes surprise Wednesday.</div>
     </div>
     <div class="spot-item">
-      <div class="spot-hd"><span class="spot-tk">BIDU</span><span class="spot-mv c-good">BMO Beat &mdash; China AI Recovery</span></div>
-      <div class="spot-body">Baidu EPS $1.51 vs $1.33 est &mdash; a clean beat driven by Ernie Bot cloud monetization acceleration. China AI recovery is real and being underestimated by Western markets. BIDU beat provides read-through for NVDA H20 chip demand (China AI infrastructure requires GPU capacity). Gap-and-go above PM High &plus;1% on ORB confirmation. This is the single-name earnings play of the morning. Stop tight at &minus;5%.</div>
+      <div class="spot-hd"><span class="spot-tk">HD</span><span class="spot-mv c-warn">Binary Earnings Event &mdash; Today BMO</span></div>
+      <div class="spot-body">Home Depot reports before market open today. Est EPS $4.20, ~4% expected move. Rate-cut sensitivity is high: falling mortgage rates = refi boom = home improvement demand surge. A beat confirms the big-ticket consumer is still spending on durables. A miss broadens the consumer weakness narrative from middle-market (DKS) into premium home improvement. Direction unknown &mdash; DO NOT pre-position. Wait for the print, then react to the ORB.</div>
     </div>
     <div class="spot-item">
-      <div class="spot-hd"><span class="spot-tk">MU</span><span class="spot-mv c-good">&plus;4.13% AI Memory Demand</span></div>
-      <div class="spot-body">Micron &plus;4.13% on HBM3 allocation tightening signals the AI memory supercycle is entering a demand acceleration phase. HBM3 is the critical infrastructure layer for NVDA&apos;s H100/H200/B100 GPU stack. MU move confirms the AI capex supercycle thesis: chips (NVDA) &rarr; memory (MU) &rarr; power (VST/OKLO) &rarr; data centers. RAMP sleeve activation signal: AI allocation confirms structural tailwind.</div>
+      <div class="spot-hd"><span class="spot-tk">NVDA</span><span class="spot-mv c-good">Dark Pool Accumulation &mdash; AI Structural Anchor</span></div>
+      <div class="spot-body">NVDA dark pool 1.85M shares from Friday continues as the AI infrastructure accumulation signal. Jackson Hole week = rate-cut expectation = growth multiple expansion = tech benefits. NVDA Aug 27 earnings are the primary AI catalyst. Dark pool at current levels suggests institutional pre-positioning. Entry above VWAP. Stop &minus;2%. Target +5% this week ahead of earnings week.</div>
     </div>
   </div>
   <div class="card">
     <div class="card-hd">&#x1F3AF; Options Ideas</div>
     <div class="opt-item">
-      <div class="opt-hd"><span class="opt-tk">HIVE</span><span class="opt-str">Momentum Long (Stock / Calls)</span></div>
-      <div class="opt-body">BTC mining breakout continuation. If stock, entry above PM High, stop &minus;8%, target &plus;20%. If options, Sep OTM calls &sim;$4&ndash;5 strike. Stop: &minus;50% premium. Target: &plus;100% on BTC continuation. Size small &mdash; high beta, high volatility.</div>
+      <div class="opt-hd"><span class="opt-tk">TLT</span><span class="opt-str">Sep 95C &mdash; Hold (12K+ flow, Friday)</span></div>
+      <div class="opt-body">Hold through Jackson Hole week. Do NOT cut on Monday noise. Powell speech Fri is the catalyst. Stop &minus;50% premium only on FOMC minutes hawkish surprise Wednesday. Target +100% on dovish Powell confirmation. Highest-conviction options position through end of week.</div>
     </div>
     <div class="opt-item">
-      <div class="opt-hd"><span class="opt-tk">BIDU</span><span class="opt-str">Sep ATM Calls (BMO Beat Play)</span></div>
-      <div class="opt-body">BMO beat gap-and-go. Sep ATM calls, entry at market open. Stop: &minus;40% premium. Target: &plus;80% on gap continuation above PM High &plus;1%. China AI recovery momentum trade.</div>
+      <div class="opt-hd"><span class="opt-tk">HD</span><span class="opt-str">ATM Straddle BMO &mdash; Today</span></div>
+      <div class="opt-body">ATM straddle on HD BMO print. ~4% expected move. Direction binary &mdash; beat = refi boom / housing bull; miss = consumer weakness broadening. Entry at market open. Stop: &minus;40% total straddle premium. Target: +80% on large directional move. Size small &mdash; this is a reaction play, not a conviction directional.</div>
     </div>
     <div class="opt-item">
-      <div class="opt-hd"><span class="opt-tk">TLT</span><span class="opt-str">Pre-FOMC Minutes Positioning (Sep Calls)</span></div>
-      <div class="opt-body">FOMC Minutes Wednesday &mdash; if dovish signal confirmed, TLT targets $96.50. Sep 95C entry. Stop: &minus;40% premium. Target: &plus;80%. Institutional rate-cut conviction play ahead of the week&apos;s key macro event.</div>
+      <div class="opt-hd"><span class="opt-tk">GLD</span><span class="opt-str">Oct 285C &mdash; Hold (Stagflation Sweep)</span></div>
+      <div class="opt-body">Hold the Oct 285C stagflation sweep from Friday. Jackson Hole uncertainty + persistent stagflation data = gold bid through end of month. Stop: &minus;30% premium. Target: +80% as GLD reprices toward $4,600. Longer-dated = more room for thesis to play out. Complement to TLT trade.</div>
     </div>
     <div class="opt-item">
-      <div class="opt-hd"><span class="opt-tk">TGT</span><span class="opt-str">Pre-WED Earnings Straddle</span></div>
-      <div class="opt-body">Target reports WED BMO. Consumer miss risk elevated post-Retail Sales. ATM straddle captures directional uncertainty. Entry today or tomorrow. Stop: &minus;30% total premium. Target: &plus;80% on large directional move.</div>
+      <div class="opt-hd"><span class="opt-tk">XLRE</span><span class="opt-str">Sep ATM Calls &mdash; Rate-Cut Play</span></div>
+      <div class="opt-body">Rate-cut beneficiary sector with Powell speech Fri as catalyst. ATM Sep calls entry near VWAP on Monday. Stop: &minus;40% premium. Target: +100% on dovish Powell + confirmed Sept cut. Best sector options play this week alongside TLT calls.</div>
     </div>
   </div>
 </div>
-<!-- MONEY FLOW + UNUSUAL OPTIONS -->
+
+<!-- 10 MONEY FLOW + UNUSUAL OPTIONS -->
+<div class="sec-label">10 &mdash; DARK POOL / MONEY FLOW &amp; UNUSUAL OPTIONS ACTIVITY</div>
 <div class="grid2">
   <div class="card">
     <div class="card-hd">&#x1F4B8; Dark Pool / Money Flow</div>
-    <div class="mf-item"><div class="mf-name"><strong>HIVE</strong> &mdash; BTC mining sector breakout; institutional accumulation signal</div><div class="mf-val c-good">BULL</div></div>
-    <div class="mf-item"><div class="mf-name"><strong>IBIT</strong> &mdash; Spot BTC ETF inflows &plus;2.22%; institutional BTC demand active</div><div class="mf-val c-good">BULL</div></div>
-    <div class="mf-item"><div class="mf-name"><strong>MU</strong> &mdash; HBM3 allocation tightening; AI memory institutional bid</div><div class="mf-val c-good">BULL</div></div>
-    <div class="mf-item"><div class="mf-name"><strong>NVDA</strong> &mdash; Dark pool accumulation ongoing; BIDU beat = H20 chip demand</div><div class="mf-val c-good">BULL</div></div>
-    <div class="mf-item"><div class="mf-name"><strong>TLT</strong> &mdash; Pre-FOMC positioning; rate-cut conviction building</div><div class="mf-val c-good">BULL</div></div>
-    <div class="mf-item"><div class="mf-name"><strong>XLY</strong> &mdash; ETF outflows continue post-Retail Sales miss; structural bear</div><div class="mf-val c-bad">BEAR</div></div>
-    <div class="mf-item"><div class="mf-name"><strong>XLF</strong> &mdash; Rate-cut NIM compression concern; distribution pattern</div><div class="mf-val c-bad">BEAR</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>NVDA</strong> &mdash; 1.85M shares dark pool ($329M notional) accumulation carry-forward</div><div class="mf-val c-good">BULL</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>TLT</strong> &mdash; Sep 95C 12K+ block hold; Jackson Hole rate-cut conviction</div><div class="mf-val c-good">BULL</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>GLD</strong> &mdash; Oct 285C sweep $12.4M; stagflation hard-asset rotation</div><div class="mf-val c-good">BULL</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>WMT</strong> &mdash; 2.8M shares institutional carry-forward on Friday BMO beat</div><div class="mf-val c-good">BULL</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>XLRE</strong> &mdash; 1.5M shares accumulation; rate-cut regime rotation week 2</div><div class="mf-val c-good">BULL</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>XLY</strong> &mdash; ETF outflows $2.1B from Friday; structural Retail Sales headwind</div><div class="mf-val c-bad">BEAR</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>XLF</strong> &mdash; Heavy put flow; rate-cut NIM compression trade active all week</div><div class="mf-val c-bad">BEAR</div></div>
   </div>
   <div class="card">
     <div class="card-hd">&#x26A1; Unusual Options Activity</div>
     <div class="uo-item">
-      <div class="uo-hd"><span class="uo-tk">HIVE</span><span class="uo-exp">OTM Sep Calls &mdash; elevated volume vs OI</span></div>
-      <div class="uo-body c-good">Bullish. BTC mining breakout momentum. Follow with small OTM calls or stock above ORB. High beta play on BTC continuation thesis.</div>
+      <div class="uo-hd"><span class="uo-tk">TLT</span><span class="uo-exp">Sep 95C &mdash; 12,847 contracts vs 320 OI (Fri holdover)</span></div>
+      <div class="uo-body c-good">Bullish. Jackson Hole week conviction hold. Institutional signature rate-cut trade. Follow &mdash; hold through Friday Powell speech. This is the smart money through end of week.</div>
     </div>
     <div class="uo-item">
-      <div class="uo-hd"><span class="uo-tk">BIDU</span><span class="uo-exp">Sep ATM Calls &mdash; BMO earnings play</span></div>
-      <div class="uo-body c-good">Bullish. China AI recovery. Entry at market open on gap-and-go confirmation. BMO beat is the directional catalyst.</div>
+      <div class="uo-hd"><span class="uo-tk">GLD</span><span class="uo-exp">Oct 285C &mdash; 5,200 contracts vs 180 OI (Fri holdover)</span></div>
+      <div class="uo-body c-good">Bullish. Stagflation hedge positioning. Longer-dated = high conviction in macro thesis. Gold $4,550&ndash;$4,600 target as stagflation + rate-cut repricing collide.</div>
     </div>
     <div class="uo-item">
-      <div class="uo-hd"><span class="uo-tk">MU</span><span class="uo-exp">Sep Calls &mdash; AI memory demand flow</span></div>
-      <div class="uo-body c-good">Bullish. HBM3 tightening narrative. Follow MU above VWAP for stock entry; Sep calls for leveraged exposure. AI capex supercycle confirmation.</div>
+      <div class="uo-hd"><span class="uo-tk">NVDA</span><span class="uo-exp">Sep 180C &mdash; 6,100 contracts vs 2,200 OI</span></div>
+      <div class="uo-body c-good">Bullish. AI capex supercycle conviction ahead of Aug 27 earnings. Dark pool confirms. Hold through Jackson Hole week alongside core dark pool long. Lottery ticket alongside core position.</div>
     </div>
     <div class="uo-item">
-      <div class="uo-hd"><span class="uo-tk">TLT</span><span class="uo-exp">Sep 95C &mdash; pre-FOMC accumulation</span></div>
-      <div class="uo-body c-good">Bullish. Institutional rate-cut positioning ahead of Wednesday FOMC Minutes. Follow with defined risk calls entry today.</div>
+      <div class="uo-hd"><span class="uo-tk">XLY</span><span class="uo-exp">Aug OTM Puts &mdash; 22,000 contracts</span></div>
+      <div class="uo-body c-bad">Bearish. Consumer discretionary ETF put buying on Retail Sales miss persistence. Institutional hedging continues into Jackson Hole week. XLY short thesis confirmed through end of month.</div>
     </div>
     <div class="uo-item">
-      <div class="uo-hd"><span class="uo-tk">XLY</span><span class="uo-exp">Aug OTM Puts &mdash; continued outflows</span></div>
-      <div class="uo-body c-bad">Bearish. Consumer discretionary put buying persists post-Retail Sales miss. Institutional hedging consumer exposure into mid-week.</div>
+      <div class="uo-hd"><span class="uo-tk">SPY</span><span class="uo-exp">Oct OTM Puts &mdash; 45,000 contracts (Fri holdover)</span></div>
+      <div class="uo-body c-warn">Tail hedge. Institutional insurance against Powell hawkish surprise at Jackson Hole. Not a directional short &mdash; portfolio protection. If Powell dovish Fri, these puts expire worthless &mdash; that&apos;s the scenario institutions are insuring against.</div>
     </div>
   </div>
 </div>
-<!-- MASTER TRADE TABLE -->
+
+<!-- SECTION 11: MASTER TRADE TABLE -->
 <div class="tbl-section">
-  <div class="tbl-hd">&#x1F3AF; Master Trade Ideas &mdash; Monday, August 18, 2026</div>
+  <div class="tbl-hd">
+    <span>11 — MASTER TRADE TABLE</span>
+    <span class="ttbl-count" id="tradeCount">16 / 16 trades</span>
+  </div>
   <div class="ttbl-controls">
-    <span class="ttbl-filter-lbl">Filter:</span>
-    <input id="fSymbol" class="ttbl-filter-input" placeholder="Symbol&hellip;" oninput="apexFilterTable()">
-    <select id="fType" class="ttbl-filter-select" onchange="apexFilterTable()">
-      <option value="">All Types</option>
-      <option value="futures">Futures</option>
-      <option value="stock">Stock</option>
-      <option value="etf">ETF</option>
-      <option value="options">Options</option>
-    </select>
-    <select id="fDir" class="ttbl-filter-select" onchange="apexFilterTable()">
-      <option value="">All Directions</option>
-      <option value="long">Long</option>
-      <option value="short">Short</option>
-    </select>
-    <select id="fPri" class="ttbl-filter-select" onchange="apexFilterTable()">
-      <option value="">All Priority</option>
-      <option value="3">&#x2605;&#x2605;&#x2605; High</option>
-      <option value="2">&#x2605;&#x2605; Medium</option>
-      <option value="1">&#x2605; Low</option>
-    </select>
+    <label class="ttbl-filter-lbl">Symbol
+      <input class="ttbl-filter-input" id="fSymbol" placeholder="e.g. /ES" oninput="apexFilterTable()">
+    </label>
+    <label class="ttbl-filter-lbl">Type
+      <select class="ttbl-filter-select" id="fType" onchange="apexFilterTable()">
+        <option value="">All</option>
+        <option value="futures">Futures</option>
+        <option value="equity">Equity</option>
+        <option value="etf">ETF</option>
+        <option value="options">Options</option>
+      </select>
+    </label>
+    <label class="ttbl-filter-lbl">Direction
+      <select class="ttbl-filter-select" id="fDir" onchange="apexFilterTable()">
+        <option value="">All</option>
+        <option value="long">Long</option>
+        <option value="short">Short</option>
+      </select>
+    </label>
+    <label class="ttbl-filter-lbl">Priority
+      <select class="ttbl-filter-select" id="fPri" onchange="apexFilterTable()">
+        <option value="">All</option>
+        <option value="3">★★★</option>
+        <option value="2">★★</option>
+        <option value="1">★</option>
+      </select>
+    </label>
     <button class="ttbl-reset" onclick="apexResetFilters()">Reset</button>
-    <span id="tradeCount" class="ttbl-count">16 / 16 trades</span>
   </div>
   <table class="ttbl" id="apexTradeTable">
     <thead>
@@ -727,150 +657,238 @@ a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decorat
         <th class="sortable" onclick="apexSortTable(1)">Symbol</th>
         <th class="sortable" onclick="apexSortTable(2)">Type</th>
         <th class="sortable" onclick="apexSortTable(3)">Direction</th>
-        <th>Setup</th>
-        <th class="sortable" onclick="apexSortTable(5)">Entry</th>
+        <th>Thesis</th>
+        <th>Entry</th>
         <th>Stop</th>
         <th>Target</th>
         <th class="sortable" onclick="apexSortTable(8)">R:R</th>
-        <th>Notes</th>
+        <th>TF</th>
         <th class="sortable" onclick="apexSortTable(10)">Priority</th>
       </tr>
     </thead>
     <tbody>
-      <tr><td>1</td><td><strong>HIVE</strong></td><td><span class="t-type ts">Stock</span></td><td class="t-long">LONG</td>
-        <td>BTC Mining Breakout Momentum</td><td class="mono">Above PM Hi</td>
-        <td class="mono c-bad">&minus;8%</td><td class="mono c-good">&plus;20%</td>
-        <td class="t-rr">1:2.5</td>
-        <td style="font-size:.65rem;color:var(--sub)">BTC mining complex breakout; IBIT &plus;2.22%; BTC correlation; 5-min ORB req.</td>
-        <td class="t-pri">&#x2605;&#x2605;&#x2605;</td></tr>
-      <tr><td>2</td><td><strong>BIDU</strong></td><td><span class="t-type ts">Stock</span></td><td class="t-long">LONG</td>
-        <td>Gap &amp; Go &mdash; BMO Beat</td><td class="mono">PM Hi&plus;1%</td>
-        <td class="mono c-bad">&minus;5%</td><td class="mono c-good">&plus;10%</td>
+      <tr>
+        <td class="mono">1</td>
+        <td class="mono">/ES</td>
+        <td><span class="t-type tf">Futures</span></td>
+        <td class="t-long">LONG</td>
+        <td>OR Break above PP 7,827.50 — session momentum</td>
+        <td class="mono">7,827.50 break</td>
+        <td class="mono">7,799.75</td>
+        <td class="mono">7,884.25</td>
         <td class="t-rr">1:2.0</td>
-        <td style="font-size:.65rem;color:var(--sub)">EPS $1.51 vs $1.33; Ernie Bot cloud surge; China AI recovery</td>
-        <td class="t-pri">&#x2605;&#x2605;&#x2605;</td></tr>
-      <tr><td>3</td><td><strong>MU</strong></td><td><span class="t-type ts">Stock</span></td><td class="t-long">LONG</td>
-        <td>VWAP Continuation &mdash; HBM3 Demand</td><td class="mono">Above VWAP</td>
-        <td class="mono c-bad">&minus;3%</td><td class="mono c-good">&plus;8%</td>
-        <td class="t-rr">1:2.7</td>
-        <td style="font-size:.65rem;color:var(--sub)">AI memory tightening; &plus;4.13% pre-mkt; AI capex supercycle signal</td>
-        <td class="t-pri">&#x2605;&#x2605;&#x2605;</td></tr>
-      <tr><td>4</td><td><strong>/ES</strong></td><td><span class="t-type tf">Futures</span></td><td class="t-long">LONG</td>
-        <td>OR Break Above PP</td><td class="mono">7,726.00</td>
-        <td class="mono c-bad">7,692.00</td><td class="mono c-good">7,786.00</td>
-        <td class="t-rr">1:1.8</td>
-        <td style="font-size:.65rem;color:var(--sub)">Hold above PP req.; BTC/AI tail wind must confirm; 5-min ORB</td>
-        <td class="t-pri">&#x2605;&#x2605;</td></tr>
-      <tr><td>5</td><td><strong>IBIT</strong></td><td><span class="t-type te">ETF</span></td><td class="t-long">LONG</td>
-        <td>BTC ETF Institutional Accumulation</td><td class="mono">Above VWAP</td>
-        <td class="mono c-bad">&minus;3%</td><td class="mono c-good">&plus;7%</td>
-        <td class="t-rr">1:2.3</td>
-        <td style="font-size:.65rem;color:var(--sub)">Spot BTC ETF inflows &plus;2.22%; rate-cut = BTC bullish; HIVE confirmation</td>
-        <td class="t-pri">&#x2605;&#x2605;</td></tr>
-      <tr><td>6</td><td><strong>NVDA</strong></td><td><span class="t-type ts">Stock</span></td><td class="t-long">LONG</td>
-        <td>Dark Pool &amp; China AI Demand</td><td class="mono">Above VWAP</td>
-        <td class="mono c-bad">&minus;2%</td><td class="mono c-good">&plus;5%</td>
+        <td><span class="t-type ts">Intraday</span></td>
+        <td class="t-pri">★★★</td>
+      </tr>
+      <tr>
+        <td class="mono">2</td>
+        <td class="mono">TLT</td>
+        <td><span class="t-type te">ETF</span></td>
+        <td class="t-long">LONG</td>
+        <td>Rate-Cut Thesis Hold — duration trade into FOMC mins</td>
+        <td class="mono">$94.00</td>
+        <td class="mono">$93.00</td>
+        <td class="mono">$96.50</td>
         <td class="t-rr">1:2.5</td>
-        <td style="font-size:.65rem;color:var(--sub)">BIDU beat = H20 chip demand; dark pool accumulation ongoing</td>
-        <td class="t-pri">&#x2605;&#x2605;</td></tr>
-
-<tr>
-<td>7</td><td>/NQ</td><td>Futures</td>
-<td class="t-long">LONG</td>
-<td>OR Break Above PP — Nasdaq momentum continuation off pivot</td>
-<td>Above OR High</td><td>-0.5% / 80pts</td><td>+1.5% / 240pts</td><td>1:3.0</td>
-<td>Entry on confirmed OR breakout with volume; trail stop on close below VWAP</td>
-<td>★★</td>
-</tr>
-<tr>
-<td>8</td><td>TLT</td><td>ETF</td>
-<td class="t-long">LONG</td>
-<td>Pre-FOMC Rate-Cut Positioning — Duration bid ahead of Sep cut expectations</td>
-<td>Above $88.50 VWAP</td><td>-2%</td><td>+5%</td><td>1:2.5</td>
-<td>Scale into weakness; hold through Sep FOMC; risk is hotter-than-expected CPI revision</td>
-<td>★★</td>
-</tr>
-<tr>
-<td>9</td><td>BIDU</td><td>Options</td>
-<td class="t-long">LONG</td>
-<td>Sep ATM Calls — BMO beat momentum; IV expansion play on China AI narrative</td>
-<td>Fill at open</td><td>-50% premium</td><td>+100% premium</td><td>1:2.0</td>
-<td>Buy Sep ATM calls; size small (1–2% port); close if stock fails PM high</td>
-<td>★★</td>
-</tr>
-<tr>
-<td>10</td><td>MU</td><td>Options</td>
-<td class="t-long">LONG</td>
-<td>Sep Calls — HBM demand cycle; AI data center memory supercycle continuation</td>
-<td>Fill at open</td><td>-50% premium</td><td>+80% premium</td><td>1:1.6</td>
-<td>Buy Sep +5% OTM calls; tight risk; close if MU loses VWAP intraday</td>
-<td>★</td>
-</tr>
-
-<tr>
-<td>11</td><td>XLY</td><td>ETF</td>
-<td class="t-short">SHORT</td>
-<td>Consumer Disc. Breakdown — Retail sales softness; discretionary rotation out</td>
-<td>Below $172 VWAP</td><td>+2%</td><td>-5%</td><td>1:2.5</td>
-<td>Short on VWAP rejection; cover into support; risk is surprise consumer confidence beat</td>
-<td>★★</td>
-</tr>
-<tr>
-<td>12</td><td>XLF</td><td>ETF</td>
-<td class="t-short">SHORT</td>
-<td>Rate-Cut NIM Compression — Bank margins shrink on falling rate expectations</td>
-<td>Below $45.50</td><td>+1.5%</td><td>-4%</td><td>1:2.7</td>
-<td>Short financials on any bounce to VWAP; cover at support; stop above day's high</td>
-<td>★★</td>
-</tr>
-<tr>
-<td>13</td><td>/ES</td><td>Futures</td>
-<td class="t-short">SHORT</td>
-<td>R1 Rejection Fade — Fade R1 (7,786) if first-hour rally exhausts on low volume</td>
-<td>R1 rejection 7,786</td><td>+0.5% / 40pts</td><td>-1% / 80pts</td><td>1:2.0</td>
-<td>Fade only on confirmed rejection candle at R1 with declining volume; tight stop</td>
-<td>★</td>
-</tr>
-<tr>
-<td>14</td><td>TGT</td><td>Options</td>
-<td class="t-neut">NEUT</td>
-<td>Pre-WED Straddle — TGT earnings WED BMO; buy vol ahead of binary event</td>
-<td>Fill Monday open</td><td>-60% premium</td><td>+120% premium</td><td>1:2.0</td>
-<td>Buy ATM straddle; sell 24hrs pre-earnings if IV spike materializes; max risk = premium paid</td>
-<td>★</td>
-</tr>
-
-<tr>
-<td>15</td><td>XLE</td><td>ETF</td>
-<td class="t-short">SHORT</td>
-<td>Energy Breakdown — Crude softness; demand slowdown signal; IEA cut forecast</td>
-<td>Below $84 VWAP</td><td>+1.5%</td><td>-4%</td><td>1:2.7</td>
-<td>Short energy on any bounce to VWAP; cover near $80 support; stop above $86</td>
-<td>★</td>
-</tr>
-<tr>
-<td>16</td><td>HIVE</td><td>Options</td>
-<td class="t-long">LONG</td>
-<td>OTM Calls — BTC proxy breakout; leverage BTC momentum without adding spot</td>
-<td>Fill at open</td><td>-100% premium</td><td>+200% premium</td><td>1:2.0</td>
-<td>Buy Sep OTM calls as defined-risk BTC proxy; size 1% port max; close on BTC reversal</td>
-<td>★</td>
-</tr>
-</tbody>
-</table>
-</div><!-- /tbl-section -->
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★★</td>
+      </tr>
+      <tr>
+        <td class="mono">3</td>
+        <td class="mono">HD</td>
+        <td><span class="t-type to">Equity</span></td>
+        <td class="t-long">LONG</td>
+        <td>BMO Beat Conditional — buy PM Hi+1% on beat confirmation</td>
+        <td class="mono">PM Hi +1%</td>
+        <td class="mono">-4% from entry</td>
+        <td class="mono">+8% from entry</td>
+        <td class="t-rr">1:2.0</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★★</td>
+      </tr>
+      <tr>
+        <td class="mono">4</td>
+        <td class="mono">GLD</td>
+        <td><span class="t-type te">ETF</span></td>
+        <td class="t-long">LONG</td>
+        <td>Stagflation Hedge — gold bid on risk-off + weak dollar</td>
+        <td class="mono">Above PM Hi</td>
+        <td class="mono">-1% from entry</td>
+        <td class="mono">+3% from entry</td>
+        <td class="t-rr">1:3.0</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★★</td>
+      </tr>
+      <tr>
+        <td class="mono">5</td>
+        <td class="mono">XLRE</td>
+        <td><span class="t-type te">ETF</span></td>
+        <td class="t-long">LONG</td>
+        <td>Rate-Cut RE Rotation — REIT bid ahead of Jackson Hole</td>
+        <td class="mono">Above VWAP</td>
+        <td class="mono">-1.5% from entry</td>
+        <td class="mono">+3.5% from entry</td>
+        <td class="t-rr">1:2.3</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★</td>
+      </tr>
+      <tr>
+        <td class="mono">6</td>
+        <td class="mono">XLU</td>
+        <td><span class="t-type te">ETF</span></td>
+        <td class="t-long">LONG</td>
+        <td>Defensive Rate Cycle — utilities outperform in cut regime</td>
+        <td class="mono">Above VWAP</td>
+        <td class="mono">-1% from entry</td>
+        <td class="mono">+3% from entry</td>
+        <td class="t-rr">1:3.0</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★</td>
+      </tr>
+      <tr>
+        <td class="mono">7</td>
+        <td class="mono">NVDA</td>
+        <td><span class="t-type to">Equity</span></td>
+        <td class="t-long">LONG</td>
+        <td>Dark Pool Continuation — institutional accumulation above VWAP</td>
+        <td class="mono">Above VWAP</td>
+        <td class="mono">-2% from entry</td>
+        <td class="mono">+5% from entry</td>
+        <td class="t-rr">1:2.5</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★</td>
+      </tr>
+      <tr>
+        <td class="mono">8</td>
+        <td class="mono">WMT</td>
+        <td><span class="t-type to">Equity</span></td>
+        <td class="t-long">LONG</td>
+        <td>Momentum Continuation — post-earnings strength holding VWAP</td>
+        <td class="mono">Above VWAP</td>
+        <td class="mono">-3% from entry</td>
+        <td class="mono">+7% from entry</td>
+        <td class="t-rr">1:2.3</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★</td>
+      </tr>
+      <tr>
+        <td class="mono">9</td>
+        <td class="mono">/NQ</td>
+        <td><span class="t-type tf">Futures</span></td>
+        <td class="t-long">LONG</td>
+        <td>OR Break above PP 30,072 — tech momentum confirmation</td>
+        <td class="mono">30,072 break</td>
+        <td class="mono">29,860</td>
+        <td class="mono">30,449</td>
+        <td class="t-rr">1:1.7</td>
+        <td><span class="t-type ts">Intraday</span></td>
+        <td class="t-pri">★★</td>
+      </tr>
+      <tr>
+        <td class="mono">10</td>
+        <td class="mono">HIVE</td>
+        <td><span class="t-type to">Equity</span></td>
+        <td class="t-long">LONG</td>
+        <td>BTC Rate-Cut Correlation — crypto miners bid on dovish Fed signal</td>
+        <td class="mono">Above VWAP</td>
+        <td class="mono">-5% from entry</td>
+        <td class="mono">+15% from entry</td>
+        <td class="t-rr">1:3.0</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★</td>
+      </tr>
+      <tr>
+        <td class="mono">11</td>
+        <td class="mono">DKS</td>
+        <td><span class="t-type to">Equity</span></td>
+        <td class="t-short">SHORT</td>
+        <td>Post-AMC Miss Fade — earnings disappointment continuation</td>
+        <td class="mono">OR Low break</td>
+        <td class="mono">+8% from entry</td>
+        <td class="mono">-20% from entry</td>
+        <td class="t-rr">1:2.5</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★</td>
+      </tr>
+      <tr>
+        <td class="mono">12</td>
+        <td class="mono">XLY</td>
+        <td><span class="t-type te">ETF</span></td>
+        <td class="t-short">SHORT</td>
+        <td>Retail Sales Breakdown — consumer discretionary underperform</td>
+        <td class="mono">Below VWAP</td>
+        <td class="mono">+2% from entry</td>
+        <td class="mono">-4% from entry</td>
+        <td class="t-rr">1:2.0</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★</td>
+      </tr>
+      <tr>
+        <td class="mono">13</td>
+        <td class="mono">XLF</td>
+        <td><span class="t-type te">ETF</span></td>
+        <td class="t-short">SHORT</td>
+        <td>Rate-Cut Bank Headwind — NIM compression on pivot</td>
+        <td class="mono">Below VWAP</td>
+        <td class="mono">+1.5% from entry</td>
+        <td class="mono">-4% from entry</td>
+        <td class="t-rr">1:2.7</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★</td>
+      </tr>
+      <tr>
+        <td class="mono">14</td>
+        <td class="mono">HD</td>
+        <td><span class="t-type to">Equity</span></td>
+        <td class="t-short">SHORT</td>
+        <td>BMO Miss Conditional — fade gap-down on guide miss</td>
+        <td class="mono">OR Low break</td>
+        <td class="mono">+5% from entry</td>
+        <td class="mono">-10% from entry</td>
+        <td class="t-rr">1:2.0</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★</td>
+      </tr>
+      <tr>
+        <td class="mono">15</td>
+        <td class="mono">XLE</td>
+        <td><span class="t-type te">ETF</span></td>
+        <td class="t-short">SHORT</td>
+        <td>Oil Breakdown — Brent below $87 triggers energy sector flush</td>
+        <td class="mono">$85.00 break</td>
+        <td class="mono">$86.00</td>
+        <td class="mono">$83.00</td>
+        <td class="t-rr">1:2.0</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★★</td>
+      </tr>
+      <tr>
+        <td class="mono">16</td>
+        <td class="mono">TPR</td>
+        <td><span class="t-type to">Equity</span></td>
+        <td class="t-short">SHORT</td>
+        <td>Guide Miss Continuation — luxury discretionary demand crack</td>
+        <td class="mono">OR Low break</td>
+        <td class="mono">+5% from entry</td>
+        <td class="mono">-12% from entry</td>
+        <td class="t-rr">1:2.4</td>
+        <td><span class="t-type ts">Swing</span></td>
+        <td class="t-pri">★</td>
+      </tr>
+    </tbody>
+  </table>
+  <p class="tfoot-note">All entries conditional on confirmation trigger. Position size per RAMP discipline. Max 2 concurrent trades in Jackson Hole week regime. Daily stop -2R circuit breaker active.</p>
+</div>
 
 <!-- FOOTER -->
-<footer class="footer">
-  <p>Shadow Monkey Morning Market Monitor &mdash; Aug 18, 2026</p>
-  <p>Operative: Shadow Monkey &nbsp;|&nbsp; Handler: Joe &nbsp;|&nbsp; Entity: Monkey Matters, LLC / JVS Holdings, LTD</p>
-  <p style="margin-top:8px;font-size:0.75rem;opacity:0.5;">
-    All content is for informational and educational purposes only. Not financial advice.
-    Past performance does not guarantee future results. Trade at your own risk.
-  </p>
+<footer class="ftr">
+  <div class="footer-logo">Shadow Monkey</div>
+  <div class="footer-meta">
+    Morning Market Monitor · Monday, August 18, 2026 · Monkey Matters, LLC / JVS Holdings, LTD<br>
+    For informational purposes only. Not financial advice. All trades carry risk. Past performance does not guarantee future results.<br>
+    Jackson Hole Week — FOMC Minutes Wednesday · Fed Chair Powell Friday · Max 2 Trades · Daily Stop -2R
+  </div>
 </footer>
-
-</div><!-- /#app -->
 
 <script>
 (function(){
@@ -889,7 +907,7 @@ a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decorat
       var ok = true;
       if(sym && cellVal(row,1).toLowerCase().indexOf(sym) === -1) ok = false;
       if(ok && type){ var ttext = cellVal(row,2).toLowerCase(); if(type === 'etf'){ if(ttext.indexOf('etf') === -1) ok = false; } else { if(ttext.indexOf(type) === -1) ok = false; } }
-      if(ok && dir){ var dcls = row.cells[3] ? (row.cells[3].className || '') : ''; if(dir === 'long' && dcls.indexOf('t-long') === -1) ok = false; if(dir === 'short' && dcls.indexOf('t-short') === -1) ok = false; }
+      if(ok && dir){ var dcls = row.cells[3] ? (row.cells[3].className || '') : ''; if(dir === 'long' && dcls.indexOf('t-long') === -1) ok = false; if(dir === 'short' && dcls.indexOf('t-short') === -1) ok = false; if(dir === 'neut' && dcls.indexOf('t-neut') === -1) ok = false; }
       if(ok && pri){ var stars = (cellVal(row,10).match(/★/g) || []).length.toString(); if(stars !== pri) ok = false; }
       row.style.display = ok ? '' : 'none';
       if(ok) shown++;
@@ -909,13 +927,13 @@ a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decorat
       var mult = asc ? 1 : -1;
       if(col === 0) return mult*(parseInt(va)-parseInt(vb));
       if(col === 10){ var sa=(va.match(/★/g)||[]).length; var sb=(vb.match(/★/g)||[]).length; return mult*(sa-sb); }
-      if(col === 8){ var na=va==='Event'?-1:(parseFloat(va.replace('1:',''))||0); var nb=vb==='Event'?-1:(parseFloat(vb.replace('1:',''))||0); return mult*(na-nb); }
+      if(col === 8){ var na=parseFloat(va.replace('1:',''))||0; var nb=parseFloat(vb.replace('1:',''))||0; return mult*(na-nb); }
       return mult*va.toLowerCase().localeCompare(vb.toLowerCase());
     });
     rows.forEach(function(r){ tbody.appendChild(r); });
     applyFilter();
   }
-  window.apexFilterTable  = applyFilter;
+  window.apexFilterTable = applyFilter;
   window.apexResetFilters = function(){ ['fSymbol','fType','fDir','fPri'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; }); applyFilter(); };
   window.apexSortTable = applySort;
   applyFilter();
