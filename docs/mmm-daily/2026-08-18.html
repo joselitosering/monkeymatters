@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Shadow Monkey MMM — MON 2026-08-18</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --black:#080808;--surface:#0f0f0f;--surface2:#161616;--border:#222;
+  --accent:#c8ff00;--accent2:#ff4d00;--accent3:#00d4ff;
+  --text:#fff;--muted:#aaa;--sub:#ccc;
+  --safe:#00ff88;--danger:#ff3333;--warn:#ffb800;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.5;overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.15) 2px,rgba(0,0,0,.15) 4px);pointer-events:none;z-index:9999}
+
+/* HEADER */
+.site-header{position:relative;padding:24px 32px 20px;border-top:3px solid var(--accent);border-bottom:1px solid var(--border);background:var(--surface)}
+.site-header .watermark{position:absolute;right:16px;top:50%;transform:translateY(-50%) rotate(90deg);font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:4px;color:rgba(200,255,0,.15);pointer-events:none;white-space:nowrap}
+.header-top{display:flex;align-items:baseline;gap:16px;margin-bottom:6px}
+.header-top h1{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--accent)}
+.header-top .datestamp{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted)}
+.header-sub{font-size:12px;color:var(--muted);letter-spacing:1px}
+
+/* SECTIONS */
+.section{padding:24px 32px;border-bottom:1px solid var(--border)}
+.section-label{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
+
+/* CARDS GRID */
+.cards-grid{display:grid;gap:1px;background:var(--border)}
+.cards-grid.col2{grid-template-columns:1fr 1fr}
+.cards-grid.col3{grid-template-columns:repeat(3,1fr)}
+.cards-grid.col4{grid-template-columns:repeat(4,1fr)}
+.card{background:var(--surface);padding:18px;border-left:3px solid var(--accent)}
+.card.accent2{border-left-color:var(--accent2)}
+.card.accent3{border-left-color:var(--accent3)}
+.card.safe{border-left-color:var(--safe)}
+.card.danger-card{border-left-color:var(--danger)}
+
+/* FUTURES INTEL */
+.futures-price{font-family:'Space Mono',monospace;font-size:36px;font-weight:700;color:var(--text);margin-bottom:4px}
+.futures-change{font-family:'Space Mono',monospace;font-size:13px}
+.futures-change.up{color:var(--safe)}
+.futures-change.down{color:var(--danger)}
+.pivot-table{width:100%;border-collapse:collapse;margin-top:14px;font-family:'Space Mono',monospace;font-size:11px}
+.pivot-table th{color:var(--muted);font-weight:400;text-align:left;padding:4px 6px;border-bottom:1px solid var(--border);letter-spacing:2px}
+.pivot-table td{padding:5px 6px;border-bottom:1px solid rgba(255,255,255,.04)}
+.pivot-table tr.pp td{background:rgba(255,77,0,.12);color:var(--accent2);font-weight:700}
+.pivot-table .r-level{color:var(--accent)}
+.pivot-table .s-level{color:var(--accent3)}
+.pivot-note{font-size:10px;color:var(--muted);margin-top:8px;font-family:'Space Mono',monospace}
+
+/* MARKET TILES */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.tile{background:var(--surface2);padding:14px 16px}
+.tile-sym{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;color:var(--muted);margin-bottom:4px}
+.tile-price{font-family:'Space Mono',monospace;font-size:18px;font-weight:700}
+.tile-chg{font-family:'Space Mono',monospace;font-size:12px;margin-top:2px}
+.tile-chg.up{color:var(--safe)}
+.tile-chg.down{color:var(--danger)}
+.tile-chg.flat{color:var(--muted)}
+
+/* HEATMAP */
+.heatmap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
+.heat-cell{background:var(--surface);padding:12px;text-align:center}
+.heat-name{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:1px;color:var(--muted);margin-bottom:4px}
+.heat-val{font-family:'Space Mono',monospace;font-size:14px;font-weight:700}
+
+/* CALENDAR TABLE */
+.data-table{width:100%;border-collapse:collapse;font-size:12px}
+.data-table th{font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:11px;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
+.data-table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.04);font-family:'Space Mono',monospace;font-size:11px}
+.chip{display:inline-block;padding:2px 8px;border-radius:2px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:1px}
+.chip.high{background:rgba(255,51,51,.2);color:var(--danger)}
+.chip.med{background:rgba(255,184,0,.2);color:var(--warn)}
+.chip.low{background:rgba(170,170,170,.15);color:var(--muted)}
+.chip.long{background:rgba(0,255,136,.15);color:var(--safe)}
+.chip.short{background:rgba(255,51,51,.15);color:var(--danger)}
+.chip.p1{background:rgba(255,77,0,.2);color:var(--accent2)}
+.chip.p2{background:rgba(0,212,255,.15);color:var(--accent3)}
+.chip.p3{background:rgba(170,170,170,.1);color:var(--muted)}
+.chip.bull{background:rgba(0,255,136,.15);color:var(--safe)}
+.chip.bear{background:rgba(255,51,51,.15);color:var(--danger)}
+.chip.event{background:rgba(255,77,0,.2);color:var(--accent2)}
+.chip.choppy{background:rgba(255,184,0,.15);color:var(--warn)}
+.chip.mixed{background:rgba(170,170,170,.1);color:var(--muted)}
+
+/* REGIME */
+.regime-bar{display:flex;align-items:center;gap:16px;margin-bottom:18px}
+.regime-label{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px}
+.advisory-body{color:var(--sub);line-height:1.8;font-size:14px}
+.advisory-body p{margin-bottom:12px}
+
+/* TRADE TABLE */
+.trade-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.filter-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:2px;padding:5px 14px;cursor:pointer;border-radius:2px;transition:all .15s}
+.filter-btn.active,.filter-btn:hover{background:var(--accent);color:var(--black);border-color:var(--accent)}
+#trade-table td{vertical-align:top}
+#trade-table tr.p1-row{border-left:3px solid var(--accent2)}
+#trade-table tr.p2-row{border-left:3px solid var(--accent3)}
+#trade-table tr.p3-row{border-left:3px solid var(--border)}
+.sortable{cursor:pointer;user-select:none}
+.sortable:hover{color:var(--accent)}
+
+/* NEWS */
+.news-list{display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.news-item{background:var(--surface);padding:14px 18px;display:flex;flex-direction:column;gap:4px}
+.news-hl{font-size:13px;color:var(--text);line-height:1.4}
+.news-hl a{color:inherit;text-decoration:none}
+.news-hl a:hover{color:var(--accent)}
+.news-meta{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)}
+
+/* FOOTER */
+footer{padding:20px 32px;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:3px;color:var(--muted);border-top:1px solid var(--border)}
+
+/* HIVE ALERT */
+.hive-alert{background:rgba(200,255,0,.06);border:1px solid rgba(200,255,0,.2);border-left:4px solid var(--accent);padding:12px 18px;margin-bottom:16px;font-size:13px}
+.hive-alert strong{color:var(--accent)}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="watermark">CLASSIFIED · SHADOW MONKEY INTEL · CLASSIFIED</div>
+  <div class="header-top">
+    <h1>Morning Market Monitor</h1>
+    <span class="datestamp">MON · 2026-08-18 · 2026-W34</span>
+  </div>
+  <div class="header-sub">SHADOW MONKEY INTEL · MONKEY MATTERS LLC · AUTO-GENERATED 21:48 UTC</div>
+</header>
+
+<!-- 01 MARKET OVERVIEW -->
+<section class="section">
+  <div class="section-label"><span>01 — MARKET OVERVIEW</span></div>
+
+  <div class="hive-alert">
+    <strong>⚡ HIVE ALERT:</strong> HIVE Digital Technologies (HIVE) +14.13% to $3.07 today — top 5 most active. BTC proxy via IBIT +2.22%. Crypto mining sector catching a bid. Monitor for continuation above $3.20.
+  </div>
+
+  <div class="tiles">
+    <div class="tile">
+      <div class="tile-sym">SPY</div>
+      <div class="tile-price">$772.66</div>
+      <div class="tile-chg down">-$3.68 / -0.47%</div>
+    </div>
+    <div class="tile">
+      <div class="tile-sym">QQQ</div>
+      <div class="tile-price">~$509</div>
+      <div class="tile-chg down">~-0.51% (TQQQ proxy)</div>
+    </div>
+    <div class="tile">
+      <div class="tile-sym">VIX</div>
+      <div class="tile-price" style="color:var(--warn)">~20</div>
+      <div class="tile-chg flat">CHOPPY REGIME</div>
+    </div>
+    <div class="tile">
+      <div class="tile-sym">NVDA</div>
+      <div class="tile-price">$225.01</div>
+      <div class="tile-chg flat">-$0.15 / -0.07%</div>
+    </div>
+    <div class="tile">
+      <div class="tile-sym">IBIT</div>
+      <div class="tile-price">$36.42</div>
+      <div class="tile-chg up">+$0.79 / +2.22%</div>
+    </div>
+    <div class="tile">
+      <div class="tile-sym">HIVE</div>
+      <div class="tile-price" style="color:var(--accent)">$3.07</div>
+      <div class="tile-chg up">+$0.38 / +14.13% 🔥</div>
+    </div>
+    <div class="tile">
+      <div class="tile-sym">MU</div>
+      <div class="tile-price">$1,011.75</div>
+      <div class="tile-chg up">+$40.09 / +4.13%</div>
+    </div>
+    <div class="tile">
+      <div class="tile-sym">INTC</div>
+      <div class="tile-price">$103.49</div>
+      <div class="tile-chg up">+$0.99 / +0.97%</div>
+    </div>
+  </div>
+
+  <div style="margin-top:8px;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)">
+    * QQQ/VIX estimated from TQQQ/SQQQ proxy. Live futures (ES/NQ) and VIX require FMP Premium upgrade. Data sourced from FMP free tier + most-active feed.
+  </div>
+</section>
+
+<!-- 02 SECTOR HEATMAP -->
+<section class="section">
+  <div class="section-label"><span>02 — SECTOR HEATMAP</span></div>
+  <div class="heatmap">
+    <div class="heat-cell" style="background:rgba(0,255,136,.08)">
+      <div class="heat-name">Industrials</div>
+      <div class="heat-val" style="color:var(--safe)">+1.88%</div>
+    </div>
+    <div class="heat-cell" style="background:rgba(0,255,136,.08)">
+      <div class="heat-name">Healthcare</div>
+      <div class="heat-val" style="color:var(--safe)">+1.53%</div>
+    </div>
+    <div class="heat-cell" style="background:rgba(0,255,136,.06)">
+      <div class="heat-name">Energy</div>
+      <div class="heat-val" style="color:var(--safe)">+0.99%</div>
+    </div>
+    <div class="heat-cell" style="background:rgba(170,170,170,.04)">
+      <div class="heat-name">Technology</div>
+      <div class="heat-val" style="color:var(--muted)">-0.08%</div>
+    </div>
+    <div class="heat-cell" style="background:rgba(255,184,0,.06)">
+      <div class="heat-name">Fin. Services</div>
+      <div class="heat-val" style="color:var(--warn)">-0.73%</div>
+    </div>
+    <div class="heat-cell" style="background:rgba(255,184,0,.04)">
+      <div class="heat-name">Real Estate</div>
+      <div class="heat-val" style="color:var(--warn)">-0.47%</div>
+    </div>
+    <div class="heat-cell" style="background:rgba(170,170,170,.04)">
+      <div class="heat-name">Con. Defensive</div>
+      <div class="heat-val" style="color:var(--muted)">-0.15%</div>
+    </div>
+    <div class="heat-cell" style="background:rgba(255,51,51,.08)">
+      <div class="heat-name">Basic Materials</div>
+      <div class="heat-val" style="color:var(--danger)">-1.01%</div>
+    </div>
+    <div class="heat-cell" style="background:rgba(255,51,51,.08)">
+      <div class="heat-name">Con. Cyclical</div>
+      <div class="heat-val" style="color:var(--danger)">-1.17%</div>
+    </div>
+    <div class="heat-cell" style="background:rgba(255,51,51,.1)">
+      <div class="heat-name">Utilities</div>
+      <div class="heat-val" style="color:var(--danger)">-1.23%</div>
+    </div>
+    <div class="heat-cell" style="background:rgba(255,51,51,.12)">
+      <div class="heat-name">Comm. Services</div>
+      <div class="heat-val" style="color:var(--danger)">-1.69%</div>
+    </div>
+    <div class="heat-cell" style="background:rgba(200,255,0,.06)">
+      <div class="heat-name">Crypto/Mining</div>
+      <div class="heat-val" style="color:var(--accent)">+HIVE +14%</div>
+    </div>
+  </div>
+  <div style="margin-top:8px;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)">Sector data: NASDAQ average change, Aug 17 2026 close. Monday Aug 18 intraday sectors pending market close.</div>
+</section>
+
+<!-- 03 EARNINGS RADAR -->
+<section class="section">
+  <div class="section-label"><span>03 — EARNINGS RADAR</span></div>
+  <div class="cards-grid col2">
+    <div class="card">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:var(--muted);margin-bottom:10px">BMO — BEFORE MARKET OPEN</div>
+      <table class="data-table">
+        <tr><th>SYMBOL</th><th>EPS EST</th><th>REV EST</th></tr>
+        <tr><td>BIDU</td><td>$1.51</td><td>$4.68B</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:var(--muted);margin-bottom:10px">AMC — AFTER MARKET CLOSE</div>
+      <div style="color:var(--muted);font-size:12px;font-family:'Space Mono',monospace">No earnings scheduled</div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 ADVISORY -->
+<section class="section">
+  <div class="section-label"><span>04 — SHADOW MONKEY ADVISORY</span></div>
+  <div class="regime-bar">
+    <span class="regime-label" style="color:var(--warn)">CHOPPY</span>
+    <span class="chip choppy">MIXED SIGNALS</span>
+    <span class="chip choppy">BIAS: NEUTRAL → DEFENSIVE</span>
+  </div>
+
+  <div class="advisory-body">
+    <p>Monday opens with a split tape. SPY is pulling back -0.47% off Friday's close, but the action underneath is more interesting than the headline number. <strong style="color:var(--accent)">Sector rotation is the story</strong> — Industrials and Healthcare leading (+1.88%, +1.53%) while Communication Services gets hit hardest (-1.69%). This is not a risk-off panic; it is a reallocation. Capital rotating from growth/communications into defensive growth and hard-asset-adjacent sectors (Industrials, Healthcare, Energy). The tape is not breaking down — it is sorting itself out.</p>
+
+    <p>The crypto signal is the highest-conviction read this morning. IBIT +2.22%, HIVE +14.13%, MARA +5.60%, KEEL (Bitfarms) +7.41% — the entire crypto mining complex is running. This is not sympathy noise; when miners rip together on a down-SPY day, it signals BTC spot accumulation from institutional hands. <strong style="color:var(--safe)">Watch BTC for a breakout attempt</strong>. HIVE specifically: your position (10,000 post-split shares, cost basis $3.60) is approaching breakeven on a +14% day. This is the setup the thesis was built for — monitor for continuation above $3.20 with volume confirmation.</p>
+
+    <p>Key risk on the radar: BIDU reports BMO — any miss on the $1.51 EPS estimate could add pressure to Communication Services and bleed into broad risk sentiment. MU's +4.13% to $1,011 is a semiconductor signal worth tracking — if semis hold into close while SPY stays weak, that is a RAMP confirmation (AI/Quantum sleeve). The macro calendar is light today which means the tape will trade on technicals and positioning. Keep size small, let the morning setup breathe. Survive first. Compound second. Legacy third.</p>
+  </div>
+</section>
+
+<!-- 05 TRADE IDEAS -->
+<section class="section">
+  <div class="section-label"><span>05 — TRADE IDEAS</span></div>
+
+  <div class="trade-filters">
+    <button class="filter-btn active" onclick="filterTrades('all')">ALL</button>
+    <button class="filter-btn" onclick="filterTrades('p1')">PRIORITY 1</button>
+    <button class="filter-btn" onclick="filterTrades('long')">LONG</button>
+    <button class="filter-btn" onclick="filterTrades('short')">SHORT</button>
+    <button class="filter-btn" onclick="filterTrades('intraday')">INTRADAY</button>
+    <button class="filter-btn" onclick="filterTrades('swing')">SWING</button>
+  </div>
+
+  <table class="data-table" id="trade-table">
+    <thead>
+      <tr>
+        <th>PRI</th><th>INSTRUMENT</th><th>DIR</th><th>SETUP</th>
+        <th>ENTRY</th><th>STOP</th><th>TARGET</th><th>R:R</th>
+        <th>HORIZON</th><th>CATALYST</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="p1-row" data-priority="p1" data-dir="long" data-horizon="swing">
+        <td><span class="chip p1">P1</span></td>
+        <td><strong>HIVE</strong></td>
+        <td><span class="chip long">LONG</span></td>
+        <td>Trend_Continuation</td>
+        <td>$3.20 pullback</td><td>$2.85</td><td>$4.10</td><td>2.57</td>
+        <td>SWING</td>
+        <td>BTC mining complex breakout; IBIT +2.2%, miners confirming BTC accumulation. L002 applied: wait for OR consolidation not open gap chase.</td>
+      </tr>
+      <tr class="p1-row" data-priority="p1" data-dir="long" data-horizon="swing">
+        <td><span class="chip p1">P1</span></td>
+        <td><strong>MU</strong></td>
+        <td><span class="chip long">LONG</span></td>
+        <td>VWAP_Reclaim</td>
+        <td>VWAP ~$1,005</td><td>$985</td><td>$1,065</td><td>3.00</td>
+        <td>SWING</td>
+        <td>Semi strength on down-SPY day is institutional tell. RAMP AI sleeve confirmation. Entry: VWAP hold after morning flush.</td>
+      </tr>
+      <tr class="p2-row" data-priority="p2" data-dir="long" data-horizon="intraday">
+        <td><span class="chip p2">P2</span></td>
+        <td><strong>XLI</strong></td>
+        <td><span class="chip long">LONG</span></td>
+        <td>Sector_Leader_Long</td>
+        <td>OR break high</td><td>OR low</td><td>OR high + 1.5× range</td><td>1.50</td>
+        <td>INTRADAY</td>
+        <td>Industrials +1.88% leading. If market stabilizes, XLI continuation. L002: skip if gap > OR range at open.</td>
+      </tr>
+      <tr class="p2-row" data-priority="p2" data-dir="short" data-horizon="intraday">
+        <td><span class="chip p2">P2</span></td>
+        <td><strong>SNAP</strong></td>
+        <td><span class="chip short">SHORT</span></td>
+        <td>Sector_Weakness_Short</td>
+        <td>$5.35 rejection</td><td>$5.55</td><td>$4.90</td><td>2.25</td>
+        <td>INTRADAY</td>
+        <td>Comm Services weakest sector (-1.69%). SNAP -4.07% leading the decline. Fade any bounce.</td>
+      </tr>
+      <tr class="p2-row" data-priority="p2" data-dir="long" data-horizon="swing">
+        <td><span class="chip p2">P2</span></td>
+        <td><strong>IBIT</strong></td>
+        <td><span class="chip long">LONG</span></td>
+        <td>Momentum_Long</td>
+        <td>$36.50 pullback</td><td>$35.20</td><td>$39.00</td><td>1.92</td>
+        <td>SWING</td>
+        <td>BTC ETF +2.22% on risk-off equity day. Decoupling from equities is bullish for BTC. Size moderate — HIVE is the higher-beta play.</td>
+      </tr>
+      <tr class="p3-row" data-priority="p3" data-dir="short" data-horizon="intraday">
+        <td><span class="chip p3">P3</span></td>
+        <td><strong>BIDU</strong></td>
+        <td><span class="chip short">SHORT</span></td>
+        <td>Earnings_Miss_Short</td>
+        <td>Below $—</td><td>Above print</td><td>—</td><td>—</td>
+        <td>INTRADAY</td>
+        <td>Reports BMO. EPS est $1.51. Watch-only: if miss + China macro headwinds, fade the bounce. L001 applied: no straddle — insufficient options liquidity data.</td>
+      </tr>
+      <tr class="p3-row" data-priority="p3" data-dir="long" data-horizon="swing">
+        <td><span class="chip p3">P3</span></td>
+        <td><strong>XLV</strong></td>
+        <td><span class="chip long">LONG</span></td>
+        <td>Defensive_Rotation</td>
+        <td>Market order pullback</td><td>-1.5% from entry</td><td>+4% from entry</td><td>2.67</td>
+        <td>SWING</td>
+        <td>Healthcare +1.53% on defensive rotation. If choppy regime extends, defensive leadership continues. Low priority — wait for better entry.</td>
+      </tr>
+    </tbody>
+  </table>
+</section>
+
+<!-- 06 INTELLIGENCE FEED -->
+<section class="section">
+  <div class="section-label"><span>06 — INTELLIGENCE FEED</span></div>
+  <div class="news-list">
+    <div class="news-item">
+      <div class="news-hl">HIVE Digital Technologies surges 14% — crypto mining complex catches institutional bid alongside BTC ETF (IBIT +2.2%) on otherwise red equity tape</div>
+      <div class="news-meta">FMP MOST-ACTIVE FEED · 2026-08-18 · HIVE $3.07</div>
+    </div>
+    <div class="news-item">
+      <div class="news-hl">Micron Technology (MU) +4.13% to $1,011 — semiconductor outperformance on down-SPY session signals institutional accumulation ahead of AI memory demand cycle</div>
+      <div class="news-meta">FMP MARKET DATA · 2026-08-18</div>
+    </div>
+    <div class="news-item">
+      <div class="news-hl">Baidu (BIDU) reports earnings BMO — EPS estimate $1.51, revenue estimate $4.68B. China tech sentiment and BIDU results will set Communication Services tone today</div>
+      <div class="news-meta">FMP EARNINGS CALENDAR · 2026-08-18</div>
+    </div>
+    <div class="news-item">
+      <div class="news-hl">Sector rotation in force: Industrials +1.88%, Healthcare +1.53%, Energy +0.99% lead while Communication Services -1.69%, Utilities -1.23%, Consumer Cyclical -1.17% lag</div>
+      <div class="news-meta">FMP SECTOR DATA · NASDAQ · 2026-08-17 CLOSE</div>
+    </div>
+    <div class="news-item">
+      <div class="news-hl">SPY -0.47% in mild pullback from recent highs — TQQQ -0.51% confirms tech underperformance. Choppy tape favors defined-risk setups and sector leaders over index directional bets</div>
+      <div class="news-meta">FMP MARKET DATA · 2026-08-18</div>
+    </div>
+    <div class="news-item">
+      <div class="news-hl">argenx (ARGX) +16% to $987 — biotech breakout confirms Healthcare sector strength. Monitor for sector sympathy plays in XLV and large-cap biotech</div>
+      <div class="news-meta">FMP BIGGEST GAINERS · 2026-08-18</div>
+    </div>
+  </div>
+</section>
+
+<footer>SHADOW MONKEY INTEL · MONKEY MATTERS LLC · MON 2026-08-18 · 2026-W34 · PIPELINE AUTO-GENERATED</footer>
+
+<script>
+function filterTrades(f){
+  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.querySelectorAll('#trade-table tbody tr').forEach(row=>{
+    const show = f==='all' ||
+      (f==='p1' && row.dataset.priority==='p1') ||
+      (f==='long' && row.dataset.dir==='long') ||
+      (f==='short' && row.dataset.dir==='short') ||
+      (f==='intraday' && row.dataset.horizon==='intraday') ||
+      (f==='swing' && row.dataset.horizon==='swing');
+    row.style.display = show ? '' : 'none';
+  });
+}
+</script>
+</body>
+</html>
