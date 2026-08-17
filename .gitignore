@@ -1,0 +1,24 @@
+# ── SECRETS — never commit ────────────────────────────────
+.env
+.env.*
+!.env.example
+*.key
+.secrets/
+
+# ── OS / editor noise ─────────────────────────────────────
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ── Python ────────────────────────────────────────────────
+__pycache__/
+*.pyc
+.venv/
+venv/
+
+# ── HHH portfolio intel — personal data, never commit ─────
+hhh/hhh_config.json
+hhh/manual_accounts.json
+hhh/ratings.json
+hhh/analysis.json
+hhh/HHH_Latest.html

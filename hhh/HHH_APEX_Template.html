@@ -1,0 +1,1609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HEDGE HOG HOLDINGS // APEX PORTFOLIO INTEL</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --black: #080808;
+    --surface: #0f0f0f;
+    --surface2: #161616;
+    --border: #222;
+    --accent: #c8ff00;
+    --accent2: #ff4d00;
+    --accent3: #00d4ff;
+    --text: #e8e8e0;
+    --muted: #666;
+    --danger: #ff3333;
+    --safe: #00ff88;
+    /* validated chart palette (dark surface #0f0f0f) */
+    --c1: #7a9900;  /* lime      */
+    --c2: #0099bd;  /* cyan      */
+    --c3: #e84f00;  /* orange    */
+    --c4: #9a55e8;  /* violet    */
+    --c5: #d6408c;  /* magenta   */
+    --c6: #998200;  /* gold      */
+    --c7: #5c7fbd;  /* slate     */
+    --barpos: #00b368;
+    --barneg: #e0442e;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* SCANLINE OVERLAY */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg, transparent, transparent 2px,
+      rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none;
+    z-index: 1000;
+  }
+
+  .container { max-width: 1100px; margin: 0 auto; padding: 0 32px; }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 48px 0 36px;
+    position: relative;
+    overflow: hidden;
+  }
+  header::after {
+    content: 'CLASSIFIED';
+    position: absolute; right: -20px; top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; color: var(--accent2);
+    letter-spacing: 8px; opacity: 0.4;
+  }
+  .classification-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin-bottom: 24px; }
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 3px; text-transform: uppercase;
+    padding: 3px 8px; border: 1px solid;
+  }
+  .tag-red   { border-color: var(--accent2); color: var(--accent2); }
+  .tag-green { border-color: var(--accent);  color: var(--accent);  }
+  .tag-blue  { border-color: var(--accent3); color: var(--accent3); }
+  .tag-muted { border-color: var(--muted);   color: var(--muted);   }
+
+  h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(52px, 8vw, 88px);
+    line-height: 0.92; letter-spacing: 2px; color: var(--text);
+  }
+  h1 span { color: var(--accent); }
+  .subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px; color: var(--muted);
+    letter-spacing: 4px; margin-top: 16px; text-transform: uppercase;
+  }
+
+  .meta-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--border); margin-top: 32px; }
+  .meta-cell { background: var(--surface); padding: 14px 16px; }
+  .meta-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+  .meta-value { font-family: 'Space Mono', monospace; font-size: 15px; color: var(--accent); }
+  .meta-value.red { color: var(--danger); } .meta-value.green { color: var(--safe); }
+  .meta-sub { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 2px; }
+
+  /* NAV */
+  nav {
+    position: sticky; top: 0; z-index: 500;
+    background: rgba(8,8,8,0.96);
+    border-bottom: 1px solid var(--border);
+    backdrop-filter: blur(4px);
+  }
+  nav .nav-wrap {
+    max-width: 1100px; margin: auto;
+    display: flex; flex-wrap: wrap; gap: 4px;
+    padding: 8px 32px; justify-content: flex-start;
+  }
+  nav a {
+    font-family: 'Space Mono', monospace;
+    color: var(--muted); text-decoration: none;
+    padding: 4px 10px; font-size: 9px;
+    letter-spacing: 2px; text-transform: uppercase;
+    border: 1px solid transparent;
+  }
+  nav a:hover { color: var(--accent); border-color: var(--border); }
+
+  /* SECTIONS */
+  section { padding: 56px 0; border-bottom: 1px solid var(--border); }
+  .section-header { display: flex; align-items: baseline; gap: 16px; margin-bottom: 36px; }
+  .section-num { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--accent2); letter-spacing: 2px; }
+  h2 { font-family: 'Bebas Neue', sans-serif; font-size: 36px; letter-spacing: 2px; color: var(--text); }
+  h3 { font-family: 'Space Mono', monospace; font-size: 13px; color: var(--accent); letter-spacing: 2px; text-transform: uppercase; margin: 28px 0 12px; }
+  p { margin-bottom: 16px; color: #b0b0a8; }
+  .mono-note { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); letter-spacing: 1px; margin-top: 8px; }
+
+  /* TABLES */
+  table { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 11px; margin: 20px 0; }
+  thead tr { background: var(--surface2); }
+  th { text-align: left; padding: 10px 12px; color: var(--muted); letter-spacing: 2px; font-weight: 400; border-bottom: 1px solid var(--border); font-size: 10px; text-transform: uppercase; }
+  th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
+  td { padding: 10px 12px; border-bottom: 1px solid var(--border); color: var(--text); }
+  tr:hover td { background: var(--surface2); }
+  td.accent { color: var(--accent); } td.orange { color: var(--accent2); } td.blue { color: var(--accent3); }
+  td.green, .green { color: var(--safe); } td.red, .red { color: var(--danger); } td.muted { color: var(--muted); }
+  .scroll-x { overflow-x: auto; }
+
+  /* ALERTS */
+  .alert { border-left: 3px solid; padding: 16px 20px; margin: 20px 0; background: var(--surface); }
+  .alert-danger  { border-color: var(--danger); }
+  .alert-warning { border-color: var(--accent2); }
+  .alert-info    { border-color: var(--accent3); }
+  .alert-success { border-color: var(--safe); }
+  .alert-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; margin-bottom: 6px; }
+  .alert-danger  .alert-label { color: var(--danger); }
+  .alert-warning .alert-label { color: var(--accent2); }
+  .alert-info    .alert-label { color: var(--accent3); }
+  .alert-success .alert-label { color: var(--safe); }
+  .alert p { margin: 0; font-size: 13px; }
+
+  /* ACCOUNT GAUGE CARDS */
+  .account-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1px; background: var(--border); margin: 24px 0; }
+  .account-card { background: var(--surface); padding: 24px; position: relative; }
+  .account-card::before { content: ''; position: absolute; top: 0; left: 0; width: 3px; height: 100%; background: var(--card-accent, var(--accent)); }
+  .account-title { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; display: flex; align-items: center; gap: 8px; }
+  .swatch { width: 10px; height: 10px; display: inline-block; }
+  .gauge-wrap { display: flex; align-items: center; gap: 20px; margin: 12px 0 8px; }
+  .gauge-label { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; text-align: center; margin-top: 2px; }
+  .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 7px 0; border-bottom: 1px solid var(--border); }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); }
+  .stat-value { font-family: 'Space Mono', monospace; font-size: 12px; color: var(--text); }
+  .stat-value.green { color: var(--safe); } .stat-value.red { color: var(--danger); }
+  .stat-value.accent { color: var(--accent); } .stat-value.orange { color: var(--accent2); }
+
+  /* CHART BLOCKS */
+  .chart-block { background: var(--surface); border: 1px solid var(--border); padding: 20px; margin: 20px 0; }
+  .chart-title { font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; margin-bottom: 16px; }
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin: 20px 0; align-items: stretch; }
+  .legend { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 14px; }
+  .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Space Mono', monospace; font-size: 10px; color: #999; letter-spacing: 1px; }
+  .legend-swatch { width: 10px; height: 10px; flex: none; }
+
+  /* TREEMAP */
+  .treemap { position: relative; width: 100%; height: 380px; background: var(--black); }
+  .tm-cell {
+    position: absolute; overflow: hidden; cursor: default;
+    border: 2px solid var(--surface); /* 2px surface gap between fills */
+    display: flex; flex-direction: column; justify-content: flex-start;
+    padding: 6px 8px;
+  }
+  .tm-sym { font-family: 'Space Mono', monospace; font-size: 11px; font-weight: 700; color: #0a0a0a; line-height: 1.2; }
+  .tm-val { font-family: 'Space Mono', monospace; font-size: 9px; color: rgba(10,10,10,0.75); line-height: 1.2; }
+
+  /* HBARS */
+  .hbar-chart { margin: 8px 0; }
+  .hbar-row { display: grid; grid-template-columns: 150px 1fr 90px; align-items: center; gap: 10px; padding: 3px 0; }
+  .hbar-label { font-family: 'Space Mono', monospace; font-size: 10px; color: #999; letter-spacing: 1px; text-align: right; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .hbar-track { position: relative; height: 16px; }
+  .hbar-axis { position: absolute; top: -4px; bottom: -4px; width: 1px; background: #333; }
+  .hbar-fill { position: absolute; top: 2px; height: 12px; border-radius: 0 4px 4px 0; }
+  .hbar-fill.neg { border-radius: 4px 0 0 4px; }
+  .hbar-value { font-family: 'Space Mono', monospace; font-size: 10px; text-align: left; font-variant-numeric: tabular-nums; }
+
+  /* RISK RADAR / RULE LIST */
+  .rule-list { display: grid; gap: 1px; background: var(--border); margin: 20px 0; }
+  .rule-item { background: var(--surface); padding: 14px 20px; display: grid; grid-template-columns: 24px 1fr auto; align-items: center; gap: 16px; }
+  .rule-check { font-family: 'Space Mono', monospace; font-size: 12px; }
+  .rule-check.pass { color: var(--safe); } .rule-check.warn { color: var(--accent2); } .rule-check.fail { color: var(--danger); }
+  .rule-text { font-size: 13px; color: #aaa; }
+  .rule-text b { color: var(--text); font-weight: 500; }
+  .rule-badge { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; padding: 2px 8px; border: 1px solid; text-transform: uppercase; }
+  .rule-badge.critical  { border-color: var(--danger); color: var(--danger); }
+  .rule-badge.important { border-color: var(--accent2); color: var(--accent2); }
+  .rule-badge.standard  { border-color: var(--muted); color: var(--muted); }
+  .rule-badge.pass      { border-color: var(--safe); color: var(--safe); }
+
+  /* METER (capacity bars in risk radar) */
+  .meter { margin: 14px 0; }
+  .meter-head { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 10px; letter-spacing: 1px; color: #999; margin-bottom: 5px; }
+  .meter-track { position: relative; height: 12px; background: var(--surface2); border: 1px solid var(--border); }
+  .meter-fill { position: absolute; top: 2px; left: 2px; bottom: 2px; border-radius: 0 3px 3px 0; }
+  .meter-cap { position: absolute; top: -4px; bottom: -4px; width: 2px; background: var(--danger); }
+
+  /* STATUS CHIPS */
+  .chip { display: inline-block; font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; text-transform: uppercase; padding: 2px 8px; border: 1px solid; }
+  .chip-protect { border-color: var(--safe); color: var(--safe); }
+  .chip-repair  { border-color: var(--danger); color: var(--danger); }
+  .chip-watch   { border-color: var(--accent2); color: var(--accent2); }
+  .chip-hold    { border-color: var(--muted); color: var(--muted); }
+
+  /* ACCOUNT SECTION HEADS */
+  .acct-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 16px; }
+  .acct-head .val { font-family: 'Space Mono', monospace; font-size: 15px; color: var(--text); }
+  .acct-head .day { font-family: 'Space Mono', monospace; font-size: 12px; }
+
+  .highlight-box {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 16px 20px; margin: 16px 0;
+    font-family: 'Space Mono', monospace; font-size: 12px; color: var(--text); line-height: 1.8;
+  }
+
+  /* TOOLTIP */
+  #tooltip {
+    position: fixed; z-index: 2000; pointer-events: none; display: none;
+    background: var(--surface2); border: 1px solid var(--accent);
+    font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text);
+    padding: 8px 10px; letter-spacing: 1px; line-height: 1.6; max-width: 260px;
+  }
+  #tooltip .tt-title { color: var(--accent); font-weight: 700; }
+  #tooltip .tt-muted { color: var(--muted); }
+
+  /* FOOTER */
+  footer { padding: 40px 0; display: flex; justify-content: space-between; align-items: center; }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 24px; color: var(--muted); letter-spacing: 4px; }
+  .footer-meta { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 2px; text-align: right; line-height: 1.8; }
+
+  .citations { padding: 32px 0; }
+  .cite-item { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--muted); padding: 8px 0; border-bottom: 1px solid #111; line-height: 1.6; }
+  .cite-item a { color: var(--accent3); text-decoration: none; }
+
+  @media (max-width: 760px) {
+    .meta-grid { grid-template-columns: repeat(2, 1fr); }
+    .two-col { grid-template-columns: 1fr; }
+    .hbar-row { grid-template-columns: 90px 1fr 80px; }
+    .treemap { height: 300px; }
+  }
+</style>
+</head>
+<body>
+
+<div id="tooltip"></div>
+
+<!-- HEADER -->
+<header>
+  <div class="container">
+    <div class="classification-bar">
+      <span class="tag tag-red">EYES ONLY</span>
+      <span class="tag tag-green">OPERATIVE: SHADOW MONKEY</span>
+      <span class="tag tag-muted">HANDLER: JOE</span>
+      <span class="tag tag-blue" id="tag-generated">GENERATED —</span>
+      <span class="tag tag-muted" id="tag-source">SOURCE: SCHWAB API</span>
+    </div>
+    <h1>HEDGE HOG<br><span>HOLDINGS</span></h1>
+    <p class="subtitle">Portfolio Intelligence // Multi-Account Surveillance // Ticker-Level Insights</p>
+    <div class="meta-grid" id="kpi-grid"><!-- JS --></div>
+  </div>
+</header>
+
+<nav><div class="nav-wrap" id="nav-links"><!-- JS --></div></nav>
+
+<div class="container">
+
+  <!-- 01 OVERVIEW -->
+  <section id="overview">
+    <div class="section-header"><span class="section-num">01</span><h2>PORTFOLIO OVERVIEW</h2></div>
+    <div class="two-col">
+      <div class="chart-block">
+        <div class="chart-title">Allocation by Account</div>
+        <div id="donut-account"></div>
+      </div>
+      <div class="chart-block">
+        <div class="chart-title">Day Move by Account ($)</div>
+        <div id="bars-account-day" class="hbar-chart"></div>
+        <div class="mono-note" id="bars-account-note"></div>
+      </div>
+    </div>
+    <div class="chart-block">
+      <div class="chart-title">Position Treemap — Market Value (color = account)</div>
+      <div class="treemap" id="treemap"></div>
+      <div class="legend" id="treemap-legend"></div>
+    </div>
+  </section>
+
+  <!-- 02 ACCOUNT GAUGES -->
+  <section id="gauges">
+    <div class="section-header"><span class="section-num">02</span><h2>ACCOUNT GAUGES</h2></div>
+    <p>Each account gauged on a 0–100 health score: day momentum, unrealized cushion, position dispersion, and share of positions underwater. The Credit Debt card scores utilization, principal velocity, and APR pressure across all cards; the Cash card gauges dry powder across brokerage sweeps and bank balances. All computed by the on-page rules engine — refreshes with every data injection.</p>
+    <div class="account-grid" id="account-cards"><!-- JS --></div>
+  </section>
+
+  <!-- 03 RISK RADAR -->
+  <section id="risk">
+    <div class="section-header"><span class="section-num">03</span><h2>RISK RADAR</h2></div>
+    <div class="chart-block">
+      <div class="chart-title">Exposure vs Limits</div>
+      <div id="risk-meters"></div>
+    </div>
+    <h3>Compliance Sweep</h3>
+    <div class="rule-list" id="risk-rules"><!-- JS --></div>
+  </section>
+
+  <!-- 04 SPOTLIGHT -->
+  <section id="spotlight">
+    <div class="section-header"><span class="section-num">04</span><h2>SPOTLIGHT — PROTECT &amp; REPAIR</h2></div>
+    <p>Rules-engine triage of the day tape: winners to protect, laggards to repair, everything else on watch. Tactics follow the standing doctrine — trail stops on strength, define risk on weakness, no averaging losers.</p>
+    <div class="scroll-x">
+      <table id="spotlight-table"><!-- JS --></table>
+    </div>
+  </section>
+
+  <!-- ACCOUNT SECTIONS INJECTED HERE -->
+  <div id="account-sections"></div>
+
+  <!-- ADVISORY -->
+  <section id="advisory">
+    <div class="section-header"><span class="section-num" id="advisory-num">—</span><h2>MENTOR MACHINE — ADVISORY</h2></div>
+    <div id="advisory-body"><!-- JS --></div>
+  </section>
+
+  <!-- SOURCES -->
+  <section id="sources">
+    <div class="section-header"><span class="section-num" id="sources-num">—</span><h2>SOURCES</h2></div>
+    <div class="citations" id="citations"><!-- JS --></div>
+    <p class="mono-note">ALWAYS VERIFY LIVE QUOTES BEFORE TRADING. DATA IS A SNAPSHOT AT GENERATION TIME.</p>
+  </section>
+
+  <footer>
+    <div class="footer-logo">SHADOW MONKEY</div>
+    <div class="footer-meta">
+      OPERATIVE: SHADOW MONKEY // HANDLER: JOE<br>
+      ENTITY: MONKEY MATTERS LLC / JVS HOLDINGS LTD<br>
+      HHH PORTFOLIO INTEL // APEX THEME v1.0<br>
+      CLASSIFICATION: EYES ONLY
+    </div>
+  </footer>
+
+</div>
+
+<script>
+/* ================================================================
+   PORTFOLIO_DATA — the single injection point.
+   The Schwab fetcher replaces everything between the START/END
+   markers with fresh JSON. Everything else on the page is computed.
+   ================================================================ */
+/*PORTFOLIO_DATA_START*/
+const PORTFOLIO_DATA = {
+  "meta": {
+    "generated": "Fri, Aug 15, 2025",
+    "source": "Dashboard sheet (sample) \u2014 Schwab API in production",
+    "cryptoAccountNames": [
+      "Crypto"
+    ],
+    "cryptoSleeveCapPct": 30,
+    "singlePositionCapPct": 25
+  },
+  "accounts": [
+    {
+      "name": "Crypto",
+      "kind": "crypto",
+      "positions": [
+        {
+          "symbol": "BTC",
+          "desc": "BTC-USD",
+          "qty": 0.30381623,
+          "price": 119079.24,
+          "mktVal": 36178.21,
+          "dayChg": -804.42,
+          "dayPct": -2.22,
+          "costBasis": 2734.47,
+          "unrlPL": 33443.74,
+          "unrlPct": 1223.04,
+          "rating": "F A- | T A-",
+          "strategy": "Core position \u2014 hold 0.25+ BTC floor in cold custody; trim 10\u201315% at $125K and $140K ladders; re-arm bids at the 21-week EMA."
+        },
+        {
+          "symbol": "ETH",
+          "desc": "ETH-USD",
+          "qty": 3.0865,
+          "price": 4652.72,
+          "mktVal": 14360.62,
+          "dayChg": -295.44,
+          "dayPct": -2.06,
+          "costBasis": 1921.0,
+          "unrlPL": 12439.62,
+          "unrlPct": 647.56,
+          "rating": "F A- | T A-",
+          "strategy": "Hold core; prudent staking only through vetted custody; trim starting $5K; add on $4,200 retests that hold."
+        },
+        {
+          "symbol": "XRP",
+          "desc": "XRP-USD",
+          "qty": 1000.89,
+          "price": 3.12,
+          "mktVal": 3127.67,
+          "dayChg": -127.53,
+          "dayPct": -4.08,
+          "costBasis": 580.51,
+          "unrlPL": 2547.15,
+          "unrlPct": 438.78,
+          "rating": "F C | T C",
+          "strategy": "Reduce into strength \u2014 +439% on basis with C-grade fundamentals; keep a tracker position only if $3.00 holds."
+        },
+        {
+          "symbol": "SXT",
+          "desc": "SXT-USD",
+          "qty": 3000,
+          "price": 0.09,
+          "mktVal": 276.6,
+          "dayChg": 15.78,
+          "dayPct": 5.7,
+          "costBasis": 330.0,
+          "unrlPL": -53.4,
+          "unrlPct": -16.18,
+          "rating": "F D- | T D",
+          "strategy": "Exit candidate \u2014 underwater with no institutional thesis; sell into any pump \u2265 basis, otherwise cut on next sleeve rebalance."
+        },
+        {
+          "symbol": "ADA",
+          "desc": "ADA-USD",
+          "qty": 150.405681,
+          "price": 0.95,
+          "mktVal": 143.44,
+          "dayChg": -6.25,
+          "dayPct": -4.36,
+          "costBasis": 81.22,
+          "unrlPL": 62.22,
+          "unrlPct": 76.61,
+          "rating": "F C- | T C",
+          "strategy": "Consolidate into majors on the next relief bounce; too small to move the sleeve, big enough to leak attention."
+        }
+      ],
+      "analysis": {
+        "technical": "BTC holding the breakout shelf above $112K after printing new highs \u2014 today's -2.2% is a pullback inside an intact uptrend, not distribution. ETH showing relative strength above $4,400 with the $4,200 reclaim level as first support; XRP and ADA trading high-beta to BTC with deeper drawdowns on red days.",
+        "fundamental": "Post-halving supply squeeze plus spot-ETF flows remain the structural bid for BTC; ETH carries the staking-yield and L2-activity story. XRP is a regulatory-clarity trade, ADA a laggard L1, SXT a venture-grade micro-cap with no earnings anchor \u2014 the sleeve's quality is concentrated in its top two holdings.",
+        "guidance": "Sleeve is 48% of portfolio vs the 30% cap \u2014 the mission is controlled reduction into strength, not panic selling. Ladder 10\u201315% profit-takes on BTC/ETH at predefined levels, hedge macro prints (CPI/Fed) with index put spreads, and consolidate the small alts into majors on their next bounce."
+      }
+    },
+    {
+      "name": "Retirement",
+      "kind": "equity",
+      "positions": [
+        {
+          "symbol": "HIVE",
+          "desc": "HIVE DIGITAL TECHNOLOG F",
+          "qty": 10000,
+          "price": 2.25,
+          "mktVal": 22500.0,
+          "dayChg": 200.0,
+          "dayPct": 0.89,
+          "costBasis": 36041.42,
+          "unrlPL": -13541.42,
+          "unrlPct": -37.57,
+          "rating": "F C | T C",
+          "strategy": "Collar: write 1\u20133mo OTM calls to fund OTM puts; trim 10% into any spike over $2.60; full thesis review if HPC revenue guidance slips."
+        }
+      ],
+      "analysis": {
+        "technical": "HIVE basing in the $2.00\u20132.60 range after a long downtrend; today's +0.9% on green BTC confirms the correlation beta. A reclaim of $2.60 opens $3.00; loss of $2.00 invalidates the base.",
+        "fundamental": "HIVE's HPC/AI-datacenter pivot is the recovery thesis layered on top of green-energy BTC mining economics \u2014 but at -37.6% on a $36K basis, this is a single-name sleeve carrying the entire retirement bucket's risk.",
+        "guidance": "Collar the position: write 1\u20133 month OTM calls to finance OTM puts, capping downside while the base builds. If BTC correlation spikes the volatility, use strength to begin diversifying the sleeve \u2014 retirement capital should not live on one ticker's turnaround."
+      }
+    },
+    {
+      "name": "Trust",
+      "kind": "equity",
+      "positions": [
+        {
+          "symbol": "BTC",
+          "desc": "GRAYSCALE BITCOIN MINI TRUST ETF",
+          "qty": 40,
+          "price": 52.27,
+          "mktVal": 2090.8,
+          "dayChg": -86.8,
+          "dayPct": -3.99,
+          "costBasis": 0.0,
+          "unrlPL": 2090.8,
+          "unrlPct": 100.0,
+          "rating": "F B+ | T B",
+          "strategy": "Hold \u2014 lowest-fee BTC wrapper; destination vehicle for future GBTC migration tranches."
+        },
+        {
+          "symbol": "GBTC",
+          "desc": "GRAYSCALE BITCOIN TRUST ETF",
+          "qty": 200,
+          "price": 92.75,
+          "mktVal": 18550.0,
+          "dayChg": -770.0,
+          "dayPct": -3.99,
+          "costBasis": 2222.0,
+          "unrlPL": 16328.0,
+          "unrlPct": 734.83,
+          "rating": "F B | T B",
+          "strategy": "Migrate to Mini in annual tax-budgeted tranches; never all at once \u2014 the 735% embedded gain is the constraint."
+        }
+      ],
+      "analysis": {
+        "technical": "Both units track spot BTC one-for-one \u2014 today's -4.0% is pure beta. No independent technicals beyond BTC's own levels ($112K support, $125K measured move).",
+        "fundamental": "GBTC's 1.5% fee vs BTC Mini's 0.15% is a permanent 135bps annual drag on the larger holding. The +735% embedded gain makes a full swap a taxable event \u2014 fee savings vs realized-gain cost is the real math, inside the trust's tax posture.",
+        "guidance": "Hold the exposure; migrate GBTC into the Mini in measured annual tranches sized to the trust's tax budget. No leverage, no yield products \u2014 this sleeve is generational custody, not a trading book."
+      }
+    },
+    {
+      "name": "Savings",
+      "kind": "equity",
+      "positions": [
+        {
+          "symbol": "DDD",
+          "desc": "3D SYS CORP DEL",
+          "qty": 100,
+          "price": 2.09,
+          "mktVal": 209.0,
+          "dayChg": -24.0,
+          "dayPct": -11.48,
+          "costBasis": 173.5,
+          "unrlPL": 35.5,
+          "unrlPct": 20.46,
+          "rating": "F D+ | T C-",
+          "strategy": "Exit on strength \u2014 legacy 3D printing thesis stale; today's -11.5% confirms no institutional sponsorship; sell any bounce toward basis."
+        },
+        {
+          "symbol": "OSTX",
+          "desc": "OS THERAPIES INC",
+          "qty": 200,
+          "price": 2.15,
+          "mktVal": 430.0,
+          "dayChg": 54.0,
+          "dayPct": 12.56,
+          "costBasis": 372.0,
+          "unrlPL": 58.0,
+          "unrlPct": 15.59,
+          "rating": "F D | T C",
+          "strategy": "Event-driven biotech \u2014 hold through catalyst with a hard stop at $1.80; size stays tracker-tier; take half off on +30% spikes."
+        },
+        {
+          "symbol": "META",
+          "desc": "META PLATFORMS INC CLASS A",
+          "qty": 1.0056,
+          "price": 782.13,
+          "mktVal": 786.51,
+          "dayChg": 2.06,
+          "dayPct": 0.26,
+          "costBasis": 277.21,
+          "unrlPL": 509.3,
+          "unrlPct": 183.72,
+          "rating": "F A- | T B",
+          "strategy": "Core compounder \u2014 hold; monetize with 0.25\u0394 covered calls 30\u201345 DTE when IV pays; trail stop under the 50DMA."
+        },
+        {
+          "symbol": "MSFT",
+          "desc": "MICROSOFT CORP",
+          "qty": 1.0338,
+          "price": 522.48,
+          "mktVal": 540.14,
+          "dayChg": 1.96,
+          "dayPct": 0.36,
+          "costBasis": 349.07,
+          "unrlPL": 191.07,
+          "unrlPct": 54.74,
+          "rating": "F A | T B",
+          "strategy": "Core compounder \u2014 hold; diagonals acceptable for yield; add on 10% drawdowns to the 200DMA."
+        },
+        {
+          "symbol": "NVDA",
+          "desc": "NVIDIA CORP",
+          "qty": 5.0747,
+          "price": 182.02,
+          "mktVal": 923.7,
+          "dayChg": 2.44,
+          "dayPct": 0.26,
+          "costBasis": 181.23,
+          "unrlPL": 742.47,
+          "unrlPct": 409.68,
+          "rating": "F A | T B+",
+          "strategy": "Backbone position \u2014 trail stops under rising 21\u201350DMA; write CCs above supply zones; trim 5\u201310% only into parabolic extensions."
+        },
+        {
+          "symbol": "QBTS",
+          "desc": "D-WAVE QUANTUM INC",
+          "qty": 100,
+          "price": 18.18,
+          "mktVal": 1818.0,
+          "dayChg": -47.0,
+          "dayPct": -2.59,
+          "costBasis": 549.38,
+          "unrlPL": 1268.62,
+          "unrlPct": 230.92,
+          "rating": "F C | T C",
+          "strategy": "Bank the win in tranches \u2014 +231% on a spec name demands harvesting; sell 1/3 now, 1/3 at next high, run the rest with a 20% trail."
+        },
+        {
+          "symbol": "RR",
+          "desc": "RICHTECH ROBOTICS INC CLASS B",
+          "qty": 200,
+          "price": 2.26,
+          "mktVal": 452.0,
+          "dayChg": 22.0,
+          "dayPct": 4.87,
+          "costBasis": 398.85,
+          "unrlPL": 53.15,
+          "unrlPct": 13.33,
+          "rating": "F D | T C",
+          "strategy": "Momentum spec \u2014 ride with a stop under the 21DMA; +4.9% day earns it a hold, but this is a trade, not a position."
+        },
+        {
+          "symbol": "KITT",
+          "desc": "NAUTICUS ROBOTICS INC",
+          "qty": 400,
+          "price": 0.88,
+          "mktVal": 345.72,
+          "dayChg": -3.04,
+          "dayPct": -0.88,
+          "costBasis": 398.85,
+          "unrlPL": -53.13,
+          "unrlPct": -13.32,
+          "rating": "F F | T D",
+          "strategy": "Cut \u2014 F-grade fundamentals, underwater, illiquid; exit on next green tape and recycle capital to the core."
+        },
+        {
+          "symbol": "ETH",
+          "desc": "GRAYSCALE ETHEREUM MINI",
+          "qty": 10,
+          "price": 42.78,
+          "mktVal": 427.8,
+          "dayChg": -19.0,
+          "dayPct": -4.44,
+          "costBasis": 248.2,
+          "unrlPL": 179.6,
+          "unrlPct": 72.36,
+          "rating": "F B+ | T B",
+          "strategy": "Hold \u2014 low-fee ETH wrapper; pairs with the crypto sleeve's ETH thesis at equity-account convenience."
+        },
+        {
+          "symbol": "ETHE",
+          "desc": "GRAYSCALE ETHEREUM TR ET",
+          "qty": 100,
+          "price": 37.48,
+          "mktVal": 3748.0,
+          "dayChg": -167.0,
+          "dayPct": -4.46,
+          "costBasis": 2233.75,
+          "unrlPL": 1514.25,
+          "unrlPct": 67.79,
+          "rating": "F B | T B",
+          "strategy": "Fee-swap candidate \u2014 migrate to the Mini within the year's tax budget; same exposure, 90% less drag."
+        }
+      ],
+      "analysis": {
+        "technical": "Barbell tape: the megacap core (NVDA/MSFT/META) grinding at highs with shallow pullbacks, while the spec book (QBTS +231%, OSTX +12.6% today, DDD -11.5% today) whipsaws. ETH-linked units (ETHE/Mini) tracking ETH's -4.4% day.",
+        "fundamental": "Core is the AI-capex supercycle \u2014 NVDA supply-constrained compute, MSFT Azure/Copilot monetization, META ad-engine plus AI leverage. The spec names are optionality bets: QBTS on quantum annealing adoption, OSTX on trial catalysts, RR/KITT on robotics narratives with weak balance sheets.",
+        "guidance": "Protect the core with covered calls and trailing stops \u2014 it finances the sandbox. Cap the spec book's total weight, take QBTS profits in tranches, and cut the names with broken theses rather than averaging down. Consider ETHE\u2192Mini fee swap using the same tax-budget logic as the Trust."
+      }
+    },
+    {
+      "name": "Hedge",
+      "kind": "options",
+      "positions": [
+        {
+          "symbol": "BMNR 08/15/2025 65.00 C",
+          "desc": "CALL BITMINE IMMERSION T $65 EXP 08/15/25",
+          "qty": 2,
+          "price": 0.75,
+          "mktVal": 150.0,
+          "dayChg": -167.27,
+          "dayPct": -111.51,
+          "costBasis": 600.56,
+          "unrlPL": -450.0,
+          "unrlPct": -74.93,
+          "rating": "F D | T C-",
+          "strategy": "Expires today \u2014 write it off, log the lesson: no more far-OTM weeklies in the hedge sleeve."
+        },
+        {
+          "symbol": "RKLB 09/12/2025 50.00 C",
+          "desc": "CALL ROCKET LAB CORP $50 EXP 09/12/25",
+          "qty": 1,
+          "price": 1.41,
+          "mktVal": 141.0,
+          "dayChg": -10.72,
+          "dayPct": -7.6,
+          "costBasis": 215.56,
+          "unrlPL": -74.0,
+          "unrlPct": -34.33,
+          "rating": "F B- | T B-",
+          "strategy": "Salvage decision this week: exit on any RKLB strength or convert to a call spread to stop the theta bleed; do not hold into the final two weeks."
+        },
+        {
+          "symbol": "/ES Futures",
+          "desc": "Futures Positions Market Value",
+          "qty": 4,
+          "price": null,
+          "mktVal": 2750.0,
+          "dayChg": -100.0,
+          "dayPct": -3.64,
+          "costBasis": 1300.0,
+          "unrlPL": 1450.0,
+          "unrlPct": 111.54,
+          "rating": null,
+          "strategy": "Trail stop at +75% of open profit; flatten by 4:58 PM ET daily per protocol; size stays within Phase margin discipline."
+        }
+      ],
+      "analysis": {
+        "technical": "/ES runner +111% on cost with 4 contracts on \u2014 the sleeve's only working hedge. BMNR calls expiring today effectively at zero; RKLB Sept calls -34% with theta accelerating.",
+        "fundamental": "This sleeve exists to buy protection and event convexity, not to hold decaying long-shot calls. Single-name speculative calls are doing the opposite of the sleeve's job.",
+        "guidance": "Run 2\u20134% notional coverage during event windows using defined-risk spreads. Let today's expirations bury themselves, stop replacing them, and keep the /ES position on a hard trail with the 4:58 PM flat rule absolute."
+      }
+    },
+    {
+      "name": "Piggy Bank",
+      "kind": "etf",
+      "cash": 262.87,
+      "positions": [
+        {
+          "symbol": "CMF",
+          "desc": "iShares CA Muni Bond ETF",
+          "qty": 1,
+          "price": 55.67,
+          "mktVal": 55.67,
+          "dayChg": -0.09,
+          "dayPct": -0.16,
+          "costBasis": 55.47,
+          "unrlPL": 0.2,
+          "unrlPct": 0.36,
+          "bucket": "Bonds"
+        },
+        {
+          "symbol": "FNDA",
+          "desc": "Schwab Fundamental U.S. Small Co.",
+          "qty": 4,
+          "price": 30.33,
+          "mktVal": 121.32,
+          "dayChg": -1.48,
+          "dayPct": -1.22,
+          "costBasis": 108.82,
+          "unrlPL": 12.5,
+          "unrlPct": 11.49,
+          "bucket": "US Equity"
+        },
+        {
+          "symbol": "FNDE",
+          "desc": "Schwab Fundamental Emerging Mkts",
+          "qty": 4,
+          "price": 34.36,
+          "mktVal": 137.44,
+          "dayChg": -1.52,
+          "dayPct": -1.11,
+          "costBasis": 127.98,
+          "unrlPL": 9.46,
+          "unrlPct": 7.39,
+          "bucket": "Emerging Mkts"
+        },
+        {
+          "symbol": "FNDF",
+          "desc": "Schwab Fundamental International",
+          "qty": 3,
+          "price": 41.94,
+          "mktVal": 125.82,
+          "dayChg": -0.36,
+          "dayPct": -0.29,
+          "costBasis": 115.74,
+          "unrlPL": 10.08,
+          "unrlPct": 8.71,
+          "bucket": "Intl Equity"
+        },
+        {
+          "symbol": "FNDX",
+          "desc": "Schwab Fundamental U.S. Large Co.",
+          "qty": 10,
+          "price": 25.38,
+          "mktVal": 253.8,
+          "dayChg": -0.2,
+          "dayPct": -0.08,
+          "costBasis": 232.95,
+          "unrlPL": 20.85,
+          "unrlPct": 8.95,
+          "bucket": "US Equity"
+        },
+        {
+          "symbol": "HAUZ",
+          "desc": "Xtrackers International Real Estate",
+          "qty": 1,
+          "price": 23.43,
+          "mktVal": 23.43,
+          "dayChg": -0.01,
+          "dayPct": -0.04,
+          "costBasis": 21.97,
+          "unrlPL": 1.46,
+          "unrlPct": 6.65,
+          "bucket": "Real Estate"
+        },
+        {
+          "symbol": "SCHA",
+          "desc": "Schwab U.S. Small-Cap",
+          "qty": 3,
+          "price": 26.64,
+          "mktVal": 79.92,
+          "dayChg": -0.87,
+          "dayPct": -1.09,
+          "costBasis": 71.51,
+          "unrlPL": 8.41,
+          "unrlPct": 11.76,
+          "bucket": "US Equity"
+        },
+        {
+          "symbol": "SCHC",
+          "desc": "Schwab International Small-Cap",
+          "qty": 1,
+          "price": 43.83,
+          "mktVal": 43.83,
+          "dayChg": -0.21,
+          "dayPct": -0.48,
+          "costBasis": 39.68,
+          "unrlPL": 4.15,
+          "unrlPct": 10.46,
+          "bucket": "Intl Equity"
+        },
+        {
+          "symbol": "SCHF",
+          "desc": "Schwab International Equity",
+          "qty": 8,
+          "price": 22.73,
+          "mktVal": 181.84,
+          "dayChg": -0.32,
+          "dayPct": -0.18,
+          "costBasis": 170.6,
+          "unrlPL": 11.24,
+          "unrlPct": 6.59,
+          "bucket": "Intl Equity"
+        },
+        {
+          "symbol": "SCHG",
+          "desc": "Schwab U.S. Large-Cap Growth",
+          "qty": 1,
+          "price": 30.75,
+          "mktVal": 30.75,
+          "dayChg": 0.03,
+          "dayPct": 0.1,
+          "costBasis": 26.98,
+          "unrlPL": 3.77,
+          "unrlPct": 13.97,
+          "bucket": "US Equity"
+        },
+        {
+          "symbol": "SCHH",
+          "desc": "Schwab U.S. REIT",
+          "qty": 1,
+          "price": 20.89,
+          "mktVal": 20.89,
+          "dayChg": -0.17,
+          "dayPct": -0.81,
+          "costBasis": 20.65,
+          "unrlPL": 0.24,
+          "unrlPct": 1.16,
+          "bucket": "Real Estate"
+        },
+        {
+          "symbol": "SCHX",
+          "desc": "Schwab U.S. Large-Cap",
+          "qty": 8,
+          "price": 25.53,
+          "mktVal": 204.24,
+          "dayChg": -0.08,
+          "dayPct": -0.04,
+          "costBasis": 183.16,
+          "unrlPL": 21.08,
+          "unrlPct": 11.51,
+          "bucket": "US Equity"
+        },
+        {
+          "symbol": "SPEM",
+          "desc": "SPDR Emerging Markets",
+          "qty": 2,
+          "price": 44.19,
+          "mktVal": 88.38,
+          "dayChg": -1.02,
+          "dayPct": -1.15,
+          "costBasis": 83.11,
+          "unrlPL": 5.27,
+          "unrlPct": 6.34,
+          "bucket": "Emerging Mkts"
+        }
+      ],
+      "autoManaged": true,
+      "analysis": {
+        "guidance": "Automated Schwab account \u2014 allocation, rebalancing, and tax-loss harvesting run robo-side. Human job: keep contributions automated, review drift quarterly, and resist tinkering. No single ETF over 20% of sleeve per doctrine."
+      }
+    },
+    {
+      "name": "Income",
+      "kind": "options",
+      "positions": [
+        {
+          "symbol": "EVTL 10/17/2025 5.00 C",
+          "desc": "CALL VERTICAL AEROSPACE $5 EXP 10/17/25",
+          "qty": 2,
+          "price": 1.03,
+          "mktVal": 205.0,
+          "dayChg": -30.02,
+          "dayPct": -14.64,
+          "costBasis": 251.12,
+          "unrlPL": -46.12,
+          "unrlPct": -18.37,
+          "rating": "F D | T D",
+          "strategy": "Convert to a vertical (sell the $7.50s) to define risk and claw back premium; exit entirely if EVTL loses $4.00."
+        },
+        {
+          "symbol": "MVST 08/15/2025 3.00 C",
+          "desc": "CALL MICROVAST HLDGS INC $3 EXP 08/15/25",
+          "qty": 6,
+          "price": 0.03,
+          "mktVal": 15.0,
+          "dayChg": -30.0,
+          "dayPct": -200.0,
+          "costBasis": 61.36,
+          "unrlPL": -46.36,
+          "unrlPct": -75.55,
+          "rating": "F D | T D",
+          "strategy": "Expires today at a near-total loss \u2014 no action; entry rule violation logged (weekly lotto)."
+        },
+        {
+          "symbol": "NVDA 08/29/2025 205.00 C",
+          "desc": "CALL NVIDIA CORP $205 EXP 08/29/25",
+          "qty": 4,
+          "price": 1.15,
+          "mktVal": 462.0,
+          "dayChg": -0.36,
+          "dayPct": -0.08,
+          "costBasis": 502.24,
+          "unrlPL": -40.24,
+          "unrlPct": -8.01,
+          "rating": "F A | T B+",
+          "strategy": "Two weeks of runway \u2014 sell half on any NVDA push through $190; convert remainder to a 205/215 spread; hard exit at -50% of remaining premium."
+        },
+        {
+          "symbol": "PANW 08/15/2025 177.50 C",
+          "desc": "CALL PALO ALTO NETWORKS $177.5 EXP 08/15/25",
+          "qty": 2,
+          "price": 0.92,
+          "mktVal": 60.0,
+          "dayChg": -268.0,
+          "dayPct": -446.67,
+          "costBasis": 185.12,
+          "unrlPL": -125.12,
+          "unrlPct": -67.59,
+          "rating": "F A- | T B-",
+          "strategy": "Expires today \u2014 salvage anything above $0 at the close; post-mortem: earnings-week short-dated calls are banned going forward."
+        },
+        {
+          "symbol": "QUBT 08/29/2025 18.50 C",
+          "desc": "CALL QUANTUM COMPUTING I $18.5 EXP 08/29/25",
+          "qty": 1,
+          "price": 0.55,
+          "mktVal": 55.0,
+          "dayChg": -0.13,
+          "dayPct": -0.24,
+          "costBasis": 100.56,
+          "unrlPL": -45.56,
+          "unrlPct": -45.31,
+          "rating": "F D- | T C-",
+          "strategy": "Lottery remnant \u2014 set a GTC sell at 2x current mark and let it ride or die; no adds."
+        },
+        {
+          "symbol": "QUBT 08/15/2026 18.50 C",
+          "desc": "CALL QUANTUM COMPUTING I $18.5 EXP 08/15/26",
+          "qty": 1,
+          "price": 0.13,
+          "mktVal": 12.5,
+          "dayChg": 0.02,
+          "dayPct": 0.12,
+          "costBasis": 15.0,
+          "unrlPL": -2.5,
+          "unrlPct": -16.67,
+          "rating": "F D- | T C-",
+          "strategy": "LEAPS-style holdover \u2014 hold; a year of runway on a $15 basis is acceptable optionality; reassess at 6 months to expiry."
+        },
+        {
+          "symbol": "RKT 08/29/2025 18.00 C",
+          "desc": "CALL ROCKET COMPANIES CL $18 EXP 08/29/25",
+          "qty": 2,
+          "price": 1.31,
+          "mktVal": 262.0,
+          "dayChg": -1.38,
+          "dayPct": -0.53,
+          "costBasis": 103.12,
+          "unrlPL": 158.88,
+          "unrlPct": 154.07,
+          "rating": "F C+ | T C+",
+          "strategy": "Harvest \u2014 close half now at +154%, roll the rest up to the $19s for reduced basis; winner discipline beats greed."
+        }
+      ],
+      "analysis": {
+        "technical": "The book is short-dated long calls, not income structures \u2014 PANW and MVST expire today near worthless, RKT +154% is the one winner, NVDA 205C needs a fresh leg higher within two weeks to pay.",
+        "fundamental": "An income sleeve earns by selling time (spreads, diagonals, covered structures), not buying weekly lottery tickets. Current construction is negative-expectancy gamma with -30.6% on the day as the receipt.",
+        "guidance": "Rebuild the sleeve: verticals and diagonals only, risk \u22640.5% per trade, no naked short calls, and harvest RKT now \u2014 a +154% option gain unbanked is a donation to theta. Grade every new trade against the 5:1 risk rule before entry."
+      }
+    }
+  ],
+  "creditCards": [
+    {
+      "name": "SAMPLE \u2014 VISA PLATINUM",
+      "balance": 4850.0,
+      "apr": 24.99,
+      "monthlyPayment": 150.0,
+      "limit": 9000
+    },
+    {
+      "name": "SAMPLE \u2014 AMEX BLUE",
+      "balance": 2310.0,
+      "apr": 19.24,
+      "monthlyPayment": 120.0,
+      "limit": 6000
+    },
+    {
+      "name": "SAMPLE \u2014 STORE CARD",
+      "balance": 890.0,
+      "apr": 29.99,
+      "monthlyPayment": 40.0,
+      "limit": 1500
+    }
+  ],
+  "cashAccounts": [
+    {
+      "name": "SAMPLE \u2014 CHECKING",
+      "balance": 1850.0
+    },
+    {
+      "name": "SAMPLE \u2014 HY SAVINGS",
+      "balance": 6200.0
+    }
+  ],
+  "advisory": {
+    "thesis": "Momentum-led, liquidity-supported tape with rising dispersion. Keep core exposure to structural winners; force discipline on high-beta names and options risk.",
+    "points": [
+      "Core & Compounding: Size NVDA/MSFT/META as backbone; monetize with covered calls/diagonals; trail stops.",
+      "Risk Budgeting: Crypto near half of value \u2014 use rules-based scaling and constant index hedge around macros.",
+      "Upgrade the Hedge: 2\u20134% notional during events; spreads & roll winners; cut losers.",
+      "Quality vs Spec: Keep a small sandbox (QBTS, RR, QUBT, EVTL) with tight risk controls.",
+      "Cash Flow: Systematic call-writing on liquid holdings to target 0.5\u20131.0% monthly portfolio yield when IV pays."
+    ]
+  },
+  "sources": [
+    {
+      "text": "Charles Schwab. \"Trader API \u2014 Accounts and Positions.\" Charles Schwab Developer Portal, 2025",
+      "url": "https://developer.schwab.com/"
+    },
+    {
+      "text": "Yahoo Finance. Reference quotes for listed tickers, 2025",
+      "url": "https://finance.yahoo.com/"
+    }
+  ]
+};
+/*PORTFOLIO_DATA_END*/
+</script>
+<script>
+/* ===== RENDER ENGINE — do not edit below when refreshing data ===== */
+(function(){
+"use strict";
+const D = PORTFOLIO_DATA;
+const CAT = ['#7a9900','#0099bd','#e84f00','#9a55e8','#d6408c','#998200','#5c7fbd']; // validated, fixed order
+const OTHER = '#3a3a3a';
+const POS = '#00b368', NEG = '#e0442e';
+
+/* ---------- utils ---------- */
+const $ = id => document.getElementById(id);
+const fmt$ = (v, sign) => {
+  if (v === null || v === undefined || isNaN(v)) return '—';
+  const s = (sign && v > 0 ? '+' : (v < 0 ? '-' : '')) ;
+  return s + '$' + Math.abs(v).toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2});
+};
+const fmtPct = (v, sign) => (v===null||v===undefined||isNaN(v)) ? '—' :
+  ((sign && v>0?'+':'') + v.toLocaleString('en-US',{minimumFractionDigits:2,maximumFractionDigits:2}) + '%');
+const cls = v => v > 0 ? 'green' : (v < 0 ? 'red' : 'muted');
+const esc = s => String(s==null?'':s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const slug = s => String(s).toLowerCase().replace(/[^a-z0-9]+/g,'-');
+
+/* ---------- computed model ---------- */
+const accounts = D.accounts.map((a, i) => {
+  const posVal = a.positions.reduce((s,p)=>s+(p.mktVal||0),0);
+  const value = posVal + (a.cash||0);
+  const dayChg = a.positions.reduce((s,p)=>s+(p.dayChg||0),0);
+  const prev = value - dayChg;
+  const dayPct = prev !== 0 ? dayChg/Math.abs(prev)*100 : 0;
+  const basis = a.positions.reduce((s,p)=>s+(p.costBasis||0),0);
+  const unrl = a.positions.reduce((s,p)=>s+(p.unrlPL||0),0);
+  return Object.assign({}, a, {
+    color: i < CAT.length ? CAT[i] : OTHER,
+    value, dayChg, dayPct, basis, unrl,
+    unrlPct: basis > 0 ? unrl/basis*100 : (unrl>0?100:0)
+  });
+});
+const TOT = {
+  value: accounts.reduce((s,a)=>s+a.value,0),
+  dayChg: accounts.reduce((s,a)=>s+a.dayChg,0),
+  basis: accounts.reduce((s,a)=>s+a.basis,0),
+  unrl: accounts.reduce((s,a)=>s+a.unrl,0)
+};
+TOT.dayPct = TOT.dayChg/Math.abs(TOT.value-TOT.dayChg)*100;
+TOT.unrlPct = TOT.basis>0 ? TOT.unrl/TOT.basis*100 : 0;
+
+/* ---------- rules engine ---------- */
+function tickerStatus(p){
+  const d = p.dayPct||0, u = p.unrlPct||0;
+  if (d <= -7 || u <= -25) return 'REPAIR';
+  if ((d >= 3 && u > -10) || (u >= 100 && d >= 0)) return 'PROTECT';
+  if (d <= -3 || u <= -10) return 'WATCH';
+  return 'HOLD';
+}
+function tactic(p, kind, status){
+  const isOpt = kind==='options' || / \d{2}\/\d{2}\/\d{4} /.test(p.symbol);
+  if (status==='REPAIR') return isOpt
+    ? 'Close/roll to defined-risk verticals; no naked risk; size ≤0.5% per trade.'
+    : (kind==='crypto' ? 'Reduce to core or exit; no averaging down; respect sleeve cap.'
+                       : 'Define risk now; exit if no reclaim of key level; no averaging losers.');
+  if (status==='PROTECT') return kind==='crypto'
+    ? 'Ladder profit-takes at predefined levels; trail core with stops; custody over yield.'
+    : (isOpt ? 'Roll winners for credit; take partials; never let a double round-trip.'
+             : 'Trail stop 21–50DMA; write 0.25–0.35Δ CCs 30–45 DTE; trim 5–10% into strength.');
+  if (status==='WATCH') return 'Monitor vs invalidation level; no adds until strength and volume confirm.';
+  return kind==='etf' ? 'Passive engine — automate contributions; rebalance semi-annually.'
+                      : 'Maintain plan; review at next catalyst.';
+}
+const chipClass = {PROTECT:'chip-protect', REPAIR:'chip-repair', WATCH:'chip-watch', HOLD:'chip-hold'};
+
+function healthScore(a){
+  const day = Math.max(0, Math.min(100, 50 + (a.dayPct||0)*6));
+  const cushion = Math.max(0, Math.min(100, 50 + Math.max(-1,Math.min(1,(a.unrlPct||0)/150))*50));
+  const w = a.positions.map(p=>(p.mktVal||0)/(a.value||1));
+  const hhi = w.reduce((s,x)=>s+x*x,0);
+  const dispersion = Math.max(0, Math.min(100, (1-hhi)*125));
+  const uwShare = a.positions.reduce((s,p)=>s+((p.unrlPL||0)<0?(p.mktVal||0):0),0)/(a.value||1);
+  const underwater = Math.max(0, Math.min(100, (1-uwShare)*100));
+  const score = Math.round(day*0.30 + cushion*0.30 + dispersion*0.20 + underwater*0.20);
+  const grade = score>=75?['STRONG','var(--safe)']:score>=55?['STABLE','var(--accent)']:
+                score>=35?['STRAINED','var(--accent2)']:['CRITICAL','var(--danger)'];
+  return {score, grade:grade[0], color:grade[1],
+          parts:{day:Math.round(day),cushion:Math.round(cushion),dispersion:Math.round(dispersion),underwater:Math.round(underwater)}};
+}
+
+/* ---------- credit debt + cash aggregates ---------- */
+const CC = (D.creditCards||[]).map(c=>{
+  const r = (c.apr||0)/100/12;
+  const interest = (c.balance||0)*r;
+  const pmt = c.monthlyPayment||0;
+  let payoffMo = null;
+  if (pmt > interest && r > 0) payoffMo = Math.ceil(-Math.log(1 - (c.balance||0)*r/pmt)/Math.log(1+r));
+  else if (r === 0 && pmt > 0) payoffMo = Math.ceil((c.balance||0)/pmt);
+  return Object.assign({}, c, {interest, pmt, payoffMo, util: c.limit ? (c.balance||0)/c.limit*100 : null});
+});
+const DEBT = {
+  bal: CC.reduce((s,c)=>s+(c.balance||0),0),
+  pay: CC.reduce((s,c)=>s+c.pmt,0),
+  interest: CC.reduce((s,c)=>s+c.interest,0),
+  limit: CC.reduce((s,c)=>s+(c.limit||0),0)
+};
+DEBT.wApr = DEBT.bal>0 ? CC.reduce((s,c)=>s+(c.balance||0)*(c.apr||0),0)/DEBT.bal : 0;
+DEBT.util = DEBT.limit>0 ? DEBT.bal/DEBT.limit*100 : null;
+DEBT.principal = Math.max(0, DEBT.pay - DEBT.interest);
+const EXT_CASH = D.cashAccounts||[];
+const CASH = {
+  sweep: accounts.reduce((s,a)=>s+(a.cash||0),0),
+  ext: EXT_CASH.reduce((s,c)=>s+(c.balance||0),0)
+};
+CASH.total = CASH.sweep + CASH.ext;
+CASH.assets = TOT.value + CASH.ext;   // sweeps already inside TOT.value
+CASH.pct = CASH.assets>0 ? CASH.total/CASH.assets*100 : 0;
+
+/* ---------- tooltip ---------- */
+const tip = $('tooltip');
+function bindTip(el, html){
+  el.addEventListener('mousemove', e=>{
+    tip.innerHTML = html; tip.style.display='block';
+    const x = Math.min(e.clientX+14, window.innerWidth-280);
+    tip.style.left = x+'px'; tip.style.top = (e.clientY+14)+'px';
+  });
+  el.addEventListener('mouseleave', ()=> tip.style.display='none');
+}
+
+/* ---------- header KPIs + tags ---------- */
+$('tag-generated').textContent = 'GENERATED ' + D.meta.generated.toUpperCase();
+$('tag-source').textContent = 'SOURCE: ' + (D.meta.source||'').split('—')[0].trim().toUpperCase();
+$('kpi-grid').innerHTML = [
+  ['Total Value', fmt$(TOT.value), 'all accounts', ''],
+  ['Day Change', fmt$(TOT.dayChg,true)+' <span style="font-size:10px">('+fmtPct(TOT.dayPct,true)+')</span>', 'vs prior close', TOT.dayChg>=0?'green':'red'],
+  ['Unrealized P/L', fmt$(TOT.unrl,true), 'cost basis '+fmt$(TOT.basis), TOT.unrl>=0?'green':'red'],
+  ['Unrealized %', fmtPct(TOT.unrlPct,true), 'aggregate since inception', TOT.unrlPct>=0?'green':'red']
+].map(k=>`<div class="meta-cell"><div class="meta-label">${k[0]}</div><div class="meta-value ${k[3]}">${k[1]}</div><div class="meta-sub">${esc(k[2]).toUpperCase()}</div></div>`).join('');
+
+/* ---------- nav ---------- */
+$('nav-links').innerHTML =
+  ['overview','gauges','risk','spotlight'].map(id=>`<a href="#${id}">${id}</a>`).join('') +
+  accounts.map(a=>`<a href="#acct-${slug(a.name)}">${esc(a.name)}</a>`).join('') +
+  '<a href="#advisory">advisory</a><a href="#sources">sources</a>';
+
+/* ---------- donut (allocation by account) ---------- */
+(function donut(){
+  const R=86, r=54, cx=110, cy=110, GAP=2.2; // gap in degrees ≈ 2px surface gap
+  let angle=-90, paths='', labels='';
+  accounts.forEach(a=>{
+    const frac = a.value/TOT.value, sweep = frac*360 - GAP;
+    if (sweep <= 0) return;
+    const a0 = angle+GAP/2, a1 = a0+sweep;
+    const p = (ang,rad)=>[cx+rad*Math.cos(ang*Math.PI/180), cy+rad*Math.sin(ang*Math.PI/180)];
+    const [x0,y0]=p(a0,R),[x1,y1]=p(a1,R),[x2,y2]=p(a1,r),[x3,y3]=p(a0,r);
+    const large = sweep>180?1:0;
+    paths += `<path d="M${x0},${y0} A${R},${R} 0 ${large} 1 ${x1},${y1} L${x2},${y2} A${r},${r} 0 ${large} 0 ${x3},${y3} Z" fill="${a.color}" data-acct="${esc(a.name)}"/>`;
+    if (frac > 0.06){
+      const mid=(a0+a1)/2, [lx,ly]=p(mid,(R+r)/2);
+      labels += `<text x="${lx}" y="${ly}" text-anchor="middle" dominant-baseline="middle" font-family="Space Mono" font-size="9" fill="#0a0a0a" font-weight="700">${Math.round(frac*100)}%</text>`;
+    }
+    angle = a0+sweep+GAP/2;
+  });
+  $('donut-account').innerHTML =
+    `<svg viewBox="0 0 220 220" style="max-width:260px;display:block;margin:auto">${paths}${labels}
+     <text x="110" y="103" text-anchor="middle" font-family="Bebas Neue" font-size="22" fill="#e8e8e0">$${Math.round(TOT.value).toLocaleString('en-US')}</text>
+     <text x="110" y="122" text-anchor="middle" font-family="Space Mono" font-size="8" letter-spacing="2" fill="#666">TOTAL VALUE</text></svg>
+     <div class="legend">${accounts.map(a=>`<span class="legend-item"><span class="legend-swatch" style="background:${a.color}"></span>${esc(a.name)} · ${(a.value/TOT.value*100).toFixed(1)}%</span>`).join('')}</div>`;
+  $('donut-account').querySelectorAll('path').forEach(pathEl=>{
+    const a = accounts.find(x=>x.name===pathEl.dataset.acct);
+    bindTip(pathEl, `<div class="tt-title">${esc(a.name)}</div>${fmt$(a.value)} · ${(a.value/TOT.value*100).toFixed(2)}% of total<br><span class="tt-muted">day</span> <span style="color:${a.dayChg>=0?'#00ff88':'#ff3333'}">${fmt$(a.dayChg,true)} (${fmtPct(a.dayPct,true)})</span>`);
+  });
+})();
+
+/* ---------- diverging hbar helper ---------- */
+function hbars(el, rows, fmtV){
+  // rows: [{label, value, color?, tip?}]
+  const maxAbs = Math.max(...rows.map(r=>Math.abs(r.value)), 1e-9);
+  el.innerHTML = rows.map(r=>{
+    const pct = Math.abs(r.value)/maxAbs*100;
+    const neg = r.value<0;
+    const color = r.color || (neg?NEG:POS);
+    return `<div class="hbar-row" data-tip="1">
+      <div class="hbar-label">${esc(r.label)}</div>
+      <div class="hbar-track"><div class="hbar-axis" style="left:50%"></div>
+        <div class="hbar-fill ${neg?'neg':''}" style="background:${color};width:${pct/2}%;${neg?'right:50%':'left:50%'}"></div>
+      </div>
+      <div class="hbar-value ${r.value>0?'green':r.value<0?'red':''}" style="${r.value===0?'color:#666':''}">${fmtV(r.value)}</div>
+    </div>`;
+  }).join('');
+  el.querySelectorAll('.hbar-row').forEach((rowEl,i)=>{ if(rows[i].tip) bindTip(rowEl, rows[i].tip); });
+}
+
+/* day move by account */
+hbars($('bars-account-day'),
+  accounts.slice().sort((a,b)=>b.dayChg-a.dayChg).map(a=>({
+    label:a.name, value:a.dayChg,
+    tip:`<div class="tt-title">${esc(a.name)}</div>day ${fmt$(a.dayChg,true)} (${fmtPct(a.dayPct,true)})<br><span class="tt-muted">value</span> ${fmt$(a.value)}`
+  })), v=>fmt$(v,true));
+$('bars-account-note').textContent = 'ZERO AXIS CENTERED · SORTED BY DAY $';
+
+/* ---------- treemap (strip layout, value-sorted, %-based & responsive) ---------- */
+function layoutTreemap(){
+  const el = $('treemap');
+  const raw = [];
+  accounts.forEach(a=>{
+    a.positions.forEach(p=> raw.push({sym:p.symbol.split(' ')[0], full:p.symbol, acct:a.name, color:a.color, val:p.mktVal||0, p}));
+    if (a.cash) raw.push({sym:'CASH', full:'Cash & Cash Investments', acct:a.name, color:a.color, val:a.cash});
+  });
+  raw.sort((x,y)=>y.val-x.val);
+  const total = raw.reduce((s,x)=>s+x.val,0);
+  // fold dust (<0.5% of portfolio) into one OTHER cell — no unreadable crumbs
+  const MIN_FRAC = 0.005;
+  const items = raw.filter(x=>x.val/total >= MIN_FRAC);
+  const dust = raw.filter(x=>x.val/total < MIN_FRAC);
+  if (dust.length){
+    items.push({sym:'OTHER', full:'OTHER — '+dust.length+' positions', acct:'multiple accounts',
+      color:'#3a3a3a', val:dust.reduce((s,x)=>s+x.val,0),
+      dustList: dust.slice(0,8).map(x=>x.sym+' '+fmt$(x.val)).join('<br>') + (dust.length>8?'<br>…':'')});
+    items.sort((x,y)=>y.val-x.val);
+  }
+  const W = el.clientWidth || 1000, H = el.clientHeight || 380;
+  let x=0,y=0,w=W,h=H,i=0,html='';
+  while (i < items.length){
+    const horiz = w >= h;
+    const side = horiz ? h : w;
+    let strip=[], stripVal=0, bestWorst=Infinity;
+    for(let j=i;j<items.length;j++){
+      const tryVal = stripVal + items[j].val;
+      const thick = (tryVal/total)*(W*H)/side;
+      let worst=0;
+      for(let k=i;k<=j;k++){
+        const len = (items[k].val/tryVal)*side;
+        worst = Math.max(worst, Math.max(thick/len, len/thick));
+      }
+      if (worst <= bestWorst || strip.length===0){ bestWorst=worst; strip.push(items[j]); stripVal=tryVal; }
+      else break;
+    }
+    const thick = (stripVal/total)*(W*H)/side;
+    let off=0;
+    strip.forEach(it=>{
+      const len = (it.val/stripVal)*side;
+      const cx = horiz ? x : x+off, cy = horiz ? y+off : y;
+      const cw = horiz ? thick : len, ch = horiz ? len : thick;
+      const showText = cw>52 && ch>26;
+      // percentage geometry -> stretches with the container between re-layouts
+      html += `<div class="tm-cell" style="left:${(cx/W*100).toFixed(3)}%;top:${(cy/H*100).toFixed(3)}%;width:${(cw/W*100).toFixed(3)}%;height:${(ch/H*100).toFixed(3)}%;background:${it.color}" data-i="${items.indexOf(it)}">`+
+        (showText?`<div class="tm-sym" style="${it.sym==='OTHER'?'color:#999':''}">${esc(it.sym)}</div><div class="tm-val" style="${it.sym==='OTHER'?'color:#777':''}">${fmt$(it.val).replace('.00','')}</div>`:'')+`</div>`;
+      off+=len;
+    });
+    if (horiz){ x+=thick; w-=thick; } else { y+=thick; h-=thick; }
+    i += strip.length;
+  }
+  el.innerHTML = html;
+  el.querySelectorAll('.tm-cell').forEach(c=>{
+    const it = items[+c.dataset.i];
+    const extra = it.p ? `<br><span class="tt-muted">day</span> <span style="color:${(it.p.dayChg||0)>=0?'#00ff88':'#ff3333'}">${fmtPct(it.p.dayPct,true)}</span> · <span class="tt-muted">unrl</span> <span style="color:${(it.p.unrlPL||0)>=0?'#00ff88':'#ff3333'}">${fmt$(it.p.unrlPL,true)}</span>`
+      : (it.dustList ? `<br>${it.dustList}` : '');
+    bindTip(c, `<div class="tt-title">${esc(it.full)}</div><span class="tt-muted">${esc(it.acct)}</span><br>${fmt$(it.val)} · ${(it.val/total*100).toFixed(2)}% of portfolio${extra}`);
+  });
+  $('treemap-legend').innerHTML = accounts.map(a=>`<span class="legend-item"><span class="legend-swatch" style="background:${a.color}"></span>${esc(a.name)}</span>`).join('') +
+    (dust.length?`<span class="legend-item"><span class="legend-swatch" style="background:#3a3a3a"></span>Other &lt;0.5%</span>`:'');
+}
+layoutTreemap();
+let tmResizeT;
+window.addEventListener('resize', ()=>{ clearTimeout(tmResizeT); tmResizeT = setTimeout(layoutTreemap, 150); });
+
+/* ---------- account gauge cards ---------- */
+function gaugeSVG(score, color){
+  const r=44, c=Math.PI*r; // semicircle
+  const filled = c*score/100;
+  return `<svg viewBox="0 0 110 66" width="130">
+    <path d="M11,58 A44,44 0 0 1 99,58" fill="none" stroke="#222" stroke-width="9" stroke-linecap="round"/>
+    <path d="M11,58 A44,44 0 0 1 99,58" fill="none" stroke="${color}" stroke-width="9" stroke-linecap="round"
+      stroke-dasharray="${filled} ${c}"/>
+    <text x="55" y="56" text-anchor="middle" font-family="Bebas Neue" font-size="30" fill="${color}">${score}</text>
+  </svg>`;
+}
+$('account-cards').innerHTML = accounts.map(a=>{
+  const h = healthScore(a);
+  const nPos = a.positions.length + (a.cash?1:0);
+  const worst = a.positions.slice().sort((x,y)=>(x.dayChg||0)-(y.dayChg||0))[0];
+  const best  = a.positions.slice().sort((x,y)=>(y.dayChg||0)-(x.dayChg||0))[0];
+  return `<div class="account-card" style="--card-accent:${a.color}">
+    <div class="account-title"><span class="swatch" style="background:${a.color}"></span>${esc(a.name)} — ${esc((a.kind||'').toUpperCase())}</div>
+    <div class="gauge-wrap">
+      <div>${gaugeSVG(h.score, h.color)}<div class="gauge-label" style="color:${h.color}">${h.grade}</div></div>
+      <div style="flex:1">
+        <div class="stat-row"><span class="stat-label">VALUE</span><span class="stat-value">${fmt$(a.value)}</span></div>
+        <div class="stat-row"><span class="stat-label">DAY</span><span class="stat-value ${a.dayChg>=0?'green':'red'}">${fmt$(a.dayChg,true)} · ${fmtPct(a.dayPct,true)}</span></div>
+        <div class="stat-row"><span class="stat-label">UNREALIZED</span><span class="stat-value ${a.unrl>=0?'green':'red'}">${fmt$(a.unrl,true)} · ${fmtPct(a.unrlPct,true)}</span></div>
+        <div class="stat-row"><span class="stat-label">% OF TOTAL</span><span class="stat-value accent">${(a.value/TOT.value*100).toFixed(2)}%</span></div>
+      </div>
+    </div>
+    <div class="stat-row"><span class="stat-label">POSITIONS</span><span class="stat-value">${nPos}</span></div>
+    <div class="stat-row"><span class="stat-label">SUBSCORES D/C/S/U</span><span class="stat-value">${h.parts.day}/${h.parts.cushion}/${h.parts.dispersion}/${h.parts.underwater}</span></div>
+    ${best?`<div class="stat-row"><span class="stat-label">BEST TODAY</span><span class="stat-value ${cls(best.dayPct)}">${esc(best.symbol.split(' ')[0])} ${fmtPct(best.dayPct,true)}</span></div>`:''}
+    ${worst?`<div class="stat-row"><span class="stat-label">WORST TODAY</span><span class="stat-value ${cls(worst.dayPct)}">${esc(worst.symbol.split(' ')[0])} ${fmtPct(worst.dayPct,true)}</span></div>`:''}
+  </div>`;
+}).join('');
+
+/* credit debt card */
+if (CC.length){
+  const utilScore = DEBT.util==null ? 50 : Math.max(0, 100-DEBT.util);
+  const prinScore = DEBT.pay>0 ? DEBT.principal/DEBT.pay*100 : 0;
+  const aprScore  = Math.max(0, Math.min(100, 100-(DEBT.wApr-10)*4));
+  const score = Math.round(utilScore*0.4 + prinScore*0.4 + aprScore*0.2);
+  const g = score>=75?['CONTAINED','var(--safe)']:score>=55?['MANAGED','var(--accent)']:
+            score>=35?['PRESSURED','var(--accent2)']:['BLEEDING','var(--danger)'];
+  const bleeders = CC.filter(c=>c.pmt<=c.interest);
+  const payoff = bleeders.length ? null : Math.max(...CC.map(c=>c.payoffMo||0));
+  $('account-cards').insertAdjacentHTML('beforeend', `<div class="account-card" style="--card-accent:var(--accent2)">
+    <div class="account-title"><span class="swatch" style="background:var(--accent2)"></span>CREDIT DEBT — ${CC.length} CARDS</div>
+    <div class="gauge-wrap">
+      <div>${gaugeSVG(score, g[1])}<div class="gauge-label" style="color:${g[1]}">${g[0]}</div></div>
+      <div style="flex:1">
+        <div class="stat-row"><span class="stat-label">TOTAL DEBT</span><span class="stat-value red">${fmt$(-DEBT.bal,true)}</span></div>
+        <div class="stat-row"><span class="stat-label">WTD AVG APR</span><span class="stat-value orange">${DEBT.wApr.toFixed(2)}%</span></div>
+        <div class="stat-row"><span class="stat-label">PAYMENTS / MO</span><span class="stat-value">${fmt$(DEBT.pay)}</span></div>
+        <div class="stat-row"><span class="stat-label">INTEREST / MO</span><span class="stat-value red">${fmt$(-DEBT.interest,true)}</span></div>
+        <div class="stat-row"><span class="stat-label">PRINCIPAL / MO</span><span class="stat-value ${DEBT.principal>0?'green':'red'}">${fmt$(DEBT.principal)}</span></div>
+      </div>
+    </div>
+    ${DEBT.util!=null?`<div class="stat-row"><span class="stat-label">UTILIZATION</span><span class="stat-value ${DEBT.util>30?'red':'accent'}">${DEBT.util.toFixed(1)}% of ${fmt$(DEBT.limit).replace('.00','')}</span></div>`:''}
+    <div class="stat-row"><span class="stat-label">EST PAYOFF</span><span class="stat-value ${payoff?'':'red'}">${payoff?payoff+' MO ('+Math.floor(payoff/12)+'Y '+(payoff%12)+'M)':'NEVER — PAYMENT ≤ INTEREST'}</span></div>
+    <div class="stat-row"><span class="stat-label">DEBT / PORTFOLIO</span><span class="stat-value orange">${(DEBT.bal/TOT.value*100).toFixed(1)}%</span></div>
+    ${CC.map(c=>`<div class="stat-row"><span class="stat-label">${esc(c.name)}</span><span class="stat-value" style="white-space:nowrap">${fmt$(c.balance)} @ ${c.apr}%${c.pmt<=c.interest?' <span class="red">⚠</span>':''}</span></div>`).join('')}
+  </div>`);
+}
+
+/* cash card */
+if (CASH.total > 0){
+  const score = Math.round(Math.min(100, CASH.pct/20*100));
+  const g = CASH.pct<2?['DRY','var(--danger)']:CASH.pct<5?['THIN','var(--accent2)']:
+            CASH.pct<=15?['READY','var(--accent)']:['DEEP','var(--safe)'];
+  $('account-cards').insertAdjacentHTML('beforeend', `<div class="account-card" style="--card-accent:var(--accent3)">
+    <div class="account-title"><span class="swatch" style="background:var(--accent3)"></span>CASH — ALL ACCOUNTS</div>
+    <div class="gauge-wrap">
+      <div>${gaugeSVG(score, g[1])}<div class="gauge-label" style="color:${g[1]}">${g[0]}</div></div>
+      <div style="flex:1">
+        <div class="stat-row"><span class="stat-label">TOTAL CASH</span><span class="stat-value accent">${fmt$(CASH.total)}</span></div>
+        <div class="stat-row"><span class="stat-label">DRY POWDER</span><span class="stat-value" style="color:${g[1]}">${CASH.pct.toFixed(1)}% OF ASSETS</span></div>
+        <div class="stat-row"><span class="stat-label">BROKERAGE SWEEPS</span><span class="stat-value">${fmt$(CASH.sweep)}</span></div>
+        ${DEBT.pay>0?`<div class="stat-row"><span class="stat-label">CC PAYMENT COVER</span><span class="stat-value">${(CASH.total/DEBT.pay).toFixed(1)} MONTHS</span></div>`:''}
+      </div>
+    </div>
+    ${EXT_CASH.map(c=>`<div class="stat-row"><span class="stat-label">${esc(c.name)}</span><span class="stat-value">${fmt$(c.balance)}</span></div>`).join('')}
+    ${DEBT.bal>0?`<div class="stat-row"><span class="stat-label">CASH − CC DEBT</span><span class="stat-value ${CASH.total-DEBT.bal>=0?'green':'red'}">${fmt$(CASH.total-DEBT.bal,true)}</span></div>`:''}
+  </div>`);
+}
+
+/* ---------- risk radar ---------- */
+(function risk(){
+  const cryptoNames = D.meta.cryptoAccountNames||[];
+  const cryptoVal = accounts.filter(a=>cryptoNames.includes(a.name)).reduce((s,a)=>s+a.value,0);
+  const cryptoPct = cryptoVal/TOT.value*100;
+  const corrRe = /BTC|GBTC|ETH|ETHE|HIVE/i;
+  const corrVal = accounts.reduce((s,a)=>s+a.positions.reduce((t,p)=>t+(corrRe.test(p.symbol)||corrRe.test(p.desc||'')?(p.mktVal||0):0),0),0);
+  const corrPct = corrVal/TOT.value*100;
+  const allPos = accounts.flatMap(a=>a.positions.map(p=>({a,p})));
+  const top = allPos.slice().sort((x,y)=>(y.p.mktVal||0)-(x.p.mktVal||0))[0];
+  const topPct = (top.p.mktVal||0)/TOT.value*100;
+  const optVal = accounts.filter(a=>a.kind==='options').reduce((s,a)=>s+a.value,0);
+  const optPct = optVal/TOT.value*100;
+  const cap = D.meta.cryptoSleeveCapPct||30, posCap = D.meta.singlePositionCapPct||25;
+
+  function meter(label, pct, capPct, color){
+    const scaleMax = Math.max(pct, capPct||0)*1.15;
+    return `<div class="meter">
+      <div class="meter-head"><span>${label}</span><span style="color:${color}">${pct.toFixed(1)}%${capPct?` <span style="color:#666">/ cap ${capPct}%</span>`:''}</span></div>
+      <div class="meter-track">
+        <div class="meter-fill" style="width:${Math.min(100,pct/scaleMax*100)}%;background:${color}"></div>
+        ${capPct?`<div class="meter-cap" style="left:${capPct/scaleMax*100}%"></div>`:''}
+      </div></div>`;
+  }
+  $('risk-meters').innerHTML =
+    meter('CRYPTO SLEEVE ('+cryptoNames.join(', ').toUpperCase()+') % OF PORTFOLIO', cryptoPct, cap, cryptoPct>cap?'var(--danger)':'var(--accent)') +
+    meter('CRYPTO-CORRELATED TOTAL (INCL. GBTC/ETHE/HIVE/MINIS)', corrPct, null, corrPct>60?'var(--danger)':'var(--accent2)') +
+    meter('LARGEST SINGLE POSITION ('+esc(top.p.symbol.split(' ')[0])+' — '+esc(top.a.name).toUpperCase()+')', topPct, posCap, topPct>posCap?'var(--danger)':'var(--accent3)') +
+    meter('OPTIONS SLEEVES (HEDGE + INCOME) % OF PORTFOLIO', optPct, null, 'var(--c7)') +
+    (DEBT.util!=null ? meter('CREDIT UTILIZATION (ALL CARDS)', DEBT.util, 30, DEBT.util>30?'var(--danger)':'var(--accent)') : '');
+
+  const rules = [];
+  rules.push([cryptoPct>cap?'fail':'pass', `<b>Crypto sleeve ≤ ${cap}%</b> — currently ${cryptoPct.toFixed(1)}% of portfolio (${fmt$(cryptoVal)})`, cryptoPct>cap?'critical':'pass']);
+  rules.push([corrPct>60?'fail':corrPct>45?'warn':'pass', `<b>Crypto-correlated concentration</b> — BTC/ETH-linked assets are ${corrPct.toFixed(1)}% of total across accounts`, corrPct>60?'critical':'important']);
+  rules.push([topPct>posCap?'warn':'pass', `<b>Single-position cap ${posCap}%</b> — largest is ${esc(top.p.symbol.split(' ')[0])} at ${topPct.toFixed(1)}%`, topPct>posCap?'important':'pass']);
+  const uw = allPos.filter(x=>(x.p.unrlPL||0)<0);
+  rules.push([uw.length>allPos.length/2?'warn':'pass', `<b>Underwater positions</b> — ${uw.length} of ${allPos.length} positions carry negative unrealized P/L`, 'standard']);
+  const gamma = allPos.filter(x=>Math.abs(x.p.dayPct||0)>=100);
+  if (gamma.length) rules.push(['fail', `<b>Gamma-risk options</b> — ${gamma.map(g=>esc(g.p.symbol.split(' ')[0])).join(', ')} moved ≥100% today; defined-risk structures only`, 'critical']);
+  const downAccts = accounts.filter(a=>a.dayPct<=-5);
+  if (downAccts.length) rules.push(['warn', `<b>Sleeve drawdown flag</b> — ${downAccts.map(a=>esc(a.name)).join(', ')} down ≥5% on the day; circuit-breaker review`, 'important']);
+  if (CC.length){
+    const bleeders = CC.filter(c=>c.pmt<=c.interest);
+    if (bleeders.length) rules.push(['fail', `<b>Debt bleeding</b> — ${bleeders.map(c=>esc(c.name)).join(', ')}: monthly payment ≤ monthly interest; balance compounds. Raise payment or restructure`, 'critical']);
+    if (DEBT.util!=null) rules.push([DEBT.util>30?'warn':'pass', `<b>Credit utilization ≤ 30%</b> — currently ${DEBT.util.toFixed(1)}% across ${CC.length} cards (${fmt$(DEBT.bal)} of ${fmt$(DEBT.limit).replace('.00','')})`, DEBT.util>30?'important':'pass']);
+    if (DEBT.interest*12 > 0) rules.push([DEBT.interest*12 > CASH.total*0.05 ? 'warn':'pass', `<b>Interest drag</b> — ${fmt$(DEBT.interest*12)}/yr in card interest vs ${fmt$(CASH.total)} cash on hand`, 'standard']);
+  }
+  $('risk-rules').innerHTML = rules.map(r=>`<div class="rule-item"><span class="rule-check ${r[0]}">${r[0]==='pass'?'✓':'!'}</span><span class="rule-text">${r[1]}</span><span class="rule-badge ${r[2]}">${r[2]}</span></div>`).join('');
+})();
+
+/* ---------- spotlight ---------- */
+(function spotlight(){
+  const rows = accounts.filter(a=>!a.autoManaged).flatMap(a=>a.positions.map(p=>({a,p,status:tickerStatus(p)})))
+    .filter(x=>x.status==='PROTECT'||x.status==='REPAIR')
+    .sort((x,y)=>(y.p.dayPct||0)-(x.p.dayPct||0));
+  $('spotlight-table').innerHTML = `<thead><tr><th>Symbol</th><th>Account</th><th class="num">Day %</th><th class="num">Day $</th><th class="num">Mkt Val</th><th>Status</th><th>Tactics</th></tr></thead><tbody>` +
+    rows.map(x=>`<tr>
+      <td class="accent">${esc(x.p.symbol)}</td><td class="muted">${esc(x.a.name)}</td>
+      <td class="num ${cls(x.p.dayPct)}">${fmtPct(x.p.dayPct,true)}</td>
+      <td class="num ${cls(x.p.dayChg)}">${fmt$(x.p.dayChg,true)}</td>
+      <td class="num">${fmt$(x.p.mktVal)}</td>
+      <td><span class="chip ${chipClass[x.status]}">${x.status}</span></td>
+      <td style="max-width:340px">${esc(tactic(x.p, x.a.kind, x.status))}</td>
+    </tr>`).join('') + '</tbody>';
+})();
+
+/* ---------- per-account sections ---------- */
+let secNum = 5;
+$('account-sections').innerHTML = accounts.map(a=>{
+  const num = String(secNum++).padStart(2,'0');
+  const auto = !!a.autoManaged;
+  const rows = a.positions.map(p=>{
+    const st = tickerStatus(p);
+    const base = `<tr>
+      <td class="accent">${esc(p.symbol)}</td>
+      <td class="muted" style="max-width:220px">${esc(p.desc||'')}</td>
+      <td class="num">${p.qty==null?'—':p.qty.toLocaleString('en-US',{maximumFractionDigits:8})}</td>
+      <td class="num">${p.price==null?'—':fmt$(p.price)}</td>
+      <td class="num">${fmt$(p.mktVal)}</td>
+      <td class="num ${cls(p.dayChg)}">${fmt$(p.dayChg,true)}</td>
+      <td class="num ${cls(p.dayPct)}">${fmtPct(p.dayPct,true)}</td>
+      <td class="num">${fmt$(p.costBasis)}</td>
+      <td class="num ${cls(p.unrlPL)}">${fmt$(p.unrlPL,true)}</td>
+      <td class="num ${cls(p.unrlPct)}">${fmtPct(p.unrlPct,true)}</td>
+      ${auto
+        ? `<td class="num muted">${(p.mktVal/(a.value||1)*100).toFixed(1)}%</td>`
+        : `<td>${p.rating?`<span style="font-size:10px;color:#999;white-space:nowrap">${esc(p.rating)}</span>`:'—'}</td>
+           <td><span class="chip ${chipClass[st]}">${st}</span></td>`}
+    </tr>`;
+    return auto ? base : base +
+      `<tr><td></td><td colspan="11" style="padding-top:0;color:#8a8a82;font-size:10.5px;border-bottom:1px solid var(--border)"><span style="color:var(--accent2)">STRATEGY ▸</span> ${esc(p.strategy || p.note || tactic(p, a.kind, st))}</td></tr>`;
+  }).join('') + (a.cash?`<tr><td class="accent">CASH</td><td class="muted">Cash &amp; Cash Investments</td><td class="num">—</td><td class="num">—</td><td class="num">${fmt$(a.cash)}</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td><td class="num">—</td>${auto?`<td class="num muted">${(a.cash/(a.value||1)*100).toFixed(1)}%</td>`:'<td>—</td><td><span class="chip chip-hold">HOLD</span></td>'}</tr>`:'');
+
+  /* analysis layer */
+  let analysisHTML = '';
+  const an = a.analysis || {};
+  if (!auto && (an.technical || an.fundamental || an.guidance)){
+    analysisHTML = `
+    <div class="two-col" style="margin-top:0">
+      ${an.technical?`<div class="alert alert-info" style="margin:0"><div class="alert-label">TECHNICAL READ</div><p>${esc(an.technical)}</p></div>`:''}
+      ${an.fundamental?`<div class="alert alert-success" style="margin:0"><div class="alert-label">FUNDAMENTAL READ</div><p>${esc(an.fundamental)}</p></div>`:''}
+    </div>
+    ${an.guidance?`<div class="highlight-box" style="border-left-color:var(--accent2)"><span style="color:var(--accent2);letter-spacing:3px;font-size:9px">GUIDANCE //</span><br>${esc(an.guidance)}</div>`:''}`;
+  }
+  if (auto){
+    /* performance tracker: metrics + bucket allocation */
+    const buckets = {};
+    a.positions.forEach(p=>{ const b=p.bucket||'Other'; (buckets[b]=buckets[b]||{v:0,d:0,u:0}); buckets[b].v+=p.mktVal||0; buckets[b].d+=p.dayChg||0; buckets[b].u+=p.unrlPL||0; });
+    if (a.cash) buckets['Cash']={v:a.cash,d:0,u:0};
+    const bkeys = Object.keys(buckets).sort((x,y)=>buckets[y].v-buckets[x].v);
+    const bmax = Math.max(...bkeys.map(k=>buckets[k].v));
+    const BCOL = {'US Equity':'var(--c1)','Intl Equity':'var(--c2)','Emerging Mkts':'var(--c3)','Bonds':'var(--c7)','Real Estate':'var(--c6)','Cash':'var(--c4)','Other':'#555'};
+    const best = a.positions.slice().sort((x,y)=>(y.unrlPct||0)-(x.unrlPct||0))[0];
+    const worst = a.positions.slice().sort((x,y)=>(x.unrlPct||0)-(y.unrlPct||0))[0];
+    analysisHTML = `
+    <div class="chart-block">
+      <div class="chart-title">Performance Tracker — Automated Account</div>
+      <div class="meta-grid" style="margin-top:0">
+        <div class="meta-cell"><div class="meta-label">Total Return</div><div class="meta-value ${a.unrl>=0?'green':'red'}">${fmt$(a.unrl,true)}</div><div class="meta-sub">${fmtPct(a.unrlPct,true)} ON ${fmt$(a.basis).replace('.00','')} INVESTED</div></div>
+        <div class="meta-cell"><div class="meta-label">Day</div><div class="meta-value ${a.dayChg>=0?'green':'red'}">${fmtPct(a.dayPct,true)}</div><div class="meta-sub">${fmt$(a.dayChg,true)}</div></div>
+        <div class="meta-cell"><div class="meta-label">Best Holding</div><div class="meta-value green">${esc(best.symbol)}</div><div class="meta-sub">${fmtPct(best.unrlPct,true)} SINCE ENTRY</div></div>
+        <div class="meta-cell"><div class="meta-label">Laggard</div><div class="meta-value ${(worst.unrlPct||0)<0?'red':''}">${esc(worst.symbol)}</div><div class="meta-sub">${fmtPct(worst.unrlPct,true)} SINCE ENTRY</div></div>
+      </div>
+      <div style="margin-top:18px">
+        ${bkeys.map(k=>{const b=buckets[k];return `<div class="hbar-row" style="grid-template-columns:110px 1fr 150px">
+          <div class="hbar-label">${esc(k)}</div>
+          <div class="hbar-track"><div class="hbar-fill" style="left:0;background:${BCOL[k]||'#555'};width:${b.v/bmax*100}%"></div></div>
+          <div class="hbar-value" style="color:#999">${(b.v/a.value*100).toFixed(1)}% · ${fmt$(b.v).replace('.00','')}${b.u? ` · <span class="${b.u>=0?'green':'red'}">${fmtPct(b.u/( b.v-b.u)*100,true)}</span>`:''}</div>
+        </div>`;}).join('')}
+      </div>
+      <div class="mono-note">ALLOCATION BY ASSET CLASS · RETURN % SINCE ENTRY PER BUCKET · NO POSITION-LEVEL CALLS ON AUTOMATED SLEEVES</div>
+    </div>
+    ${an.guidance?`<div class="highlight-box"><span style="color:var(--accent);letter-spacing:3px;font-size:9px">TRACKING NOTE //</span><br>${esc(an.guidance)}</div>`:''}`;
+  }
+
+  return `<section id="acct-${slug(a.name)}">
+    <div class="section-header"><span class="section-num">${num}</span><h2>${esc(a.name).toUpperCase()}${auto?' <span style="font-size:14px;font-family:Space Mono,monospace;color:var(--muted);letter-spacing:2px">AUTO-MANAGED</span>':''}</h2></div>
+    <div class="acct-head">
+      <span class="swatch" style="background:${a.color};width:14px;height:14px"></span>
+      <span class="val">${fmt$(a.value)}</span>
+      <span class="day ${a.dayChg>=0?'green':'red'}">${fmt$(a.dayChg,true)} · ${fmtPct(a.dayPct,true)} DAY</span>
+      <span class="day ${a.unrl>=0?'green':'red'}">${fmt$(a.unrl,true)} UNRL</span>
+    </div>
+    ${analysisHTML}
+    <div class="two-col">
+      <div class="chart-block"><div class="chart-title">Unrealized P/L by Position ($)</div><div class="hbar-chart" id="upl-${slug(a.name)}"></div></div>
+      <div class="chart-block"><div class="chart-title">Day Move by Position ($)</div><div class="hbar-chart" id="day-${slug(a.name)}"></div></div>
+    </div>
+    <div class="scroll-x"><table>
+      <thead><tr><th>Symbol</th><th>Description</th><th class="num">Qty</th><th class="num">Price</th><th class="num">Mkt Val</th><th class="num">Day Δ $</th><th class="num">Day Δ %</th><th class="num">Basis</th><th class="num">Unrl P/L</th><th class="num">Unrl %</th>${auto?'<th class="num">% Sleeve</th>':'<th>Rating</th><th>Status</th>'}</tr></thead>
+      <tbody>${rows}</tbody>
+    </table></div>
+  </section>`;
+}).join('');
+accounts.forEach(a=>{
+  const short = p=>p.symbol.length>18 ? p.symbol.split(' ')[0]+' '+(p.symbol.split(' ')[2]||'') : p.symbol;
+  hbars($('upl-'+slug(a.name)),
+    a.positions.slice().sort((x,y)=>(y.unrlPL||0)-(x.unrlPL||0)).map(p=>({label:short(p), value:p.unrlPL||0,
+      tip:`<div class="tt-title">${esc(p.symbol)}</div>unrl ${fmt$(p.unrlPL,true)} (${fmtPct(p.unrlPct,true)})<br><span class="tt-muted">basis</span> ${fmt$(p.costBasis)}`})),
+    v=>fmt$(v,true));
+  hbars($('day-'+slug(a.name)),
+    a.positions.slice().sort((x,y)=>(y.dayChg||0)-(x.dayChg||0)).map(p=>({label:short(p), value:p.dayChg||0,
+      tip:`<div class="tt-title">${esc(p.symbol)}</div>day ${fmt$(p.dayChg,true)} (${fmtPct(p.dayPct,true)})<br><span class="tt-muted">mkt val</span> ${fmt$(p.mktVal)}`})),
+    v=>fmt$(v,true));
+});
+
+/* ---------- advisory + sources ---------- */
+$('advisory-num').textContent = String(secNum++).padStart(2,'0');
+$('advisory-body').innerHTML = D.advisory ?
+  `<div class="alert alert-info"><div class="alert-label">THESIS</div><p>${esc(D.advisory.thesis)}</p></div>
+   <div class="rule-list">${D.advisory.points.map(pt=>{
+     const [head, rest] = pt.includes(':') ? [pt.split(':')[0], pt.split(':').slice(1).join(':')] : ['NOTE', pt];
+     return `<div class="rule-item"><span class="rule-check pass">▸</span><span class="rule-text"><b>${esc(head)}:</b>${esc(rest)}</span><span class="rule-badge standard">DOCTRINE</span></div>`;
+   }).join('')}</div>` :
+  '<p class="mono-note">NO ADVISORY IN CURRENT DATA PAYLOAD.</p>';
+$('sources-num').textContent = String(secNum++).padStart(2,'0');
+$('citations').innerHTML = (D.sources||[]).map(s=>
+  `<div class="cite-item">${esc(s.text)}${s.url?`, <a href="${esc(s.url)}">${esc(s.url.replace(/^https?:\/\//,''))}</a>.`:'.'}</div>`).join('');
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,877 @@
+{
+  "schema_version": 1,
+  "week": "2026-W33",
+  "date_range": {
+    "start": "2026-08-11",
+    "end": "2026-08-14"
+  },
+  "generated_at_utc": "2026-08-17T01:40:10+00:00",
+  "days_included": [
+    "2026-08-11",
+    "2026-08-12",
+    "2026-08-13",
+    "2026-08-14"
+  ],
+  "stats": {
+    "ideas_total": 84,
+    "triggered": 22,
+    "wins": 5,
+    "losses": 5,
+    "no_trigger": 7,
+    "indeterminate": 11,
+    "no_data": 55,
+    "win_rate": 0.5,
+    "total_r": 0.23,
+    "expectancy_r": 0.02,
+    "by_setup": {
+      "Bull Call Spread - CPI eve, ": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Protective Put - CPI binary ": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Hold long + Covered Call - f": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Safe Haven - dual hedge: Hor": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Gap-and-Go - Q2 beat, cloud ": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "OR_Break_VWAP_Retest - above": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "OR_Break_VWAP_Retest - VAH (": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Post-Earnings Momentum - sli": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Liquidity_Sweep - dead-cat t": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Post-Earnings Decay - sector": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Failed_Breakout_VWAP_Reversi": {
+        "n": 2,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Liquidity_Sweep - earnings m": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Earnings Gap-Go - EPS beat +": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Dual Demand - industrial met": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Yield Rise - 30Y at 5.25%, 3": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Liquidity_Sweep - R1 rejecti": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "1PM Auction Fade - weak bid-": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "CPI Gamma - cool print bounc": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Biotech Catalyst - Phase 2 d": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Earnings Event - Wed AMC, B2": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 1,
+        "losses": 0,
+        "total_r": 1.0,
+        "win_rate": 1.0
+      },
+      "Sector Sympathy - semis miss": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "OR Break / Fib38 Retest": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Gap-and-Go": {
+        "n": 2,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "531/536 Spread": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Inflation + Geo Hedge": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 1,
+        "total_r": -1.0,
+        "win_rate": 0.0
+      },
+      "OR Break R1": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 1,
+        "total_r": -0.41,
+        "win_rate": 0.0
+      },
+      "120 Straddle AMC": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 1,
+        "losses": 0,
+        "total_r": 1.0,
+        "win_rate": 1.0
+      },
+      "Tech Bounce Post-CPI": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "525/510 \u00b7 AMC": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Unusual Activity": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Energy Continuation": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Rate Hike Fear": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "R1 Rejection": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "VWAP Reversion": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "AMC Earnings \u00b7 5.1:1": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "AI Infra Momentum": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "R2 Rejection": {
+        "n": 2,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 0,
+        "total_r": -0.02
+      },
+      "Safety Overhang": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Post-Earnings Fade": {
+        "n": 2,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Rate-Sensitive Fade": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "AMC \u00b7 Cerebras": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "PE Cycle Momentum": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "OR Break R1 - PPI catalyst": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 1,
+        "losses": 0,
+        "total_r": 0.79,
+        "win_rate": 1.0
+      },
+      "Gap-and-Go BMO beat": {
+        "n": 3,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Rate Cut Play - PPI break": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Dark Pool Accumulation": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Bull Call Spread 580/585": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Rate Cut + Geo Hedge": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 1,
+        "total_r": -1.0,
+        "win_rate": 0.0
+      },
+      "OR Break PP": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 1,
+        "losses": 0,
+        "total_r": 0.09,
+        "win_rate": 1.0
+      },
+      "AI Miss Fade": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Guide Miss Fade": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Oil Breakdown": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Dark Pool 2.1M Shares": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Dark Pool 850K Shares": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Sep 180C Unusual Flow": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Sep 95C Unusual Flow": {
+        "n": 2,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Decline Continuation": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "AMC Straddle": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "OR Break above PP \u2014 Rate-Cut": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 1,
+        "total_r": -0.56,
+        "win_rate": 0.0
+      },
+      "Rate-Cut Repricing": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Gap-and-Go BMO Beat": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Stagflation Hedge Activated": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 1,
+        "losses": 0,
+        "total_r": 0.66,
+        "win_rate": 1.0
+      },
+      "Post-AMC Beat Gap-and-Go": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "OR Break above PP": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 1,
+        "total_r": -0.32,
+        "win_rate": 0.0
+      },
+      "Dark Pool Continuation": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Rate-Cut RE Rotation": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Defensive & Rate Cycle": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "BTC Rate-Cut Correlation": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Post-AMC Miss Fade": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Retail Sales Breakdown": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Rate-Cut Bank Headwind": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "AI Miss Continuation": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Oil Breakdown Continuation": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Guide Miss Continuation": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Oct 285C Stagflation Sweep": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Sep 180C Flow": {
+        "n": 1,
+        "triggered": 1,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "R2 Rejection Fade": {
+        "n": 1,
+        "triggered": 0,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      }
+    },
+    "by_direction": {
+      "long": {
+        "n": 49,
+        "triggered": 17,
+        "wins": 3,
+        "losses": 5,
+        "total_r": -1.75,
+        "win_rate": 0.375
+      },
+      "short": {
+        "n": 31,
+        "triggered": 3,
+        "wins": 0,
+        "losses": 0,
+        "total_r": -0.02
+      },
+      "neutral": {
+        "n": 4,
+        "triggered": 2,
+        "wins": 2,
+        "losses": 0,
+        "total_r": 2.0,
+        "win_rate": 1.0
+      }
+    },
+    "by_instrument": {
+      "options": {
+        "n": 21,
+        "triggered": 9,
+        "wins": 2,
+        "losses": 1,
+        "total_r": 1.0,
+        "win_rate": 0.667
+      },
+      "etf": {
+        "n": 19,
+        "triggered": 2,
+        "wins": 1,
+        "losses": 1,
+        "total_r": -0.34,
+        "win_rate": 0.5
+      },
+      "stock": {
+        "n": 30,
+        "triggered": 3,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "futures": {
+        "n": 14,
+        "triggered": 8,
+        "wins": 2,
+        "losses": 3,
+        "total_r": -0.43,
+        "win_rate": 0.4
+      }
+    },
+    "by_priority": {
+      "P3": {
+        "n": 24,
+        "triggered": 10,
+        "wins": 3,
+        "losses": 3,
+        "total_r": 0.48,
+        "win_rate": 0.5
+      },
+      "P2": {
+        "n": 45,
+        "triggered": 9,
+        "wins": 2,
+        "losses": 2,
+        "total_r": -0.23,
+        "win_rate": 0.5
+      },
+      "P1": {
+        "n": 15,
+        "triggered": 3,
+        "wins": 0,
+        "losses": 0,
+        "total_r": -0.02
+      }
+    },
+    "by_day": {
+      "2026-08-11": {
+        "n": 22,
+        "triggered": 4,
+        "wins": 1,
+        "losses": 0,
+        "total_r": 1.0,
+        "win_rate": 1.0
+      },
+      "2026-08-12": {
+        "n": 22,
+        "triggered": 4,
+        "wins": 1,
+        "losses": 2,
+        "total_r": -0.41,
+        "win_rate": 0.333
+      },
+      "2026-08-13": {
+        "n": 20,
+        "triggered": 8,
+        "wins": 2,
+        "losses": 1,
+        "total_r": -0.14,
+        "win_rate": 0.667
+      },
+      "2026-08-14": {
+        "n": 20,
+        "triggered": 6,
+        "wins": 1,
+        "losses": 2,
+        "total_r": -0.22,
+        "win_rate": 0.333
+      }
+    },
+    "daily_r_curve": [
+      {
+        "date": "2026-08-11",
+        "r": 1.0,
+        "cum_r": 1.0
+      },
+      {
+        "date": "2026-08-12",
+        "r": -0.41,
+        "cum_r": 0.59
+      },
+      {
+        "date": "2026-08-13",
+        "r": -0.14,
+        "cum_r": 0.45
+      },
+      {
+        "date": "2026-08-14",
+        "r": -0.22,
+        "cum_r": 0.23
+      }
+    ]
+  },
+  "highlights": {
+    "best_call": {
+      "id": "2026-08-11-T21",
+      "symbol": "CSCO",
+      "setup": "Earnings Event - Wed AMC, B2B AI commentary binary",
+      "r_multiple": 1.0,
+      "story": "CSCO event straddle: 8.4% post-earnings move vs 3% stated threshold."
+    },
+    "worst_call": {
+      "id": "2026-08-12-T04",
+      "symbol": "GLD",
+      "setup": "Inflation + Geo Hedge",
+      "r_multiple": -1.0,
+      "story": "Gold hedge long gapped in at 4,468 vs 4,430 plan; stopped 4,400 on the intraday fade."
+    },
+    "biggest_no_trigger_regret": {
+      "id": "2026-08-14-T03",
+      "symbol": "WMT",
+      "setup": "Gap-and-Go BMO Beat",
+      "r_multiple": 0.0,
+      "story": "WMT never crossed PM-High+1% \u2014 the entry rule correctly kept us out of a flat tape."
+    }
+  },
+  "coverage": {
+    "graded": 11,
+    "no_trigger": 7,
+    "indeterminate": 11,
+    "no_data": 55,
+    "notes": "Daily-bar grading v1. no_data = symbol not on current FMP plan (TLT, QQQ, sector ETFs, small/mid caps) \u2014 Alpha Vantage key now staged to close this. indeterminate = needs intraday bars (VWAP/OR entries, same-bar stop+target) or the level/data-mismatch guard."
+  },
+  "market_week": {
+    "week_in_review": "A whipsaw macro week that ended almost exactly where it started \u2014 S&P 500 +0.36%, Nasdaq +0.14% \u2014 but the path was violent. Tuesday was CPI-eve caution. Wednesday's CPI opened the relief valve on the monthly print (+0.1% MoM) while YoY re-accelerated to 3.4%, briefly resurrecting rate-HIKE fear with the 10Y at 4.72%. Thursday's 0.0% PPI flipped the entire tape: regime went BULL, indexes pushed toward highs, and Cisco's \u22128.4% earnings gap paid both straddles. Friday broke the rally's back \u2014 Retail Sales \u22120.6% and UMich 51.0, the week's second regime flip, this time into the stagflation fork. Hard assets told the real story: gold +0.85%, silver +2.53%, and Brent crude +5.95% on the week (the Hormuz tension bid) while the middle-market consumer names cracked. Two cross-checks worth logging: the dollar barely moved (UUP +0.14%), so the hard-asset bid was fear, not dollar debasement \u2014 and Bitcoin fell 2.95% (ETH \u22121.71%) in the very week the 'rate cuts = crypto bullish' narrative anchored the HIVE thesis. Crypto is not yet confirming the rate-cut trade. Three regimes in four sessions; the scoreboard below is what our ideas did inside that chop.",
+    "kpis": {
+      "S&P 500": {
+        "close": 7785.76,
+        "change_pct": 0.36
+      },
+      "Nasdaq Comp": {
+        "close": 26729.16,
+        "change_pct": 0.14
+      },
+      "Gold (spot)": {
+        "close": 4437.3,
+        "change_pct": 0.85
+      },
+      "Silver (spot)": {
+        "close": 65.108,
+        "change_pct": 2.53
+      },
+      "Bitcoin": {
+        "close": 62975.19,
+        "change_pct": -2.95
+      },
+      "Ethereum": {
+        "close": 1880.41,
+        "change_pct": -1.71
+      },
+      "Brent Crude": {
+        "close": 88.52,
+        "change_pct": 5.95
+      },
+      "USD Index ($DXY)": {
+        "close": 99.84,
+        "change_pct": null
+      }
+    },
+    "dxy_source": "DXY ~99.84, 'roughly flat on the week' \u2014 OneUp Trader DXY technical analysis, Aug 14 2026 (blog.oneuptrader.com). Precise weekly bars land with the Schwab $DXY leg.",
+    "day_catalysts": {
+      "2026-08-11": "CPI-eve positioning \u2014 defined-risk spreads and hedges; semis weak post-earnings (COHR, GFS, LITE)",
+      "2026-08-12": "CPI: MoM in line (+0.1%) but YoY re-accelerated to 3.4% \u2014 rate-hike fear bid, 10Y 4.72%; CSCO ATM straddle set AMC",
+      "2026-08-13": "PPI 0.0% MoM \u2014 clean disinflation flips the tape BULL; ATH push; CSCO \u22128.4% pays the straddles; BIRK/DELL/AMBP BMO beats",
+      "2026-08-14": "Retail Sales \u22120.6% + UMich 51.0 double miss \u2014 stagflation fork; WMT beat but no-trigger; index longs bleed into the close"
+    }
+  },
+  "thesis_review": [
+    {
+      "thesis": "Event-volatility edge (CSCO earnings straddles)",
+      "days_active": [
+        "2026-08-11",
+        "2026-08-12"
+      ],
+      "verdict": "confirmed",
+      "evidence": "Both CSCO straddles graded WIN: CSCO fell 8.4% on its Aug 13 report vs stated 3% and 8% expected-move thresholds, and finished the week \u22128.03%. 2-for-2 \u2014 the only setup class that went undefeated."
+    },
+    {
+      "thesis": "Rate-cut repricing index longs (/ES, /NQ)",
+      "days_active": [
+        "2026-08-13",
+        "2026-08-14"
+      ],
+      "verdict": "mixed",
+      "evidence": "Thursday confirmed: /ES OR-Break R1 long hit target (+0.79R, SPX 7,763\u21927,798) on the PPI disinflation flip. Friday refuted intraday: both index longs closed red (\u22120.56R, \u22120.32R) as the stagflation fork resolved bearish into the close \u2014 exactly the risk Friday's own advisory flagged."
+    },
+    {
+      "thesis": "Gold as inflation/stagflation hedge",
+      "days_active": [
+        "2026-08-12",
+        "2026-08-13",
+        "2026-08-14"
+      ],
+      "verdict": "mixed",
+      "evidence": "Split decision that vindicates entry discipline. Thursday's long from 4,430 gapped in at 4,468 and stopped at 4,400 (\u22121R) on the intraday fade. Friday's re-entry above the pre-market high caught the rebound and closed the week positive. Gold finished +0.85%, silver +2.53% \u2014 the thesis was right; only the gapped fill lost money."
+    },
+    {
+      "thesis": "TLT rate-cut macro long \u2014 'trade of the week'",
+      "days_active": [
+        "2026-08-13",
+        "2026-08-14"
+      ],
+      "verdict": "unresolved",
+      "evidence": "Ungradable this run: TLT price history is not on the current FMP plan. The Alpha Vantage key now in .env closes this gap \u2014 next automated run grades TLT with intraday bars."
+    }
+  ],
+  "lessons_candidates": [
+    {
+      "rule": "Keep taking event straddles that state an explicit expected-move threshold; skip ones that don't.",
+      "evidence": "2/2 wins (CSCO Aug 11 + Aug 12); straddles without stated thresholds were ungradable \u2014 unmeasurable means unaccountable.",
+      "supporting_ids": [
+        "2026-08-11-T21",
+        "2026-08-12-T06"
+      ],
+      "action": "watch"
+    },
+    {
+      "rule": "Stand down when the open gaps beyond the entry/stop/target geometry \u2014 don't chase re-anchored entries.",
+      "evidence": "Two /NQ setups were invalidated by gap-opens and three more had entries re-anchored so far from plan that R:R degraded to near zero. The GLD stop-out was the same disease: planned 4,430, filled 4,468, stopped 4,400.",
+      "supporting_ids": [
+        "2026-08-11-T07",
+        "2026-08-12-T13",
+        "2026-08-13-T08",
+        "2026-08-13-T09"
+      ],
+      "action": "adopt"
+    },
+    {
+      "rule": "On macro-miss days (Retail Sales/UMich type), index longs held to the close bled: enforce the PP-hold confirmation the advisory itself demanded before sizing intraday index longs.",
+      "evidence": "Friday's two index longs both closed negative (\u22120.88R combined) on the double-miss day; the day's own advisory said 'below PP = sidelines'.",
+      "supporting_ids": [
+        "2026-08-14-T01",
+        "2026-08-14-T06"
+      ],
+      "action": "watch"
+    }
+  ],
+  "forward_guidance": {
+    "posture_next_week": "Coverage first, conviction second: the Alpha Vantage key is loaded \u2014 first automated run re-grades this week at intraday fidelity and unlocks TLT, sector ETFs, and the small caps. Trade-wise: respect the two-flip week \u2014 regime is unstable, so defined-risk event structures (the week's only undefeated class) over naked directional conviction. Treat gap-opens as a stand-down signal, not a chase signal.",
+    "watchlist": [
+      "CSCO post-earnings drift",
+      "/ES PP reclaim vs stagflation follow-through",
+      "Gold 4,400 floor retest (thesis alive, entries disciplined)",
+      "TLT once intraday coverage lands",
+      "HIVE/BTC correlation (VWAP entries gradable next run)"
+    ],
+    "key_events_next_week": [
+      "FOMC minutes Wed",
+      "HD housing read-through",
+      "Weekly claims Thu",
+      "Flash PMIs Fri"
+    ]
+  }
+}
