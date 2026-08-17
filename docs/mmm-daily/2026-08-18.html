@@ -3,420 +3,923 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Shadow Monkey MMM — MON 2026-08-18</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<title>Morning Market Monitor &mdash; Monday, August 18, 2026 &mdash; Shadow Monkey / Monkey Matters LLC</title>
 <style>
-:root{
-  --black:#080808;--surface:#0f0f0f;--surface2:#161616;--border:#222;
-  --accent:#c8ff00;--accent2:#ff4d00;--accent3:#00d4ff;
-  --text:#fff;--muted:#aaa;--sub:#ccc;
-  --safe:#00ff88;--danger:#ff3333;--warn:#ffb800;
-}
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:var(--black);color:var(--text);font-family:'DM Sans',sans-serif;font-size:14px;line-height:1.5;overflow-x:hidden}
-body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,.15) 2px,rgba(0,0,0,.15) 4px);pointer-events:none;z-index:9999}
-
-/* HEADER */
-.site-header{position:relative;padding:24px 32px 20px;border-top:3px solid var(--accent);border-bottom:1px solid var(--border);background:var(--surface)}
-.site-header .watermark{position:absolute;right:16px;top:50%;transform:translateY(-50%) rotate(90deg);font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:4px;color:rgba(200,255,0,.15);pointer-events:none;white-space:nowrap}
-.header-top{display:flex;align-items:baseline;gap:16px;margin-bottom:6px}
-.header-top h1{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:3px;color:var(--accent)}
-.header-top .datestamp{font-family:'Space Mono',monospace;font-size:12px;color:var(--muted)}
-.header-sub{font-size:12px;color:var(--muted);letter-spacing:1px}
-
-/* SECTIONS */
-.section{padding:24px 32px;border-bottom:1px solid var(--border)}
-.section-label{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:3px;color:var(--accent);margin-bottom:16px;display:flex;align-items:center;gap:12px}
-.section-label::after{content:'';flex:1;height:1px;background:var(--border)}
-
-/* CARDS GRID */
-.cards-grid{display:grid;gap:1px;background:var(--border)}
-.cards-grid.col2{grid-template-columns:1fr 1fr}
-.cards-grid.col3{grid-template-columns:repeat(3,1fr)}
-.cards-grid.col4{grid-template-columns:repeat(4,1fr)}
-.card{background:var(--surface);padding:18px;border-left:3px solid var(--accent)}
-.card.accent2{border-left-color:var(--accent2)}
-.card.accent3{border-left-color:var(--accent3)}
-.card.safe{border-left-color:var(--safe)}
-.card.danger-card{border-left-color:var(--danger)}
-
-/* FUTURES INTEL */
-.futures-price{font-family:'Space Mono',monospace;font-size:36px;font-weight:700;color:var(--text);margin-bottom:4px}
-.futures-change{font-family:'Space Mono',monospace;font-size:13px}
-.futures-change.up{color:var(--safe)}
-.futures-change.down{color:var(--danger)}
-.pivot-table{width:100%;border-collapse:collapse;margin-top:14px;font-family:'Space Mono',monospace;font-size:11px}
-.pivot-table th{color:var(--muted);font-weight:400;text-align:left;padding:4px 6px;border-bottom:1px solid var(--border);letter-spacing:2px}
-.pivot-table td{padding:5px 6px;border-bottom:1px solid rgba(255,255,255,.04)}
-.pivot-table tr.pp td{background:rgba(255,77,0,.12);color:var(--accent2);font-weight:700}
-.pivot-table .r-level{color:var(--accent)}
-.pivot-table .s-level{color:var(--accent3)}
-.pivot-note{font-size:10px;color:var(--muted);margin-top:8px;font-family:'Space Mono',monospace}
-
-/* MARKET TILES */
-.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
-.tile{background:var(--surface2);padding:14px 16px}
-.tile-sym{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:2px;color:var(--muted);margin-bottom:4px}
-.tile-price{font-family:'Space Mono',monospace;font-size:18px;font-weight:700}
-.tile-chg{font-family:'Space Mono',monospace;font-size:12px;margin-top:2px}
-.tile-chg.up{color:var(--safe)}
-.tile-chg.down{color:var(--danger)}
-.tile-chg.flat{color:var(--muted)}
-
-/* HEATMAP */
-.heatmap{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border)}
-.heat-cell{background:var(--surface);padding:12px;text-align:center}
-.heat-name{font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:1px;color:var(--muted);margin-bottom:4px}
-.heat-val{font-family:'Space Mono',monospace;font-size:14px;font-weight:700}
-
-/* CALENDAR TABLE */
-.data-table{width:100%;border-collapse:collapse;font-size:12px}
-.data-table th{font-family:'Bebas Neue',sans-serif;letter-spacing:2px;font-size:11px;color:var(--muted);text-align:left;padding:8px 10px;border-bottom:1px solid var(--border)}
-.data-table td{padding:8px 10px;border-bottom:1px solid rgba(255,255,255,.04);font-family:'Space Mono',monospace;font-size:11px}
-.chip{display:inline-block;padding:2px 8px;border-radius:2px;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:1px}
-.chip.high{background:rgba(255,51,51,.2);color:var(--danger)}
-.chip.med{background:rgba(255,184,0,.2);color:var(--warn)}
-.chip.low{background:rgba(170,170,170,.15);color:var(--muted)}
-.chip.long{background:rgba(0,255,136,.15);color:var(--safe)}
-.chip.short{background:rgba(255,51,51,.15);color:var(--danger)}
-.chip.p1{background:rgba(255,77,0,.2);color:var(--accent2)}
-.chip.p2{background:rgba(0,212,255,.15);color:var(--accent3)}
-.chip.p3{background:rgba(170,170,170,.1);color:var(--muted)}
-.chip.bull{background:rgba(0,255,136,.15);color:var(--safe)}
-.chip.bear{background:rgba(255,51,51,.15);color:var(--danger)}
-.chip.event{background:rgba(255,77,0,.2);color:var(--accent2)}
-.chip.choppy{background:rgba(255,184,0,.15);color:var(--warn)}
-.chip.mixed{background:rgba(170,170,170,.1);color:var(--muted)}
-
-/* REGIME */
-.regime-bar{display:flex;align-items:center;gap:16px;margin-bottom:18px}
-.regime-label{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:4px}
-.advisory-body{color:var(--sub);line-height:1.8;font-size:14px}
-.advisory-body p{margin-bottom:12px}
-
-/* TRADE TABLE */
-.trade-filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
-.filter-btn{background:var(--surface2);border:1px solid var(--border);color:var(--muted);font-family:'Bebas Neue',sans-serif;font-size:11px;letter-spacing:2px;padding:5px 14px;cursor:pointer;border-radius:2px;transition:all .15s}
-.filter-btn.active,.filter-btn:hover{background:var(--accent);color:var(--black);border-color:var(--accent)}
-#trade-table td{vertical-align:top}
-#trade-table tr.p1-row{border-left:3px solid var(--accent2)}
-#trade-table tr.p2-row{border-left:3px solid var(--accent3)}
-#trade-table tr.p3-row{border-left:3px solid var(--border)}
-.sortable{cursor:pointer;user-select:none}
-.sortable:hover{color:var(--accent)}
-
-/* NEWS */
-.news-list{display:flex;flex-direction:column;gap:1px;background:var(--border)}
-.news-item{background:var(--surface);padding:14px 18px;display:flex;flex-direction:column;gap:4px}
-.news-hl{font-size:13px;color:var(--text);line-height:1.4}
-.news-hl a{color:inherit;text-decoration:none}
-.news-hl a:hover{color:var(--accent)}
-.news-meta{font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)}
-
-/* FOOTER */
-footer{padding:20px 32px;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:10px;letter-spacing:3px;color:var(--muted);border-top:1px solid var(--border)}
-
-/* HIVE ALERT */
-.hive-alert{background:rgba(200,255,0,.06);border:1px solid rgba(200,255,0,.2);border-left:4px solid var(--accent);padding:12px 18px;margin-bottom:16px;font-size:13px}
-.hive-alert strong{color:var(--accent)}
+:root{
+  --bg:#0b1020;--panel:#111827;--card:#0e1630;--border:#1d274d;
+  --ink:#e7ecff;--sub:#9fb0d9;--muted:#5c6a8a;--accent:#6ea8fe;
+  --good:#22c55e;--bad:#ef4444;--warn:#f59e0b;--chip:#1a2447;
+  --dntw:#7c3aed
+}
+body{background:var(--bg);color:var(--ink);font-family:-apple-system,"Segoe UI",sans-serif;font-size:13px;line-height:1.5;padding:10px}
+a{color:inherit;text-decoration:underline;text-underline-offset:2px;text-decoration-color:var(--muted)}
+.wrap{max-width:1200px;margin:0 auto}
+.hdr{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;background:var(--panel);border:1px solid var(--border);border-radius:12px;margin-bottom:8px}
+.hdr-l{display:flex;align-items:center;gap:10px}
+.hdr-brand{font-size:.7rem;text-transform:uppercase;letter-spacing:2px;color:var(--accent);font-weight:700}
+.hdr-title{font-size:1.1rem;font-weight:700;color:var(--ink)}
+.hdr-date{font-size:.75rem;color:var(--muted)}
+.hdr-r{display:flex;gap:8px;align-items:center}
+.badge{font-size:.6rem;padding:3px 8px;border-radius:20px;font-weight:700;text-transform:uppercase;letter-spacing:.6px}
+.badge-live{background:#0c1e0c;color:var(--good);border:1px solid #22c55e44}
+.badge-warn{background:#1c0e00;color:var(--warn);border:1px solid var(--warn)}
+.badge-alert{background:#280a0a;color:var(--bad);border:1px solid #ef444488}
+.sent-strip{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:8px}
+.sent-tile{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:7px 10px;text-align:center}
+.st-lbl{font-size:.57rem;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:2px}
+.st-val{font-size:1.08rem;font-weight:800;line-height:1.2;margin:1px 0}
+.st-sub{font-size:.63rem;font-weight:600}
+.c-warn{color:var(--warn)}.c-good{color:var(--good)}.c-bad{color:var(--bad)}.c-acc{color:var(--accent)}.c-sub{color:var(--sub)}
+.mi{display:grid;grid-template-columns:2fr 1.2fr 1.4fr;gap:8px;margin-bottom:8px}
+.mi-card{background:#0c1424;border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.mi-hd{font-size:.6rem;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);font-weight:700;margin-bottom:7px}
+.alert-row{display:flex;gap:7px;align-items:flex-start;margin-bottom:6px}
+.alert-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0;margin-top:5px}
+.adot-r{background:#ef4444;box-shadow:0 0 5px #ef444488}
+.adot-y{background:#f59e0b;box-shadow:0 0 4px #f59e0b66}
+.adot-g{background:#22c55e;box-shadow:0 0 4px #22c55e66}
+.alert-txt{font-size:.7rem;color:var(--sub);line-height:1.4}
+.alert-txt strong{color:var(--ink);font-weight:600}
+.evt-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid #1a254018;font-size:.68rem;color:var(--sub)}
+.evt-row:last-child{border-bottom:none}
+.evt-time{color:var(--muted);font-size:.61rem;white-space:nowrap;margin-right:6px;flex-shrink:0}
+.evt-name{flex:1;color:var(--ink);font-size:.68rem}
+.act-row{display:flex;gap:6px;align-items:flex-start;margin-bottom:5px;font-size:.7rem;color:var(--sub)}
+.act-chip{font-size:.58rem;padding:2px 6px;border-radius:4px;font-weight:700;text-transform:uppercase;flex-shrink:0;margin-top:1px}
+.chip-buy{background:#0a2208;color:var(--good);border:1px solid #164014}
+.chip-sell{background:#280a0a;color:var(--bad);border:1px solid #4a1212}
+.chip-avoid{background:#1c1408;color:var(--warn);border:1px solid #3a2810}
+.kpi-bar{display:grid;grid-template-columns:repeat(6,1fr);gap:6px;margin-bottom:8px}
+.kpi{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:7px 10px;text-align:center}
+.kpi-lbl{font-size:.57rem;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);margin-bottom:2px}
+.kpi-val{font-size:1.05rem;font-weight:800;line-height:1.2}
+.kpi-ch{font-size:.63rem;font-weight:600;margin-top:1px}
+.regime{background:var(--panel);border:1px solid var(--border);border-radius:9px;padding:8px 14px;margin-bottom:8px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.reg-badge{font-size:.65rem;font-weight:700;padding:3px 10px;border-radius:5px;text-transform:uppercase;letter-spacing:.6px}
+.reg-mixed{background:#1c1408;color:var(--warn);border:1px solid var(--warn)}
+.reg-bull{background:#0a2208;color:var(--good);border:1px solid var(--good)}
+.reg-bear{background:#280a0a;color:var(--bad);border:1px solid var(--bad)}
+.reg-item{font-size:.68rem;color:var(--sub)}
+.reg-item strong{color:var(--ink)}
+.reg-div{width:1px;height:16px;background:var(--border)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px;overflow:hidden}
+.card-hd{font-size:.65rem;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);font-weight:700;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.ftbl{width:100%;border-collapse:collapse;font-size:.72rem;margin-bottom:4px}
+.ftbl td{padding:3px 6px;border-bottom:1px solid #1a254018;color:var(--sub);vertical-align:top}
+.ftbl td:first-child{color:var(--muted);font-size:.62rem;text-transform:uppercase;letter-spacing:.4px;width:110px}
+.ftbl td:last-child{text-align:right;color:var(--ink);font-weight:600;font-family:"SF Mono",monospace;font-size:.71rem}
+.ftbl td.good{color:var(--good)!important}.ftbl td.bad{color:var(--bad)!important}
+.ftbl td.warn{color:var(--warn)!important}.ftbl td.acc{color:var(--accent)!important}
+.tfoot-note{font-size:.58rem;color:var(--muted);margin-top:4px;font-style:italic}
+.grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:8px}
+.etbl{width:100%;border-collapse:collapse;font-size:.7rem}
+.etbl th{color:var(--muted);font-size:.58rem;text-transform:uppercase;letter-spacing:.6px;padding:3px 6px;border-bottom:1px solid var(--border);text-align:left;font-weight:500}
+.etbl td{padding:4px 6px;border-bottom:1px solid #1a254018;color:var(--sub);vertical-align:middle}
+.etbl td:first-child{color:var(--muted);font-size:.63rem;white-space:nowrap}
+.etbl td strong{color:var(--ink)}
+.chk{color:var(--good);font-weight:700}
+.erntbl{width:100%;border-collapse:collapse;font-size:.7rem}
+.erntbl td{padding:4px 6px;border-bottom:1px solid #1a254018;color:var(--sub);vertical-align:middle}
+.erntbl td:first-child{color:var(--ink);font-weight:600}
+.timing{font-size:.6rem;padding:2px 5px;border-radius:3px;font-weight:600}
+.bmo{background:#0a1a2a;color:var(--accent);border:1px solid #1a3050}
+.amc{background:#1c0e28;color:#c4b5fd;border:1px solid #2e1e50}
+.reported{background:#0a2208;color:var(--good);border:1px solid #164014}
+.sector-row{display:flex;justify-content:space-between;align-items:center;padding:3px 0;border-bottom:1px solid #1a254018;font-size:.7rem}
+.sector-row:last-child{border-bottom:none}
+.sec-etf{color:var(--ink);font-weight:600;width:42px}
+.sec-name{color:var(--sub);flex:1;font-size:.65rem}
+.sec-bar-wrap{width:80px;height:4px;background:#1a2447;border-radius:2px;margin:0 8px}
+.sec-bar{height:4px;border-radius:2px}
+.sec-val{font-weight:700;font-size:.7rem;width:44px;text-align:right;font-family:"SF Mono",monospace}
+.pmtbl{width:100%;border-collapse:collapse;font-size:.7rem}
+.pmtbl td{padding:4px 5px;border-bottom:1px solid #1a254018;vertical-align:middle}
+.pmtbl td:first-child{color:var(--ink);font-weight:700;width:52px}
+.pm-cat{font-size:.58rem;padding:2px 5px;border-radius:3px;font-weight:600}
+.pm-earn{background:#0a1a2a;color:var(--accent);border:1px solid #1a3050}
+.pm-ai{background:#0a1428;color:#93c5fd;border:1px solid #1e3460}
+.pm-beat{background:#0a2208;color:var(--good);border:1px solid #164014}
+.pm-miss{background:#280a0a;color:var(--bad);border:1px solid #4a1212}
+.pm-geo{background:#1c1408;color:var(--warn);border:1px solid #3a2810}
+.spot-item{margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.spot-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.spot-hd{display:flex;align-items:center;gap:6px;margin-bottom:3px}
+.spot-tk{font-weight:700;color:var(--ink);font-size:.8rem}
+.spot-mv{font-size:.7rem;font-weight:700}
+.spot-body{font-size:.7rem;color:var(--sub);line-height:1.4}
+.opt-item{margin-bottom:9px;padding-bottom:9px;border-bottom:1px solid var(--border)}
+.opt-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.opt-hd{display:flex;gap:6px;align-items:baseline;margin-bottom:2px}
+.opt-tk{font-weight:700;color:var(--ink)}
+.opt-str{font-size:.7rem;color:var(--accent)}
+.opt-body{font-size:.68rem;color:var(--sub);line-height:1.4}
+.mf-item{display:flex;justify-content:space-between;align-items:center;padding:4px 0;border-bottom:1px solid #1a254018;font-size:.7rem}
+.mf-item:last-child{border-bottom:none}
+.mf-name{color:var(--sub);flex:1}
+.mf-name strong{color:var(--ink)}
+.mf-val{font-family:"SF Mono",monospace;font-weight:700;font-size:.68rem}
+.uo-item{margin-bottom:7px;padding-bottom:7px;border-bottom:1px solid #1a254018;font-size:.7rem}
+.uo-item:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0}
+.uo-hd{display:flex;gap:6px;align-items:center;margin-bottom:2px}
+.uo-tk{font-weight:700;color:var(--ink)}
+.uo-exp{font-size:.62rem;color:var(--muted)}
+.uo-body{color:var(--sub);line-height:1.4}
+.ca{background:#060d1a;border-top:1px solid var(--border);padding:10px 14px;margin:12px -14px -12px}
+.ca-row{display:grid;grid-template-columns:90px 1fr;gap:2px 8px;font-size:.71rem;padding:4px 0;border-bottom:1px solid #1a254020;align-items:start}
+.ca-row:last-child{border-bottom:none}
+.ca-lbl{color:var(--accent);font-size:.6rem;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding-top:2px}
+.ca-val{color:var(--sub);line-height:1.45}
+.ca-val strong{color:var(--ink)}
+.ca-lvls{display:flex;gap:4px;flex-wrap:wrap;margin-top:3px}
+.lv{font-size:.62rem;font-family:"SF Mono",monospace;padding:2px 6px;border-radius:3px;font-weight:700;white-space:nowrap}
+.lv-e{background:#0e1e38;color:#6ea8fe;border:1px solid #1e3868}
+.lv-s{background:#280a0a;color:#ef4444;border:1px solid #4a1212}
+.lv-t{background:#0a2208;color:#22c55e;border:1px solid #164014}
+.lv-n{background:#161626;color:#9fb0d9;border:1px solid #262644}
+.tbl-section{background:var(--panel);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:10px;overflow-x:auto}
+.tbl-hd{font-size:.65rem;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);font-weight:700;margin-bottom:10px}
+.ttbl{width:100%;border-collapse:collapse;min-width:980px}
+.ttbl th{background:#060d1a;color:var(--accent);font-size:.57rem;text-transform:uppercase;letter-spacing:.7px;padding:7px 8px;text-align:left;border-bottom:2px solid var(--border);white-space:nowrap}
+.ttbl td{padding:5px 8px;border-bottom:1px solid #1a254020;font-size:.71rem;vertical-align:middle}
+.ttbl tr:hover td{background:#0c1424}
+.t-type{font-size:.59rem;padding:2px 5px;border-radius:3px;font-weight:600;white-space:nowrap}
+.tf{background:#0c1c36;color:#6ea8fe;border:1px solid #1a3060}
+.ts{background:#18102e;color:#c4b5fd;border:1px solid #2e1e50}
+.te{background:#0a1e0a;color:#86efac;border:1px solid #163016}
+.to{background:#2a1408;color:#fdba74;border:1px solid #4a2810}
+.t-long{color:var(--good);font-weight:700}.t-short{color:var(--bad);font-weight:700}.t-neut{color:var(--sub);font-weight:700}
+.t-rr{font-weight:700;color:var(--warn)}.t-pri{letter-spacing:-.5px}
+.mono{font-family:"SF Mono",monospace;font-size:.68rem}
+.ttbl-controls{display:flex;gap:7px;flex-wrap:wrap;align-items:center;margin-bottom:9px;padding:7px 10px;background:#060d1a;border:1px solid var(--border);border-radius:8px}
+.ttbl-filter-lbl{font-size:.59rem;text-transform:uppercase;letter-spacing:.7px;color:var(--muted);white-space:nowrap}
+.ttbl-filter-input{background:#0b1020;border:1px solid var(--border);border-radius:5px;padding:4px 8px;color:var(--ink);font-size:.64rem;width:100px;outline:none;font-family:inherit}
+.ttbl-filter-input::placeholder{color:var(--muted)}
+.ttbl-filter-input:focus{border-color:var(--accent)}
+.ttbl-filter-select{background:#0b1020;border:1px solid var(--border);border-radius:5px;padding:4px 8px;color:var(--sub);font-size:.64rem;cursor:pointer;outline:none;font-family:inherit}
+.ttbl-reset{background:#0c1630;border:1px solid var(--border);border-radius:5px;padding:4px 9px;color:var(--muted);font-size:.62rem;cursor:pointer;font-family:inherit}
+.ttbl-reset:hover{color:var(--ink);border-color:var(--accent)}
+.ttbl-count{font-size:.6rem;color:var(--muted);margin-left:auto;white-space:nowrap}
+.ttbl th.sortable{cursor:pointer;user-select:none}.ttbl th.sortable:hover{color:var(--ink)}
+.ttbl th.sort-asc::after{content:" ▲";font-size:.5rem;opacity:.8}
+.ttbl th.sort-desc::after{content:" ▼";font-size:.5rem;opacity:.8}
+.ftr{text-align:center;font-size:.6rem;color:var(--muted);margin-top:12px;padding-top:8px;border-top:1px solid var(--border)}
+.adv-row{display:grid;grid-template-columns:3fr 1fr;gap:8px;margin-bottom:8px}
+.adv-card{background:linear-gradient(135deg,#0c1424 0%,#0e1630 100%);border:1px solid #2a3a6a;border-radius:12px;padding:12px 14px}
+.adv-hd{font-size:.62rem;text-transform:uppercase;letter-spacing:.9px;color:#93c5fd;font-weight:700;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.adv-label{font-size:.6rem;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:2px;margin-top:6px}
+.adv-signal{font-size:.75rem;color:var(--ink);font-weight:600;line-height:1.4}
+.adv-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:4px}
+.sig-chip{font-size:.6rem;padding:2px 7px;border-radius:4px;font-weight:600}
+.sig-watch{background:#0a1c36;color:#6ea8fe;border:1px solid #1a3868}
+.sig-lean{background:#0a2010;color:#86efac;border:1px solid #163414}
+.sig-caution{background:#1c1008;color:#fcd34d;border:1px solid #3a2808}
+.sig-avoid{background:#1c0808;color:#f87171;border:1px solid #3a1212}
+.bbm-card{background:#0c1424;border:1px solid var(--border);border-radius:10px;padding:10px 12px}
+.bbm-hd{font-size:.6rem;text-transform:uppercase;letter-spacing:.8px;color:var(--accent);font-weight:700;margin-bottom:8px}
+.bbm-bar-wrap{position:relative;height:18px;background:#1a254050;border-radius:9px;overflow:hidden;margin:4px 0 6px}
+.bbm-bull{height:100%;border-radius:9px 0 0 9px;background:linear-gradient(90deg,#14532d,#22c55e)}
+.bbm-bear{position:absolute;right:0;top:0;height:100%;border-radius:0 9px 9px 0;background:linear-gradient(270deg,#7f1d1d,#ef4444)}
+.bbm-labels{display:flex;justify-content:space-between;font-size:.62rem;font-weight:700;margin-bottom:6px}
+.bbm-signal-row{display:flex;justify-content:space-between;align-items:center;font-size:.62rem;padding:2px 0;border-bottom:1px solid #1a254018}
+.bbm-signal-row:last-child{border-bottom:none}
+.bbm-sn{color:var(--sub)}.bbm-sv-bull{color:var(--good);font-weight:700}
+.bbm-sv-bear{color:var(--bad);font-weight:700}.bbm-sv-neut{color:var(--warn);font-weight:700}
+.three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+@media(max-width:640px){
+  .sent-strip{grid-template-columns:repeat(3,1fr)}
+  .kpi-bar{grid-template-columns:repeat(3,1fr)}
+  .grid2,.grid3,.mi,.adv-row,.three-col{grid-template-columns:1fr}
+}
 </style>
 </head>
 <body>
+<div class="wrap">
 
-<header class="site-header">
-  <div class="watermark">CLASSIFIED · SHADOW MONKEY INTEL · CLASSIFIED</div>
-  <div class="header-top">
-    <h1>Morning Market Monitor</h1>
-    <span class="datestamp">MON · 2026-08-18 · 2026-W34</span>
-  </div>
-  <div class="header-sub">SHADOW MONKEY INTEL · MONKEY MATTERS LLC · AUTO-GENERATED 21:48 UTC</div>
-</header>
-
-<!-- 01 MARKET OVERVIEW -->
-<section class="section">
-  <div class="section-label"><span>01 — MARKET OVERVIEW</span></div>
-
-  <div class="hive-alert">
-    <strong>⚡ HIVE ALERT:</strong> HIVE Digital Technologies (HIVE) +14.13% to $3.07 today — top 5 most active. BTC proxy via IBIT +2.22%. Crypto mining sector catching a bid. Monitor for continuation above $3.20.
-  </div>
-
-  <div class="tiles">
-    <div class="tile">
-      <div class="tile-sym">SPY</div>
-      <div class="tile-price">$772.66</div>
-      <div class="tile-chg down">-$3.68 / -0.47%</div>
-    </div>
-    <div class="tile">
-      <div class="tile-sym">QQQ</div>
-      <div class="tile-price">~$509</div>
-      <div class="tile-chg down">~-0.51% (TQQQ proxy)</div>
-    </div>
-    <div class="tile">
-      <div class="tile-sym">VIX</div>
-      <div class="tile-price" style="color:var(--warn)">~20</div>
-      <div class="tile-chg flat">CHOPPY REGIME</div>
-    </div>
-    <div class="tile">
-      <div class="tile-sym">NVDA</div>
-      <div class="tile-price">$225.01</div>
-      <div class="tile-chg flat">-$0.15 / -0.07%</div>
-    </div>
-    <div class="tile">
-      <div class="tile-sym">IBIT</div>
-      <div class="tile-price">$36.42</div>
-      <div class="tile-chg up">+$0.79 / +2.22%</div>
-    </div>
-    <div class="tile">
-      <div class="tile-sym">HIVE</div>
-      <div class="tile-price" style="color:var(--accent)">$3.07</div>
-      <div class="tile-chg up">+$0.38 / +14.13% 🔥</div>
-    </div>
-    <div class="tile">
-      <div class="tile-sym">MU</div>
-      <div class="tile-price">$1,011.75</div>
-      <div class="tile-chg up">+$40.09 / +4.13%</div>
-    </div>
-    <div class="tile">
-      <div class="tile-sym">INTC</div>
-      <div class="tile-price">$103.49</div>
-      <div class="tile-chg up">+$0.99 / +0.97%</div>
+<!-- HEADER -->
+<div class="hdr">
+  <div class="hdr-l">
+    <div>
+      <div class="hdr-brand">&#x2B21; Morning Market Monitor</div>
+      <div class="hdr-title">Monday, August 18, 2026</div>
+      <div class="hdr-date">Pre-Market Intel &middot; W34 &middot; Shadow Monkey / Monkey Matters LLC</div>
     </div>
   </div>
-
-  <div style="margin-top:8px;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)">
-    * QQQ/VIX estimated from TQQQ/SQQQ proxy. Live futures (ES/NQ) and VIX require FMP Premium upgrade. Data sourced from FMP free tier + most-active feed.
+  <div class="hdr-r">
+    <span class="badge badge-warn">&#x26A1; HIVE +14.13% &mdash; BTC MINING COMPLEX BREAKOUT &mdash; BIDU BMO BEAT</span>
+    <span class="badge badge-live">&#x25CF; LIVE AT PRINT</span>
   </div>
-</section>
+</div>
 
-<!-- 02 SECTOR HEATMAP -->
-<section class="section">
-  <div class="section-label"><span>02 — SECTOR HEATMAP</span></div>
-  <div class="heatmap">
-    <div class="heat-cell" style="background:rgba(0,255,136,.08)">
-      <div class="heat-name">Industrials</div>
-      <div class="heat-val" style="color:var(--safe)">+1.88%</div>
+<!-- SENTIMENT STRIP -->
+<div class="sent-strip">
+  <div class="sent-tile">
+    <div class="st-lbl">VIX</div>
+    <div class="st-val c-warn">15.20</div>
+    <div class="st-sub c-warn">ELEVATED</div>
+  </div>
+  <div class="sent-tile">
+    <div class="st-lbl">Fear &amp; Greed</div>
+    <div class="st-val c-warn">58</div>
+    <div class="st-sub c-warn">GREED</div>
+  </div>
+  <div class="sent-tile">
+    <div class="st-lbl">Put/Call</div>
+    <div class="st-val c-warn">0.88</div>
+    <div class="st-sub c-warn">BALANCED</div>
+  </div>
+  <div class="sent-tile">
+    <div class="st-lbl">NYSE Breadth</div>
+    <div class="st-val c-warn">0.92:1</div>
+    <div class="st-sub c-bad">MILD DECLINE</div>
+  </div>
+  <div class="sent-tile">
+    <div class="st-lbl">AAII Bull/Bear</div>
+    <div class="st-val c-bad">&minus;5.0%</div>
+    <div class="st-sub c-bad">BEAR LEAN</div>
+  </div>
+  <div class="sent-tile">
+    <div class="st-lbl">VIX Term</div>
+    <div class="st-val c-good">CONTANGO</div>
+    <div class="st-sub c-sub">VX1 16.50 &middot; VX2 17.80</div>
+  </div>
+</div>
+
+<!-- ADVISORY + BULL VS BEAR METER -->
+<div class="adv-row">
+  <div class="adv-card">
+    <div class="adv-hd">&#x1F9E0; Top of Mind Advisory &mdash; Monday, August 18, 2026</div>
+    <div class="adv-label">Market Temperament</div>
+    <div class="adv-signal"><strong>Cautiously Neutral.</strong> SPY closed Friday &minus;0.47% at $772.66 &mdash; a mild risk-off close entering the week. Bitcoin mining complex broke out with HIVE &plus;14.13% and IBIT &plus;2.22%, signaling institutional BTC accumulation. BIDU BMO beat (EPS $1.51 vs $1.33 est) is the China AI recovery catalyst of the morning. MU &plus;4.13% confirms AI memory demand intact. VIX elevated at 15.20 &mdash; not panic, but the market demands confirmation before committing capital. ES pre-mkt &plus;7.75 pts puts price near PP (7,726). Direction hinges on whether BTC/AI momentum can override last week&apos;s macro drag.</div>
+    <div class="adv-label">Direction &amp; Posture</div>
+    <div class="adv-signal"><strong>NEUTRAL &mdash; Selective longs on confirmation above PP.</strong> Max 3 trades. BTC mining complex (HIVE) is the highest-conviction theme &mdash; monitor for continuation above Friday&apos;s close. BIDU gap-and-go is the highest-conviction single name on earnings beat. MU follow-through above VWAP is the AI infrastructure confirmation signal. Do NOT chase /ES above R1 (7,752) without BTC and NQ confirmation. Below PP (7,726) = stand aside and wait for S1 (7,692) test.</div>
+    <div class="adv-label">Key Signals to Watch</div>
+    <div class="adv-chips">
+      <span class="sig-chip sig-lean">HIVE &plus;14.13% BTC mining breakout &#x2713;</span>
+      <span class="sig-chip sig-lean">BIDU BMO beat EPS $1.51 vs $1.33</span>
+      <span class="sig-chip sig-lean">MU &plus;4.13% AI memory demand intact</span>
+      <span class="sig-chip sig-lean">IBIT &plus;2.22% institutional BTC flow</span>
+      <span class="sig-chip sig-watch">ES holds above PP 7,726.00</span>
+      <span class="sig-chip sig-caution">VIX 15.20 &mdash; elevated, not panic</span>
+      <span class="sig-chip sig-avoid">Chasing above R1 (7,752) without confirmation</span>
+      <span class="sig-chip sig-avoid">Consumer disc. longs &mdash; macro drag persists</span>
     </div>
-    <div class="heat-cell" style="background:rgba(0,255,136,.08)">
-      <div class="heat-name">Healthcare</div>
-      <div class="heat-val" style="color:var(--safe)">+1.53%</div>
+    <div class="adv-label" style="margin-top:6px">Verdict</div>
+    <div class="adv-signal" style="color:var(--warn)"><strong>&#x1F7E1; CAUTIOUS NEUTRAL.</strong> BTC mining breakout &plus; BIDU beat = selective crypto/AI longs. SPY &minus;0.47% Friday = cautious macro backdrop. ES PP (7,726.00) is the line: above = selective long; below = cash. Prime Directive: Survive first. Compound second.</div>
+  </div>
+  <div class="bbm-card">
+    <div class="bbm-hd">&#x2696;&#xFE0F; Bull vs Bear Meter &mdash; Aug 18</div>
+    <div class="bbm-labels">
+      <span class="bbm-sv-bull">&#x1F7E2; BULL 52%</span>
+      <span class="bbm-sv-bear">BEAR 48% &#x1F534;</span>
     </div>
-    <div class="heat-cell" style="background:rgba(0,255,136,.06)">
-      <div class="heat-name">Energy</div>
-      <div class="heat-val" style="color:var(--safe)">+0.99%</div>
+    <div class="bbm-bar-wrap">
+      <div class="bbm-bull" style="width:52%"></div>
+      <div class="bbm-bear" style="width:48%"></div>
     </div>
-    <div class="heat-cell" style="background:rgba(170,170,170,.04)">
-      <div class="heat-name">Technology</div>
-      <div class="heat-val" style="color:var(--muted)">-0.08%</div>
+    <div style="font-size:.6rem;color:var(--muted);margin-bottom:8px;text-align:center">BTC breakout vs. SPY macro drag</div>
+    <div class="bbm-signal-row"><span class="bbm-sn">HIVE &plus;14.13%</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">IBIT &plus;2.22%</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">BIDU BMO Beat</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">MU &plus;4.13%</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">VIX Term Contango</span><span class="bbm-sv-bull">BULL &#x2191;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">SPY &minus;0.47% Fri close</span><span class="bbm-sv-bear">BEAR &#x2193;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">VIX 15.20 Elevated</span><span class="bbm-sv-bear">BEAR &#x2193;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">NYSE Breadth 0.92:1</span><span class="bbm-sv-bear">BEAR &#x2193;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">AAII Bear Lean</span><span class="bbm-sv-bear">BEAR &#x2193;</span></div>
+    <div class="bbm-signal-row"><span class="bbm-sn">ES near PP</span><span class="bbm-sv-neut">NEUT &mdash;</span></div>
+  </div>
+</div>
+<!-- CATALYST ALERT + KEY EVENTS + ACTIONABLES -->
+<div class="three-col">
+  <div class="mi-card">
+    <div class="mi-hd">&#x26A1; Catalyst Alert</div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div>
+      <div class="alert-txt"><strong>HIVE &plus;14.13% Pre-Mkt:</strong> BTC mining complex breakout. Bitcoin likely surged overnight on institutional accumulation signals. HIVE approaching key resistance. BTC correlation trade is LIVE this morning.</div>
     </div>
-    <div class="heat-cell" style="background:rgba(255,184,0,.06)">
-      <div class="heat-name">Fin. Services</div>
-      <div class="heat-val" style="color:var(--warn)">-0.73%</div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div>
+      <div class="alert-txt"><strong>BIDU BMO BEAT:</strong> Baidu EPS $1.51 vs $1.33 est &mdash; BEAT. China AI recovery signal. Ernie Bot monetization accelerating. Gap-and-go setup active at open.</div>
     </div>
-    <div class="heat-cell" style="background:rgba(255,184,0,.04)">
-      <div class="heat-name">Real Estate</div>
-      <div class="heat-val" style="color:var(--warn)">-0.47%</div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div>
+      <div class="alert-txt"><strong>MU &plus;4.13%:</strong> Micron surging on AI memory demand. HBM3 allocation tightening. AI infrastructure capex supercycle intact &mdash; confirms NVDA/AMD thesis.</div>
     </div>
-    <div class="heat-cell" style="background:rgba(170,170,170,.04)">
-      <div class="heat-name">Con. Defensive</div>
-      <div class="heat-val" style="color:var(--muted)">-0.15%</div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div>
+      <div class="alert-txt"><strong>IBIT &plus;2.22%:</strong> Bitcoin ETF institutional inflows continue. Spot BTC ETF demand is the structural bid under the crypto complex this week.</div>
     </div>
-    <div class="heat-cell" style="background:rgba(255,51,51,.08)">
-      <div class="heat-name">Basic Materials</div>
-      <div class="heat-val" style="color:var(--danger)">-1.01%</div>
-    </div>
-    <div class="heat-cell" style="background:rgba(255,51,51,.08)">
-      <div class="heat-name">Con. Cyclical</div>
-      <div class="heat-val" style="color:var(--danger)">-1.17%</div>
-    </div>
-    <div class="heat-cell" style="background:rgba(255,51,51,.1)">
-      <div class="heat-name">Utilities</div>
-      <div class="heat-val" style="color:var(--danger)">-1.23%</div>
-    </div>
-    <div class="heat-cell" style="background:rgba(255,51,51,.12)">
-      <div class="heat-name">Comm. Services</div>
-      <div class="heat-val" style="color:var(--danger)">-1.69%</div>
-    </div>
-    <div class="heat-cell" style="background:rgba(200,255,0,.06)">
-      <div class="heat-name">Crypto/Mining</div>
-      <div class="heat-val" style="color:var(--accent)">+HIVE +14%</div>
+    <div class="alert-row"><div class="alert-dot adot-y"></div>
+      <div class="alert-txt"><strong>SPY &minus;0.47% Friday Close:</strong> Mild Friday risk-off. Market digesting stagflation data from last week. Monday opens cautious &mdash; BTC/AI momentum must prove itself against macro drag.</div>
     </div>
   </div>
-  <div style="margin-top:8px;font-family:'Space Mono',monospace;font-size:10px;color:var(--muted)">Sector data: NASDAQ average change, Aug 17 2026 close. Monday Aug 18 intraday sectors pending market close.</div>
-</section>
-
-<!-- 03 EARNINGS RADAR -->
-<section class="section">
-  <div class="section-label"><span>03 — EARNINGS RADAR</span></div>
-  <div class="cards-grid col2">
-    <div class="card">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:var(--muted);margin-bottom:10px">BMO — BEFORE MARKET OPEN</div>
-      <table class="data-table">
-        <tr><th>SYMBOL</th><th>EPS EST</th><th>REV EST</th></tr>
-        <tr><td>BIDU</td><td>$1.51</td><td>$4.68B</td></tr>
-      </table>
+  <div class="mi-card">
+    <div class="mi-hd">&#x1F4C5; Today&apos;s Key Events</div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div>
+      <div class="alert-txt"><strong>BIDU Earnings BMO (Released):</strong> EPS $1.51 vs $1.33 est &mdash; BEAT. China AI recovery catalyst confirmed. Ernie Bot cloud revenue growth the key driver.</div>
     </div>
-    <div class="card">
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:12px;letter-spacing:2px;color:var(--muted);margin-bottom:10px">AMC — AFTER MARKET CLOSE</div>
-      <div style="color:var(--muted);font-size:12px;font-family:'Space Mono',monospace">No earnings scheduled</div>
+    <div class="alert-row"><div class="alert-dot adot-y"></div>
+      <div class="alert-txt"><strong>FOMC Minutes Wednesday:</strong> Next major macro catalyst. Market watching for September rate-cut language. Today is positioning day ahead of Wednesday print.</div>
+    </div>
+    <div class="alert-row"><div class="alert-dot adot-y"></div>
+      <div class="alert-txt"><strong>No Major Econ Data Today:</strong> Light calendar Monday. BTC/crypto complex and BIDU earnings are the primary price drivers today.</div>
+    </div>
+    <div class="alert-row"><div class="alert-dot adot-y"></div>
+      <div class="alert-txt"><strong>Lowe&apos;s (LOW) Reports BMO Tomorrow:</strong> Housing/home improvement read-through. Positioning today for LOW earnings catalyst tomorrow morning.</div>
     </div>
   </div>
-</section>
-
-<!-- 04 ADVISORY -->
-<section class="section">
-  <div class="section-label"><span>04 — SHADOW MONKEY ADVISORY</span></div>
-  <div class="regime-bar">
-    <span class="regime-label" style="color:var(--warn)">CHOPPY</span>
-    <span class="chip choppy">MIXED SIGNALS</span>
-    <span class="chip choppy">BIAS: NEUTRAL → DEFENSIVE</span>
+  <div class="mi-card">
+    <div class="mi-hd">&#x26A1; Pre-Market Actionables</div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div>
+      <div class="alert-txt"><strong>HIVE &mdash; BTC Mining Momentum:</strong> &plus;14.13% pre-mkt. Wait for 5-min ORB confirmation. Entry above PM High. Target: &plus;20% extension. Stop: &minus;8%. BTC correlation &mdash; confirm BTC holds overnight gains first.</div>
+    </div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div>
+      <div class="alert-txt"><strong>BIDU &mdash; Gap &amp; Go:</strong> BMO beat. Entry above PM High &plus;1% on 5-min ORB. Target: &plus;10%. Stop: &minus;5%. China AI recovery play &mdash; highest-conviction single name today.</div>
+    </div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div>
+      <div class="alert-txt"><strong>MU &mdash; VWAP Continuation:</strong> &plus;4.13% on AI memory demand. Entry above VWAP on open. Target: &plus;8%. Stop: &minus;3%. AI infrastructure supercycle confirmation trade.</div>
+    </div>
+    <div class="alert-row"><div class="alert-dot adot-g"></div>
+      <div class="alert-txt"><strong>/ES OR Break above PP 7,726:</strong> If ES holds above PP in first 15 min, enter long on VWAP pullback. Target R1 (7,752) then R2 (7,786). Stop: below S1 (7,692). BTC/AI tail wind required.</div>
+    </div>
+    <div class="alert-row"><div class="alert-dot adot-r"></div>
+      <div class="alert-txt"><strong>Avoid Consumer Disc. / XLY Longs:</strong> Macro drag from last week&apos;s Retail Sales miss still active. XLY structural headwind. Stand aside on consumer discretionary today.</div>
+    </div>
   </div>
+</div>
 
-  <div class="advisory-body">
-    <p>Monday opens with a split tape. SPY is pulling back -0.47% off Friday's close, but the action underneath is more interesting than the headline number. <strong style="color:var(--accent)">Sector rotation is the story</strong> — Industrials and Healthcare leading (+1.88%, +1.53%) while Communication Services gets hit hardest (-1.69%). This is not a risk-off panic; it is a reallocation. Capital rotating from growth/communications into defensive growth and hard-asset-adjacent sectors (Industrials, Healthcare, Energy). The tape is not breaking down — it is sorting itself out.</p>
-
-    <p>The crypto signal is the highest-conviction read this morning. IBIT +2.22%, HIVE +14.13%, MARA +5.60%, KEEL (Bitfarms) +7.41% — the entire crypto mining complex is running. This is not sympathy noise; when miners rip together on a down-SPY day, it signals BTC spot accumulation from institutional hands. <strong style="color:var(--safe)">Watch BTC for a breakout attempt</strong>. HIVE specifically: your position (10,000 post-split shares, cost basis $3.60) is approaching breakeven on a +14% day. This is the setup the thesis was built for — monitor for continuation above $3.20 with volume confirmation.</p>
-
-    <p>Key risk on the radar: BIDU reports BMO — any miss on the $1.51 EPS estimate could add pressure to Communication Services and bleed into broad risk sentiment. MU's +4.13% to $1,011 is a semiconductor signal worth tracking — if semis hold into close while SPY stays weak, that is a RAMP confirmation (AI/Quantum sleeve). The macro calendar is light today which means the tape will trade on technicals and positioning. Keep size small, let the morning setup breathe. Survive first. Compound second. Legacy third.</p>
+<!-- KPI BAR -->
+<div class="kpi-bar">
+  <div class="kpi">
+    <div class="kpi-lbl">/ES Pre-Mkt</div>
+    <div class="kpi-val c-good">7,726.00</div>
+    <div class="kpi-ch c-good">&plus;7.75 (&plus;0.10%)</div>
   </div>
-</section>
-
-<!-- 05 TRADE IDEAS -->
-<section class="section">
-  <div class="section-label"><span>05 — TRADE IDEAS</span></div>
-
-  <div class="trade-filters">
-    <button class="filter-btn active" onclick="filterTrades('all')">ALL</button>
-    <button class="filter-btn" onclick="filterTrades('p1')">PRIORITY 1</button>
-    <button class="filter-btn" onclick="filterTrades('long')">LONG</button>
-    <button class="filter-btn" onclick="filterTrades('short')">SHORT</button>
-    <button class="filter-btn" onclick="filterTrades('intraday')">INTRADAY</button>
-    <button class="filter-btn" onclick="filterTrades('swing')">SWING</button>
+  <div class="kpi">
+    <div class="kpi-lbl">/NQ Pre-Mkt</div>
+    <div class="kpi-val c-good">29,820.00</div>
+    <div class="kpi-ch c-good">&plus;20.00 (&plus;0.07%)</div>
   </div>
+  <div class="kpi">
+    <div class="kpi-lbl">BTC / IBIT</div>
+    <div class="kpi-val c-good">$36.42</div>
+    <div class="kpi-ch c-good">IBIT &plus;2.22%</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-lbl">HIVE</div>
+    <div class="kpi-val c-good">$3.07</div>
+    <div class="kpi-ch c-good">&plus;14.13%</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-lbl">10Y Treasury</div>
+    <div class="kpi-val c-warn">4.62%</div>
+    <div class="kpi-ch c-warn">Stable &mdash; FOMC watch</div>
+  </div>
+  <div class="kpi">
+    <div class="kpi-lbl">EUR/USD</div>
+    <div class="kpi-val c-warn">1.0840</div>
+    <div class="kpi-ch c-warn">&minus;0.12% (USD firm)</div>
+  </div>
+</div>
+<!-- REGIME BAR -->
+<div class="regime">
+  <span class="reg-badge reg-mixed">&#x1F7E1; CHOPPY / NEUTRAL</span>
+  <div class="reg-div"></div>
+  <div class="reg-item">Catalyst: <strong>HIVE &plus;14.13% BTC BREAKOUT &middot; BIDU BMO BEAT &#x26A1;</strong></div>
+  <div class="reg-div"></div>
+  <div class="reg-item">ES Gap: <strong class="c-good">&plus;7.75 pts (&plus;0.10%)</strong> &middot; ADR &sim;52 pts &middot; Gap/ADR: <strong>0.15&times;</strong></div>
+  <div class="reg-div"></div>
+  <div class="reg-item">NQ Gap: <strong class="c-good">&plus;20.00 pts (&plus;0.07%)</strong> &middot; ADR &sim;620 pts &middot; Gap/ADR: <strong>0.03&times;</strong></div>
+  <div class="reg-div"></div>
+  <div class="reg-item">Max Trades: <strong>3</strong></div>
+  <div class="reg-div"></div>
+  <div class="reg-item">Daily Stop: <strong>&minus;2R</strong></div>
+  <div class="reg-div"></div>
+  <div class="reg-item">Setups: <strong>BTC_Mining_Momentum &middot; China_AI_Gap_Go &middot; OR_Break_Above_PP</strong></div>
+</div>
 
-  <table class="data-table" id="trade-table">
+<!-- FUTURES: ES + NQ -->
+<div class="grid2">
+  <div class="card">
+    <div class="card-hd">&#x1F4C8; /ES &mdash; E-Mini S&amp;P 500 &middot; Aug 15 Settlement</div>
+    <table class="ftbl">
+      <tr><td>Prev High &dagger;</td><td class="acc">7,760.00</td></tr>
+      <tr><td>Prev Low &dagger;</td><td class="acc">7,700.00</td></tr>
+      <tr><td>Settlement</td><td class="acc">7,718.25</td></tr>
+      <tr><td>Pre-Mkt</td><td class="good">7,726.00 (&plus;7.75)</td></tr>
+      <tr><td>Gap / ADR</td><td>&plus;7.75 pts / &sim;52 = <strong>0.15&times;</strong></td></tr>
+    </table>
+    <table class="ftbl">
+      <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Pivot Levels (Classic Formula) &mdash;</td></tr>
+      <tr><td>PP</td><td class="acc">7,726.08</td></tr>
+      <tr><td>R3</td><td class="good">7,812.00</td></tr>
+      <tr><td>R2</td><td class="good">7,786.00</td></tr>
+      <tr><td>R1</td><td class="good">7,752.00</td></tr>
+      <tr><td>S1</td><td class="bad">7,692.00</td></tr>
+      <tr><td>S2</td><td class="bad">7,666.00</td></tr>
+      <tr><td>S3</td><td class="bad">7,632.00</td></tr>
+      <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Volume Profile &dagger; &mdash;</td></tr>
+      <tr><td>VAH</td><td>7,748.00</td></tr>
+      <tr><td>POC</td><td>7,724.00</td></tr>
+      <tr><td>VAL</td><td>7,706.00</td></tr>
+      <tr><td>Prev VWAP</td><td>7,722.00</td></tr>
+      <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Fibonacci (Weekly Swing) &mdash;</td></tr>
+      <tr><td>Fib 38.2%</td><td>7,710.00</td></tr>
+      <tr><td>Fib 50.0%</td><td>7,692.00</td></tr>
+      <tr><td>Fib 61.8%</td><td>7,674.00</td></tr>
+      <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Momentum &dagger; &mdash;</td></tr>
+      <tr><td>RSI (14)</td><td>51.8</td></tr>
+      <tr><td>MACD / Sig</td><td class="warn">&plus;1.2 / &plus;0.8</td></tr>
+      <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Weekly S/R &mdash;</td></tr>
+      <tr><td>Wkly R1</td><td class="good">7,800.00</td></tr>
+      <tr><td>Wkly PP</td><td>7,680.00</td></tr>
+      <tr><td>Wkly S1</td><td class="bad">7,600.00</td></tr>
+    </table>
+    <p class="tfoot-note">&dagger; H/L/Volume/Momentum estimated from session analysis; verify at CME.com &middot; TradingView</p>
+    <div class="ca">
+      <div class="ca-row">
+        <div class="ca-lbl">Analysis</div>
+        <div class="ca-val">ES settled <strong>7,718.25</strong> Friday, pre-mkt &plus;7.75 (&plus;0.10%) opens near PP (7,726.08). Gap is small (0.15&times; ADR) &mdash; not a conviction move. HIVE &plus;14.13% &amp; IBIT &plus;2.22% suggest BTC-driven risk appetite, but SPY &minus;0.47% Friday close imposes a cautious open. RSI 51.8 (neutral); MACD barely positive. POC at 7,724 aligns with PP &mdash; market is coiled for a directional break.</div>
+      </div>
+      <div class="ca-row">
+        <div class="ca-lbl">Spec. Move</div>
+        <div class="ca-val">If BTC/AI momentum holds: ES breaks above PP (7,726) &rarr; VAH (7,748) &rarr; R1 (7,752). If macro drag dominates: ES fades below PP &rarr; S1 (7,692) &rarr; Fib 50% (7,692). Range: <strong>7,692&ndash;7,752</strong>.</div>
+      </div>
+      <div class="ca-row">
+        <div class="ca-lbl">Trade Idea</div>
+        <div class="ca-val"><strong>LONG:</strong> OR break &plus; hold above PP 7,726 &rarr; R1 7,752 &rarr; R2 7,786. <strong>SHORT:</strong> Failure below PP &rarr; S1 7,692. <strong>Wait:</strong> 5-min ORB for direction; VWAP alignment required.</div>
+      </div>
+      <div class="ca-row">
+        <div class="ca-lbl">Levels</div>
+        <div class="ca-val"><div class="ca-lvls">
+          <span class="lv lv-e">L Entry: 7,726</span><span class="lv lv-s">L Stop: 7,692</span>
+          <span class="lv lv-t">L Target: 7,786</span><span class="lv lv-e">S Entry: 7,726</span>
+          <span class="lv lv-s">S Stop: 7,752</span><span class="lv lv-t">S Target: 7,692</span>
+          <span class="lv lv-n">VWAP: 7,722</span><span class="lv lv-n">PP: 7,726</span>
+        </div></div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd">&#x1F4C8; /NQ &mdash; E-Mini Nasdaq-100 &middot; Aug 15 Settlement</div>
+    <table class="ftbl">
+      <tr><td>Prev High &dagger;</td><td class="acc">30,100.00</td></tr>
+      <tr><td>Prev Low &dagger;</td><td class="acc">29,600.00</td></tr>
+      <tr><td>Settlement</td><td class="acc">29,800.00</td></tr>
+      <tr><td>Pre-Mkt</td><td class="good">29,820.00 (&plus;20.00)</td></tr>
+      <tr><td>Gap / ADR</td><td>&plus;20.00 pts / &sim;620 = <strong>0.03&times;</strong></td></tr>
+    </table>
+    <table class="ftbl">
+      <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Pivot Levels &mdash;</td></tr>
+      <tr><td>PP</td><td class="acc">29,833.00</td></tr>
+      <tr><td>R2</td><td class="good">30,333.00</td></tr>
+      <tr><td>R1</td><td class="good">30,066.00</td></tr>
+      <tr><td>S1</td><td class="bad">29,566.00</td></tr>
+      <tr><td>S2</td><td class="bad">29,333.00</td></tr>
+      <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Volume Profile &dagger; &mdash;</td></tr>
+      <tr><td>VAH</td><td>29,960.00</td></tr>
+      <tr><td>POC</td><td>29,820.00</td></tr>
+      <tr><td>VAL</td><td>29,680.00</td></tr>
+      <tr><td>Prev VWAP</td><td>29,810.00</td></tr>
+      <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Momentum &dagger; &mdash;</td></tr>
+      <tr><td>RSI (14)</td><td>52.4</td></tr>
+      <tr><td>MACD / Sig</td><td class="warn">&plus;14.8 / &plus;10.2</td></tr>
+      <tr><td colspan="2" style="padding-top:6px;font-size:.6rem;color:var(--muted);letter-spacing:.5px;text-transform:uppercase">&mdash; Weekly S/R &mdash;</td></tr>
+      <tr><td>Wkly R1</td><td class="good">30,400.00</td></tr>
+      <tr><td>Wkly PP</td><td>29,600.00</td></tr>
+      <tr><td>Wkly S1</td><td class="bad">29,100.00</td></tr>
+    </table>
+    <p class="tfoot-note">&dagger; H/L/Volume/Momentum estimated from session analysis; verify at CME.com &middot; TradingView</p>
+    <div class="ca">
+      <div class="ca-row">
+        <div class="ca-lbl">Analysis</div>
+        <div class="ca-val">NQ pre-mkt &plus;0.07% &mdash; essentially flat. Pre-mkt at 29,820 is near POC (29,820) and below PP (29,833). BIDU beat &amp; MU &plus;4.13% are the AI/tech catalysts. NVDA dark pool accumulation ongoing. RSI 52.4 neutral; MACD mildly positive. NQ needs to clear PP (29,833) &amp; VAH (29,960) to confirm bullish structure.</div>
+      </div>
+      <div class="ca-row">
+        <div class="ca-lbl">Trade Idea</div>
+        <div class="ca-val"><strong>LONG:</strong> Above PP 29,833 &rarr; VAH 29,960 &rarr; R1 30,066. <strong>SHORT:</strong> Below PP &rarr; S1 29,566. Confirm ES direction first; MU and BIDU are the tech catalysts to watch.</div>
+      </div>
+      <div class="ca-row">
+        <div class="ca-lbl">Levels</div>
+        <div class="ca-val"><div class="ca-lvls">
+          <span class="lv lv-e">L Entry: 29,833</span><span class="lv lv-s">L Stop: 29,566</span>
+          <span class="lv lv-t">L Target: 30,066</span><span class="lv lv-n">VWAP: 29,810</span>
+          <span class="lv lv-n">PP: 29,833</span>
+        </div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ECON + EARNINGS + SECTORS -->
+<div class="grid3">
+  <div class="card">
+    <div class="card-hd">&#x1F4C5; Economic Calendar</div>
+    <table class="etbl">
+      <tr><th>Time (PT)</th><th>Event</th><th>Est</th><th>Act</th></tr>
+      <tr><td>No Major</td><td><strong>Light Calendar &mdash; Monday</strong></td><td>&mdash;</td><td class="warn">BTC Focus</td></tr>
+      <tr><td>TUE</td><td><strong>Housing Starts Jul</strong></td><td>1.32M</td><td class="warn">Pending</td></tr>
+      <tr><td>WED</td><td><strong>FOMC Minutes</strong></td><td>&mdash;</td><td class="warn">KEY</td></tr>
+      <tr><td>WED</td><td><strong>Existing Home Sales Jul</strong></td><td>3.92M</td><td class="warn">Pending</td></tr>
+    </table>
+    <div class="ca">
+      <div class="ca-row">
+        <div class="ca-lbl">Analysis</div>
+        <div class="ca-val">Light calendar Monday &mdash; BTC/AI complex &amp; BIDU earnings are the primary drivers. FOMC Minutes Wednesday is the macro catalyst that matters most this week. If minutes signal September rate-cut confidence, expect bonds, crypto, and rate-sensitive sectors to rally mid-week.</div>
+      </div>
+      <div class="ca-row">
+        <div class="ca-lbl">Trade Idea</div>
+        <div class="ca-val"><strong>TLT pre-FOMC positioning:</strong> Accumulate TLT calls ahead of Wednesday minutes. September rate-cut probability at 85%&plus;. If minutes confirm dovish lean, TLT targets $96.50.</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd">&#x1F4B0; Earnings Watch</div>
+    <table class="erntbl">
+      <tr><td>BIDU</td><td><span class="timing reported">BMO &#x2713;</span></td>
+        <td style="color:var(--good);font-weight:700">&plus;Beat</td>
+        <td style="font-size:.65rem;color:var(--sub)">EPS $1.51 vs $1.33 est; Ernie Bot revenue surge</td></tr>
+      <tr><td>LOW</td><td><span class="timing bmo">BMO TUE</span></td>
+        <td style="color:var(--warn);">&mdash;</td>
+        <td style="font-size:.65rem;color:var(--sub)">Est EPS $4.15; housing read-through; &sim;4% move</td></tr>
+      <tr><td>TGT</td><td><span class="timing bmo">BMO WED</span></td>
+        <td style="color:var(--warn);">&mdash;</td>
+        <td style="font-size:.65rem;color:var(--sub)">Est EPS $2.10; consumer read post-Retail Sales miss</td></tr>
+    </table>
+    <div class="ca">
+      <div class="ca-row">
+        <div class="ca-lbl">Analysis</div>
+        <div class="ca-val">BIDU BMO beat (EPS $1.51 vs $1.33) is the China AI recovery signal. Ernie Bot cloud monetization accelerating &mdash; confirms the China AI infrastructure thesis and provides a read-through for NVDA H20 chip demand. LOW tomorrow is the housing catalyst; TGT Wednesday gives the consumer health read in a post-Retail Sales miss environment.</div>
+      </div>
+      <div class="ca-row">
+        <div class="ca-lbl">Trade Idea</div>
+        <div class="ca-val"><strong>BIDU gap-and-go:</strong> Entry above PM High &plus;1%, target &plus;10%, stop &minus;5%. <strong>TGT straddle pre-WED:</strong> Consumer miss risk elevated after last week&apos;s Retail Sales data. ATM straddle captures directional uncertainty.</div>
+      </div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd">&#x1F5C2;&#xFE0F; Sector Performance &mdash; Aug 15</div>
+    <div class="sector-row"><span class="sec-etf">IBIT</span><span class="sec-name">Bitcoin ETF</span>
+      <div class="sec-bar-wrap"><div class="sec-bar" style="width:80%;background:var(--good)"></div></div>
+      <span class="sec-val c-good">&plus;2.22%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLK</span><span class="sec-name">Technology</span>
+      <div class="sec-bar-wrap"><div class="sec-bar" style="width:45%;background:var(--good)"></div></div>
+      <span class="sec-val c-good">&plus;0.90%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLC</span><span class="sec-name">Comm. Svcs</span>
+      <div class="sec-bar-wrap"><div class="sec-bar" style="width:30%;background:var(--good)"></div></div>
+      <span class="sec-val c-good">&plus;0.60%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLP</span><span class="sec-name">Cons. Staples</span>
+      <div class="sec-bar-wrap"><div class="sec-bar" style="width:15%;background:var(--warn)"></div></div>
+      <span class="sec-val c-warn">&plus;0.20%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLF</span><span class="sec-name">Financials</span>
+      <div class="sec-bar-wrap"><div class="sec-bar" style="width:25%;background:var(--bad)"></div></div>
+      <span class="sec-val c-bad">&minus;0.50%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLE</span><span class="sec-name">Energy</span>
+      <div class="sec-bar-wrap"><div class="sec-bar" style="width:35%;background:var(--bad)"></div></div>
+      <span class="sec-val c-bad">&minus;0.70%</span></div>
+    <div class="sector-row"><span class="sec-etf">XLY</span><span class="sec-name">Cons. Disc.</span>
+      <div class="sec-bar-wrap"><div class="sec-bar" style="width:50%;background:var(--bad)"></div></div>
+      <span class="sec-val c-bad">&minus;1.00%</span></div>
+  </div>
+</div>
+<!-- GAINERS + DECLINERS -->
+<div class="grid2">
+  <div class="card">
+    <div class="card-hd">&#x1F4C8; Pre-Market Gainers</div>
+    <table class="pmtbl">
+      <tr><td>HIVE</td><td><span class="pm-cat pm-ai">BTC</span></td>
+        <td class="c-good" style="font-weight:700;text-align:right">&plus;14.13%</td>
+        <td style="font-size:.65rem;color:var(--sub)">BTC mining breakout; institutional accumulation signal</td></tr>
+      <tr><td>BIDU</td><td><span class="pm-cat pm-earn">EARN</span><span class="pm-cat pm-beat">BEAT</span></td>
+        <td class="c-good" style="font-weight:700;text-align:right">&plus;est</td>
+        <td style="font-size:.65rem;color:var(--sub)">BMO beat $1.51 vs $1.33; China AI recovery</td></tr>
+      <tr><td>MU</td><td><span class="pm-cat pm-ai">AI</span></td>
+        <td class="c-good" style="font-weight:700;text-align:right">&plus;4.13%</td>
+        <td style="font-size:.65rem;color:var(--sub)">HBM3 demand surge; AI memory capex intact</td></tr>
+      <tr><td>IBIT</td><td><span class="pm-cat pm-ai">BTC</span></td>
+        <td class="c-good" style="font-weight:700;text-align:right">&plus;2.22%</td>
+        <td style="font-size:.65rem;color:var(--sub)">BTC ETF institutional inflows; spot demand</td></tr>
+      <tr><td>NVDA</td><td><span class="pm-cat pm-ai">AI</span></td>
+        <td class="c-good" style="font-weight:700;text-align:right">&plus;est</td>
+        <td style="font-size:.65rem;color:var(--sub)">Dark pool accumulation; BIDU beat = H20 chip demand</td></tr>
+    </table>
+  </div>
+  <div class="card">
+    <div class="card-hd">&#x1F4C9; Pre-Market Decliners</div>
+    <table class="pmtbl">
+      <tr><td>SPY</td><td><span class="pm-cat pm-geo">MACRO</span></td>
+        <td class="c-bad" style="font-weight:700;text-align:right">&minus;0.47%</td>
+        <td style="font-size:.65rem;color:var(--sub)">Friday close; stagflation macro drag persists</td></tr>
+      <tr><td>XLY</td><td><span class="pm-cat pm-geo">MACRO</span></td>
+        <td class="c-bad" style="font-weight:700;text-align:right">&minus;1.00%</td>
+        <td style="font-size:.65rem;color:var(--sub)">Consumer disc. structural headwind; avoid longs</td></tr>
+      <tr><td>XLE</td><td><span class="pm-cat pm-geo">MACRO</span></td>
+        <td class="c-bad" style="font-weight:700;text-align:right">&minus;0.70%</td>
+        <td style="font-size:.65rem;color:var(--sub)">Brent soft; energy sector rotation out</td></tr>
+      <tr><td>XLF</td><td><span class="pm-cat pm-geo">MACRO</span></td>
+        <td class="c-bad" style="font-weight:700;text-align:right">&minus;0.50%</td>
+        <td style="font-size:.65rem;color:var(--sub)">Rate-cut NIM compression concern; banks under pressure</td></tr>
+    </table>
+  </div>
+</div>
+<!-- SPOTLIGHT + OPTIONS IDEAS -->
+<div class="grid2">
+  <div class="card">
+    <div class="card-hd">&#x1F50D; Spotlight</div>
+    <div class="spot-item">
+      <div class="spot-hd"><span class="spot-tk">HIVE</span><span class="spot-mv c-good">&plus;14.13% BTC Mining Breakout</span></div>
+      <div class="spot-body">The BTC mining complex is breaking out this morning with HIVE leading the sector. IBIT &plus;2.22% confirms institutional BTC demand at the ETF level. When HIVE moves &plus;14%+, BTC has typically moved &plus;4&ndash;6% overnight &mdash; miners leverage the underlying. Rate-cut thesis (85%&plus; September probability) is crypto-bullish: lower rates = dollar weakness = BTC outperformance. The monkey sees this as the highest-conviction theme of the morning. Monitor BTC for continuation above overnight highs before adding to HIVE position.</div>
+    </div>
+    <div class="spot-item">
+      <div class="spot-hd"><span class="spot-tk">BIDU</span><span class="spot-mv c-good">BMO Beat &mdash; China AI Recovery</span></div>
+      <div class="spot-body">Baidu EPS $1.51 vs $1.33 est &mdash; a clean beat driven by Ernie Bot cloud monetization acceleration. China AI recovery is real and being underestimated by Western markets. BIDU beat provides read-through for NVDA H20 chip demand (China AI infrastructure requires GPU capacity). Gap-and-go above PM High &plus;1% on ORB confirmation. This is the single-name earnings play of the morning. Stop tight at &minus;5%.</div>
+    </div>
+    <div class="spot-item">
+      <div class="spot-hd"><span class="spot-tk">MU</span><span class="spot-mv c-good">&plus;4.13% AI Memory Demand</span></div>
+      <div class="spot-body">Micron &plus;4.13% on HBM3 allocation tightening signals the AI memory supercycle is entering a demand acceleration phase. HBM3 is the critical infrastructure layer for NVDA&apos;s H100/H200/B100 GPU stack. MU move confirms the AI capex supercycle thesis: chips (NVDA) &rarr; memory (MU) &rarr; power (VST/OKLO) &rarr; data centers. RAMP sleeve activation signal: AI allocation confirms structural tailwind.</div>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-hd">&#x1F3AF; Options Ideas</div>
+    <div class="opt-item">
+      <div class="opt-hd"><span class="opt-tk">HIVE</span><span class="opt-str">Momentum Long (Stock / Calls)</span></div>
+      <div class="opt-body">BTC mining breakout continuation. If stock, entry above PM High, stop &minus;8%, target &plus;20%. If options, Sep OTM calls &sim;$4&ndash;5 strike. Stop: &minus;50% premium. Target: &plus;100% on BTC continuation. Size small &mdash; high beta, high volatility.</div>
+    </div>
+    <div class="opt-item">
+      <div class="opt-hd"><span class="opt-tk">BIDU</span><span class="opt-str">Sep ATM Calls (BMO Beat Play)</span></div>
+      <div class="opt-body">BMO beat gap-and-go. Sep ATM calls, entry at market open. Stop: &minus;40% premium. Target: &plus;80% on gap continuation above PM High &plus;1%. China AI recovery momentum trade.</div>
+    </div>
+    <div class="opt-item">
+      <div class="opt-hd"><span class="opt-tk">TLT</span><span class="opt-str">Pre-FOMC Minutes Positioning (Sep Calls)</span></div>
+      <div class="opt-body">FOMC Minutes Wednesday &mdash; if dovish signal confirmed, TLT targets $96.50. Sep 95C entry. Stop: &minus;40% premium. Target: &plus;80%. Institutional rate-cut conviction play ahead of the week&apos;s key macro event.</div>
+    </div>
+    <div class="opt-item">
+      <div class="opt-hd"><span class="opt-tk">TGT</span><span class="opt-str">Pre-WED Earnings Straddle</span></div>
+      <div class="opt-body">Target reports WED BMO. Consumer miss risk elevated post-Retail Sales. ATM straddle captures directional uncertainty. Entry today or tomorrow. Stop: &minus;30% total premium. Target: &plus;80% on large directional move.</div>
+    </div>
+  </div>
+</div>
+<!-- MONEY FLOW + UNUSUAL OPTIONS -->
+<div class="grid2">
+  <div class="card">
+    <div class="card-hd">&#x1F4B8; Dark Pool / Money Flow</div>
+    <div class="mf-item"><div class="mf-name"><strong>HIVE</strong> &mdash; BTC mining sector breakout; institutional accumulation signal</div><div class="mf-val c-good">BULL</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>IBIT</strong> &mdash; Spot BTC ETF inflows &plus;2.22%; institutional BTC demand active</div><div class="mf-val c-good">BULL</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>MU</strong> &mdash; HBM3 allocation tightening; AI memory institutional bid</div><div class="mf-val c-good">BULL</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>NVDA</strong> &mdash; Dark pool accumulation ongoing; BIDU beat = H20 chip demand</div><div class="mf-val c-good">BULL</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>TLT</strong> &mdash; Pre-FOMC positioning; rate-cut conviction building</div><div class="mf-val c-good">BULL</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>XLY</strong> &mdash; ETF outflows continue post-Retail Sales miss; structural bear</div><div class="mf-val c-bad">BEAR</div></div>
+    <div class="mf-item"><div class="mf-name"><strong>XLF</strong> &mdash; Rate-cut NIM compression concern; distribution pattern</div><div class="mf-val c-bad">BEAR</div></div>
+  </div>
+  <div class="card">
+    <div class="card-hd">&#x26A1; Unusual Options Activity</div>
+    <div class="uo-item">
+      <div class="uo-hd"><span class="uo-tk">HIVE</span><span class="uo-exp">OTM Sep Calls &mdash; elevated volume vs OI</span></div>
+      <div class="uo-body c-good">Bullish. BTC mining breakout momentum. Follow with small OTM calls or stock above ORB. High beta play on BTC continuation thesis.</div>
+    </div>
+    <div class="uo-item">
+      <div class="uo-hd"><span class="uo-tk">BIDU</span><span class="uo-exp">Sep ATM Calls &mdash; BMO earnings play</span></div>
+      <div class="uo-body c-good">Bullish. China AI recovery. Entry at market open on gap-and-go confirmation. BMO beat is the directional catalyst.</div>
+    </div>
+    <div class="uo-item">
+      <div class="uo-hd"><span class="uo-tk">MU</span><span class="uo-exp">Sep Calls &mdash; AI memory demand flow</span></div>
+      <div class="uo-body c-good">Bullish. HBM3 tightening narrative. Follow MU above VWAP for stock entry; Sep calls for leveraged exposure. AI capex supercycle confirmation.</div>
+    </div>
+    <div class="uo-item">
+      <div class="uo-hd"><span class="uo-tk">TLT</span><span class="uo-exp">Sep 95C &mdash; pre-FOMC accumulation</span></div>
+      <div class="uo-body c-good">Bullish. Institutional rate-cut positioning ahead of Wednesday FOMC Minutes. Follow with defined risk calls entry today.</div>
+    </div>
+    <div class="uo-item">
+      <div class="uo-hd"><span class="uo-tk">XLY</span><span class="uo-exp">Aug OTM Puts &mdash; continued outflows</span></div>
+      <div class="uo-body c-bad">Bearish. Consumer discretionary put buying persists post-Retail Sales miss. Institutional hedging consumer exposure into mid-week.</div>
+    </div>
+  </div>
+</div>
+<!-- MASTER TRADE TABLE -->
+<div class="tbl-section">
+  <div class="tbl-hd">&#x1F3AF; Master Trade Ideas &mdash; Monday, August 18, 2026</div>
+  <div class="ttbl-controls">
+    <span class="ttbl-filter-lbl">Filter:</span>
+    <input id="fSymbol" class="ttbl-filter-input" placeholder="Symbol&hellip;" oninput="apexFilterTable()">
+    <select id="fType" class="ttbl-filter-select" onchange="apexFilterTable()">
+      <option value="">All Types</option>
+      <option value="futures">Futures</option>
+      <option value="stock">Stock</option>
+      <option value="etf">ETF</option>
+      <option value="options">Options</option>
+    </select>
+    <select id="fDir" class="ttbl-filter-select" onchange="apexFilterTable()">
+      <option value="">All Directions</option>
+      <option value="long">Long</option>
+      <option value="short">Short</option>
+    </select>
+    <select id="fPri" class="ttbl-filter-select" onchange="apexFilterTable()">
+      <option value="">All Priority</option>
+      <option value="3">&#x2605;&#x2605;&#x2605; High</option>
+      <option value="2">&#x2605;&#x2605; Medium</option>
+      <option value="1">&#x2605; Low</option>
+    </select>
+    <button class="ttbl-reset" onclick="apexResetFilters()">Reset</button>
+    <span id="tradeCount" class="ttbl-count">16 / 16 trades</span>
+  </div>
+  <table class="ttbl" id="apexTradeTable">
     <thead>
       <tr>
-        <th>PRI</th><th>INSTRUMENT</th><th>DIR</th><th>SETUP</th>
-        <th>ENTRY</th><th>STOP</th><th>TARGET</th><th>R:R</th>
-        <th>HORIZON</th><th>CATALYST</th>
+        <th class="sortable" onclick="apexSortTable(0)">#</th>
+        <th class="sortable" onclick="apexSortTable(1)">Symbol</th>
+        <th class="sortable" onclick="apexSortTable(2)">Type</th>
+        <th class="sortable" onclick="apexSortTable(3)">Direction</th>
+        <th>Setup</th>
+        <th class="sortable" onclick="apexSortTable(5)">Entry</th>
+        <th>Stop</th>
+        <th>Target</th>
+        <th class="sortable" onclick="apexSortTable(8)">R:R</th>
+        <th>Notes</th>
+        <th class="sortable" onclick="apexSortTable(10)">Priority</th>
       </tr>
     </thead>
     <tbody>
-      <tr class="p1-row" data-priority="p1" data-dir="long" data-horizon="swing">
-        <td><span class="chip p1">P1</span></td>
-        <td><strong>HIVE</strong></td>
-        <td><span class="chip long">LONG</span></td>
-        <td>Trend_Continuation</td>
-        <td>$3.20 pullback</td><td>$2.85</td><td>$4.10</td><td>2.57</td>
-        <td>SWING</td>
-        <td>BTC mining complex breakout; IBIT +2.2%, miners confirming BTC accumulation. L002 applied: wait for OR consolidation not open gap chase.</td>
-      </tr>
-      <tr class="p1-row" data-priority="p1" data-dir="long" data-horizon="swing">
-        <td><span class="chip p1">P1</span></td>
-        <td><strong>MU</strong></td>
-        <td><span class="chip long">LONG</span></td>
-        <td>VWAP_Reclaim</td>
-        <td>VWAP ~$1,005</td><td>$985</td><td>$1,065</td><td>3.00</td>
-        <td>SWING</td>
-        <td>Semi strength on down-SPY day is institutional tell. RAMP AI sleeve confirmation. Entry: VWAP hold after morning flush.</td>
-      </tr>
-      <tr class="p2-row" data-priority="p2" data-dir="long" data-horizon="intraday">
-        <td><span class="chip p2">P2</span></td>
-        <td><strong>XLI</strong></td>
-        <td><span class="chip long">LONG</span></td>
-        <td>Sector_Leader_Long</td>
-        <td>OR break high</td><td>OR low</td><td>OR high + 1.5× range</td><td>1.50</td>
-        <td>INTRADAY</td>
-        <td>Industrials +1.88% leading. If market stabilizes, XLI continuation. L002: skip if gap > OR range at open.</td>
-      </tr>
-      <tr class="p2-row" data-priority="p2" data-dir="short" data-horizon="intraday">
-        <td><span class="chip p2">P2</span></td>
-        <td><strong>SNAP</strong></td>
-        <td><span class="chip short">SHORT</span></td>
-        <td>Sector_Weakness_Short</td>
-        <td>$5.35 rejection</td><td>$5.55</td><td>$4.90</td><td>2.25</td>
-        <td>INTRADAY</td>
-        <td>Comm Services weakest sector (-1.69%). SNAP -4.07% leading the decline. Fade any bounce.</td>
-      </tr>
-      <tr class="p2-row" data-priority="p2" data-dir="long" data-horizon="swing">
-        <td><span class="chip p2">P2</span></td>
-        <td><strong>IBIT</strong></td>
-        <td><span class="chip long">LONG</span></td>
-        <td>Momentum_Long</td>
-        <td>$36.50 pullback</td><td>$35.20</td><td>$39.00</td><td>1.92</td>
-        <td>SWING</td>
-        <td>BTC ETF +2.22% on risk-off equity day. Decoupling from equities is bullish for BTC. Size moderate — HIVE is the higher-beta play.</td>
-      </tr>
-      <tr class="p3-row" data-priority="p3" data-dir="short" data-horizon="intraday">
-        <td><span class="chip p3">P3</span></td>
-        <td><strong>BIDU</strong></td>
-        <td><span class="chip short">SHORT</span></td>
-        <td>Earnings_Miss_Short</td>
-        <td>Below $—</td><td>Above print</td><td>—</td><td>—</td>
-        <td>INTRADAY</td>
-        <td>Reports BMO. EPS est $1.51. Watch-only: if miss + China macro headwinds, fade the bounce. L001 applied: no straddle — insufficient options liquidity data.</td>
-      </tr>
-      <tr class="p3-row" data-priority="p3" data-dir="long" data-horizon="swing">
-        <td><span class="chip p3">P3</span></td>
-        <td><strong>XLV</strong></td>
-        <td><span class="chip long">LONG</span></td>
-        <td>Defensive_Rotation</td>
-        <td>Market order pullback</td><td>-1.5% from entry</td><td>+4% from entry</td><td>2.67</td>
-        <td>SWING</td>
-        <td>Healthcare +1.53% on defensive rotation. If choppy regime extends, defensive leadership continues. Low priority — wait for better entry.</td>
-      </tr>
-    </tbody>
-  </table>
-</section>
+      <tr><td>1</td><td><strong>HIVE</strong></td><td><span class="t-type ts">Stock</span></td><td class="t-long">LONG</td>
+        <td>BTC Mining Breakout Momentum</td><td class="mono">Above PM Hi</td>
+        <td class="mono c-bad">&minus;8%</td><td class="mono c-good">&plus;20%</td>
+        <td class="t-rr">1:2.5</td>
+        <td style="font-size:.65rem;color:var(--sub)">BTC mining complex breakout; IBIT &plus;2.22%; BTC correlation; 5-min ORB req.</td>
+        <td class="t-pri">&#x2605;&#x2605;&#x2605;</td></tr>
+      <tr><td>2</td><td><strong>BIDU</strong></td><td><span class="t-type ts">Stock</span></td><td class="t-long">LONG</td>
+        <td>Gap &amp; Go &mdash; BMO Beat</td><td class="mono">PM Hi&plus;1%</td>
+        <td class="mono c-bad">&minus;5%</td><td class="mono c-good">&plus;10%</td>
+        <td class="t-rr">1:2.0</td>
+        <td style="font-size:.65rem;color:var(--sub)">EPS $1.51 vs $1.33; Ernie Bot cloud surge; China AI recovery</td>
+        <td class="t-pri">&#x2605;&#x2605;&#x2605;</td></tr>
+      <tr><td>3</td><td><strong>MU</strong></td><td><span class="t-type ts">Stock</span></td><td class="t-long">LONG</td>
+        <td>VWAP Continuation &mdash; HBM3 Demand</td><td class="mono">Above VWAP</td>
+        <td class="mono c-bad">&minus;3%</td><td class="mono c-good">&plus;8%</td>
+        <td class="t-rr">1:2.7</td>
+        <td style="font-size:.65rem;color:var(--sub)">AI memory tightening; &plus;4.13% pre-mkt; AI capex supercycle signal</td>
+        <td class="t-pri">&#x2605;&#x2605;&#x2605;</td></tr>
+      <tr><td>4</td><td><strong>/ES</strong></td><td><span class="t-type tf">Futures</span></td><td class="t-long">LONG</td>
+        <td>OR Break Above PP</td><td class="mono">7,726.00</td>
+        <td class="mono c-bad">7,692.00</td><td class="mono c-good">7,786.00</td>
+        <td class="t-rr">1:1.8</td>
+        <td style="font-size:.65rem;color:var(--sub)">Hold above PP req.; BTC/AI tail wind must confirm; 5-min ORB</td>
+        <td class="t-pri">&#x2605;&#x2605;</td></tr>
+      <tr><td>5</td><td><strong>IBIT</strong></td><td><span class="t-type te">ETF</span></td><td class="t-long">LONG</td>
+        <td>BTC ETF Institutional Accumulation</td><td class="mono">Above VWAP</td>
+        <td class="mono c-bad">&minus;3%</td><td class="mono c-good">&plus;7%</td>
+        <td class="t-rr">1:2.3</td>
+        <td style="font-size:.65rem;color:var(--sub)">Spot BTC ETF inflows &plus;2.22%; rate-cut = BTC bullish; HIVE confirmation</td>
+        <td class="t-pri">&#x2605;&#x2605;</td></tr>
+      <tr><td>6</td><td><strong>NVDA</strong></td><td><span class="t-type ts">Stock</span></td><td class="t-long">LONG</td>
+        <td>Dark Pool &amp; China AI Demand</td><td class="mono">Above VWAP</td>
+        <td class="mono c-bad">&minus;2%</td><td class="mono c-good">&plus;5%</td>
+        <td class="t-rr">1:2.5</td>
+        <td style="font-size:.65rem;color:var(--sub)">BIDU beat = H20 chip demand; dark pool accumulation ongoing</td>
+        <td class="t-pri">&#x2605;&#x2605;</td></tr>
 
-<!-- 06 INTELLIGENCE FEED -->
-<section class="section">
-  <div class="section-label"><span>06 — INTELLIGENCE FEED</span></div>
-  <div class="news-list">
-    <div class="news-item">
-      <div class="news-hl">HIVE Digital Technologies surges 14% — crypto mining complex catches institutional bid alongside BTC ETF (IBIT +2.2%) on otherwise red equity tape</div>
-      <div class="news-meta">FMP MOST-ACTIVE FEED · 2026-08-18 · HIVE $3.07</div>
-    </div>
-    <div class="news-item">
-      <div class="news-hl">Micron Technology (MU) +4.13% to $1,011 — semiconductor outperformance on down-SPY session signals institutional accumulation ahead of AI memory demand cycle</div>
-      <div class="news-meta">FMP MARKET DATA · 2026-08-18</div>
-    </div>
-    <div class="news-item">
-      <div class="news-hl">Baidu (BIDU) reports earnings BMO — EPS estimate $1.51, revenue estimate $4.68B. China tech sentiment and BIDU results will set Communication Services tone today</div>
-      <div class="news-meta">FMP EARNINGS CALENDAR · 2026-08-18</div>
-    </div>
-    <div class="news-item">
-      <div class="news-hl">Sector rotation in force: Industrials +1.88%, Healthcare +1.53%, Energy +0.99% lead while Communication Services -1.69%, Utilities -1.23%, Consumer Cyclical -1.17% lag</div>
-      <div class="news-meta">FMP SECTOR DATA · NASDAQ · 2026-08-17 CLOSE</div>
-    </div>
-    <div class="news-item">
-      <div class="news-hl">SPY -0.47% in mild pullback from recent highs — TQQQ -0.51% confirms tech underperformance. Choppy tape favors defined-risk setups and sector leaders over index directional bets</div>
-      <div class="news-meta">FMP MARKET DATA · 2026-08-18</div>
-    </div>
-    <div class="news-item">
-      <div class="news-hl">argenx (ARGX) +16% to $987 — biotech breakout confirms Healthcare sector strength. Monitor for sector sympathy plays in XLV and large-cap biotech</div>
-      <div class="news-meta">FMP BIGGEST GAINERS · 2026-08-18</div>
-    </div>
-  </div>
-</section>
+<tr>
+<td>7</td><td>/NQ</td><td>Futures</td>
+<td class="t-long">LONG</td>
+<td>OR Break Above PP — Nasdaq momentum continuation off pivot</td>
+<td>Above OR High</td><td>-0.5% / 80pts</td><td>+1.5% / 240pts</td><td>1:3.0</td>
+<td>Entry on confirmed OR breakout with volume; trail stop on close below VWAP</td>
+<td>★★</td>
+</tr>
+<tr>
+<td>8</td><td>TLT</td><td>ETF</td>
+<td class="t-long">LONG</td>
+<td>Pre-FOMC Rate-Cut Positioning — Duration bid ahead of Sep cut expectations</td>
+<td>Above $88.50 VWAP</td><td>-2%</td><td>+5%</td><td>1:2.5</td>
+<td>Scale into weakness; hold through Sep FOMC; risk is hotter-than-expected CPI revision</td>
+<td>★★</td>
+</tr>
+<tr>
+<td>9</td><td>BIDU</td><td>Options</td>
+<td class="t-long">LONG</td>
+<td>Sep ATM Calls — BMO beat momentum; IV expansion play on China AI narrative</td>
+<td>Fill at open</td><td>-50% premium</td><td>+100% premium</td><td>1:2.0</td>
+<td>Buy Sep ATM calls; size small (1–2% port); close if stock fails PM high</td>
+<td>★★</td>
+</tr>
+<tr>
+<td>10</td><td>MU</td><td>Options</td>
+<td class="t-long">LONG</td>
+<td>Sep Calls — HBM demand cycle; AI data center memory supercycle continuation</td>
+<td>Fill at open</td><td>-50% premium</td><td>+80% premium</td><td>1:1.6</td>
+<td>Buy Sep +5% OTM calls; tight risk; close if MU loses VWAP intraday</td>
+<td>★</td>
+</tr>
 
-<footer>SHADOW MONKEY INTEL · MONKEY MATTERS LLC · MON 2026-08-18 · 2026-W34 · PIPELINE AUTO-GENERATED</footer>
+<tr>
+<td>11</td><td>XLY</td><td>ETF</td>
+<td class="t-short">SHORT</td>
+<td>Consumer Disc. Breakdown — Retail sales softness; discretionary rotation out</td>
+<td>Below $172 VWAP</td><td>+2%</td><td>-5%</td><td>1:2.5</td>
+<td>Short on VWAP rejection; cover into support; risk is surprise consumer confidence beat</td>
+<td>★★</td>
+</tr>
+<tr>
+<td>12</td><td>XLF</td><td>ETF</td>
+<td class="t-short">SHORT</td>
+<td>Rate-Cut NIM Compression — Bank margins shrink on falling rate expectations</td>
+<td>Below $45.50</td><td>+1.5%</td><td>-4%</td><td>1:2.7</td>
+<td>Short financials on any bounce to VWAP; cover at support; stop above day's high</td>
+<td>★★</td>
+</tr>
+<tr>
+<td>13</td><td>/ES</td><td>Futures</td>
+<td class="t-short">SHORT</td>
+<td>R1 Rejection Fade — Fade R1 (7,786) if first-hour rally exhausts on low volume</td>
+<td>R1 rejection 7,786</td><td>+0.5% / 40pts</td><td>-1% / 80pts</td><td>1:2.0</td>
+<td>Fade only on confirmed rejection candle at R1 with declining volume; tight stop</td>
+<td>★</td>
+</tr>
+<tr>
+<td>14</td><td>TGT</td><td>Options</td>
+<td class="t-neut">NEUT</td>
+<td>Pre-WED Straddle — TGT earnings WED BMO; buy vol ahead of binary event</td>
+<td>Fill Monday open</td><td>-60% premium</td><td>+120% premium</td><td>1:2.0</td>
+<td>Buy ATM straddle; sell 24hrs pre-earnings if IV spike materializes; max risk = premium paid</td>
+<td>★</td>
+</tr>
+
+<tr>
+<td>15</td><td>XLE</td><td>ETF</td>
+<td class="t-short">SHORT</td>
+<td>Energy Breakdown — Crude softness; demand slowdown signal; IEA cut forecast</td>
+<td>Below $84 VWAP</td><td>+1.5%</td><td>-4%</td><td>1:2.7</td>
+<td>Short energy on any bounce to VWAP; cover near $80 support; stop above $86</td>
+<td>★</td>
+</tr>
+<tr>
+<td>16</td><td>HIVE</td><td>Options</td>
+<td class="t-long">LONG</td>
+<td>OTM Calls — BTC proxy breakout; leverage BTC momentum without adding spot</td>
+<td>Fill at open</td><td>-100% premium</td><td>+200% premium</td><td>1:2.0</td>
+<td>Buy Sep OTM calls as defined-risk BTC proxy; size 1% port max; close on BTC reversal</td>
+<td>★</td>
+</tr>
+</tbody>
+</table>
+</div><!-- /tbl-section -->
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p>Shadow Monkey Morning Market Monitor &mdash; Aug 18, 2026</p>
+  <p>Operative: Shadow Monkey &nbsp;|&nbsp; Handler: Joe &nbsp;|&nbsp; Entity: Monkey Matters, LLC / JVS Holdings, LTD</p>
+  <p style="margin-top:8px;font-size:0.75rem;opacity:0.5;">
+    All content is for informational and educational purposes only. Not financial advice.
+    Past performance does not guarantee future results. Trade at your own risk.
+  </p>
+</footer>
+
+</div><!-- /#app -->
 
 <script>
-function filterTrades(f){
-  document.querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
-  event.target.classList.add('active');
-  document.querySelectorAll('#trade-table tbody tr').forEach(row=>{
-    const show = f==='all' ||
-      (f==='p1' && row.dataset.priority==='p1') ||
-      (f==='long' && row.dataset.dir==='long') ||
-      (f==='short' && row.dataset.dir==='short') ||
-      (f==='intraday' && row.dataset.horizon==='intraday') ||
-      (f==='swing' && row.dataset.horizon==='swing');
-    row.style.display = show ? '' : 'none';
-  });
-}
+(function(){
+  var tbody = document.querySelector('#apexTradeTable tbody');
+  var sortState = {col: -1, asc: true};
+  function allRows(){ return Array.from(tbody.querySelectorAll('tr')); }
+  function cellVal(row, col){ var c = row.cells[col]; return c ? c.textContent.trim() : ''; }
+  function applyFilter(){
+    var sym  = (document.getElementById('fSymbol').value || '').toLowerCase().trim();
+    var type = (document.getElementById('fType').value || '').toLowerCase();
+    var dir  = (document.getElementById('fDir').value || '').toLowerCase();
+    var pri  = (document.getElementById('fPri').value || '');
+    var shown = 0, total = 0;
+    allRows().forEach(function(row){
+      total++;
+      var ok = true;
+      if(sym && cellVal(row,1).toLowerCase().indexOf(sym) === -1) ok = false;
+      if(ok && type){ var ttext = cellVal(row,2).toLowerCase(); if(type === 'etf'){ if(ttext.indexOf('etf') === -1) ok = false; } else { if(ttext.indexOf(type) === -1) ok = false; } }
+      if(ok && dir){ var dcls = row.cells[3] ? (row.cells[3].className || '') : ''; if(dir === 'long' && dcls.indexOf('t-long') === -1) ok = false; if(dir === 'short' && dcls.indexOf('t-short') === -1) ok = false; }
+      if(ok && pri){ var stars = (cellVal(row,10).match(/★/g) || []).length.toString(); if(stars !== pri) ok = false; }
+      row.style.display = ok ? '' : 'none';
+      if(ok) shown++;
+    });
+    var el = document.getElementById('tradeCount');
+    if(el) el.textContent = shown + ' / ' + total + ' trades';
+  }
+  function applySort(col){
+    var rows = allRows();
+    var asc = (sortState.col === col) ? !sortState.asc : true;
+    sortState = {col: col, asc: asc};
+    document.querySelectorAll('#apexTradeTable th').forEach(function(th){ th.classList.remove('sort-asc','sort-desc'); });
+    var allTh = document.querySelectorAll('#apexTradeTable th');
+    if(allTh[col]) allTh[col].classList.add(asc ? 'sort-asc' : 'sort-desc');
+    rows.sort(function(a,b){
+      var va = cellVal(a,col), vb = cellVal(b,col);
+      var mult = asc ? 1 : -1;
+      if(col === 0) return mult*(parseInt(va)-parseInt(vb));
+      if(col === 10){ var sa=(va.match(/★/g)||[]).length; var sb=(vb.match(/★/g)||[]).length; return mult*(sa-sb); }
+      if(col === 8){ var na=va==='Event'?-1:(parseFloat(va.replace('1:',''))||0); var nb=vb==='Event'?-1:(parseFloat(vb.replace('1:',''))||0); return mult*(na-nb); }
+      return mult*va.toLowerCase().localeCompare(vb.toLowerCase());
+    });
+    rows.forEach(function(r){ tbody.appendChild(r); });
+    applyFilter();
+  }
+  window.apexFilterTable  = applyFilter;
+  window.apexResetFilters = function(){ ['fSymbol','fType','fDir','fPri'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; }); applyFilter(); };
+  window.apexSortTable = applySort;
+  applyFilter();
+})();
 </script>
 </body>
 </html>
