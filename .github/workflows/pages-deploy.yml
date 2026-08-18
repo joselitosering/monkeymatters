@@ -52,10 +52,10 @@ jobs:
 #   shadowmonkey/index.html directly. Qualitative analysis is filled by an
 #   on-demand Claude session writing data/daily/YYYY-MM-DD.insert.json
 #   (Max-plan chat usage, not a separate API call) -- see
-#   scripts/fetch_mmm_data.py. A second, older sync path also exists --
-#   scripts/mmm_sync.py, a Google-Drive-queue poller meant to run via local
-#   Windows Task Scheduler -- not yet reconciled with the above; see chat
-#   for the open question.
+#   scripts/fetch_mmm_data.py. (A Google-Drive-queue poller,
+#   scripts/mmm_sync.py, previously existed as an alternate sync path and
+#   was removed 2026-08-18 -- confirmed unused remnant, not part of the
+#   design going forward.)
 #
 #   Required GitHub secrets for mmm-daily.yml:
 #     SHADOW_MONKEY_PAT — fine-grained PAT, Contents: Read & Write
