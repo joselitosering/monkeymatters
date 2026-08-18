@@ -45,15 +45,22 @@ INDEX_PATH = ROOT / "shadowmonkey" / "index.html"
 PT = ZoneInfo("America/Los_Angeles")
 
 TARGET_HOUR, TARGET_MIN, WINDOW_MIN = 6, 25, 20
-FMP_BASE = "https://financialmodelingprep.com/stable"
+# Verified directly against FMP's raw REST API 2026-08-18 -- the per-asset-
+# class endpoint names used by the FMP MCP tool (index-quote,
+# cryptocurrency-quote-short, commodities-quote-short) are an internal MCP
+# abstraction, not real URL paths; hitting them directly 404s. The single
+# generic /stable/quote?symbol=X endpoint covers indices, crypto, and
+# commodities alike -- confirmed with a live call per asset class before
+# committing to this design, not assumed from docs.
+FMP_QUOTE_URL = "https://financialmodelingprep.com/stable/quote"
 
-# symbol -> (fmp endpoint path, fmp symbol, token prefix, decimals)
+# symbol -> (fmp symbol, decimals)
 SOURCES = {
-    "VIX":  ("index-quote",                "^VIX",   1),
-    "SPX":  ("index-quote",                "^GSPC",  2),
-    "GOLD": ("commodities-quote-short",     "GCUSD",  2),
-    "BTC":  ("cryptocurrency-quote-short",  "BTCUSD", 2),
-    "ETH":  ("cryptocurrency-quote-short",  "ETHUSD", 2),
+    "VIX":  ("^VIX",   1),
+    "SPX":  ("^GSPC",  2),
+    "GOLD": ("GCUSD",  2),
+    "BTC":  ("BTCUSD", 2),
+    "ETH":  ("ETHUSD", 2),
 }
 
 SCHWAB_TOKEN_URL = "https://api.schwabapi.com/v1/oauth/token"
@@ -77,9 +84,23 @@ def fetch_schwab_futures() -> dict:
     than breaking the whole report -- but real futures data stops flowing
     until the secret is refreshed by hand.
     """
-    client_id = os.environ.get("SCHWAB_CLIENT_ID", "")
-    client_secret = os.environ.get("SCHWAB_CLIENT_SECRET", "")
-    refresh_token = os.environ.get("SCHWAB_REFRESH_TOKEN", "")
+    client_id = env_or_dotenv("SCHWAB_CLIENT_ID")
+    client_secret = env_or_dotenv("SCHWAB_CLIENT_SECRET")
+    refresh_token = env_or_dotenv("SCHWAB_REFRESH_TOKEN")
+    if not refresh_token:
+        # Local-testing convenience: GH Actions gets this from the
+        # SCHWAB_REFRESH_TOKEN secret (no token file is ever checked out
+        # there); locally, read straight from the token file schwab_auth.py
+        # already wrote, same as schwab_hhh_fetch.py does.
+        tok_path_str = env_or_dotenv("SCHWAB_TOKEN_PATH") or ".secrets/schwab_token.json"
+        tok_path = Path(tok_path_str)
+        if not tok_path.is_absolute():
+            tok_path = ROOT / tok_path
+        if tok_path.exists():
+            try:
+                refresh_token = json.loads(tok_path.read_text(encoding="utf-8")).get("refresh_token", "")
+            except Exception:
+                pass
     if not (client_id and client_secret and refresh_token):
         return {}
     try:
@@ -123,6 +144,40 @@ def fetch_schwab_futures() -> dict:
         return {}
 
 
+def read_text_any(path: Path) -> str:
+    """Windows-proof text read: BOM-aware, matching the pattern already
+    used by schwab_auth.py / schwab_hhh_fetch.py in this repo."""
+    data = path.read_bytes()
+    if data[:2] in (b"\xff\xfe", b"\xfe\xff"):
+        return data.decode("utf-16")
+    for enc in ("utf-8-sig", "cp1252", "latin-1"):
+        try:
+            return data.decode(enc)
+        except UnicodeDecodeError:
+            continue
+    return data.decode("utf-8", errors="replace")
+
+
+def env_or_dotenv(*names: str) -> str:
+    """Check real env vars first (the GitHub Actions path, populated from
+    secrets.*), then fall back to reading the repo-root .env directly (the
+    local-testing path, same convention as this repo's other scripts).
+    GH Actions never has a .env file checked out, so this is a no-op there."""
+    for n in names:
+        if os.environ.get(n):
+            return os.environ[n]
+    env_path = ROOT / ".env"
+    if env_path.exists():
+        for line in read_text_any(env_path).splitlines():
+            line = line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            k, v = line.split("=", 1)
+            if k.strip() in names and v.strip().strip('"').strip("'"):
+                return v.strip().strip('"').strip("'")
+    return ""
+
+
 def gate(force: bool) -> datetime.datetime:
     now = datetime.datetime.now(PT)
     if force:
@@ -141,16 +196,17 @@ def gate(force: bool) -> datetime.datetime:
     return now
 
 
-def fmp_fetch(endpoint: str, symbol: str, api_key: str) -> dict | None:
-    url = f"{FMP_BASE}/{endpoint}?symbol={urllib.parse.quote(symbol)}&apikey={api_key}"
+def fmp_fetch(symbol: str, api_key: str) -> dict | None:
+    url = FMP_QUOTE_URL + "?" + urllib.parse.urlencode({"symbol": symbol, "apikey": api_key})
+    req = urllib.request.Request(url, headers={"User-Agent": "shadowmonkey-mmm/1.0"})
     try:
-        with urllib.request.urlopen(url, timeout=15) as resp:
+        with urllib.request.urlopen(req, timeout=15) as resp:
             data = json.loads(resp.read().decode())
         if isinstance(data, list) and data:
             return data[0]
         print(f"WARN: unexpected FMP response shape for {symbol}: {data}", file=sys.stderr)
     except Exception as e:
-        print(f"WARN: FMP fetch failed for {symbol} ({endpoint}): {e}", file=sys.stderr)
+        print(f"WARN: FMP fetch failed for {symbol}: {e}", file=sys.stderr)
     return None
 
 
@@ -164,8 +220,8 @@ def color_for(change: float) -> str:
 
 def fetch_all(api_key: str) -> dict:
     out = {}
-    for name, (endpoint, symbol, decimals) in SOURCES.items():
-        q = fmp_fetch(endpoint, symbol, api_key)
+    for name, (symbol, decimals) in SOURCES.items():
+        q = fmp_fetch(symbol, api_key)
         if not q:
             out[name] = None
             continue
@@ -332,9 +388,9 @@ def main() -> None:
         sys.exit(1)
     template = TEMPLATE_PATH.read_text(encoding="utf-8")
 
-    api_key = os.environ.get("FMP_API_KEY", "")
+    api_key = env_or_dotenv("FMP_API_KEY")
     if not api_key:
-        print("FATAL: FMP_API_KEY not set.", file=sys.stderr)
+        print("FATAL: FMP_API_KEY not set (checked env and .env).", file=sys.stderr)
         sys.exit(1)
 
     quotes = fetch_all(api_key)

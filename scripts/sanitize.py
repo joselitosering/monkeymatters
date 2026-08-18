@@ -19,8 +19,15 @@ FORBIDDEN = [
 TEXT_EXTS = {".html",".htm",".json",".md",".py",".js",".ts",
              ".tsx",".css",".yml",".yaml",".txt",".j2",".jinja2"}
 SKIP_DIRS = {".git",".venv","venv","__pycache__","node_modules"}
+SELF_PATH = Path(__file__).resolve()
 
 def check_file(path: Path) -> list:
+    if path.resolve() == SELF_PATH:
+        # This file's own FORBIDDEN list contains the pattern strings
+        # themselves (e.g. "HIVE.*cost.*basis" as a regex literally
+        # matches itself as plain text) -- always a false positive,
+        # never an actual leak. Found 2026-08-18 on the first real run.
+        return []
     try:
         text = path.read_text(encoding="utf-8", errors="replace")
     except Exception:
