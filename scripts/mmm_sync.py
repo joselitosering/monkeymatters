@@ -32,9 +32,10 @@ from googleapiclient.http import MediaIoBaseDownload
 # ── CONFIG ───────────────────────────────────────────────────────────────────
 SCRIPTS_DIR  = Path(__file__).parent
 REPO         = SCRIPTS_DIR.parent
-HTML_DIR     = REPO / "docs" / "mmm-daily"
+# shadowmonkey/ is THE public folder as of 2026-08-18 (Joe) -- was docs/.
+HTML_DIR     = REPO / "shadowmonkey" / "mmm-daily"
 JSON_DIR     = REPO / "data" / "daily"
-INDEX_HTML   = REPO / "docs" / "index.html"
+INDEX_HTML   = REPO / "shadowmonkey" / "index.html"
 LOG_FILE     = REPO / "data" / "sync.log"
 TOKEN_FILE   = SCRIPTS_DIR / "token.json"
 CREDS_FILE   = SCRIPTS_DIR / "credentials.json"
@@ -218,9 +219,9 @@ def sync():
         log.info(f"    {'✓' if ok else '✗'} index.html card prepended")
 
         staged += [
-            f"docs/mmm-daily/{date_str}.html",
+            f"shadowmonkey/mmm-daily/{date_str}.html",
             f"data/daily/{date_str}.json",
-            "docs/index.html",
+            "shadowmonkey/index.html",
         ]
 
         # Archive Drive files

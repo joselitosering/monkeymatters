@@ -34,13 +34,14 @@ import urllib.request
 import urllib.parse
 
 ROOT = Path(__file__).resolve().parent.parent
-# Repo layout as of 2026-08-18 (Joe): index.html and mmm-daily/ live at the
-# repo ROOT (Pages now serves from root, not docs/); docs/ is reserved for
-# the v_4_* legacy files only. Template consolidated into template/ (singular).
+# Repo layout as of 2026-08-18 (Joe): shadowmonkey/ is THE public folder --
+# index.html, mmm-daily/, mmm-weekly/ all live inside it, separate from
+# repo internals (hhh/, turtleshell/, scripts/, data/, template/ source).
+# Pages publishes shadowmonkey/ only (see pages-deploy.yml).
 TEMPLATE_PATH = ROOT / "template" / "mmm_template.html"
-OUT_DIR = ROOT / "mmm-daily"
+OUT_DIR = ROOT / "shadowmonkey" / "mmm-daily"
 DATA_DIR = ROOT / "data" / "daily"
-INDEX_PATH = ROOT / "index.html"
+INDEX_PATH = ROOT / "shadowmonkey" / "index.html"
 PT = ZoneInfo("America/Los_Angeles")
 
 TARGET_HOUR, TARGET_MIN, WINDOW_MIN = 6, 25, 20

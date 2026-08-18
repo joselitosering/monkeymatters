@@ -25,28 +25,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Stage only the public site tree
-        # Pages now serves from the repo ROOT (index.html lives there),
-        # but the repo root also holds things that were never meant to be
-        # public: hhh/ (personal portfolio config), turtleshell/ (strategy
-        # docs), scripts/, data/, template/ internals, requirements.txt.
-        # Rather than publish the whole repo, copy an explicit allow-list
-        # into a staging dir and publish THAT. Add a line here if a new
-        # top-level public path shows up.
-        run: |
-          mkdir -p _site
-          cp index.html _site/
-          cp -r mmm-daily _site/
-          cp -r mmm-weekly _site/
-          mkdir -p _site/docs
-          cp docs/v_4_1.html docs/v_4_2.html docs/v_4_3.html _site/docs/
-          echo "Staged:"
-          find _site -maxdepth 2
-
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: _site
+          # shadowmonkey/ is THE public folder (Joe, 2026-08-18) -- the
+          # single designated public surface, separate from the repo's
+          # working internals (hhh/ portfolio config, turtleshell/ strategy
+          # docs, scripts/, data/, template/ source). Nothing outside this
+          # folder is ever published. docs/ (three legacy v_4_* files) is
+          # currently NOT part of the public site under this design --
+          # flagged as an open question, not yet resolved.
+          path: shadowmonkey
 
       - name: Deploy to GitHub Pages
         id: deploy
@@ -59,10 +48,14 @@ jobs:
 #
 # ── Content pipeline ──────────────────────────────────────────────────────
 #   mmm-daily.yml (data-only, no LLM) fetches real numbers from FMP on a
-#   weekday cron and writes mmm-daily/YYYY-MM-DD.html + index.html directly
-#   at repo root. Qualitative analysis is filled by an on-demand Claude
-#   session writing data/daily/YYYY-MM-DD.insert.json (Max-plan chat usage,
-#   not a separate API call) -- see scripts/fetch_mmm_data.py.
+#   weekday cron and writes shadowmonkey/mmm-daily/YYYY-MM-DD.html +
+#   shadowmonkey/index.html directly. Qualitative analysis is filled by an
+#   on-demand Claude session writing data/daily/YYYY-MM-DD.insert.json
+#   (Max-plan chat usage, not a separate API call) -- see
+#   scripts/fetch_mmm_data.py. A second, older sync path also exists --
+#   scripts/mmm_sync.py, a Google-Drive-queue poller meant to run via local
+#   Windows Task Scheduler -- not yet reconciled with the above; see chat
+#   for the open question.
 #
 #   Required GitHub secrets for mmm-daily.yml:
 #     SHADOW_MONKEY_PAT — fine-grained PAT, Contents: Read & Write
