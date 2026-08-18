@@ -1,0 +1,77 @@
+name: Shadow Monkey — Daily MMM Generator
+
+# Cloud-side, PAT-authenticated automation for the Morning Market Monitor.
+# Desktop Commander / Joe's PC are NOT required for this to fire — it runs
+# entirely on GitHub's servers. See scripts/generate_mmm.py for the pipeline.
+#
+# Two triggers cover both DST states (PT is UTC-7 Mar-Nov, UTC-8 Nov-Mar);
+# generate_mmm.py's own time-gate figures out which one is real and no-ops
+# the other, so this needs no manual edits at DST changeovers.
+on:
+  schedule:
+    - cron: '25 13 * * 1-5'   # ~6:25 AM PDT
+    - cron: '25 14 * * 1-5'   # ~6:25 AM PST
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Run now regardless of time-of-day/weekday gate (manual test)'
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mmm-daily
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Must be a real PAT, not the default GITHUB_TOKEN — pushes made
+          # with GITHUB_TOKEN do not trigger pages-deploy.yml (GitHub's
+          # loop-prevention). This secret is the exact one already documented
+          # in pages-deploy.yml's setup checklist.
+          token: ${{ secrets.SHADOW_MONKEY_PAT }}
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install dependencies
+        run: pip install --quiet anthropic
+
+      - name: Generate report
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FORCE_RUN: ${{ github.event.inputs.force }}
+        run: python scripts/generate_mmm.py
+
+      - name: Commit and push
+        run: |
+          git config user.name "Shadow Monkey Bot"
+          git config user.email "shadowmonkey-bot@users.noreply.github.com"
+          git add docs/mmm-daily docs/index.html
+          if git diff --cached --quiet; then
+            echo "No changes to commit (gate no-op or duplicate run)."
+            exit 0
+          fi
+          git commit -m "mmm: $(date -u +%Y-%m-%d) auto-generated"
+          git push origin HEAD:main
+
+# ── One-time setup required before this can fire for real ──────────────────
+#   1. Secret: SHADOW_MONKEY_PAT — fine-grained PAT, Contents: Read & Write,
+#      scoped to this repo. Same secret pages-deploy.yml already documents.
+#   2. Secret: ANTHROPIC_API_KEY — from console.anthropic.com (separate
+#      billing from any claude.ai subscription; this repo's own usage, ~1
+#      call/weekday with web_search enabled).
+#   3. templates/mmm_template.html must exist in the repo (copy the
+#      canonical template in — not yet committed as of 2026-08-18).
+#   4. First run: use "Run workflow" above (force=true) and READ the diff
+#      before trusting an unattended fire — this has never run live yet.
