@@ -44,7 +44,7 @@ DATA_DIR = ROOT / "data" / "daily"
 INDEX_PATH = ROOT / "shadowmonkey" / "index.html"
 PT = ZoneInfo("America/Los_Angeles")
 
-TARGET_HOUR, TARGET_MIN, WINDOW_MIN = 6, 25, 20
+TARGET_HOUR, TARGET_MIN, WINDOW_MIN = 6, 10, 20  # trigger target; deadline is 6:25 (see mmm-daily.yml)
 # Verified directly against FMP's raw REST API 2026-08-18 -- the per-asset-
 # class endpoint names used by the FMP MCP tool (index-quote,
 # cryptocurrency-quote-short, commodities-quote-short) are an internal MCP

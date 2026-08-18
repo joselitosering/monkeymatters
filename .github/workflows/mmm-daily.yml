@@ -12,8 +12,16 @@ name: Shadow Monkey — Daily MMM (data pass)
 # runs entirely on GitHub's servers.
 on:
   schedule:
-    - cron: '25 13 * * 1-5'   # ~6:25 AM PDT
-    - cron: '25 14 * * 1-5'   # ~6:25 AM PST
+    # Target is 6:10 AM PT, not 6:25 -- the deadline is when the PUSH
+    # completes, not when the job starts. Measured local runtime
+    # (fetch+render+sanitize+commit+push) is ~8s; the 15-min buffer exists
+    # for GitHub Actions' own runner-allocation/checkout/setup-python
+    # overhead and cron-queue delay, neither of which is measurable
+    # without a real triggered run on GitHub's infrastructure (can't do
+    # that from here -- no gh auth). Validate against a real run's
+    # reported Actions duration once secrets are in and adjust from there.
+    - cron: '10 13 * * 1-5'   # ~6:10 AM PDT
+    - cron: '10 14 * * 1-5'   # ~6:10 AM PST
   workflow_dispatch:
     inputs:
       force:
