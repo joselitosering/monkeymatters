@@ -56,6 +56,72 @@ SOURCES = {
     "ETH":  ("cryptocurrency-quote-short",  "ETHUSD", 2),
 }
 
+SCHWAB_TOKEN_URL = "https://api.schwabapi.com/v1/oauth/token"
+SCHWAB_QUOTES_URL = "https://api.schwabapi.com/marketdata/v1/quotes"
+
+
+def fetch_schwab_futures() -> dict:
+    """Real /ES /NQ futures via Schwab's Market Data scope -- confirmed
+    working 2026-08-18 (Joe completed OAuth; the earlier blocker was an
+    unregistered SCHWAB_CALLBACK_URL, not credentials, and separately the
+    accounts endpoint needs a different app scope than market data does --
+    this only touches market data). NEVER hard-fails the pipeline: any
+    problem here (env vars missing, refresh token expired, network) returns
+    an empty dict and the caller falls back to the FMP cash-index proxy.
+
+    Maintenance reality, not hidden: Schwab refresh tokens die every ~7
+    days and can only be renewed via the browser-based schwab_auth.py flow
+    -- there is no way to make this self-heal in an unattended cron. When
+    SCHWAB_REFRESH_TOKEN goes stale, this function fails closed (silently
+    returns {}) and the KPI bar quietly reverts to the FMP proxy rather
+    than breaking the whole report -- but real futures data stops flowing
+    until the secret is refreshed by hand.
+    """
+    client_id = os.environ.get("SCHWAB_CLIENT_ID", "")
+    client_secret = os.environ.get("SCHWAB_CLIENT_SECRET", "")
+    refresh_token = os.environ.get("SCHWAB_REFRESH_TOKEN", "")
+    if not (client_id and client_secret and refresh_token):
+        return {}
+    try:
+        body = urllib.parse.urlencode(
+            {"grant_type": "refresh_token", "refresh_token": refresh_token}
+        ).encode()
+        basic = __import__("base64").b64encode(f"{client_id}:{client_secret}".encode()).decode()
+        req = urllib.request.Request(
+            SCHWAB_TOKEN_URL, data=body,
+            headers={"Authorization": f"Basic {basic}",
+                     "Content-Type": "application/x-www-form-urlencoded"},
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            access_token = json.loads(resp.read().decode())["access_token"]
+
+        url = SCHWAB_QUOTES_URL + "?" + urllib.parse.urlencode({"symbols": "/ES,/NQ"})
+        req = urllib.request.Request(
+            url, headers={"Authorization": f"Bearer {access_token}", "Accept": "application/json"}
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = json.loads(resp.read().decode())
+
+        out = {}
+        for key, prefix in (("ES", "/ES"), ("NQ", "/NQ")):
+            entry = next((v for k, v in data.items() if k.startswith(prefix)), None)
+            if not entry or "quote" not in entry:
+                continue
+            q = entry["quote"]
+            price = q.get("mark") or q.get("lastPrice")
+            change = q.get("netChange", 0) or 0
+            out[key] = {
+                "price": round(price, 2) if price is not None else None,
+                "change": round(change, 2),
+                "changePercentage": q.get("futurePercentChange"),
+                "color": color_for(change),
+                "contract": entry.get("symbol"),
+            }
+        return out
+    except Exception as e:
+        print(f"WARN: Schwab futures fetch failed, falling back to FMP proxy: {e}", file=sys.stderr)
+        return {}
+
 
 def gate(force: bool) -> datetime.datetime:
     now = datetime.datetime.now(PT)
@@ -127,32 +193,47 @@ def fmt_change(d: dict | None) -> str:
     return f"{sign}{d['change']:,.2f}{pct_str}"
 
 
-def build_kpi_tokens(quotes: dict) -> dict:
-    """KPI bar + VIX sentiment tile only — the numeric tokens this script
-    can ground in a real fetched price. ES/NQ are cash-index proxies,
-    labeled honestly (true futures need a paid feed, not free-tier)."""
+def build_kpi_tokens(quotes: dict, schwab: dict) -> dict:
+    """KPI bar + VIX sentiment tile. ES/NQ prefer real Schwab futures when
+    available (schwab dict non-empty); otherwise fall back to the FMP
+    cash-index proxy, honestly labeled either way in the rendered footnote."""
     t = {}
-    mapping = {
-        "ES_PREMARKET": ("SPX", "S&P 500 cash (ES proxy)"),
-        "NQ_PREMARKET": ("SPX", None),  # no free NDX-equivalent tested yet; left pending below
-        "GOLD_PRICE": ("GOLD", None),
-        "BTC_PRICE": ("BTC", None),
-        "SPX_CLOSE": ("SPX", None),
-        "ETH_PRICE": ("ETH", None),
-    }
-    for token, (key, _label) in mapping.items():
+
+    if schwab.get("ES"):
+        q = schwab["ES"]
+        t["ES_PREMARKET"] = fmt(q["price"])
+        t["ES_CHANGE"] = fmt_change(q)
+        t["ES_COLOR"] = q["color"]
+        t["ES_SOURCE"] = f"Schwab {q.get('contract', '/ES')} (real futures)"
+    else:
+        q = quotes.get("SPX")
+        t["ES_PREMARKET"] = fmt(q["price"]) if q else "N/A"
+        t["ES_CHANGE"] = fmt_change(q)
+        t["ES_COLOR"] = q["color"] if q else "c-sub"
+        t["ES_SOURCE"] = "S&P 500 cash index (Schwab futures unavailable)"
+
+    if schwab.get("NQ"):
+        q = schwab["NQ"]
+        t["NQ_PREMARKET"] = fmt(q["price"])
+        t["NQ_CHANGE"] = fmt_change(q)
+        t["NQ_COLOR"] = q["color"]
+        t["NQ_SOURCE"] = f"Schwab {q.get('contract', '/NQ')} (real futures)"
+    else:
+        t["NQ_PREMARKET"] = "N/A"
+        t["NQ_CHANGE"] = "N/A"
+        t["NQ_COLOR"] = "c-sub"
+        t["NQ_SOURCE"] = "no source available"
+
+    for token, key in (("GOLD_PRICE", "GOLD"), ("BTC_PRICE", "BTC"),
+                       ("SPX_CLOSE", "SPX"), ("ETH_PRICE", "ETH")):
         q = quotes.get(key)
-        if token == "NQ_PREMARKET":
-            continue  # no verified free NDX source yet -- leave as PENDING, don't guess
         t[token] = fmt(q["price"]) if q else "N/A"
-        t[token.replace("_PREMARKET", "_CHANGE").replace("_PRICE", "_CHANGE").replace("_CLOSE", "_CHANGE")] = fmt_change(q)
-        t[token.replace("_PREMARKET", "_COLOR").replace("_PRICE", "_COLOR").replace("_CLOSE", "_COLOR")] = q["color"] if q else "c-sub"
+        t[token.replace("_PRICE", "_CHANGE").replace("_CLOSE", "_CHANGE")] = fmt_change(q)
+        t[token.replace("_PRICE", "_COLOR").replace("_CLOSE", "_COLOR")] = q["color"] if q else "c-sub"
 
     vix = quotes.get("VIX")
     t["VIX_VAL"] = fmt(vix["price"]) if vix else "N/A"
     t["SENT_COLOR"] = vix["color"] if vix else "c-sub"
-
-    t["DATE_LONG"] = None  # filled by caller with real date object
     return t
 
 
@@ -257,12 +338,16 @@ def main() -> None:
         sys.exit(1)
 
     quotes = fetch_all(api_key)
-    kpi = build_kpi_tokens(quotes)
+    schwab = fetch_schwab_futures()
+    if schwab:
+        print(f"Schwab futures live: {[(k, v['price'], v.get('contract')) for k, v in schwab.items()]}")
+    kpi = build_kpi_tokens(quotes, schwab)
 
     DATA_DIR.mkdir(parents=True, exist_ok=True)
     date_str = now.strftime("%Y-%m-%d")
     (DATA_DIR / f"{date_str}.json").write_text(
-        json.dumps({"fetched_at": now.isoformat(), "quotes": quotes}, indent=2), encoding="utf-8"
+        json.dumps({"fetched_at": now.isoformat(), "quotes": quotes, "schwab_futures": schwab}, indent=2),
+        encoding="utf-8"
     )
 
     insert_path = DATA_DIR / f"{date_str}.insert.json"

@@ -49,6 +49,14 @@ jobs:
       - name: Fetch data + render
         env:
           FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+          # Optional -- if unset, ES/NQ silently fall back to the FMP cash-
+          # index proxy rather than failing the run. Schwab refresh tokens
+          # die ~7 days; this secret needs manual renewal on that cadence
+          # (re-run schwab_auth.py locally, update the secret value) -- see
+          # chat log 2026-08-18 for why this can't self-heal in CI.
+          SCHWAB_CLIENT_ID: ${{ secrets.SCHWAB_CLIENT_ID }}
+          SCHWAB_CLIENT_SECRET: ${{ secrets.SCHWAB_CLIENT_SECRET }}
+          SCHWAB_REFRESH_TOKEN: ${{ secrets.SCHWAB_REFRESH_TOKEN }}
           FORCE_RUN: ${{ github.event.inputs.force }}
         run: python scripts/fetch_mmm_data.py
 
@@ -73,9 +81,16 @@ jobs:
 #      commodities-quote-short. NOT the same thing as an Anthropic/Claude
 #      API key -- no LLM billing here, this is the market-data provider
 #      he already has.
-#   3. Everything else (advisory, analysis, trade ideas, lessons) is filled
+#   3. Optional, upgrades ES/NQ from cash-index proxy to real futures:
+#      SCHWAB_CLIENT_ID, SCHWAB_CLIENT_SECRET (from .env), and
+#      SCHWAB_REFRESH_TOKEN (from .secrets/schwab_token.json's
+#      "refresh_token" field, minted 2026-08-18). Dies in ~7 days --
+#      requires re-running schwab_auth.py locally and updating this secret
+#      on that cadence. Missing/stale = silent fallback to FMP, not a
+#      broken run.
+#   4. Everything else (advisory, analysis, trade ideas, lessons) is filled
 #      by the ON-DEMAND pass: ask Shadow Monkey in a live chat, it reads
 #      data/daily/YYYY-MM-DD.json, writes .insert.json, and the next data
 #      run (or a manual re-run) merges it into the live page.
-#   4. First run: use "Run workflow" above (force=true) and READ the diff
+#   5. First run: use "Run workflow" above (force=true) and READ the diff
 #      before trusting an unattended fire -- this has never run live yet.
