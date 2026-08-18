@@ -1,12 +1,15 @@
-name: Shadow Monkey — Daily MMM Generator
+name: Shadow Monkey — Daily MMM (data pass)
 
-# Cloud-side, PAT-authenticated automation for the Morning Market Monitor.
-# Desktop Commander / Joe's PC are NOT required for this to fire — it runs
-# entirely on GitHub's servers. See scripts/generate_mmm.py for the pipeline.
-#
-# Two triggers cover both DST states (PT is UTC-7 Mar-Nov, UTC-8 Nov-Mar);
-# generate_mmm.py's own time-gate figures out which one is real and no-ops
-# the other, so this needs no manual edits at DST changeovers.
+# Cloud-side automation, DATA HALF ONLY. Joe is on a Max plan and does not
+# want separate Anthropic API billing, so this workflow makes zero LLM
+# calls -- it only pulls real numbers from FMP's REST API and fills what
+# it can ground in a fetched price. Everything qualitative (advisory,
+# analysis, trade ideas, lessons) stays "on demand": run a live Claude
+# chat whenever Joe wants it (covered by the existing subscription), which
+# writes data/daily/YYYY-MM-DD.insert.json; the NEXT run of this workflow
+# (or a manual re-run) picks that file up and merges it in. No local
+# machine or Desktop Commander needed for this workflow to fire -- it
+# runs entirely on GitHub's servers.
 on:
   schedule:
     - cron: '25 13 * * 1-5'   # ~6:25 AM PDT
@@ -26,16 +29,15 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  generate:
+  fetch:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          # Must be a real PAT, not the default GITHUB_TOKEN — pushes made
-          # with GITHUB_TOKEN do not trigger pages-deploy.yml (GitHub's
-          # loop-prevention). This secret is the exact one already documented
-          # in pages-deploy.yml's setup checklist.
+          # Must be a real PAT, not the default GITHUB_TOKEN -- pushes made
+          # with GITHUB_TOKEN don't trigger pages-deploy.yml (GitHub's
+          # loop-prevention). Same secret pages-deploy.yml already documents.
           token: ${{ secrets.SHADOW_MONKEY_PAT }}
           fetch-depth: 1
 
@@ -44,34 +46,36 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install dependencies
-        run: pip install --quiet anthropic
-
-      - name: Generate report
+      - name: Fetch data + render
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
           FORCE_RUN: ${{ github.event.inputs.force }}
-        run: python scripts/generate_mmm.py
+        run: python scripts/fetch_mmm_data.py
 
       - name: Commit and push
         run: |
           git config user.name "Shadow Monkey Bot"
           git config user.email "shadowmonkey-bot@users.noreply.github.com"
-          git add docs/mmm-daily docs/index.html
+          git add docs/mmm-daily docs/index.html data/daily
           if git diff --cached --quiet; then
             echo "No changes to commit (gate no-op or duplicate run)."
             exit 0
           fi
-          git commit -m "mmm: $(date -u +%Y-%m-%d) auto-generated"
+          git commit -m "mmm-data: $(date -u +%Y-%m-%d) auto-fetched"
           git push origin HEAD:main
 
 # ── One-time setup required before this can fire for real ──────────────────
 #   1. Secret: SHADOW_MONKEY_PAT — fine-grained PAT, Contents: Read & Write,
-#      scoped to this repo. Same secret pages-deploy.yml already documents.
-#   2. Secret: ANTHROPIC_API_KEY — from console.anthropic.com (separate
-#      billing from any claude.ai subscription; this repo's own usage, ~1
-#      call/weekday with web_search enabled).
-#   3. templates/mmm_template.html must exist in the repo (copy the
-#      canonical template in — not yet committed as of 2026-08-18).
+#      scoped to this repo (github.com/settings/personal-access-tokens/new).
+#   2. Secret: FMP_API_KEY — Joe's EXISTING FinancialModelingPrep API key
+#      (dashboard, not a new account). Confirmed-working endpoints on his
+#      current plan: index-quote, cryptocurrency-quote-short,
+#      commodities-quote-short. NOT the same thing as an Anthropic/Claude
+#      API key -- no LLM billing here, this is the market-data provider
+#      he already has.
+#   3. Everything else (advisory, analysis, trade ideas, lessons) is filled
+#      by the ON-DEMAND pass: ask Shadow Monkey in a live chat, it reads
+#      data/daily/YYYY-MM-DD.json, writes .insert.json, and the next data
+#      run (or a manual re-run) merges it into the live page.
 #   4. First run: use "Run workflow" above (force=true) and READ the diff
-#      before trusting an unattended fire — this has never run live yet.
+#      before trusting an unattended fire -- this has never run live yet.
