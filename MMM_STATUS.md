@@ -92,11 +92,13 @@ local-test fallback path (checks real env vars first, `.env` second).
 
 ## In progress / next
 
-- **Weekly pipeline — building now.** Same shape as daily: figure out
-  what's deterministic (weekly OHLC/performance rollups) vs. qualitative
-  (weekly recap analysis, lessons), likely reusing `template/
-  generate_weekly.py` + `apex_theme.css` as the starting point rather than
-  from scratch. Cadence target: Friday, exact time not yet set.
+- **Weekly pipeline — scoped, not yet built.** Turns out to be a bigger
+  lift than daily was: needs structured trade-idea logging, a price-
+  history cache, and a grading orchestration layer *before* the recap
+  itself can run on real data. Full dependency chain, exact files, exact
+  fixes needed: **see `WEEKLY_PIPELINE_HANDOFF.md`** — start there, not
+  from scratch. Process lessons from building daily (what worked, what
+  didn't): `SESSION_LOG_2026-08-18.md`.
 - On-demand insert merge is still manual (I read the JSON, write content,
   push via Desktop Commander) — no helper script exists yet. Fine as a
   process; flag if it becomes worth automating.
