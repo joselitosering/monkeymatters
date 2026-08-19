@@ -36,6 +36,15 @@ concurrency:
   group: mmm-daily
   cancel-in-progress: false
 
+# Known platform notice, not a bug here: actions/checkout@v4 and
+# actions/setup-python@v5 print a "Node.js 20 deprecated, forced to
+# Node 24" warning as of 2026-08-18 -- this is GitHub-wide right now,
+# non-blocking, and resolves itself as GitHub patches these actions'
+# bundled Node target (we're pinned to floating @v4/@v5, so we get that
+# patch automatically, no edit needed here). Real deadline to actually
+# track: Node.js 20 is removed from runners entirely on 2026-09-16 -- if
+# this warning is STILL showing after that date, it may have gone from
+# warning to failure and needs a real look then, not before.
 jobs:
   fetch:
     runs-on: ubuntu-latest
