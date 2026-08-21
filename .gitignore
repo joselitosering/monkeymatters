@@ -22,6 +22,7 @@ hhh/manual_accounts.json
 hhh/ratings.json
 hhh/analysis.json
 hhh/HHH_Latest.html
+hhh/hhh_daily_log.txt
 
 # ── Google OAuth credentials — never commit ───────────────
 scripts/credentials.json

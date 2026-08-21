@@ -20,10 +20,11 @@ def _outcome(bars, entry_idx, stop, target, direction):
             r = round(abs(target - entry_px) / risk, 2) if risk > 0 else None
             return dict(result="win", exit_reason="target", r_multiple=r, exit_bar=i)
         if hit_stop:
-            risk   = abs(entry_px - stop)
-            reward = abs(target - entry_px)
-            r = round(-reward / risk, 2) if risk > 0 else -1.0
-            return dict(result="loss", exit_reason="stop", r_multiple=r, exit_bar=i)
+            # FIX 2026-08-21 (FFF wiring): a stopped trade realizes exactly
+            # -1R (loss = the risk you defined), NOT -(reward/risk) — the
+            # old line returned the planned R:R as a negative, overstating
+            # every loss (e.g. a 1:4.5 idea graded -4.5R on a routine stop).
+            return dict(result="loss", exit_reason="stop", r_multiple=-1.0, exit_bar=i)
     return dict(result="indeterminate", exit_reason="indeterminate",
                 r_multiple=None, exit_bar=None)
 

@@ -1,0 +1,642 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-13",
+  "generated_at_utc": "2026-08-16T23:36:00+00:00",
+  "generator": "backfill_from_html@v1 (format=monitor11, source=morning-market-monitor-2026-08-13.html)",
+  "trade_ideas": [
+    {
+      "id": "2026-08-13-T01",
+      "rank": 1,
+      "symbol": "/ES",
+      "instrument": "futures",
+      "direction": "long",
+      "setup": "OR Break R1 - PPI catalyst",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 7769.0,
+        "raw": "7,769"
+      },
+      "rr": 2.0,
+      "priority": 3,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "ATH push; PPI disinflation; hold above PP first",
+      "stop": {
+        "type": "price",
+        "value": 7742.0,
+        "raw": "7,742"
+      },
+      "target": {
+        "type": "price",
+        "value": 7822.0,
+        "raw": "7,822"
+      }
+    },
+    {
+      "id": "2026-08-13-T02",
+      "rank": 2,
+      "symbol": "BIRK",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Gap-and-Go BMO beat",
+      "entry": {
+        "type": "pm_high_offset",
+        "condition": "above",
+        "offset_pct": 1.0,
+        "raw": "PM Hi+1%"
+      },
+      "rr": 2.3,
+      "priority": 3,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "EPS + guide beat; 5-min ORB confirmation required",
+      "stop": {
+        "type": "pct",
+        "value": -8.0,
+        "raw": "-8%"
+      },
+      "target": {
+        "type": "pct",
+        "value": 18.0,
+        "raw": "+18%"
+      }
+    },
+    {
+      "id": "2026-08-13-T03",
+      "rank": 3,
+      "symbol": "TLT",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "Rate Cut Play - PPI break",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 88.5,
+        "raw": "88.50"
+      },
+      "rr": 2.9,
+      "priority": 3,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "12K+ Sep 95C flow; PPI disinflation = bond bid",
+      "stop": {
+        "type": "price",
+        "value": 87.8,
+        "raw": "87.80"
+      },
+      "target": {
+        "type": "price",
+        "value": 90.5,
+        "raw": "90.50"
+      }
+    },
+    {
+      "id": "2026-08-13-T04",
+      "rank": 4,
+      "symbol": "NVDA",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Dark Pool Accumulation",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 171.0,
+        "raw": "171.00"
+      },
+      "rr": 2.3,
+      "priority": 3,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "$168-171 dark pool zone; DELL beat confirms AI theme",
+      "stop": {
+        "type": "price",
+        "value": 168.0,
+        "raw": "168.00"
+      },
+      "target": {
+        "type": "price",
+        "value": 178.0,
+        "raw": "178.00"
+      }
+    },
+    {
+      "id": "2026-08-13-T05",
+      "rank": 5,
+      "symbol": "SPY",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Bull Call Spread 580/585",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 2.2,
+        "raw": "~$2.20"
+      },
+      "rr": 2.3,
+      "priority": 3,
+      "horizon": "swing",
+      "grading_method": "directional_close",
+      "gradable": true,
+      "notes": "8.5K Aug 580C flow; expires this week; defined risk",
+      "stop": {
+        "type": "premium_pct",
+        "value": -100.0,
+        "raw": "Full debit"
+      },
+      "target": {
+        "type": "price",
+        "value": 5.0,
+        "raw": "$5.00"
+      }
+    },
+    {
+      "id": "2026-08-13-T06",
+      "rank": 6,
+      "symbol": "AMBP",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Gap-and-Go BMO beat",
+      "entry": {
+        "type": "pm_high_offset",
+        "condition": "above",
+        "offset_pct": 1.0,
+        "raw": "PM Hi+1%"
+      },
+      "rr": 1.9,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Packaging demand beat; 2nd consecutive; ORB confirm",
+      "stop": {
+        "type": "pct",
+        "value": -8.0,
+        "raw": "-8%"
+      },
+      "target": {
+        "type": "pct",
+        "value": 15.0,
+        "raw": "+15%"
+      }
+    },
+    {
+      "id": "2026-08-13-T07",
+      "rank": 7,
+      "symbol": "DELL",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Gap-and-Go BMO beat",
+      "entry": {
+        "type": "pm_high_offset",
+        "condition": "above",
+        "offset_pct": 1.0,
+        "raw": "PM Hi+1%"
+      },
+      "rr": 1.7,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "AI server demand; enterprise AI capex cycle confirmed",
+      "stop": {
+        "type": "pct",
+        "value": -7.0,
+        "raw": "-7%"
+      },
+      "target": {
+        "type": "pct",
+        "value": 12.0,
+        "raw": "+12%"
+      }
+    },
+    {
+      "id": "2026-08-13-T08",
+      "rank": 8,
+      "symbol": "GLD",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "Rate Cut + Geo Hedge",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 4430.0,
+        "raw": "4,430"
+      },
+      "rr": 3.0,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Oct 185C flow; $4,350 floor defended; hold as hedge",
+      "stop": {
+        "type": "price",
+        "value": 4400.0,
+        "raw": "4,400"
+      },
+      "target": {
+        "type": "price",
+        "value": 4520.0,
+        "raw": "4,520"
+      }
+    },
+    {
+      "id": "2026-08-13-T09",
+      "rank": 9,
+      "symbol": "/NQ",
+      "instrument": "futures",
+      "direction": "long",
+      "setup": "OR Break PP",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 29803.0,
+        "raw": "29,803"
+      },
+      "rr": 1.2,
+      "priority": 2,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Flat gap; wait for ES to lead; confirm above PP first",
+      "stop": {
+        "type": "price",
+        "value": 29625.0,
+        "raw": "29,625"
+      },
+      "target": {
+        "type": "price",
+        "value": 30025.0,
+        "raw": "30,025"
+      }
+    },
+    {
+      "id": "2026-08-13-T10",
+      "rank": 10,
+      "symbol": "STUB",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Post-Earnings Fade",
+      "entry": {
+        "type": "or_low_break",
+        "condition": "below",
+        "raw": "OR Low"
+      },
+      "rr": 3.1,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Aug 18P IV 280%; earnings miss; dead-cat pattern",
+      "stop": {
+        "type": "pct",
+        "value": 8.0,
+        "raw": "+8%"
+      },
+      "target": {
+        "type": "pct",
+        "value": -25.0,
+        "raw": "-25%"
+      }
+    },
+    {
+      "id": "2026-08-13-T11",
+      "rank": 11,
+      "symbol": "CBRS",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "AI Miss Fade",
+      "entry": {
+        "type": "or_low_break",
+        "condition": "below",
+        "raw": "OR Low"
+      },
+      "rr": 3.3,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Sep 25P 9K contracts; AI revenue guide cut; flush",
+      "stop": {
+        "type": "pct",
+        "value": 6.0,
+        "raw": "+6%"
+      },
+      "target": {
+        "type": "pct",
+        "value": -20.0,
+        "raw": "-20%"
+      }
+    },
+    {
+      "id": "2026-08-13-T12",
+      "rank": 12,
+      "symbol": "TPR",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Guide Miss Fade",
+      "entry": {
+        "type": "or_low_break",
+        "condition": "below",
+        "raw": "OR Low"
+      },
+      "rr": 3.0,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Tapestry sell-the-news; Aug 35P flow active",
+      "stop": {
+        "type": "pct",
+        "value": 5.0,
+        "raw": "+5%"
+      },
+      "target": {
+        "type": "pct",
+        "value": -15.0,
+        "raw": "-15%"
+      }
+    },
+    {
+      "id": "2026-08-13-T13",
+      "rank": 13,
+      "symbol": "XLE",
+      "instrument": "etf",
+      "direction": "short",
+      "setup": "Oil Breakdown",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 85.0,
+        "raw": "85.00"
+      },
+      "rr": 2.0,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Brent -1.84%; Aug 85P flow; supply ease narrative",
+      "stop": {
+        "type": "price",
+        "value": 86.0,
+        "raw": "86.00"
+      },
+      "target": {
+        "type": "price",
+        "value": 83.0,
+        "raw": "83.00"
+      }
+    },
+    {
+      "id": "2026-08-13-T14",
+      "rank": 14,
+      "symbol": "AAPL",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Dark Pool 2.1M Shares",
+      "entry": {
+        "type": "vwap",
+        "condition": "above",
+        "raw": "Above VWAP"
+      },
+      "rr": 2.5,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "2.1M dark pool block; institutional accumulation signal",
+      "stop": {
+        "type": "pct",
+        "value": -2.0,
+        "raw": "-2%"
+      },
+      "target": {
+        "type": "pct",
+        "value": 5.0,
+        "raw": "+5%"
+      }
+    },
+    {
+      "id": "2026-08-13-T15",
+      "rank": 15,
+      "symbol": "META",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Dark Pool 850K Shares",
+      "entry": {
+        "type": "vwap",
+        "condition": "above",
+        "raw": "Above VWAP"
+      },
+      "rr": 2.5,
+      "priority": 1,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "850K dark pool institutional; AI ad revenue catalyst",
+      "stop": {
+        "type": "pct",
+        "value": -2.0,
+        "raw": "-2%"
+      },
+      "target": {
+        "type": "pct",
+        "value": 5.0,
+        "raw": "+5%"
+      }
+    },
+    {
+      "id": "2026-08-13-T16",
+      "rank": 16,
+      "symbol": "NVDA",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Sep 180C Unusual Flow",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 4.5,
+        "raw": "~$4.50"
+      },
+      "rr": 2.0,
+      "priority": 1,
+      "horizon": "swing",
+      "grading_method": "directional_close",
+      "gradable": true,
+      "notes": "6K contract flow; OTM lottery alongside core long",
+      "stop": {
+        "type": "premium_pct",
+        "value": -50.0,
+        "raw": "-50% prem"
+      },
+      "target": {
+        "type": "pct",
+        "value": 100.0,
+        "raw": "+100%"
+      }
+    },
+    {
+      "id": "2026-08-13-T17",
+      "rank": 17,
+      "symbol": "TLT",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Sep 95C Unusual Flow",
+      "entry": {
+        "type": "market",
+        "raw": "Market"
+      },
+      "rr": 2.0,
+      "priority": 1,
+      "horizon": "swing",
+      "grading_method": "directional_close",
+      "gradable": true,
+      "notes": "12K+ contracts; institutional rate cut conviction play",
+      "stop": {
+        "type": "pct",
+        "value": -50.0,
+        "raw": "-50%"
+      },
+      "target": {
+        "type": "pct",
+        "value": 100.0,
+        "raw": "+100%"
+      }
+    },
+    {
+      "id": "2026-08-13-T18",
+      "rank": 18,
+      "symbol": "/ES",
+      "instrument": "futures",
+      "direction": "short",
+      "setup": "R2 Rejection",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 7822.0,
+        "raw": "7,822"
+      },
+      "rr": 2.0,
+      "priority": 1,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "If bull run stalls at R2; only enter on rejection candle",
+      "stop": {
+        "type": "price",
+        "value": 7849.0,
+        "raw": "7,849"
+      },
+      "target": {
+        "type": "price",
+        "value": 7769.0,
+        "raw": "7,769"
+      }
+    },
+    {
+      "id": "2026-08-13-T19",
+      "rank": 19,
+      "symbol": "SCUR",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Decline Continuation",
+      "entry": {
+        "type": "or_low_break",
+        "condition": "below",
+        "raw": "OR Low"
+      },
+      "rr": 3.0,
+      "priority": 1,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Security sector macro rotation; below OR low only",
+      "stop": {
+        "type": "pct",
+        "value": 5.0,
+        "raw": "+5%"
+      },
+      "target": {
+        "type": "pct",
+        "value": -15.0,
+        "raw": "-15%"
+      }
+    },
+    {
+      "id": "2026-08-13-T20",
+      "rank": 20,
+      "symbol": "YETI",
+      "instrument": "options",
+      "direction": "neutral",
+      "setup": "AMC Straddle",
+      "entry": {
+        "type": "market",
+        "raw": "ATM Aug14",
+        "value": 14.0
+      },
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "directional_close",
+      "gradable": true,
+      "notes": "AMC tonight; ~12% move expected; direction-neutral",
+      "stop": {
+        "type": "pct",
+        "value": -40.0,
+        "raw": "-40%"
+      },
+      "target": {
+        "type": "pct",
+        "value": 100.0,
+        "raw": "+100%"
+      }
+    }
+  ],
+  "lessons_applied": [],
+  "sources": [
+    {
+      "name": "morning-market-monitor-2026-08-13.html"
+    }
+  ],
+  "sentiment": {
+    "vix": 14.4,
+    "fear_greed": 67,
+    "put_call": 0.71,
+    "nyse_breadth": "1.28:1",
+    "aaii_bull_bear_spread_pct": 3.2,
+    "vix_term": "contango"
+  },
+  "kpis": {
+    "es_pre_mkt": {
+      "value": 7784.0
+    },
+    "nq_pre_mkt": {
+      "value": 29842.5
+    },
+    "brent_crude": {
+      "value": 87.38
+    },
+    "gold": {
+      "value": 4446.2
+    },
+    "10y_treasury": {
+      "value": 4.7
+    },
+    "eur_usd": {
+      "value": 1.0838
+    }
+  },
+  "regime": {
+    "label": "BULL",
+    "max_trades": 5,
+    "daily_stop_r": -2.0
+  },
+  "advisory": {
+    "temperament": "Constructively Bullish. PPI July came in at 0.0% MoM (vs +0.2% est) - a clean disinflation print. YoY fell to 4.7% (vs 4.9% est). This is the follow-up punch after yesterday's CPI relief: inflation is cooling at the producer level, reinforcing the rate-cut thesis. Triple BMO beats (BIRK +11.3%, AMBP +11.2%, DELL +9.9%) confirm consumer demand and enterprise tech spending remain intact. VIX at 14.40 signals complacency - but justified given the macro backdrop today.",
+    "posture": "BULL posture - lean in with discipline. This is a 5-trade day. Lead with /ES OR break above R1 (7,796) on the PPI catalyst. BIRK and DELL gap-and-go plays are the highest-conviction single names. TLT long is the macro-confirmation trade - PPI disinflation = rate cut narrative strengthens = bonds rally. NVDA dark pool accumulation ($168-171) signals institutional positioning ahead of a catalyst. GLD remains the tail-risk hedge.",
+    "verdict": "\ud83d\udfe2 CONSTRUCTIVE BULL. PPI + triple BMO beats = clearest bull setup of the week. Rate cut probability rising, breadth expanding, puts collapsing. Size up selectively. Max 5 trades. Stop at -2R. Do not chase STUB/CBRS - those are dead cats on a bounce."
+  }
+}

@@ -23,6 +23,8 @@ Usage (from the repo root or hhh/):
 
 import argparse
 import base64
+import gzip
+import io
 import json
 import os
 import sys
@@ -31,6 +33,22 @@ import urllib.request
 import webbrowser
 from datetime import datetime
 from pathlib import Path
+
+
+def read_error_body(e):
+    """HTTPError bodies are sometimes gzip-compressed regardless of what we
+    asked for — decompress if needed so the real Schwab error text (not a
+    UnicodeDecodeError on raw gzip bytes) reaches the user."""
+    raw = e.read()
+    if raw[:2] == b"\x1f\x8b":
+        try:
+            raw = gzip.GzipFile(fileobj=io.BytesIO(raw)).read()
+        except OSError:
+            pass
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return raw.decode("utf-8", errors="replace")
 
 AUTH_URL = "https://api.schwabapi.com/v1/oauth/authorize"
 TOKEN_URL = "https://api.schwabapi.com/v1/oauth/token"
@@ -89,17 +107,22 @@ def main():
                 return dotenv[n]
         return cfg.get(cfg_key, default) if cfg_key else default
 
-    app_key = pick("SCHWAB_CLIENT_ID", "SCHWAB_APP_KEY", cfg_key="app_key")
-    app_secret = pick("SCHWAB_CLIENT_SECRET", "SCHWAB_APP_SECRET", cfg_key="app_secret")
-    callback = pick("SCHWAB_CALLBACK_URL", cfg_key="callback_url", default="https://127.0.0.1:8182")
-    tok = Path(pick("SCHWAB_TOKEN_PATH", cfg_key="token_path",
-                    default=".secrets/schwab_token.json")).expanduser()
+    # HHH's own Schwab app (Accounts and Trading Production) — SCHWAB_HHH_*
+    # wins if set, so this never collides with a Market-Data-only app another
+    # pipeline in this repo (e.g. MMM) points its generic SCHWAB_* vars at.
+    app_key = pick("SCHWAB_HHH_CLIENT_ID", "SCHWAB_CLIENT_ID", "SCHWAB_APP_KEY", cfg_key="app_key")
+    app_secret = pick("SCHWAB_HHH_CLIENT_SECRET", "SCHWAB_CLIENT_SECRET", "SCHWAB_APP_SECRET", cfg_key="app_secret")
+    callback = pick("SCHWAB_HHH_CALLBACK_URL", "SCHWAB_CALLBACK_URL", cfg_key="callback_url", default="https://127.0.0.1:8182")
+    tok = Path(pick("SCHWAB_HHH_TOKEN_PATH", cfg_key="token_path",
+                    default=".secrets/schwab_hhh_token.json")).expanduser()
     token_path = tok if tok.is_absolute() else repo_root / tok
 
     if not app_key or not app_secret:
-        sys.exit("[FATAL] SCHWAB_CLIENT_ID / SCHWAB_CLIENT_SECRET not found — "
-                 "fill them in the repo-root .env first.")
+        sys.exit("[FATAL] SCHWAB_HHH_CLIENT_ID / SCHWAB_HHH_CLIENT_SECRET not found — "
+                 "add them to the repo-root .env (HHH needs its own app, separate "
+                 "from any Market-Data-only app other pipelines here use).")
     print(f"    .env: {dotenv_path or 'NOT FOUND'}")
+    print(f"    using app_key: {app_key[:6]}…  (confirm this is the HHH app, not another one)")
     print(f"    token will be written to: {token_path}")
 
     url = f"{AUTH_URL}?client_id={urllib.parse.quote(app_key)}&redirect_uri={urllib.parse.quote(callback)}"
@@ -128,7 +151,17 @@ def main():
         with urllib.request.urlopen(req, timeout=30) as r:
             tok = json.loads(r.read().decode())
     except urllib.error.HTTPError as e:
-        sys.exit(f"[FATAL] Token exchange failed ({e.code}): {e.read().decode()[:300]}")
+        body = read_error_body(e)
+        hint = ""
+        if "invalid_grant" in body or "expired" in body.lower() or "used" in body.lower():
+            hint = ("\n     Codes are single-use and expire in ~30-60s — this one is now "
+                    "burned either way. Re-run schwab_auth.py and paste the redirect URL "
+                    "as fast as possible after the browser lands on it.")
+        elif "redirect_uri" in body.lower() or "invalid_client" in body.lower():
+            hint = ("\n     Check that SCHWAB_HHH_CALLBACK_URL exactly matches the callback "
+                    "registered for this app on developer.schwab.com (scheme, host, port, "
+                    "trailing slash — all of it).")
+        sys.exit(f"[FATAL] Token exchange failed ({e.code}): {body[:400]}{hint}")
 
     tok["_minted_at"] = datetime.now().isoformat(timespec="seconds")
     token_path.parent.mkdir(parents=True, exist_ok=True)

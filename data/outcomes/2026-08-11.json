@@ -1,0 +1,443 @@
+{
+  "schema_version": 2,
+  "date": "2026-08-11",
+  "graded_at": "2026-08-18T20:24:20-07:00",
+  "grader": "fff_build@v1 + grade_trades.grade_idea (daily bars)",
+  "results": [
+    {
+      "id": "2026-08-11-T01",
+      "symbol": "SPY",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Bull Call Spread - CPI eve, OR hold above VAH",
+      "priority": 3,
+      "notes": [
+        "entry type 'market' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Buy 560C/Sell 562C \u00b7 $0.80 debit",
+      "why": "entry type 'market' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-11-T02",
+      "symbol": "QQQ",
+      "instrument": "options",
+      "direction": "short",
+      "setup": "Protective Put - CPI binary hedge, tech breadth neg",
+      "priority": 3,
+      "notes": [
+        "entry type 'market' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Buy 470P \u00b7 ~$1.50 cost",
+      "why": "entry type 'market' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-11-T03",
+      "symbol": "XLE",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "Hold long + Covered Call - fade Hormuz spike premium",
+      "priority": 3,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": ">$100 (hold) \u00b7 CC at $107-110",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "XLE",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-11-T04",
+      "symbol": "GLD",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Safe Haven - dual hedge: Hormuz + CPI inflation",
+      "priority": 3,
+      "notes": [
+        "entry type 'market' needs intraday grading (v2)"
+      ],
+      "entry_raw": ">$420.00 / Call $4,400 strike",
+      "why": "entry type 'market' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-11-T05",
+      "symbol": "DDOG",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Gap-and-Go - Q2 beat, cloud demand intact, OR hold",
+      "priority": 3,
+      "notes": [
+        "entry type 'or_break' needs intraday grading (v2)"
+      ],
+      "entry_raw": ">OR High (9:30-10:00 ET)",
+      "why": "entry type 'or_break' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-11-T06",
+      "symbol": "/ES",
+      "instrument": "futures",
+      "direction": "long",
+      "setup": "OR_Break_VWAP_Retest - above R1, volume confirm",
+      "priority": 3,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "7,773",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "FUT_ES",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-11-T07",
+      "symbol": "/NQ",
+      "instrument": "futures",
+      "direction": "long",
+      "setup": "OR_Break_VWAP_Retest - VAH (29,800) break on volume",
+      "priority": 3,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "29,800",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "FUT_NQ",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-11-T08",
+      "symbol": "DDOG",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Post-Earnings Momentum - slight OTM, 1-week expiry",
+      "priority": 2,
+      "notes": [
+        "entry type 'market' needs intraday grading (v2)"
+      ],
+      "entry_raw": "OTM call \u00b7 ~$4.00 premium",
+      "why": "entry type 'market' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-11-T09",
+      "symbol": "COHR",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Liquidity_Sweep - dead-cat to VWAP, rejection entry",
+      "priority": 2,
+      "notes": [
+        "entry type 'vwap' needs intraday grading (v2)"
+      ],
+      "entry_raw": "VWAP touch (~$42 area)",
+      "why": "entry type 'vwap' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-11-T10",
+      "symbol": "COHR",
+      "instrument": "options",
+      "direction": "short",
+      "setup": "Post-Earnings Decay - sector weakness, near-term expiry",
+      "priority": 2,
+      "notes": [
+        "entry type 'market' needs intraday grading (v2)"
+      ],
+      "entry_raw": "OTM put \u00b7 ~$1.50 premium",
+      "why": "entry type 'market' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-11-T11",
+      "symbol": "GFS",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Failed_Breakout_VWAP_Reversion - fab demand soft",
+      "priority": 2,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "<$22.00 (failed bounce)",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "GFS",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-11-T12",
+      "symbol": "LITE",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Liquidity_Sweep - earnings miss, VWAP rejection play",
+      "priority": 2,
+      "notes": [
+        "entry type 'vwap' needs intraday grading (v2)"
+      ],
+      "entry_raw": "VWAP tag + rejection",
+      "why": "entry type 'vwap' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-11-T13",
+      "symbol": "NESR",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Earnings Gap-Go - EPS beat + energy sector tailwind",
+      "priority": 2,
+      "notes": [
+        "entry type 'vwap' needs intraday grading (v2)"
+      ],
+      "entry_raw": ">$8.50 (VWAP reclaim)",
+      "why": "entry type 'vwap' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-11-T14",
+      "symbol": "SLV",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "Dual Demand - industrial metals + safe-haven flight",
+      "priority": 2,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": ">$31.00",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "SLV",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-11-T15",
+      "symbol": "TLT",
+      "instrument": "etf",
+      "direction": "short",
+      "setup": "Yield Rise - 30Y at 5.25%, 3Y auction risk today",
+      "priority": 2,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "<$85.00",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "TLT",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-11-T16",
+      "symbol": "/ES",
+      "instrument": "futures",
+      "direction": "short",
+      "setup": "Failed_Breakout_VWAP_Reversion - PP break, sell pressure",
+      "priority": 2,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "7,758 (below PP)",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "FUT_ES",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-11-T17",
+      "symbol": "/NQ",
+      "instrument": "futures",
+      "direction": "short",
+      "setup": "Liquidity_Sweep - R1 rejection, DDOG gap fade signal",
+      "priority": 2,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "29,861 (R1 rejection)",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "FUT_NQ",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-11-T18",
+      "symbol": "XLRE",
+      "instrument": "etf",
+      "direction": "short",
+      "setup": "1PM Auction Fade - weak bid-to-cover \u2192 yield spike",
+      "priority": 1,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "$34.50 (post-1PM)",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "XLRE",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-11-T19",
+      "symbol": "XLK",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "CPI Gamma - cool print bounce, tech breadth recovery",
+      "priority": 1,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": ">$207.00",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "XLK",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-11-T20",
+      "symbol": "ABCL",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Biotech Catalyst - Phase 2 data, small float momentum",
+      "priority": 1,
+      "notes": [
+        "entry type 'or_break' needs intraday grading (v2)"
+      ],
+      "entry_raw": ">OR High (confirmed vol)",
+      "why": "entry type 'or_break' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-11-T21",
+      "symbol": "CSCO",
+      "instrument": "options",
+      "direction": "neutral",
+      "setup": "Earnings Event - Wed AMC, B2B AI commentary binary",
+      "priority": 2,
+      "notes": [
+        "entry type 'market' needs intraday grading (v2)"
+      ],
+      "entry_raw": "ATM straddle pre-Wed close",
+      "why": "entry type 'market' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-11-T22",
+      "symbol": "GFS",
+      "instrument": "options",
+      "direction": "short",
+      "setup": "Sector Sympathy - semis miss read-through, 1-week exp",
+      "priority": 2,
+      "notes": [
+        "entry type 'market' needs intraday grading (v2)"
+      ],
+      "entry_raw": "OTM put \u00b7 ~$1.00 cost",
+      "why": "entry type 'market' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    }
+  ],
+  "day_summary": {
+    "ideas_total": 22,
+    "wins": 0,
+    "losses": 0,
+    "no_trigger": 0,
+    "indeterminate": 0,
+    "no_data": 10,
+    "ungradable": 12,
+    "win_rate": 0.0,
+    "total_r": 0
+  }
+}

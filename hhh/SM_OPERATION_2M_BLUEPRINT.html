@@ -1,0 +1,413 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Operation 2M</title>
+</head>
+<body>
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=IBM+Plex+Sans:wght@400;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+  :root{
+    --ground:#0a0e14; --panel:#111826; --panel2:#0d1420; --line:#1d2838;
+    --ink:#d8e2ee; --muted:#7d8ba1; --dim:#54617a;
+    --cyan:#37d5e8; --green:#3ee08a; --amber:#e8b33a; --red:#e85555;
+    --disp:'Rajdhani',system-ui,sans-serif;
+    --body:'IBM Plex Sans',system-ui,sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{background:var(--ground);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.65;
+       -webkit-font-smoothing:antialiased}
+  .wrap{max-width:860px;margin:0 auto;padding:0 24px 96px}
+  p{max-width:68ch}
+  strong{color:#fff;font-weight:600}
+  a{color:var(--cyan);text-decoration:none;border-bottom:1px solid rgba(55,213,232,.35)}
+  a:hover{border-bottom-color:var(--cyan)}
+  a:focus-visible,summary:focus-visible{outline:2px solid var(--cyan);outline-offset:3px}
+
+  /* ---------- masthead ---------- */
+  .band{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:6px 16px;
+        border-bottom:1px solid var(--line);padding:14px 0;margin-bottom:56px;
+        font-family:var(--mono);font-size:11px;letter-spacing:.16em;color:var(--muted)}
+  .band .tag{color:var(--red);font-weight:500}
+  header.hero{margin-bottom:64px}
+  .eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.22em;color:var(--cyan);margin-bottom:14px}
+  h1{font-family:var(--disp);font-weight:700;font-size:clamp(44px,7vw,72px);line-height:.95;
+     letter-spacing:.01em;color:#fff;text-wrap:balance}
+  h1 .thin{font-weight:500;color:var(--cyan)}
+  .sub{margin-top:18px;font-size:17px;color:var(--muted);max-width:60ch}
+  .sub b{color:var(--ink);font-weight:600}
+
+  /* ---------- sections ---------- */
+  section{margin-top:72px}
+  .sec-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--dim);margin-bottom:8px}
+  h2{font-family:var(--disp);font-weight:600;font-size:30px;letter-spacing:.02em;color:#fff;
+     text-wrap:balance;margin-bottom:18px}
+  h3{font-family:var(--disp);font-weight:600;font-size:20px;letter-spacing:.03em;color:var(--cyan);margin:28px 0 10px}
+  section p+p{margin-top:14px}
+
+  /* engines */
+  .engine{border:1px solid var(--line);background:var(--panel);border-radius:4px;padding:26px 28px;margin-top:22px}
+  .engine .num{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--dim)}
+  .engine h3{margin-top:6px}
+  .engine .verdict{display:inline-block;font-family:var(--mono);font-size:11px;letter-spacing:.14em;
+       padding:3px 10px;border-radius:2px;margin-left:10px;vertical-align:2px}
+  .v-floor{background:rgba(62,224,138,.12);color:var(--green)}
+  .v-growth{background:rgba(55,213,232,.12);color:var(--cyan)}
+  .v-gated{background:rgba(232,179,58,.12);color:var(--amber)}
+  .v-mult{background:rgba(216,226,238,.10);color:var(--ink)}
+
+  /* stat rows */
+  .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1px;background:var(--line);
+         border:1px solid var(--line);border-radius:4px;overflow:hidden;margin:26px 0}
+  .stat{background:var(--panel2);padding:16px 18px}
+  .stat .k{font-family:var(--mono);font-size:10px;letter-spacing:.18em;color:var(--dim);margin-bottom:6px}
+  .stat .v{font-family:var(--disp);font-weight:600;font-size:22px;color:#fff;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .stat .v.red{color:var(--red)} .stat .v.green{color:var(--green)} .stat .v.amber{color:var(--amber)}
+  .stat .n{font-size:12px;color:var(--muted);margin-top:2px}
+
+  /* tables */
+  .tbl-scroll{overflow-x:auto;border:1px solid var(--line);border-radius:4px;margin:22px 0}
+  table{border-collapse:collapse;width:100%;min-width:640px;font-size:14px}
+  th{font-family:var(--mono);font-size:10px;letter-spacing:.16em;color:var(--dim);text-align:left;
+     padding:12px 16px;background:var(--panel2);border-bottom:1px solid var(--line);white-space:nowrap}
+  td{padding:13px 16px;border-bottom:1px solid var(--line);vertical-align:top;color:var(--ink)}
+  tr:last-child td{border-bottom:none}
+  td.mono{font-family:var(--mono);font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .prob{font-family:var(--mono);font-weight:500}
+  .p-bull{color:var(--green)} .p-base{color:var(--cyan)} .p-bear{color:var(--amber)} .p-moon{color:var(--red)}
+
+  /* callouts */
+  .callout{border-left:2px solid var(--cyan);background:var(--panel);padding:18px 22px;margin:24px 0;border-radius:0 4px 4px 0}
+  .callout.warn{border-left-color:var(--amber)}
+  .callout.hard{border-left-color:var(--red)}
+  .callout .label{font-family:var(--mono);font-size:10px;letter-spacing:.2em;margin-bottom:8px;color:var(--cyan)}
+  .callout.warn .label{color:var(--amber)} .callout.hard .label{color:var(--red)}
+  .callout p{font-size:15px}
+
+  /* rules list */
+  .rules{margin:20px 0;border:1px solid var(--line);border-radius:4px;overflow:hidden}
+  .rule{display:flex;gap:18px;padding:16px 20px;background:var(--panel);border-bottom:1px solid var(--line)}
+  .rule:last-child{border-bottom:none}
+  .rule .id{font-family:var(--mono);font-size:12px;color:var(--red);letter-spacing:.1em;flex:0 0 auto;padding-top:2px}
+  .rule p{font-size:15px}
+
+  /* plan */
+  .phase{display:flex;gap:22px;padding:20px 0;border-bottom:1px solid var(--line)}
+  .phase:last-child{border-bottom:none}
+  .phase .when{font-family:var(--mono);font-size:12px;letter-spacing:.08em;color:var(--cyan);
+               flex:0 0 148px;padding-top:3px}
+  .phase ul{list-style:none}
+  .phase li{font-size:15px;padding-left:18px;position:relative;margin-bottom:8px}
+  .phase li::before{content:"▸";position:absolute;left:0;color:var(--dim)}
+  .phase li:last-child{margin-bottom:0}
+
+  /* ladder */
+  .ladder{display:grid;gap:1px;background:var(--line);border:1px solid var(--line);border-radius:4px;overflow:hidden;margin:24px 0}
+  .rung{display:flex;align-items:baseline;gap:18px;background:var(--panel);padding:15px 20px}
+  .rung .amt{font-family:var(--disp);font-weight:600;font-size:21px;color:#fff;flex:0 0 108px;
+             font-variant-numeric:tabular-nums;text-align:right}
+  .rung p{font-size:14px;color:var(--muted)}
+  .rung.lit .amt{color:var(--green)}
+  .rung.lit p{color:var(--ink)}
+
+  /* citations */
+  .cites{font-size:13.5px;color:var(--muted)}
+  .cites p{margin-bottom:12px;padding-left:22px;text-indent:-22px;max-width:none}
+
+  .foot{margin-top:80px;padding-top:20px;border-top:1px solid var(--line);
+        font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim)}
+  .disclaimer{margin-top:28px;font-size:13px;color:var(--muted);border:1px dashed var(--line);
+              border-radius:4px;padding:14px 18px;max-width:none}
+  @media (prefers-reduced-motion: no-preference){
+    header.hero{animation:rise .5s ease-out both}
+    @keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+  }
+</style>
+
+<div class="wrap">
+  <div class="band">
+    <span>SHADOW MONKEY // HEDGE HOG HOLDINGS</span>
+    <span class="tag">EYES ONLY</span>
+  </div>
+
+  <header class="hero">
+    <div class="eyebrow">STRATEGIC BLUEPRINT · 20 AUG 2026 · HANDLER: JOE</div>
+    <h1>OPERATION <span class="thin">2M</span></h1>
+    <p class="sub">The mission is <b>$2,000,000 a year</b> — for Florencia's foundation, for the Philippines,
+    for the generation after you. This document is the honest route up that mountain: five income engines,
+    one capital-access playbook, one defense grid, and the discipline that decides whether any of it compounds.
+    <b>Survive first. Compound second. Legacy third.</b></p>
+  </header>
+
+  <!-- ================= 01 THE BOARD ================= -->
+  <section>
+    <div class="sec-eyebrow">01 · SITUATION</div>
+    <h2>The Board As It Actually Sits</h2>
+    <p>An operative never plans from the position he wishes he held. Here is the one you hold, from the live
+    HHH pipeline and your own reporting, as of tonight:</p>
+
+    <div class="stats">
+      <div class="stat"><div class="k">TRACKED ASSETS</div><div class="v">$84,758</div><div class="n">Schwab + crypto, live</div></div>
+      <div class="stat"><div class="k">CARD DEBT — COMPLETE</div><div class="v red">&minus;$20,440</div><div class="n">23.06% blended APR</div></div>
+      <div class="stat"><div class="k">DEBT INTEREST</div><div class="v red">$393/mo</div><div class="n">pure burn, no equity</div></div>
+      <div class="stat"><div class="k">INCOME</div><div class="v amber">UI only</div><div class="n">CA max $450/wk, ≤26 wks · IRS refund pending</div></div>
+      <div class="stat"><div class="k">HOUSING CLOCK</div><div class="v amber">6–12 mo</div><div class="n">rent control expiring</div></div>
+      <div class="stat"><div class="k">APEX DRAG</div><div class="v red">3 years</div><div class="n">evals unpassed; majority of debt</div></div>
+    </div>
+
+    <p>The arithmetic of the target: $2M a year is <strong>$166,667 a month</strong> — $38,462 a week. Your current
+    income ceiling on UI is $450 a week for at most 26 weeks. That gap is not closed by a trade, a card trick,
+    or a clever structure. It is closed — if at all — by <strong>building a business that scales</strong>, on top of a
+    stabilized base, with the other engines feeding it. That is what this blueprint sequences.</p>
+
+    <div class="callout hard">
+      <div class="label">STRAIGHT TALK — READ ONCE, ACCEPT, MOVE</div>
+      <p>$2M/year within 12 months from this board is a <strong>&lt;2% probability event</strong> — it happens only if the
+      media business catches a breakout (solo AI-agent founders crossing $1M+ do exist in 2026, but they are the
+      tail, not the plan). I will not pretend otherwise, because the last time optimism outran process it cost
+      $20,440 at 23%. What IS achievable — and what makes $2M reachable in years 2–4 instead of never — is the
+      ladder in Section 08. We keep the summit. We respect the route.</p>
+    </div>
+  </section>
+
+  <!-- ================= 02 SCENARIOS ================= -->
+  <section>
+    <div class="sec-eyebrow">02 · SCENARIO ENGINEERING — 12-MONTH GROSS INCOME, ALL ENGINES</div>
+    <h2>Four Futures, Probability-Weighted</h2>
+    <div class="tbl-scroll"><table>
+      <tr><th>SCENARIO</th><th>PROB.</th><th>TRIGGER</th><th>12-MO GROSS TARGET</th><th>EXIT / RESPONSE</th></tr>
+      <tr>
+        <td><span class="prob p-bear">BEAR</span></td><td class="mono">20%</td>
+        <td>UI exhausts before AV work lands; rent shock hits early; no media clients close</td>
+        <td class="mono">$25K–$55K</td>
+        <td>Defense grid only: max union dispatch, freeze all discretionary, debt minimums, relocate decision executes</td>
+      </tr>
+      <tr>
+        <td><span class="prob p-base">BASE</span></td><td class="mono">50%</td>
+        <td>Steady AV work resumes + 2–4 retained media clients by spring</td>
+        <td class="mono">$65K–$110K</td>
+        <td>Debt dead or dying by month 12; first $10K emergency fund; ladder rung 1 secured</td>
+      </tr>
+      <tr>
+        <td><span class="prob p-bull">BULL</span></td><td class="mono">27%</td>
+        <td>Media offer productizes; 8–15 clients or 1–2 anchor contracts; trading engine re-opens funded</td>
+        <td class="mono">$150K–$350K</td>
+        <td>Incorporate the win: S-corp election review, first RAMP redeployment, foundation paperwork begins</td>
+      </tr>
+      <tr>
+        <td><span class="prob p-moon">MOON</span></td><td class="mono">&lt;3%</td>
+        <td>A media product/IP breaks out (viral tool, licensed format, anchor enterprise deal)</td>
+        <td class="mono">$1M–$2M+</td>
+        <td>Immediately de-risk: pay off everything, fund 2 years of runway, then scale — do not lifestyle-inflate</td>
+      </tr>
+    </table></div>
+    <p>Bayesian protocol: these reprice monthly. Every closed client moves Base→Bull weight; every month without
+    revenue moves it back. The dashboard tracks assets — <strong>this table tracks the mission.</strong></p>
+  </section>
+
+  <!-- ================= 03 ENGINES ================= -->
+  <section>
+    <div class="sec-eyebrow">03 · THE FIVE ENGINES — PRIORITY ORDER IS THE NUMBERING</div>
+    <h2>Income Architecture</h2>
+
+    <div class="engine">
+      <div class="num">ENGINE 01</div>
+      <h3>Union AV Labor — IATSE Local 16 <span class="verdict v-floor">THE FLOOR</span></h3>
+      <p>The highest-probability dollar you can earn, and the only engine that pays this month. Every other engine
+      is financed by this one. Target: maximum available dispatch — the W-2 also rebuilds the credit profile that
+      Engine 05 needs, feeds a real UI wage base if you're ever laid off again, and puts you physically inside the
+      exact rooms (corporate events, conferences, production) where Engine 02's clients work.</p>
+      <p><strong>Move:</strong> treat the hall like a trading desk — availability posted, calls answered, reputation
+      compounding. On UI, California's partial-claim rules let you earn up to 25% of your weekly benefit before
+      dollar-for-dollar reduction, and <strong>every hour and every dollar of work — including self-employment — must be
+      reported at certification.</strong> One clean record; the mission never survives an EDD fraud finding.</p>
+    </div>
+
+    <div class="engine">
+      <div class="num">ENGINE 02</div>
+      <h3>Monkey Matters Media × AI Agents <span class="verdict v-growth">THE GROWTH ENGINE</span></h3>
+      <p>The only engine on this board with a credible path to outsized income — and you're not starting from zero:
+      $1,000 earned is proof of a market pulse. The 2026 environment is real (solo founders are building $1M+
+      AI-agent businesses; Forbes calls it "the new solo-founder playbook"), which means the opportunity is real
+      <em>and</em> crowded. Your edge is not "AI agency #40,000." Your edge is the intersection nobody else on that list
+      has: <strong>a working AV/production professional who can deploy AI media systems for the events and corporate
+      production world he already works inside.</strong></p>
+      <h3 style="font-size:16px;color:var(--ink)">The productized ladder</h3>
+      <div class="tbl-scroll"><table>
+        <tr><th>OFFER</th><th>WHAT IT IS</th><th>PRICE POINT</th><th>MATH TO $2M/YR</th></tr>
+        <tr><td>Starter</td><td>AI-produced event recap reels / highlight packages, 48-hr turnaround</td><td class="mono">$500–$1.5K each</td><td class="mono">volume play — cashflow, not scale</td></tr>
+        <tr><td>Retainer</td><td>Monthly AI content engine for a venue, AV house, or brand (agents produce, you direct)</td><td class="mono">$2K–$8K/mo</td><td class="mono">20 clients × $8.3K/mo = $2M/yr</td></tr>
+        <tr><td>Anchor</td><td>Enterprise/agency white-label: their events, your AI pipeline</td><td class="mono">$10K–$40K/mo</td><td class="mono">4–8 anchors = $1–2M/yr</td></tr>
+      </table></div>
+      <p>That middle column is the entire honest case for Operation 2M: the target equals <strong>twenty retained
+      clients at $8,300/month</strong>, or a handful of anchors. Nobody closes twenty retainers in a year from a standing
+      start — but closing the first <em>three</em> is a 90-day problem, and three retainers at $3K beats every eval Apex
+      ever sold you. Sell outcomes, not agents. The IP stack (ShadowMonkey brand, AIMA, Apophis, NEXA) becomes the
+      marketing engine and the long-tail licensing play, not the first product.</p>
+    </div>
+
+    <div class="engine">
+      <div class="num">ENGINE 03</div>
+      <h3>Markets — Apex &amp; the HHH Portfolio <span class="verdict v-gated">GATED</span></h3>
+      <p>Three years of unpassed evals funding the majority of $20,440 in debt is not a trading record — it is
+      tuition, and the lesson is now paid in full. The market has told you, repeatedly, that the current process
+      lacks edge under Apex's constraints (trailing drawdown, and since March 2026, mandatory bracket orders on
+      every trade). So the engine doesn't close — it <strong>gates</strong>:</p>
+      <div class="rules">
+        <div class="rule"><div class="id">GATE-1</div><p><strong>Zero dollars to paid evals</strong> until you pass your own free eval: three consecutive green months on sim, running Apex-identical rules (same drawdown type, same brackets, same account size), with a written journal — your four SM_ NinjaTrader strategies backtested and forward-simmed at zero cost.</p></div>
+        <div class="rule"><div class="id">GATE-2</div><p>When the free eval is passed: <strong>one</strong> discounted eval (Apex runs 80%+ sales — a $50K eval at ~$35/mo), one account, no resets stacking. Pass or return to sim.</p></div>
+        <div class="rule"><div class="id">GATE-3</div><p>Size the prize honestly: Apex pays 100% of the first $25K then 90/10 — a genuinely good first funded year is <strong>tens of thousands</strong>, not $2M. Trading is Engine 03, not Engine 01, until it proves otherwise with withdrawals, not screenshots.</p></div>
+      </div>
+      <p>The HHH portfolio side already has standing orders: trim the concentration breaches into strength
+      (HIVE 36.7%, crypto sleeve 36.2%, BTC 26.0% standalone), and recognize that paying the Amazon Card is a
+      <strong>guaranteed 25.15% risk-free return</strong> — the single best "trade" on the board.</p>
+    </div>
+
+    <div class="engine">
+      <div class="num">ENGINE 04</div>
+      <h3>Structure &amp; Tax — The Multiplier <span class="verdict v-mult">FORCE MULTIPLIER</span></h3>
+      <p>This engine earns nothing and multiplies everything. The 2026 rules are unusually favorable to exactly
+      your setup — a W-2 tradesman with a pass-through LLC:</p>
+      <div class="tbl-scroll"><table>
+        <tr><th>LEVER</th><th>2026 RULE</th><th>APPLICATION</th></tr>
+        <tr><td>QBI §199A</td><td class="mono">20% deduction, now PERMANENT; new $400 minimum</td><td>Every Monkey Matters profit dollar taxed on 80 cents — file cleanly from dollar one</td></tr>
+        <tr><td>§179 / Bonus</td><td class="mono">$2.56M expensing cap; 100% bonus depreciation permanent</td><td>Cameras, compute, audio rigs, software — fully deductible the year placed in service</td></tr>
+        <tr><td>Home office + ops</td><td class="mono">standard pass-through deductions</td><td>Documented workspace, software subs that SURVIVE the audit, mileage, media-ops costs</td></tr>
+        <tr><td>UI + refund hygiene</td><td class="mono">UI is federally taxable; refund delayed</td><td>Check "Where's My Refund" + IRS online transcript; a silent long delay often = identity-verification hold (5071C-type letter) — if hardship, the Taxpayer Advocate Service exists for this</td></tr>
+      </table></div>
+      <p><strong>Move:</strong> bookkeeping goes live now, not at tax time — every deduction above is worthless without
+      records. The Wyoming LLC / JVS trust architecture is already elite for your size; the missing piece has never
+      been structure, it's been <strong>income for the structure to shelter.</strong></p>
+    </div>
+
+    <div class="engine">
+      <div class="num">ENGINE 05</div>
+      <h3>Capital Access — The Legal Playbook <span class="verdict v-mult">FORCE MULTIPLIER</span></h3>
+      <p>What clever money actually does is boring and sequenced: it makes capital <em>cheap</em> after revenue exists,
+      never before. The prime directive of this engine: <strong>capital access follows revenue — it never precedes it.</strong>
+      (Preceding it is how the Apex debt happened.)</p>
+      <div class="tbl-scroll"><table>
+        <tr><th>INSTRUMENT</th><th>TERMS (AUG 2026)</th><th>WHEN IT UNLOCKS</th></tr>
+        <tr><td>0% balance transfer</td><td class="mono">up to 21-mo 0% intro offers live; 3–5% fee</td><td>NOW, if credit qualifies: moving $20,440 kills ~$393/mo interest for a one-time $613–$1,022 fee; payoff needs ~$973/mo inside the window — the single highest-ROI application in this document</td></tr>
+        <tr><td>Business credit under EIN</td><td class="mono">net-30 vendors → business card ladder</td><td>Month 1–3: separates LLC credit from personal, protects your score while the audit runs</td></tr>
+        <tr><td>SBA microloan</td><td class="mono">up to $50K via intermediaries, ~8–13%, ≤7 yrs</td><td>Only against a revenue-proven Engine 02 offer — fuel for a fire already burning</td></tr>
+        <tr><td>SF small-business programs</td><td class="mono">training-linked grants; Vibrancy fund (storefront: $25–100K loans @4% + $50K grants)</td><td>The storefront funds likely don't fit; the FREE training-linked grants and technical assistance do — take the free money and the free counsel</td></tr>
+        <tr><td>Rewards &amp; card assets</td><td class="mono">audit pending your statements</td><td>Next session: full inventory of points, credits, and benefits across Citi Rewards+, PayPal MC, ANA and the dormant cards — plus keep/close calls that protect score age and utilization</td></tr>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- ================= 04 DEFENSE ================= -->
+  <section>
+    <div class="sec-eyebrow">04 · DEFENSE GRID</div>
+    <h2>What Keeps the Mission Alive</h2>
+    <h3>Housing — the biggest number on the board</h3>
+    <p>Losing SF rent control inside 6–12 months is a larger financial event than every card combined. Six months
+    of lead time is an asset only if used: this month, establish the exact timeline and legal basis, your current
+    rent vs. market comps, and price all three branches — stay and absorb, negotiate (relocation payment /
+    extended terms), or relocate (including the radical branch: a lower-cost base makes every engine's math easier
+    and is how dynasties think about domicile). Decision deadline: <strong>90 days from tonight</strong>, so the move —
+    whichever it is — happens on your schedule, not the landlord's.</p>
+    <h3>Insurance &amp; reserves</h3>
+    <p>Life policy: I need type (term vs. whole), premium, and cash value before ruling protection or leak —
+    ask-don't-invent applies. Emergency fund target: first $10K, built from Engine 01 overflow, before any new
+    investment dollar. Bank cash gets added to HHH next session so net worth is finally whole.</p>
+    <h3>Circuit breakers — standing orders</h3>
+    <div class="rules">
+      <div class="rule"><div class="id">CB-1</div><p>No paid evals until GATE-1 passes. No exceptions, no "one last try," no sale-price rationalizations.</p></div>
+      <div class="rule"><div class="id">CB-2</div><p>Total card debt never rises above $20,440. The line only goes down.</p></div>
+      <div class="rule"><div class="id">CB-3</div><p>No new crypto or equity buys until the Amazon Card (25.15%) is dead — paying it IS the trade.</p></div>
+      <div class="rule"><div class="id">CB-4</div><p>Every EDD certification reports every dollar and hour of work, W-2 or self-employed. Clean record, always.</p></div>
+      <div class="rule"><div class="id">CB-5</div><p>Subscription audit executes next session — recurring burn is reviewed quarterly thereafter, like a fund reviews expenses.</p></div>
+    </div>
+  </section>
+
+  <!-- ================= 05 90-DAY PLAN ================= -->
+  <section>
+    <div class="sec-eyebrow">05 · EXECUTION — FIRST 90 DAYS (20 AUG → 20 NOV 2026)</div>
+    <h2>Dated Action Plan</h2>
+    <div class="phase">
+      <div class="when">WEEKS 1–2<br>AUG 20 – SEP 2</div>
+      <ul>
+        <li>IRS: run "Where's My Refund" + pull the online transcript; check mail for any 5071C-type identity letter; if hardship-level delay, open a Taxpayer Advocate case.</li>
+        <li>Housing: confirm the rent-control loss date and mechanism in writing; pull 5 market comps.</li>
+        <li>Post full availability with Local 16; UI certifications stay meticulous.</li>
+        <li>Check balance-transfer eligibility (soft-pull pre-approvals first — protect the score).</li>
+        <li>Gather next-session data: bank balances, statements (subscriptions audit), life-policy documents, card rewards logins.</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="when">MONTH 1<br>SEP 2026</div>
+      <ul>
+        <li>Engine 02: define the three-tier offer in writing; build ONE flagship demo reel using the AI pipeline on a real (or staged) event; list 25 warm prospects from AV world contacts.</li>
+        <li>Execute balance transfer if approved; restructure payoff to clear inside the 0% window (~$973/mo target).</li>
+        <li>Free trading eval begins: sim account configured to Apex-identical rules, journal template live.</li>
+        <li>Bookkeeping system live for Monkey Matters (every receipt, from now).</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="when">MONTH 2<br>OCT 2026</div>
+      <ul>
+        <li>Pitch: 25 prospects contacted, aim for 5 conversations, close first paid Starter jobs — first retainer conversation opened.</li>
+        <li>Housing decision framework completed; negotiation opened if staying is the branch.</li>
+        <li>SF.gov small-business training enrolled (unlocks the training-linked grant + free counsel).</li>
+        <li>Sim month 1 graded honestly against the gate.</li>
+      </ul>
+    </div>
+    <div class="phase">
+      <div class="when">MONTH 3<br>NOV 2026</div>
+      <ul>
+        <li>Target state: 1–3 paying media clients, debt restructured and shrinking, housing decision MADE, sim record at month 2 of 3.</li>
+        <li>Re-run this blueprint's scenario table with 90 days of real data — Bayesian reprice, next 90 days issued.</li>
+        <li>If Base-case tracking or better: open the S-corp election analysis and the foundation's first small, real act — the mission starts before the money finishes.</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- ================= 06 LADDER ================= -->
+  <section>
+    <div class="sec-eyebrow">06 · THE LADDER — HOW $2M ACTUALLY GETS CLIMBED</div>
+    <h2>Reframe the Summit</h2>
+    <p>Dynastic wealth — the architecture you built me to decode — is never built by hitting a number in year one.
+    It is built by making each rung structurally inevitable before reaching for the next. The ladder:</p>
+    <div class="ladder">
+      <div class="rung lit"><div class="amt">$0</div><p><strong>Stabilize (months 0–6):</strong> income floor, debt restructured, housing decided, clean records. This rung is fully in your control — which is exactly why it's first.</p></div>
+      <div class="rung"><div class="amt">$100K</div><p><strong>Prove (months 6–18):</strong> AV floor + 3–8 media retainers. The business exists; the structure starts multiplying.</p></div>
+      <div class="rung"><div class="amt">$250K</div><p><strong>Systemize (years 1.5–3):</strong> agents and subcontractors deliver; you sell and direct. Anchor clients enter; trading engine funded or closed by its own record.</p></div>
+      <div class="rung"><div class="amt">$1M</div><p><strong>Scale (years 3–4):</strong> anchors + IP licensing + portfolio compounding. The foundation incorporates for real.</p></div>
+      <div class="rung"><div class="amt">$2M</div><p><strong>Summit:</strong> reached as a system's output, not a year's gamble. Florencia's foundation funded in perpetuity — the actual mission, achieved the only way it survives you.</p></div>
+    </div>
+    <p>The monkey doesn't copy the elite. The monkey decodes their architecture — and their architecture says:
+    the ones who kept fortunes climbed this ladder; the ones who skipped rungs are the cautionary tales.
+    <strong>The summit is kept. The route is respected. The climb starts at tonight's rung.</strong></p>
+  </section>
+
+  <!-- ================= 07 CITATIONS ================= -->
+  <section>
+    <div class="sec-eyebrow">07 · CITATIONS — MLA</div>
+    <h2>Sources</h2>
+    <div class="cites">
+      <p>"2026 Section 179 + Bonus Depreciation: $2.56M Expensing Cap + 100% Bonus Permanent." <em>Reed Corporation CPA Firm</em>, 2026, <a href="https://reedcorp.tax/helpful-guides/2026-section-179-bonus-depreciation/">reedcorp.tax/helpful-guides/2026-section-179-bonus-depreciation</a>.</p>
+      <p>"QBI Deduction 2026 Changes: What Business Owners Need to Know." <em>Landmark CPAs</em>, 2026, <a href="https://www.landmarkcpas.com/qbi-deduction-2026-changes-what-business-owners-need-to-know/">landmarkcpas.com/qbi-deduction-2026-changes</a>.</p>
+      <p>"Microloans." <em>U.S. Small Business Administration</em>, <a href="https://www.sba.gov/loans/microloans/">sba.gov/loans/microloans</a>.</p>
+      <p>"Find a Grant for Your Small Business." <em>City and County of San Francisco</em>, <a href="https://www.sf.gov/information--find-grant-your-small-business">sf.gov/information--find-grant-your-small-business</a>.</p>
+      <p>"Apex Trader Funding Review 2026 — Rules, Payouts &amp; Honest Verdict." <em>TradeTerminal</em>, 2026, <a href="https://tradeterminal.org/prop-firms/apex">tradeterminal.org/prop-firms/apex</a>.</p>
+      <p>"California Unemployment Insurance (EDD) Benefits in 2026." <em>Saving to Invest</em>, 2026, <a href="https://savingtoinvest.com/californias-employment-development-department-for-unemployment-insurance/">savingtoinvest.com/californias-employment-development-department-for-unemployment-insurance</a>.</p>
+      <p>"Best Balance Transfer Cards of August 2026: Intro APR Offers up to 21 Months." <em>Bankrate</em>, Aug. 2026, <a href="https://www.bankrate.com/credit-cards/balance-transfer/best-balance-transfer-cards/">bankrate.com/credit-cards/balance-transfer/best-balance-transfer-cards</a>.</p>
+      <p>"Where's My Refund?" <em>Taxpayer Advocate Service, Internal Revenue Service</em>, Mar. 2026, <a href="https://www.taxpayeradvocate.irs.gov/news/tax-tips/wheres-my-refund/2026/03/">taxpayeradvocate.irs.gov/news/tax-tips/wheres-my-refund</a>.</p>
+      <p>Mehra, Neha. "Why AI Agent Startups Are Becoming the New Solo-Founder Playbook." <em>Forbes</em>, 3 Aug. 2026, <a href="https://www.forbes.com/sites/nehamehra/2026/08/03/why-ai-agent-startups-are-becoming-the-new-solo-founder-playbook/">forbes.com/sites/nehamehra/2026/08/03/why-ai-agent-startups-are-becoming-the-new-solo-founder-playbook</a>.</p>
+    </div>
+    <p class="disclaimer">Shadow Monkey is an analytical persona, not a licensed financial advisor, tax professional,
+    or attorney. Every figure above is sourced or computed from your own reported data; every strategy is legal and
+    conventional. Confirm tax and EDD specifics with a qualified professional before filing or certifying — especially
+    the UI reporting and refund-recovery items, where the cost of an error exceeds the cost of the advice.</p>
+  </section>
+
+  <div class="foot">SHADOW MONKEY // OPERATION 2M · v1.0 · 20 AUG 2026 · REPRICE MONTHLY · EYES ONLY</div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,394 @@
+{
+  "schema_version": 2,
+  "date": "2026-08-13",
+  "graded_at": "2026-08-18T20:24:20-07:00",
+  "grader": "fff_build@v1 + grade_trades.grade_idea (daily bars)",
+  "results": [
+    {
+      "id": "2026-08-13-T01",
+      "symbol": "/ES",
+      "instrument": "futures",
+      "direction": "long",
+      "setup": "OR Break R1 - PPI catalyst",
+      "priority": 3,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "7,769",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "FUT_ES",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-13-T02",
+      "symbol": "BIRK",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Gap-and-Go BMO beat",
+      "priority": 3,
+      "notes": [
+        "entry type 'pm_high_offset' needs intraday grading (v2)"
+      ],
+      "entry_raw": "PM Hi+1%",
+      "why": "entry type 'pm_high_offset' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-13-T03",
+      "symbol": "TLT",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "Rate Cut Play - PPI break",
+      "priority": 3,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "88.50",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "TLT",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-13-T04",
+      "symbol": "NVDA",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Dark Pool Accumulation",
+      "priority": 3,
+      "notes": [],
+      "entry_raw": "171.00",
+      "result": "no_trigger",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "NVDA",
+        "bars_used": 2,
+        "bars_src": [
+          "cache"
+        ]
+      }
+    },
+    {
+      "id": "2026-08-13-T05",
+      "symbol": "SPY",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Bull Call Spread 580/585",
+      "priority": 3,
+      "notes": [
+        "entry type 'price' needs intraday grading (v2)"
+      ],
+      "entry_raw": "~$2.20",
+      "why": "entry type 'price' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-13-T06",
+      "symbol": "AMBP",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Gap-and-Go BMO beat",
+      "priority": 2,
+      "notes": [
+        "entry type 'pm_high_offset' needs intraday grading (v2)"
+      ],
+      "entry_raw": "PM Hi+1%",
+      "why": "entry type 'pm_high_offset' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-13-T07",
+      "symbol": "DELL",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Gap-and-Go BMO beat",
+      "priority": 2,
+      "notes": [
+        "entry type 'pm_high_offset' needs intraday grading (v2)"
+      ],
+      "entry_raw": "PM Hi+1%",
+      "why": "entry type 'pm_high_offset' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-13-T08",
+      "symbol": "GLD",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "Rate Cut + Geo Hedge",
+      "priority": 2,
+      "notes": [],
+      "entry_raw": "4,430",
+      "triggered": true,
+      "result": "loss",
+      "exit_reason": "stop",
+      "r_multiple": -1.0,
+      "exit_bar": 1,
+      "evidence": {
+        "bars_key": "GCUSD",
+        "bars_used": 2,
+        "bars_src": [
+          "cache"
+        ]
+      }
+    },
+    {
+      "id": "2026-08-13-T09",
+      "symbol": "/NQ",
+      "instrument": "futures",
+      "direction": "long",
+      "setup": "OR Break PP",
+      "priority": 2,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "29,803",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "FUT_NQ",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-13-T10",
+      "symbol": "STUB",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Post-Earnings Fade",
+      "priority": 2,
+      "notes": [
+        "entry type 'or_low_break' needs intraday grading (v2)"
+      ],
+      "entry_raw": "OR Low",
+      "why": "entry type 'or_low_break' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-13-T11",
+      "symbol": "CBRS",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "AI Miss Fade",
+      "priority": 2,
+      "notes": [
+        "entry type 'or_low_break' needs intraday grading (v2)"
+      ],
+      "entry_raw": "OR Low",
+      "why": "entry type 'or_low_break' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-13-T12",
+      "symbol": "TPR",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Guide Miss Fade",
+      "priority": 2,
+      "notes": [
+        "entry type 'or_low_break' needs intraday grading (v2)"
+      ],
+      "entry_raw": "OR Low",
+      "why": "entry type 'or_low_break' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-13-T13",
+      "symbol": "XLE",
+      "instrument": "etf",
+      "direction": "short",
+      "setup": "Oil Breakdown",
+      "priority": 2,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "85.00",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "XLE",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-13-T14",
+      "symbol": "AAPL",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Dark Pool 2.1M Shares",
+      "priority": 2,
+      "notes": [
+        "entry type 'vwap' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Above VWAP",
+      "why": "entry type 'vwap' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-13-T15",
+      "symbol": "META",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Dark Pool 850K Shares",
+      "priority": 1,
+      "notes": [
+        "entry type 'vwap' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Above VWAP",
+      "why": "entry type 'vwap' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-13-T16",
+      "symbol": "NVDA",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Sep 180C Unusual Flow",
+      "priority": 1,
+      "notes": [
+        "entry type 'price' needs intraday grading (v2)"
+      ],
+      "entry_raw": "~$4.50",
+      "why": "entry type 'price' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-13-T17",
+      "symbol": "TLT",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Sep 95C Unusual Flow",
+      "priority": 1,
+      "notes": [
+        "entry type 'market' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Market",
+      "why": "entry type 'market' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-13-T18",
+      "symbol": "/ES",
+      "instrument": "futures",
+      "direction": "short",
+      "setup": "R2 Rejection",
+      "priority": 1,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "7,822",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "FUT_ES",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-13-T19",
+      "symbol": "SCUR",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Decline Continuation",
+      "priority": 1,
+      "notes": [
+        "entry type 'or_low_break' needs intraday grading (v2)"
+      ],
+      "entry_raw": "OR Low",
+      "why": "entry type 'or_low_break' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-13-T20",
+      "symbol": "YETI",
+      "instrument": "options",
+      "direction": "neutral",
+      "setup": "AMC Straddle",
+      "priority": 2,
+      "notes": [
+        "entry type 'market' needs intraday grading (v2)"
+      ],
+      "entry_raw": "ATM Aug14",
+      "why": "entry type 'market' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    }
+  ],
+  "day_summary": {
+    "ideas_total": 20,
+    "wins": 0,
+    "losses": 1,
+    "no_trigger": 1,
+    "indeterminate": 0,
+    "no_data": 5,
+    "ungradable": 13,
+    "win_rate": 0.0,
+    "total_r": -1.0
+  }
+}

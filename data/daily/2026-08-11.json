@@ -1,0 +1,666 @@
+{
+  "schema_version": 1,
+  "date": "2026-08-11",
+  "generated_at_utc": "2026-08-16T23:36:00+00:00",
+  "generator": "backfill_from_html@v1 (format=apex12, source=apex-morning-brief-2026-08-11.html)",
+  "trade_ideas": [
+    {
+      "id": "2026-08-11-T01",
+      "rank": 1,
+      "symbol": "SPY",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Bull Call Spread - CPI eve, OR hold above VAH",
+      "entry": {
+        "type": "market",
+        "raw": "Buy 560C/Sell 562C \u00b7 $0.80 debit",
+        "value": 560.0
+      },
+      "rr": 2.0,
+      "priority": 3,
+      "horizon": "event",
+      "grading_method": "directional_close",
+      "gradable": true,
+      "notes": "Bull Call Spread - CPI eve, OR hold above VAH | T2: $2.40 (3x)",
+      "stop": {
+        "type": "premium_pct",
+        "value": -100.0,
+        "raw": "Full debit loss"
+      },
+      "target": {
+        "type": "price",
+        "value": 1.6,
+        "raw": "$1.60 (2x)"
+      }
+    },
+    {
+      "id": "2026-08-11-T02",
+      "rank": 2,
+      "symbol": "QQQ",
+      "instrument": "options",
+      "direction": "short",
+      "setup": "Protective Put - CPI binary hedge, tech breadth neg",
+      "entry": {
+        "type": "market",
+        "raw": "Buy 470P \u00b7 ~$1.50 cost",
+        "value": 470.0
+      },
+      "rr": 3.0,
+      "priority": 3,
+      "horizon": "event",
+      "grading_method": "directional_close",
+      "gradable": true,
+      "notes": "Protective Put - CPI binary hedge, tech breadth neg | T2: $7.50 (5x)",
+      "stop": {
+        "type": "premium_pct",
+        "value": -100.0,
+        "raw": "Full premium"
+      },
+      "target": {
+        "type": "price",
+        "value": 4.5,
+        "raw": "$4.50 (3x)"
+      }
+    },
+    {
+      "id": "2026-08-11-T03",
+      "rank": 3,
+      "symbol": "XLE",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "Hold long + Covered Call - fade Hormuz spike premium",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 100.0,
+        "raw": ">$100 (hold) \u00b7 CC at $107-110"
+      },
+      "rr": 3.0,
+      "priority": 3,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Hold long + Covered Call - fade Hormuz spike premium | T2: $110.00",
+      "stop": {
+        "type": "price",
+        "value": 98.0,
+        "raw": "$98.00"
+      },
+      "target": {
+        "type": "price",
+        "value": 106.0,
+        "raw": "$106.00"
+      }
+    },
+    {
+      "id": "2026-08-11-T04",
+      "rank": 4,
+      "symbol": "GLD",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Safe Haven - dual hedge: Hormuz + CPI inflation",
+      "entry": {
+        "type": "market",
+        "raw": ">$420.00 / Call $4,400 strike",
+        "value": 420.0
+      },
+      "rr": 2.0,
+      "priority": 3,
+      "horizon": "swing",
+      "grading_method": "directional_close",
+      "gradable": true,
+      "notes": "Safe Haven - dual hedge: Hormuz + CPI inflation | T2: $440.00",
+      "stop": {
+        "type": "price",
+        "value": 415.0,
+        "raw": "$415.00"
+      },
+      "target": {
+        "type": "price",
+        "value": 430.0,
+        "raw": "$430.00"
+      }
+    },
+    {
+      "id": "2026-08-11-T05",
+      "rank": 5,
+      "symbol": "DDOG",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Gap-and-Go - Q2 beat, cloud demand intact, OR hold",
+      "entry": {
+        "type": "or_break",
+        "condition": "above",
+        "raw": ">OR High (9:30-10:00 ET)"
+      },
+      "rr": 2.0,
+      "priority": 3,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Gap-and-Go - Q2 beat, cloud demand intact, OR hold | T2: +8% from entry",
+      "stop": {
+        "type": "level",
+        "raw": "OR Low"
+      },
+      "target": {
+        "type": "pct",
+        "value": 5.0,
+        "raw": "+5% from entry"
+      }
+    },
+    {
+      "id": "2026-08-11-T06",
+      "rank": 6,
+      "symbol": "/ES",
+      "instrument": "futures",
+      "direction": "long",
+      "setup": "OR_Break_VWAP_Retest - above R1, volume confirm",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 7773.0,
+        "raw": "7,773"
+      },
+      "rr": 1.0,
+      "priority": 3,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "OR_Break_VWAP_Retest - above R1, volume confirm | T2: 7,801 (R3)",
+      "stop": {
+        "type": "price",
+        "value": 7748.0,
+        "raw": "7,748"
+      },
+      "target": {
+        "type": "price",
+        "value": 7788.0,
+        "raw": "7,788 (R2)"
+      }
+    },
+    {
+      "id": "2026-08-11-T07",
+      "rank": 7,
+      "symbol": "/NQ",
+      "instrument": "futures",
+      "direction": "long",
+      "setup": "OR_Break_VWAP_Retest - VAH (29,800) break on volume",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 29800.0,
+        "raw": "29,800"
+      },
+      "rr": 1.6,
+      "priority": 3,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "OR_Break_VWAP_Retest - VAH (29,800) break on volume | T2: 29,987 (R2)",
+      "stop": {
+        "type": "price",
+        "value": 29700.0,
+        "raw": "29,700"
+      },
+      "target": {
+        "type": "price",
+        "value": 29861.0,
+        "raw": "29,861 (R1)"
+      }
+    },
+    {
+      "id": "2026-08-11-T08",
+      "rank": 8,
+      "symbol": "DDOG",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Post-Earnings Momentum - slight OTM, 1-week expiry",
+      "entry": {
+        "type": "market",
+        "raw": "OTM call \u00b7 ~$4.00 premium",
+        "value": 4.0
+      },
+      "rr": 2.0,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "directional_close",
+      "gradable": true,
+      "notes": "Post-Earnings Momentum - slight OTM, 1-week expiry | T2: $12.00 (3x)",
+      "stop": {
+        "type": "level",
+        "raw": "OR low close"
+      },
+      "target": {
+        "type": "price",
+        "value": 8.0,
+        "raw": "$8.00 (2x)"
+      }
+    },
+    {
+      "id": "2026-08-11-T09",
+      "rank": 9,
+      "symbol": "COHR",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Liquidity_Sweep - dead-cat to VWAP, rejection entry",
+      "entry": {
+        "type": "vwap",
+        "condition": "above",
+        "raw": "VWAP touch (~$42 area)"
+      },
+      "rr": 1.5,
+      "priority": 2,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Liquidity_Sweep - dead-cat to VWAP, rejection entry | T2: -8% from entry",
+      "stop": {
+        "type": "level",
+        "raw": "Prior day high"
+      },
+      "target": {
+        "type": "pct",
+        "value": -5.0,
+        "raw": "-5% from entry"
+      }
+    },
+    {
+      "id": "2026-08-11-T10",
+      "rank": 10,
+      "symbol": "COHR",
+      "instrument": "options",
+      "direction": "short",
+      "setup": "Post-Earnings Decay - sector weakness, near-term expiry",
+      "entry": {
+        "type": "market",
+        "raw": "OTM put \u00b7 ~$1.50 premium",
+        "value": 1.5
+      },
+      "rr": 3.0,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "directional_close",
+      "gradable": true,
+      "notes": "Post-Earnings Decay - sector weakness, near-term expiry",
+      "stop": {
+        "type": "premium_pct",
+        "value": -100.0,
+        "raw": "Full premium"
+      },
+      "target": {
+        "type": "price",
+        "value": 4.5,
+        "raw": "$4.50 (3x)"
+      }
+    },
+    {
+      "id": "2026-08-11-T11",
+      "rank": 11,
+      "symbol": "GFS",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Failed_Breakout_VWAP_Reversion - fab demand soft",
+      "entry": {
+        "type": "price",
+        "condition": "below",
+        "value": 22.0,
+        "raw": "<$22.00 (failed bounce)"
+      },
+      "rr": 2.0,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Failed_Breakout_VWAP_Reversion - fab demand soft | T2: $17.00",
+      "stop": {
+        "type": "price",
+        "value": 23.5,
+        "raw": "$23.50"
+      },
+      "target": {
+        "type": "price",
+        "value": 19.0,
+        "raw": "$19.00"
+      }
+    },
+    {
+      "id": "2026-08-11-T12",
+      "rank": 12,
+      "symbol": "LITE",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Liquidity_Sweep - earnings miss, VWAP rejection play",
+      "entry": {
+        "type": "vwap",
+        "condition": "above",
+        "raw": "VWAP tag + rejection"
+      },
+      "rr": 1.5,
+      "priority": 2,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Liquidity_Sweep - earnings miss, VWAP rejection play | T2: -8% from entry",
+      "stop": {
+        "type": "level",
+        "raw": "Prior day high"
+      },
+      "target": {
+        "type": "pct",
+        "value": -5.0,
+        "raw": "-5% from entry"
+      }
+    },
+    {
+      "id": "2026-08-11-T13",
+      "rank": 13,
+      "symbol": "NESR",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Earnings Gap-Go - EPS beat + energy sector tailwind",
+      "entry": {
+        "type": "vwap",
+        "condition": "above",
+        "raw": ">$8.50 (VWAP reclaim)"
+      },
+      "rr": 1.4,
+      "priority": 2,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Earnings Gap-Go - EPS beat + energy sector tailwind | T2: $10.50",
+      "stop": {
+        "type": "price",
+        "value": 7.8,
+        "raw": "$7.80"
+      },
+      "target": {
+        "type": "price",
+        "value": 9.5,
+        "raw": "$9.50"
+      }
+    },
+    {
+      "id": "2026-08-11-T14",
+      "rank": 14,
+      "symbol": "SLV",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "Dual Demand - industrial metals + safe-haven flight",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 31.0,
+        "raw": ">$31.00"
+      },
+      "rr": 2.0,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Dual Demand - industrial metals + safe-haven flight | T2: $37.00",
+      "stop": {
+        "type": "price",
+        "value": 29.5,
+        "raw": "$29.50"
+      },
+      "target": {
+        "type": "price",
+        "value": 34.0,
+        "raw": "$34.00"
+      }
+    },
+    {
+      "id": "2026-08-11-T15",
+      "rank": 15,
+      "symbol": "TLT",
+      "instrument": "etf",
+      "direction": "short",
+      "setup": "Yield Rise - 30Y at 5.25%, 3Y auction risk today",
+      "entry": {
+        "type": "price",
+        "condition": "below",
+        "value": 85.0,
+        "raw": "<$85.00"
+      },
+      "rr": 2.5,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Yield Rise - 30Y at 5.25%, 3Y auction risk today | T2: $77.00",
+      "stop": {
+        "type": "price",
+        "value": 87.0,
+        "raw": "$87.00"
+      },
+      "target": {
+        "type": "price",
+        "value": 80.0,
+        "raw": "$80.00"
+      }
+    },
+    {
+      "id": "2026-08-11-T16",
+      "rank": 16,
+      "symbol": "/ES",
+      "instrument": "futures",
+      "direction": "short",
+      "setup": "Failed_Breakout_VWAP_Reversion - PP break, sell pressure",
+      "entry": {
+        "type": "price",
+        "condition": "below",
+        "value": 7758.0,
+        "raw": "7,758 (below PP)"
+      },
+      "rr": 1.3,
+      "priority": 2,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Failed_Breakout_VWAP_Reversion - PP break, sell pressure | T2: 7,732 (S2)",
+      "stop": {
+        "type": "price",
+        "value": 7778.0,
+        "raw": "7,778"
+      },
+      "target": {
+        "type": "price",
+        "value": 7745.0,
+        "raw": "7,745 (S1)"
+      }
+    },
+    {
+      "id": "2026-08-11-T17",
+      "rank": 17,
+      "symbol": "/NQ",
+      "instrument": "futures",
+      "direction": "short",
+      "setup": "Liquidity_Sweep - R1 rejection, DDOG gap fade signal",
+      "entry": {
+        "type": "price",
+        "condition": "at",
+        "value": 29861.0,
+        "raw": "29,861 (R1 rejection)"
+      },
+      "rr": 1.4,
+      "priority": 2,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Liquidity_Sweep - R1 rejection, DDOG gap fade signal | T2: 29,641 (S1)",
+      "stop": {
+        "type": "price",
+        "value": 29930.0,
+        "raw": "29,930"
+      },
+      "target": {
+        "type": "price",
+        "value": 29766.0,
+        "raw": "29,766 (PP)"
+      }
+    },
+    {
+      "id": "2026-08-11-T18",
+      "rank": 18,
+      "symbol": "XLRE",
+      "instrument": "etf",
+      "direction": "short",
+      "setup": "1PM Auction Fade - weak bid-to-cover \u2192 yield spike",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 34.5,
+        "raw": "$34.50 (post-1PM)"
+      },
+      "rr": 1.2,
+      "priority": 1,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "1PM Auction Fade - weak bid-to-cover \u2192 yield spike",
+      "stop": {
+        "type": "price",
+        "value": 35.1,
+        "raw": "$35.10"
+      },
+      "target": {
+        "type": "price",
+        "value": 33.8,
+        "raw": "$33.80"
+      }
+    },
+    {
+      "id": "2026-08-11-T19",
+      "rank": 19,
+      "symbol": "XLK",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "CPI Gamma - cool print bounce, tech breadth recovery",
+      "entry": {
+        "type": "price",
+        "condition": "above",
+        "value": 207.0,
+        "raw": ">$207.00"
+      },
+      "rr": 2.3,
+      "priority": 1,
+      "horizon": "swing",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "CPI Gamma - cool print bounce, tech breadth recovery",
+      "stop": {
+        "type": "price",
+        "value": 204.0,
+        "raw": "$204.00"
+      },
+      "target": {
+        "type": "price",
+        "value": 212.0,
+        "raw": "$212.00"
+      }
+    },
+    {
+      "id": "2026-08-11-T20",
+      "rank": 20,
+      "symbol": "ABCL",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Biotech Catalyst - Phase 2 data, small float momentum",
+      "entry": {
+        "type": "or_break",
+        "condition": "above",
+        "raw": ">OR High (confirmed vol)"
+      },
+      "rr": 2.0,
+      "priority": 1,
+      "horizon": "intraday",
+      "grading_method": "ohlc_intraday",
+      "gradable": true,
+      "notes": "Biotech Catalyst - Phase 2 data, small float momentum | T2: +30% from entry",
+      "stop": {
+        "type": "level",
+        "raw": "OR Low"
+      },
+      "target": {
+        "type": "pct",
+        "value": 15.0,
+        "raw": "+15% from entry"
+      }
+    },
+    {
+      "id": "2026-08-11-T21",
+      "rank": 21,
+      "symbol": "CSCO",
+      "instrument": "options",
+      "direction": "neutral",
+      "setup": "Earnings Event - Wed AMC, B2B AI commentary binary",
+      "entry": {
+        "type": "market",
+        "raw": "ATM straddle pre-Wed close"
+      },
+      "priority": 2,
+      "horizon": "event",
+      "grading_method": "directional_close",
+      "gradable": true,
+      "notes": "Earnings Event - Wed AMC, B2B AI commentary binary | T2: 3x on 5%+ move",
+      "stop": {
+        "type": "premium_pct",
+        "value": -50.0,
+        "raw": "-50% of premium"
+      },
+      "target": {
+        "type": "premium_pct",
+        "value": 3.0,
+        "raw": "2x on 3%+ move"
+      }
+    },
+    {
+      "id": "2026-08-11-T22",
+      "rank": 22,
+      "symbol": "GFS",
+      "instrument": "options",
+      "direction": "short",
+      "setup": "Sector Sympathy - semis miss read-through, 1-week exp",
+      "entry": {
+        "type": "market",
+        "raw": "OTM put \u00b7 ~$1.00 cost",
+        "value": 1.0
+      },
+      "rr": 3.0,
+      "priority": 2,
+      "horizon": "swing",
+      "grading_method": "directional_close",
+      "gradable": true,
+      "notes": "Sector Sympathy - semis miss read-through, 1-week exp",
+      "stop": {
+        "type": "premium_pct",
+        "value": -100.0,
+        "raw": "Full premium"
+      },
+      "target": {
+        "type": "price",
+        "value": 3.0,
+        "raw": "$3.00 (3x)"
+      }
+    }
+  ],
+  "lessons_applied": [],
+  "sources": [
+    {
+      "name": "apex-morning-brief-2026-08-11.html"
+    }
+  ],
+  "sentiment": {
+    "vix": 15.46,
+    "fear_greed": 64,
+    "put_call": 0.78,
+    "nyse_breadth": "1.39:1",
+    "aaii_bull_bear_spread_pct": 38.0,
+    "vix_term": "contango"
+  },
+  "regime": {
+    "label": "MIXED"
+  }
+}

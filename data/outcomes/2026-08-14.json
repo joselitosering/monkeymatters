@@ -1,0 +1,384 @@
+{
+  "schema_version": 2,
+  "date": "2026-08-14",
+  "graded_at": "2026-08-18T20:24:20-07:00",
+  "grader": "fff_build@v1 + grade_trades.grade_idea (daily bars)",
+  "results": [
+    {
+      "id": "2026-08-14-T01",
+      "symbol": "/ES",
+      "instrument": "futures",
+      "direction": "long",
+      "setup": "OR Break above PP \u2014 Rate-Cut",
+      "priority": 3,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "7816.5",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "FUT_ES",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-14-T02",
+      "symbol": "TLT",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "Rate-Cut Repricing",
+      "priority": 3,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "94.0",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "TLT",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-14-T03",
+      "symbol": "WMT",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Gap-and-Go BMO Beat",
+      "priority": 3,
+      "notes": [
+        "entry type 'pm_high_offset' needs intraday grading (v2)"
+      ],
+      "entry_raw": "PM Hi+1%",
+      "why": "entry type 'pm_high_offset' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T04",
+      "symbol": "GLD",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "Stagflation Hedge Activated",
+      "priority": 3,
+      "notes": [
+        "entry type 'pm_high_offset' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Above PM Hi",
+      "why": "entry type 'pm_high_offset' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T05",
+      "symbol": "YETI",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Post-AMC Beat Gap-and-Go",
+      "priority": 3,
+      "notes": [
+        "entry type 'pm_high_offset' needs intraday grading (v2)"
+      ],
+      "entry_raw": "PM Hi+1%",
+      "why": "entry type 'pm_high_offset' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T06",
+      "symbol": "/NQ",
+      "instrument": "futures",
+      "direction": "long",
+      "setup": "OR Break above PP",
+      "priority": 2,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "30039",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "FUT_NQ",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-14-T07",
+      "symbol": "NVDA",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "Dark Pool Continuation",
+      "priority": 2,
+      "notes": [
+        "entry type 'vwap' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Above VWAP",
+      "why": "entry type 'vwap' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T08",
+      "symbol": "XLRE",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "Rate-Cut RE Rotation",
+      "priority": 2,
+      "notes": [
+        "entry type 'vwap' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Above VWAP",
+      "why": "entry type 'vwap' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T09",
+      "symbol": "XLU",
+      "instrument": "etf",
+      "direction": "long",
+      "setup": "Defensive & Rate Cycle",
+      "priority": 2,
+      "notes": [
+        "entry type 'vwap' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Above VWAP",
+      "why": "entry type 'vwap' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T10",
+      "symbol": "HIVE",
+      "instrument": "stock",
+      "direction": "long",
+      "setup": "BTC Rate-Cut Correlation",
+      "priority": 2,
+      "notes": [
+        "entry type 'vwap' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Above VWAP",
+      "why": "entry type 'vwap' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T11",
+      "symbol": "DKS",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Post-AMC Miss Fade",
+      "priority": 2,
+      "notes": [
+        "entry type 'or_low_break' needs intraday grading (v2)"
+      ],
+      "entry_raw": "OR Low",
+      "why": "entry type 'or_low_break' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T12",
+      "symbol": "XLY",
+      "instrument": "etf",
+      "direction": "short",
+      "setup": "Retail Sales Breakdown",
+      "priority": 2,
+      "notes": [
+        "entry type 'vwap' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Below VWAP",
+      "why": "entry type 'vwap' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T13",
+      "symbol": "XLF",
+      "instrument": "etf",
+      "direction": "short",
+      "setup": "Rate-Cut Bank Headwind",
+      "priority": 2,
+      "notes": [
+        "entry type 'vwap' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Below VWAP",
+      "why": "entry type 'vwap' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T14",
+      "symbol": "CBRS",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "AI Miss Continuation",
+      "priority": 2,
+      "notes": [
+        "entry type 'or_low_break' needs intraday grading (v2)"
+      ],
+      "entry_raw": "OR Low",
+      "why": "entry type 'or_low_break' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T15",
+      "symbol": "XLE",
+      "instrument": "etf",
+      "direction": "short",
+      "setup": "Oil Breakdown Continuation",
+      "priority": 2,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "85.0",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "XLE",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    },
+    {
+      "id": "2026-08-14-T16",
+      "symbol": "TPR",
+      "instrument": "stock",
+      "direction": "short",
+      "setup": "Guide Miss Continuation",
+      "priority": 1,
+      "notes": [
+        "entry type 'or_low_break' needs intraday grading (v2)"
+      ],
+      "entry_raw": "OR Low",
+      "why": "entry type 'or_low_break' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T17",
+      "symbol": "TLT",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Sep 95C Unusual Flow",
+      "priority": 2,
+      "notes": [
+        "entry type 'market' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Market",
+      "why": "entry type 'market' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T18",
+      "symbol": "GLD",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Oct 285C Stagflation Sweep",
+      "priority": 2,
+      "notes": [
+        "entry type 'market' needs intraday grading (v2)"
+      ],
+      "entry_raw": "Market",
+      "why": "entry type 'market' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T19",
+      "symbol": "NVDA",
+      "instrument": "options",
+      "direction": "long",
+      "setup": "Sep 180C Flow",
+      "priority": 1,
+      "notes": [
+        "entry type 'market' needs intraday grading (v2)"
+      ],
+      "entry_raw": "~$4.50",
+      "why": "entry type 'market' needs intraday grading (v2)",
+      "result": "ungradable_v1",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a"
+    },
+    {
+      "id": "2026-08-14-T20",
+      "symbol": "/ES",
+      "instrument": "futures",
+      "direction": "short",
+      "setup": "R2 Rejection Fade",
+      "priority": 1,
+      "notes": [
+        "no bar data"
+      ],
+      "entry_raw": "7870.0",
+      "result": "no_data",
+      "triggered": false,
+      "r_multiple": null,
+      "exit_reason": "n/a",
+      "exit_bar": null,
+      "evidence": {
+        "bars_key": "FUT_ES",
+        "bars_used": 0,
+        "bars_src": []
+      }
+    }
+  ],
+  "day_summary": {
+    "ideas_total": 20,
+    "wins": 0,
+    "losses": 0,
+    "no_trigger": 0,
+    "indeterminate": 0,
+    "no_data": 5,
+    "ungradable": 15,
+    "win_rate": 0.0,
+    "total_r": 0
+  }
+}

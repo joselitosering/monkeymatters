@@ -366,16 +366,29 @@ def validate(html: str) -> None:
 
 
 def rebuild_index() -> None:
+    # 2026-08-21: index now covers BOTH products (MMM daily + FFF weekly) so
+    # neither workflow clobbers the other's links. Kept in sync with the
+    # identical rebuild_index() in template/generate_fff.py.
     files = sorted(OUT_DIR.glob("*.html"), reverse=True)
     rows = "\n".join(
         f'<tr><td>{f.stem}</td><td><a href="mmm-daily/{f.name}">Open</a></td></tr>'
         for f in files
     )
+    fff_dir = ROOT / "shadowmonkey" / "fff"
+    fff_files = sorted(fff_dir.glob("*.html"), reverse=True) if fff_dir.exists() else []
+    fff_rows = "\n".join(
+        f'<tr><td>{f.stem}</td><td><a href="fff/{f.name}">Open</a></td></tr>'
+        for f in fff_files
+    ) or '<tr><td colspan="2" style="color:#666">none yet</td></tr>'
     INDEX_PATH.write_text(f"""<!DOCTYPE html><html><head><meta charset="utf-8">
 <title>Shadow Monkey — Monkey Matters LLC</title>
 <style>body{{background:#080808;color:#fff;font-family:'Space Mono',monospace;padding:24px}}
-a{{color:#c8ff00}} table{{border-collapse:collapse}} td{{padding:6px 14px;border-bottom:1px solid #222}}</style>
-</head><body><h1>Shadow Monkey — Morning Market Monitor Archive</h1>
+a{{color:#c8ff00}} table{{border-collapse:collapse;margin-bottom:28px}}
+td{{padding:6px 14px;border-bottom:1px solid #222}} h2{{color:#c8ff00;letter-spacing:2px}}</style>
+</head><body><h1>Shadow Monkey — Intelligence Archive</h1>
+<h2>FFF — Friday Financial Forecast (weekly)</h2>
+<table>{fff_rows}</table>
+<h2>MMM — Morning Market Monitor (daily)</h2>
 <table>{rows}</table></body></html>""", encoding="utf-8")
 
 

@@ -374,8 +374,8 @@
 /*PORTFOLIO_DATA_START*/
 const PORTFOLIO_DATA = {
   "meta": {
-    "generated": "Fri, Aug 15, 2025",
-    "source": "Dashboard sheet (sample) \u2014 Schwab API in production",
+    "generated": "Thu, Aug 20, 2026 14:16",
+    "source": "Schwab Trader API (live, today's 2pm auto-refresh) + Coinbase holdings (Joe-reported Aug 19 2026, prices refreshed live via FMP Aug 20 2026) + Amazon Card (Joe-reported Aug 20 2026) \u2014 3 more credit cards & bank cash not yet tracked, excluded rather than shown as placeholders.",
     "cryptoAccountNames": [
       "Crypto"
     ],
@@ -384,695 +384,532 @@ const PORTFOLIO_DATA = {
   },
   "accounts": [
     {
-      "name": "Crypto",
-      "kind": "crypto",
-      "positions": [
-        {
-          "symbol": "BTC",
-          "desc": "BTC-USD",
-          "qty": 0.30381623,
-          "price": 119079.24,
-          "mktVal": 36178.21,
-          "dayChg": -804.42,
-          "dayPct": -2.22,
-          "costBasis": 2734.47,
-          "unrlPL": 33443.74,
-          "unrlPct": 1223.04,
-          "rating": "F A- | T A-",
-          "strategy": "Core position \u2014 hold 0.25+ BTC floor in cold custody; trim 10\u201315% at $125K and $140K ladders; re-arm bids at the 21-week EMA."
-        },
-        {
-          "symbol": "ETH",
-          "desc": "ETH-USD",
-          "qty": 3.0865,
-          "price": 4652.72,
-          "mktVal": 14360.62,
-          "dayChg": -295.44,
-          "dayPct": -2.06,
-          "costBasis": 1921.0,
-          "unrlPL": 12439.62,
-          "unrlPct": 647.56,
-          "rating": "F A- | T A-",
-          "strategy": "Hold core; prudent staking only through vetted custody; trim starting $5K; add on $4,200 retests that hold."
-        },
-        {
-          "symbol": "XRP",
-          "desc": "XRP-USD",
-          "qty": 1000.89,
-          "price": 3.12,
-          "mktVal": 3127.67,
-          "dayChg": -127.53,
-          "dayPct": -4.08,
-          "costBasis": 580.51,
-          "unrlPL": 2547.15,
-          "unrlPct": 438.78,
-          "rating": "F C | T C",
-          "strategy": "Reduce into strength \u2014 +439% on basis with C-grade fundamentals; keep a tracker position only if $3.00 holds."
-        },
-        {
-          "symbol": "SXT",
-          "desc": "SXT-USD",
-          "qty": 3000,
-          "price": 0.09,
-          "mktVal": 276.6,
-          "dayChg": 15.78,
-          "dayPct": 5.7,
-          "costBasis": 330.0,
-          "unrlPL": -53.4,
-          "unrlPct": -16.18,
-          "rating": "F D- | T D",
-          "strategy": "Exit candidate \u2014 underwater with no institutional thesis; sell into any pump \u2265 basis, otherwise cut on next sleeve rebalance."
-        },
-        {
-          "symbol": "ADA",
-          "desc": "ADA-USD",
-          "qty": 150.405681,
-          "price": 0.95,
-          "mktVal": 143.44,
-          "dayChg": -6.25,
-          "dayPct": -4.36,
-          "costBasis": 81.22,
-          "unrlPL": 62.22,
-          "unrlPct": 76.61,
-          "rating": "F C- | T C",
-          "strategy": "Consolidate into majors on the next relief bounce; too small to move the sleeve, big enough to leak attention."
-        }
-      ],
-      "analysis": {
-        "technical": "BTC holding the breakout shelf above $112K after printing new highs \u2014 today's -2.2% is a pullback inside an intact uptrend, not distribution. ETH showing relative strength above $4,400 with the $4,200 reclaim level as first support; XRP and ADA trading high-beta to BTC with deeper drawdowns on red days.",
-        "fundamental": "Post-halving supply squeeze plus spot-ETF flows remain the structural bid for BTC; ETH carries the staking-yield and L2-activity story. XRP is a regulatory-clarity trade, ADA a laggard L1, SXT a venture-grade micro-cap with no earnings anchor \u2014 the sleeve's quality is concentrated in its top two holdings.",
-        "guidance": "Sleeve is 48% of portfolio vs the 30% cap \u2014 the mission is controlled reduction into strength, not panic selling. Ladder 10\u201315% profit-takes on BTC/ETH at predefined levels, hedge macro prints (CPI/Fed) with index put spreads, and consolidate the small alts into majors on their next bounce."
-      }
-    },
-    {
-      "name": "Retirement",
-      "kind": "equity",
-      "positions": [
-        {
-          "symbol": "HIVE",
-          "desc": "HIVE DIGITAL TECHNOLOG F",
-          "qty": 10000,
-          "price": 2.25,
-          "mktVal": 22500.0,
-          "dayChg": 200.0,
-          "dayPct": 0.89,
-          "costBasis": 36041.42,
-          "unrlPL": -13541.42,
-          "unrlPct": -37.57,
-          "rating": "F C | T C",
-          "strategy": "Collar: write 1\u20133mo OTM calls to fund OTM puts; trim 10% into any spike over $2.60; full thesis review if HPC revenue guidance slips."
-        }
-      ],
-      "analysis": {
-        "technical": "HIVE basing in the $2.00\u20132.60 range after a long downtrend; today's +0.9% on green BTC confirms the correlation beta. A reclaim of $2.60 opens $3.00; loss of $2.00 invalidates the base.",
-        "fundamental": "HIVE's HPC/AI-datacenter pivot is the recovery thesis layered on top of green-energy BTC mining economics \u2014 but at -37.6% on a $36K basis, this is a single-name sleeve carrying the entire retirement bucket's risk.",
-        "guidance": "Collar the position: write 1\u20133 month OTM calls to finance OTM puts, capping downside while the base builds. If BTC correlation spikes the volatility, use strength to begin diversifying the sleeve \u2014 retirement capital should not live on one ticker's turnaround."
-      }
-    },
-    {
       "name": "Trust",
       "kind": "equity",
       "positions": [
         {
-          "symbol": "BTC",
-          "desc": "GRAYSCALE BITCOIN MINI TRUST ETF",
-          "qty": 40,
-          "price": 52.27,
-          "mktVal": 2090.8,
-          "dayChg": -86.8,
-          "dayPct": -3.99,
-          "costBasis": 0.0,
-          "unrlPL": 2090.8,
-          "unrlPct": 100.0,
-          "rating": "F B+ | T B",
-          "strategy": "Hold \u2014 lowest-fee BTC wrapper; destination vehicle for future GBTC migration tranches."
-        },
-        {
           "symbol": "GBTC",
-          "desc": "GRAYSCALE BITCOIN TRUST ETF",
-          "qty": 200,
-          "price": 92.75,
-          "mktVal": 18550.0,
-          "dayChg": -770.0,
-          "dayPct": -3.99,
-          "costBasis": 2222.0,
-          "unrlPL": 16328.0,
-          "unrlPct": 734.83,
-          "rating": "F B | T B",
-          "strategy": "Migrate to Mini in annual tax-budgeted tranches; never all at once \u2014 the 735% embedded gain is the constraint."
+          "desc": "Grayscale Bitcoin Trust ETF",
+          "qty": 200.0,
+          "price": 56.28,
+          "mktVal": 11256.0,
+          "dayChg": 656.0,
+          "dayPct": 6.19,
+          "costBasis": 0.0,
+          "unrlPL": 11256.0,
+          "unrlPct": 100.0,
+          "rating": null
+        },
+        {
+          "symbol": "BTC",
+          "desc": "GRAYSCALE BITCOIN MINI TR ETF",
+          "qty": 40.0,
+          "price": 32.15,
+          "mktVal": 1286.0,
+          "dayChg": 75.2,
+          "dayPct": 6.21,
+          "costBasis": 222.7,
+          "unrlPL": 1063.3,
+          "unrlPct": 477.46,
+          "rating": null
         }
-      ],
-      "analysis": {
-        "technical": "Both units track spot BTC one-for-one \u2014 today's -4.0% is pure beta. No independent technicals beyond BTC's own levels ($112K support, $125K measured move).",
-        "fundamental": "GBTC's 1.5% fee vs BTC Mini's 0.15% is a permanent 135bps annual drag on the larger holding. The +735% embedded gain makes a full swap a taxable event \u2014 fee savings vs realized-gain cost is the real math, inside the trust's tax posture.",
-        "guidance": "Hold the exposure; migrate GBTC into the Mini in measured annual tranches sized to the trust's tax budget. No leverage, no yield products \u2014 this sleeve is generational custody, not a trading book."
-      }
-    },
-    {
-      "name": "Savings",
-      "kind": "equity",
-      "positions": [
-        {
-          "symbol": "DDD",
-          "desc": "3D SYS CORP DEL",
-          "qty": 100,
-          "price": 2.09,
-          "mktVal": 209.0,
-          "dayChg": -24.0,
-          "dayPct": -11.48,
-          "costBasis": 173.5,
-          "unrlPL": 35.5,
-          "unrlPct": 20.46,
-          "rating": "F D+ | T C-",
-          "strategy": "Exit on strength \u2014 legacy 3D printing thesis stale; today's -11.5% confirms no institutional sponsorship; sell any bounce toward basis."
-        },
-        {
-          "symbol": "OSTX",
-          "desc": "OS THERAPIES INC",
-          "qty": 200,
-          "price": 2.15,
-          "mktVal": 430.0,
-          "dayChg": 54.0,
-          "dayPct": 12.56,
-          "costBasis": 372.0,
-          "unrlPL": 58.0,
-          "unrlPct": 15.59,
-          "rating": "F D | T C",
-          "strategy": "Event-driven biotech \u2014 hold through catalyst with a hard stop at $1.80; size stays tracker-tier; take half off on +30% spikes."
-        },
-        {
-          "symbol": "META",
-          "desc": "META PLATFORMS INC CLASS A",
-          "qty": 1.0056,
-          "price": 782.13,
-          "mktVal": 786.51,
-          "dayChg": 2.06,
-          "dayPct": 0.26,
-          "costBasis": 277.21,
-          "unrlPL": 509.3,
-          "unrlPct": 183.72,
-          "rating": "F A- | T B",
-          "strategy": "Core compounder \u2014 hold; monetize with 0.25\u0394 covered calls 30\u201345 DTE when IV pays; trail stop under the 50DMA."
-        },
-        {
-          "symbol": "MSFT",
-          "desc": "MICROSOFT CORP",
-          "qty": 1.0338,
-          "price": 522.48,
-          "mktVal": 540.14,
-          "dayChg": 1.96,
-          "dayPct": 0.36,
-          "costBasis": 349.07,
-          "unrlPL": 191.07,
-          "unrlPct": 54.74,
-          "rating": "F A | T B",
-          "strategy": "Core compounder \u2014 hold; diagonals acceptable for yield; add on 10% drawdowns to the 200DMA."
-        },
-        {
-          "symbol": "NVDA",
-          "desc": "NVIDIA CORP",
-          "qty": 5.0747,
-          "price": 182.02,
-          "mktVal": 923.7,
-          "dayChg": 2.44,
-          "dayPct": 0.26,
-          "costBasis": 181.23,
-          "unrlPL": 742.47,
-          "unrlPct": 409.68,
-          "rating": "F A | T B+",
-          "strategy": "Backbone position \u2014 trail stops under rising 21\u201350DMA; write CCs above supply zones; trim 5\u201310% only into parabolic extensions."
-        },
-        {
-          "symbol": "QBTS",
-          "desc": "D-WAVE QUANTUM INC",
-          "qty": 100,
-          "price": 18.18,
-          "mktVal": 1818.0,
-          "dayChg": -47.0,
-          "dayPct": -2.59,
-          "costBasis": 549.38,
-          "unrlPL": 1268.62,
-          "unrlPct": 230.92,
-          "rating": "F C | T C",
-          "strategy": "Bank the win in tranches \u2014 +231% on a spec name demands harvesting; sell 1/3 now, 1/3 at next high, run the rest with a 20% trail."
-        },
-        {
-          "symbol": "RR",
-          "desc": "RICHTECH ROBOTICS INC CLASS B",
-          "qty": 200,
-          "price": 2.26,
-          "mktVal": 452.0,
-          "dayChg": 22.0,
-          "dayPct": 4.87,
-          "costBasis": 398.85,
-          "unrlPL": 53.15,
-          "unrlPct": 13.33,
-          "rating": "F D | T C",
-          "strategy": "Momentum spec \u2014 ride with a stop under the 21DMA; +4.9% day earns it a hold, but this is a trade, not a position."
-        },
-        {
-          "symbol": "KITT",
-          "desc": "NAUTICUS ROBOTICS INC",
-          "qty": 400,
-          "price": 0.88,
-          "mktVal": 345.72,
-          "dayChg": -3.04,
-          "dayPct": -0.88,
-          "costBasis": 398.85,
-          "unrlPL": -53.13,
-          "unrlPct": -13.32,
-          "rating": "F F | T D",
-          "strategy": "Cut \u2014 F-grade fundamentals, underwater, illiquid; exit on next green tape and recycle capital to the core."
-        },
-        {
-          "symbol": "ETH",
-          "desc": "GRAYSCALE ETHEREUM MINI",
-          "qty": 10,
-          "price": 42.78,
-          "mktVal": 427.8,
-          "dayChg": -19.0,
-          "dayPct": -4.44,
-          "costBasis": 248.2,
-          "unrlPL": 179.6,
-          "unrlPct": 72.36,
-          "rating": "F B+ | T B",
-          "strategy": "Hold \u2014 low-fee ETH wrapper; pairs with the crypto sleeve's ETH thesis at equity-account convenience."
-        },
-        {
-          "symbol": "ETHE",
-          "desc": "GRAYSCALE ETHEREUM TR ET",
-          "qty": 100,
-          "price": 37.48,
-          "mktVal": 3748.0,
-          "dayChg": -167.0,
-          "dayPct": -4.46,
-          "costBasis": 2233.75,
-          "unrlPL": 1514.25,
-          "unrlPct": 67.79,
-          "rating": "F B | T B",
-          "strategy": "Fee-swap candidate \u2014 migrate to the Mini within the year's tax budget; same exposure, 90% less drag."
-        }
-      ],
-      "analysis": {
-        "technical": "Barbell tape: the megacap core (NVDA/MSFT/META) grinding at highs with shallow pullbacks, while the spec book (QBTS +231%, OSTX +12.6% today, DDD -11.5% today) whipsaws. ETH-linked units (ETHE/Mini) tracking ETH's -4.4% day.",
-        "fundamental": "Core is the AI-capex supercycle \u2014 NVDA supply-constrained compute, MSFT Azure/Copilot monetization, META ad-engine plus AI leverage. The spec names are optionality bets: QBTS on quantum annealing adoption, OSTX on trial catalysts, RR/KITT on robotics narratives with weak balance sheets.",
-        "guidance": "Protect the core with covered calls and trailing stops \u2014 it finances the sandbox. Cap the spec book's total weight, take QBTS profits in tranches, and cut the names with broken theses rather than averaging down. Consider ETHE\u2192Mini fee swap using the same tax-budget logic as the Trust."
-      }
-    },
-    {
-      "name": "Hedge",
-      "kind": "options",
-      "positions": [
-        {
-          "symbol": "BMNR 08/15/2025 65.00 C",
-          "desc": "CALL BITMINE IMMERSION T $65 EXP 08/15/25",
-          "qty": 2,
-          "price": 0.75,
-          "mktVal": 150.0,
-          "dayChg": -167.27,
-          "dayPct": -111.51,
-          "costBasis": 600.56,
-          "unrlPL": -450.0,
-          "unrlPct": -74.93,
-          "rating": "F D | T C-",
-          "strategy": "Expires today \u2014 write it off, log the lesson: no more far-OTM weeklies in the hedge sleeve."
-        },
-        {
-          "symbol": "RKLB 09/12/2025 50.00 C",
-          "desc": "CALL ROCKET LAB CORP $50 EXP 09/12/25",
-          "qty": 1,
-          "price": 1.41,
-          "mktVal": 141.0,
-          "dayChg": -10.72,
-          "dayPct": -7.6,
-          "costBasis": 215.56,
-          "unrlPL": -74.0,
-          "unrlPct": -34.33,
-          "rating": "F B- | T B-",
-          "strategy": "Salvage decision this week: exit on any RKLB strength or convert to a call spread to stop the theta bleed; do not hold into the final two weeks."
-        },
-        {
-          "symbol": "/ES Futures",
-          "desc": "Futures Positions Market Value",
-          "qty": 4,
-          "price": null,
-          "mktVal": 2750.0,
-          "dayChg": -100.0,
-          "dayPct": -3.64,
-          "costBasis": 1300.0,
-          "unrlPL": 1450.0,
-          "unrlPct": 111.54,
-          "rating": null,
-          "strategy": "Trail stop at +75% of open profit; flatten by 4:58 PM ET daily per protocol; size stays within Phase margin discipline."
-        }
-      ],
-      "analysis": {
-        "technical": "/ES runner +111% on cost with 4 contracts on \u2014 the sleeve's only working hedge. BMNR calls expiring today effectively at zero; RKLB Sept calls -34% with theta accelerating.",
-        "fundamental": "This sleeve exists to buy protection and event convexity, not to hold decaying long-shot calls. Single-name speculative calls are doing the opposite of the sleeve's job.",
-        "guidance": "Run 2\u20134% notional coverage during event windows using defined-risk spreads. Let today's expirations bury themselves, stop replacing them, and keep the /ES position on a hard trail with the 4:58 PM flat rule absolute."
-      }
-    },
-    {
-      "name": "Piggy Bank",
-      "kind": "etf",
-      "cash": 262.87,
-      "positions": [
-        {
-          "symbol": "CMF",
-          "desc": "iShares CA Muni Bond ETF",
-          "qty": 1,
-          "price": 55.67,
-          "mktVal": 55.67,
-          "dayChg": -0.09,
-          "dayPct": -0.16,
-          "costBasis": 55.47,
-          "unrlPL": 0.2,
-          "unrlPct": 0.36,
-          "bucket": "Bonds"
-        },
-        {
-          "symbol": "FNDA",
-          "desc": "Schwab Fundamental U.S. Small Co.",
-          "qty": 4,
-          "price": 30.33,
-          "mktVal": 121.32,
-          "dayChg": -1.48,
-          "dayPct": -1.22,
-          "costBasis": 108.82,
-          "unrlPL": 12.5,
-          "unrlPct": 11.49,
-          "bucket": "US Equity"
-        },
-        {
-          "symbol": "FNDE",
-          "desc": "Schwab Fundamental Emerging Mkts",
-          "qty": 4,
-          "price": 34.36,
-          "mktVal": 137.44,
-          "dayChg": -1.52,
-          "dayPct": -1.11,
-          "costBasis": 127.98,
-          "unrlPL": 9.46,
-          "unrlPct": 7.39,
-          "bucket": "Emerging Mkts"
-        },
-        {
-          "symbol": "FNDF",
-          "desc": "Schwab Fundamental International",
-          "qty": 3,
-          "price": 41.94,
-          "mktVal": 125.82,
-          "dayChg": -0.36,
-          "dayPct": -0.29,
-          "costBasis": 115.74,
-          "unrlPL": 10.08,
-          "unrlPct": 8.71,
-          "bucket": "Intl Equity"
-        },
-        {
-          "symbol": "FNDX",
-          "desc": "Schwab Fundamental U.S. Large Co.",
-          "qty": 10,
-          "price": 25.38,
-          "mktVal": 253.8,
-          "dayChg": -0.2,
-          "dayPct": -0.08,
-          "costBasis": 232.95,
-          "unrlPL": 20.85,
-          "unrlPct": 8.95,
-          "bucket": "US Equity"
-        },
-        {
-          "symbol": "HAUZ",
-          "desc": "Xtrackers International Real Estate",
-          "qty": 1,
-          "price": 23.43,
-          "mktVal": 23.43,
-          "dayChg": -0.01,
-          "dayPct": -0.04,
-          "costBasis": 21.97,
-          "unrlPL": 1.46,
-          "unrlPct": 6.65,
-          "bucket": "Real Estate"
-        },
-        {
-          "symbol": "SCHA",
-          "desc": "Schwab U.S. Small-Cap",
-          "qty": 3,
-          "price": 26.64,
-          "mktVal": 79.92,
-          "dayChg": -0.87,
-          "dayPct": -1.09,
-          "costBasis": 71.51,
-          "unrlPL": 8.41,
-          "unrlPct": 11.76,
-          "bucket": "US Equity"
-        },
-        {
-          "symbol": "SCHC",
-          "desc": "Schwab International Small-Cap",
-          "qty": 1,
-          "price": 43.83,
-          "mktVal": 43.83,
-          "dayChg": -0.21,
-          "dayPct": -0.48,
-          "costBasis": 39.68,
-          "unrlPL": 4.15,
-          "unrlPct": 10.46,
-          "bucket": "Intl Equity"
-        },
-        {
-          "symbol": "SCHF",
-          "desc": "Schwab International Equity",
-          "qty": 8,
-          "price": 22.73,
-          "mktVal": 181.84,
-          "dayChg": -0.32,
-          "dayPct": -0.18,
-          "costBasis": 170.6,
-          "unrlPL": 11.24,
-          "unrlPct": 6.59,
-          "bucket": "Intl Equity"
-        },
-        {
-          "symbol": "SCHG",
-          "desc": "Schwab U.S. Large-Cap Growth",
-          "qty": 1,
-          "price": 30.75,
-          "mktVal": 30.75,
-          "dayChg": 0.03,
-          "dayPct": 0.1,
-          "costBasis": 26.98,
-          "unrlPL": 3.77,
-          "unrlPct": 13.97,
-          "bucket": "US Equity"
-        },
-        {
-          "symbol": "SCHH",
-          "desc": "Schwab U.S. REIT",
-          "qty": 1,
-          "price": 20.89,
-          "mktVal": 20.89,
-          "dayChg": -0.17,
-          "dayPct": -0.81,
-          "costBasis": 20.65,
-          "unrlPL": 0.24,
-          "unrlPct": 1.16,
-          "bucket": "Real Estate"
-        },
-        {
-          "symbol": "SCHX",
-          "desc": "Schwab U.S. Large-Cap",
-          "qty": 8,
-          "price": 25.53,
-          "mktVal": 204.24,
-          "dayChg": -0.08,
-          "dayPct": -0.04,
-          "costBasis": 183.16,
-          "unrlPL": 21.08,
-          "unrlPct": 11.51,
-          "bucket": "US Equity"
-        },
-        {
-          "symbol": "SPEM",
-          "desc": "SPDR Emerging Markets",
-          "qty": 2,
-          "price": 44.19,
-          "mktVal": 88.38,
-          "dayChg": -1.02,
-          "dayPct": -1.15,
-          "costBasis": 83.11,
-          "unrlPL": 5.27,
-          "unrlPct": 6.34,
-          "bucket": "Emerging Mkts"
-        }
-      ],
-      "autoManaged": true,
-      "analysis": {
-        "guidance": "Automated Schwab account \u2014 allocation, rebalancing, and tax-loss harvesting run robo-side. Human job: keep contributions automated, review drift quarterly, and resist tinkering. No single ETF over 20% of sleeve per doctrine."
-      }
+      ]
     },
     {
       "name": "Income",
       "kind": "options",
+      "cash": 5.72,
       "positions": [
         {
-          "symbol": "EVTL 10/17/2025 5.00 C",
-          "desc": "CALL VERTICAL AEROSPACE $5 EXP 10/17/25",
-          "qty": 2,
-          "price": 1.03,
-          "mktVal": 205.0,
-          "dayChg": -30.02,
-          "dayPct": -14.64,
-          "costBasis": 251.12,
-          "unrlPL": -46.12,
-          "unrlPct": -18.37,
-          "rating": "F D | T D",
-          "strategy": "Convert to a vertical (sell the $7.50s) to define risk and claw back premium; exit entirely if EVTL loses $4.00."
+          "symbol": "LAES",
+          "desc": "LAES",
+          "qty": 100.0,
+          "price": 2.5,
+          "mktVal": 250.0,
+          "dayChg": -10.0,
+          "dayPct": -3.85,
+          "costBasis": 316.75,
+          "unrlPL": -66.75,
+          "unrlPct": -21.07,
+          "rating": null
         },
         {
-          "symbol": "MVST 08/15/2025 3.00 C",
-          "desc": "CALL MICROVAST HLDGS INC $3 EXP 08/15/25",
-          "qty": 6,
-          "price": 0.03,
-          "mktVal": 15.0,
-          "dayChg": -30.0,
-          "dayPct": -200.0,
-          "costBasis": 61.36,
-          "unrlPL": -46.36,
-          "unrlPct": -75.55,
-          "rating": "F D | T D",
-          "strategy": "Expires today at a near-total loss \u2014 no action; entry rule violation logged (weekly lotto)."
+          "symbol": "BBAI",
+          "desc": "BBAI",
+          "qty": 100.0,
+          "price": 3.08,
+          "mktVal": 308.0,
+          "dayChg": -9.0,
+          "dayPct": -2.84,
+          "costBasis": 412.99,
+          "unrlPL": -104.99,
+          "unrlPct": -25.42,
+          "rating": null
         },
         {
-          "symbol": "NVDA 08/29/2025 205.00 C",
-          "desc": "CALL NVIDIA CORP $205 EXP 08/29/25",
-          "qty": 4,
-          "price": 1.15,
-          "mktVal": 462.0,
-          "dayChg": -0.36,
-          "dayPct": -0.08,
-          "costBasis": 502.24,
-          "unrlPL": -40.24,
-          "unrlPct": -8.01,
-          "rating": "F A | T B+",
-          "strategy": "Two weeks of runway \u2014 sell half on any NVDA push through $190; convert remainder to a 205/215 spread; hard exit at -50% of remaining premium."
-        },
-        {
-          "symbol": "PANW 08/15/2025 177.50 C",
-          "desc": "CALL PALO ALTO NETWORKS $177.5 EXP 08/15/25",
-          "qty": 2,
-          "price": 0.92,
-          "mktVal": 60.0,
-          "dayChg": -268.0,
-          "dayPct": -446.67,
-          "costBasis": 185.12,
-          "unrlPL": -125.12,
-          "unrlPct": -67.59,
-          "rating": "F A- | T B-",
-          "strategy": "Expires today \u2014 salvage anything above $0 at the close; post-mortem: earnings-week short-dated calls are banned going forward."
-        },
-        {
-          "symbol": "QUBT 08/29/2025 18.50 C",
-          "desc": "CALL QUANTUM COMPUTING I $18.5 EXP 08/29/25",
-          "qty": 1,
-          "price": 0.55,
-          "mktVal": 55.0,
-          "dayChg": -0.13,
-          "dayPct": -0.24,
-          "costBasis": 100.56,
-          "unrlPL": -45.56,
-          "unrlPct": -45.31,
-          "rating": "F D- | T C-",
-          "strategy": "Lottery remnant \u2014 set a GTC sell at 2x current mark and let it ride or die; no adds."
-        },
-        {
-          "symbol": "QUBT 08/15/2026 18.50 C",
-          "desc": "CALL QUANTUM COMPUTING I $18.5 EXP 08/15/26",
-          "qty": 1,
-          "price": 0.13,
-          "mktVal": 12.5,
-          "dayChg": 0.02,
-          "dayPct": 0.12,
-          "costBasis": 15.0,
-          "unrlPL": -2.5,
-          "unrlPct": -16.67,
-          "rating": "F D- | T C-",
-          "strategy": "LEAPS-style holdover \u2014 hold; a year of runway on a $15 basis is acceptable optionality; reassess at 6 months to expiry."
-        },
-        {
-          "symbol": "RKT 08/29/2025 18.00 C",
-          "desc": "CALL ROCKET COMPANIES CL $18 EXP 08/29/25",
-          "qty": 2,
-          "price": 1.31,
-          "mktVal": 262.0,
-          "dayChg": -1.38,
-          "dayPct": -0.53,
-          "costBasis": 103.12,
-          "unrlPL": 158.88,
-          "unrlPct": 154.07,
-          "rating": "F C+ | T C+",
-          "strategy": "Harvest \u2014 close half now at +154%, roll the rest up to the $19s for reduced basis; winner discipline beats greed."
+          "symbol": "MVST",
+          "desc": "MVST",
+          "qty": 100.0,
+          "price": 0.774,
+          "mktVal": 77.4,
+          "dayChg": -2.68,
+          "dayPct": -3.35,
+          "costBasis": 114.5,
+          "unrlPL": -37.1,
+          "unrlPct": -32.4,
+          "rating": null
         }
-      ],
-      "analysis": {
-        "technical": "The book is short-dated long calls, not income structures \u2014 PANW and MVST expire today near worthless, RKT +154% is the one winner, NVDA 205C needs a fresh leg higher within two weeks to pay.",
-        "fundamental": "An income sleeve earns by selling time (spreads, diagonals, covered structures), not buying weekly lottery tickets. Current construction is negative-expectancy gamma with -30.6% on the day as the receipt.",
-        "guidance": "Rebuild the sleeve: verticals and diagonals only, risk \u22640.5% per trade, no naked short calls, and harvest RKT now \u2014 a +154% option gain unbanked is a donation to theta. Grade every new trade against the 5:1 risk rule before entry."
-      }
+      ]
+    },
+    {
+      "name": "Retirement",
+      "kind": "equity",
+      "cash": 12.42,
+      "positions": [
+        {
+          "symbol": "HIVE",
+          "desc": "HIVE",
+          "qty": 10000.0,
+          "price": 3.11,
+          "mktVal": 31100.0,
+          "dayChg": 2900.0,
+          "dayPct": 10.28,
+          "costBasis": 36041.42,
+          "unrlPL": -4941.42,
+          "unrlPct": -13.71,
+          "rating": null
+        }
+      ]
+    },
+    {
+      "name": "Piggy Bank",
+      "kind": "etf",
+      "autoManaged": true,
+      "cash": 275.82,
+      "positions": [
+        {
+          "symbol": "SCHA",
+          "desc": "Schwab US Small-Cap ETF",
+          "qty": 2.0,
+          "price": 34.65,
+          "mktVal": 69.3,
+          "dayChg": -57.16,
+          "dayPct": null,
+          "costBasis": 56.52,
+          "unrlPL": 12.78,
+          "unrlPct": 22.61,
+          "rating": null,
+          "bucket": "US Equity"
+        },
+        {
+          "symbol": "FNDF",
+          "desc": "Schwab Fundamental International Eq ETF",
+          "qty": 2.0,
+          "price": 55.38,
+          "mktVal": 110.76,
+          "dayChg": -90.02,
+          "dayPct": null,
+          "costBasis": 90.12,
+          "unrlPL": 20.64,
+          "unrlPct": 22.9,
+          "rating": null,
+          "bucket": "Intl Equity"
+        },
+        {
+          "symbol": "SPEM",
+          "desc": "State Street SPDR Portfolio Emerging Markets ETF",
+          "qty": 1.0,
+          "price": 52.06,
+          "mktVal": 52.06,
+          "dayChg": -47.79,
+          "dayPct": null,
+          "costBasis": 47.8,
+          "unrlPL": 4.26,
+          "unrlPct": 8.91,
+          "rating": null,
+          "bucket": "Emerging Mkts"
+        },
+        {
+          "symbol": "FNDX",
+          "desc": "Schwab Fundamental U.S. Large CompanyETF",
+          "qty": 6.0,
+          "price": 32.34,
+          "mktVal": 194.04,
+          "dayChg": -163.06,
+          "dayPct": null,
+          "costBasis": 161.26,
+          "unrlPL": 32.78,
+          "unrlPct": 20.33,
+          "rating": null,
+          "bucket": "US Equity"
+        },
+        {
+          "symbol": "SCHF",
+          "desc": "Schwab International Equity ETF",
+          "qty": 5.0,
+          "price": 28.22,
+          "mktVal": 141.1,
+          "dayChg": -120.05,
+          "dayPct": null,
+          "costBasis": 120.1,
+          "unrlPL": 21.0,
+          "unrlPct": 17.49,
+          "rating": null,
+          "bucket": "Intl Equity"
+        },
+        {
+          "symbol": "FNDE",
+          "desc": "Schwab Fundamental Emerging MarketsEqETF",
+          "qty": 3.0,
+          "price": 41.49,
+          "mktVal": 124.47,
+          "dayChg": -111.47,
+          "dayPct": null,
+          "costBasis": 111.53,
+          "unrlPL": 12.94,
+          "unrlPct": 11.6,
+          "rating": null,
+          "bucket": "Emerging Mkts"
+        },
+        {
+          "symbol": "HAUZ",
+          "desc": "Xtrackers International Real Estate ETF",
+          "qty": 1.0,
+          "price": 22.9,
+          "mktVal": 22.9,
+          "dayChg": -23.33,
+          "dayPct": null,
+          "costBasis": 23.41,
+          "unrlPL": -0.51,
+          "unrlPct": -2.18,
+          "rating": null,
+          "bucket": "Real Estate"
+        },
+        {
+          "symbol": "FNDA",
+          "desc": "Schwab Fundamental U.S. Small CompanyETF",
+          "qty": 3.0,
+          "price": 37.45,
+          "mktVal": 112.35,
+          "dayChg": -94.31,
+          "dayPct": null,
+          "costBasis": 93.2,
+          "unrlPL": 19.15,
+          "unrlPct": 20.55,
+          "rating": null,
+          "bucket": "US Equity"
+        },
+        {
+          "symbol": "SCHH",
+          "desc": "Schwab US REIT ETF",
+          "qty": 1.0,
+          "price": 24.06,
+          "mktVal": 24.06,
+          "dayChg": -21.18,
+          "dayPct": null,
+          "costBasis": 21.24,
+          "unrlPL": 2.82,
+          "unrlPct": 13.28,
+          "rating": null,
+          "bucket": "Real Estate"
+        },
+        {
+          "symbol": "SCHX",
+          "desc": "Schwab US Large-Cap ETF",
+          "qty": 6.0,
+          "price": 30.08,
+          "mktVal": 180.48,
+          "dayChg": -163.13,
+          "dayPct": null,
+          "costBasis": 161.63,
+          "unrlPL": 18.85,
+          "unrlPct": 11.66,
+          "rating": null,
+          "bucket": "US Equity"
+        },
+        {
+          "symbol": "CMF",
+          "desc": "iShares California Muni Bond ETF",
+          "qty": 1.0,
+          "price": 56.58,
+          "mktVal": 56.58,
+          "dayChg": -57.41,
+          "dayPct": null,
+          "costBasis": 57.34,
+          "unrlPL": -0.76,
+          "unrlPct": -1.33,
+          "rating": null,
+          "bucket": "Bonds"
+        }
+      ]
+    },
+    {
+      "name": "Savings",
+      "kind": "equity",
+      "cash": 19.48,
+      "positions": [
+        {
+          "symbol": "DDD",
+          "desc": "DDD",
+          "qty": 200.0,
+          "price": 3.16,
+          "mktVal": 632.0,
+          "dayChg": -50.0,
+          "dayPct": -7.33,
+          "costBasis": 381.08,
+          "unrlPL": 250.92,
+          "unrlPct": 65.84,
+          "rating": null
+        },
+        {
+          "symbol": "ETHE",
+          "desc": "Grayscale Ethereum Staking ETF",
+          "qty": 100.0,
+          "price": 18.68,
+          "mktVal": 1868.0,
+          "dayChg": 175.0,
+          "dayPct": 10.34,
+          "costBasis": 2233.75,
+          "unrlPL": -365.75,
+          "unrlPct": -16.37,
+          "rating": null
+        },
+        {
+          "symbol": "LUNR",
+          "desc": "LUNR",
+          "qty": 50.0,
+          "price": 17.95,
+          "mktVal": 897.5,
+          "dayChg": -28.5,
+          "dayPct": -3.08,
+          "costBasis": 492.5,
+          "unrlPL": 405.0,
+          "unrlPct": 82.23,
+          "rating": null
+        },
+        {
+          "symbol": "DVLT",
+          "desc": "DVLT",
+          "qty": 1500.0,
+          "price": 0.3133,
+          "mktVal": 469.95,
+          "dayChg": 25.65,
+          "dayPct": 5.77,
+          "costBasis": 466.05,
+          "unrlPL": 3.9,
+          "unrlPct": 0.84,
+          "rating": null
+        },
+        {
+          "symbol": "ETH",
+          "desc": "GRAYSCALE ETHEREUM STAKING MINI ETF",
+          "qty": 10.0,
+          "price": 22.13,
+          "mktVal": 221.3,
+          "dayChg": 20.6,
+          "dayPct": 10.26,
+          "costBasis": 248.2,
+          "unrlPL": -26.9,
+          "unrlPct": -10.84,
+          "rating": null
+        },
+        {
+          "symbol": "QBTS",
+          "desc": "QBTS",
+          "qty": 100.0,
+          "price": 18.8,
+          "mktVal": 1880.0,
+          "dayChg": -52.0,
+          "dayPct": -2.69,
+          "costBasis": 549.38,
+          "unrlPL": 1330.62,
+          "unrlPct": 242.2,
+          "rating": null
+        },
+        {
+          "symbol": "PATH",
+          "desc": "PATH",
+          "qty": 100.0,
+          "price": 15.92,
+          "mktVal": 1592.0,
+          "dayChg": 14.0,
+          "dayPct": 0.89,
+          "costBasis": 1130.76,
+          "unrlPL": 461.24,
+          "unrlPct": 40.79,
+          "rating": null
+        }
+      ]
+    },
+    {
+      "name": "Hedge",
+      "kind": "options",
+      "cash": 24.12,
+      "positions": [
+        {
+          "symbol": "AVGO  260828C00415000",
+          "desc": "BROADCOM INC 08/28/2026 $415 Call",
+          "qty": 1.0,
+          "price": 0.38,
+          "mktVal": 38.0,
+          "dayChg": -7.28,
+          "dayPct": -16.08,
+          "costBasis": 475.56,
+          "unrlPL": -437.56,
+          "unrlPct": -92.01,
+          "rating": null
+        },
+        {
+          "symbol": "EVTL",
+          "desc": "EVTL",
+          "qty": 1000.0,
+          "price": 0.75,
+          "mktVal": 750.0,
+          "dayChg": -15.8,
+          "dayPct": -2.06,
+          "costBasis": 842.3,
+          "unrlPL": -92.3,
+          "unrlPct": -10.96,
+          "rating": null
+        },
+        {
+          "symbol": "SPCX  260821P00085000",
+          "desc": "SPACE EX TECH SPACEX 08/21/2026 $85 Put",
+          "qty": 1.0,
+          "price": 0.005,
+          "mktVal": 0.5,
+          "dayChg": 0.49,
+          "dayPct": 4900.0,
+          "costBasis": 100.56,
+          "unrlPL": -100.06,
+          "unrlPct": -99.5,
+          "rating": null
+        },
+        {
+          "symbol": "HIVE  260821C00004000",
+          "desc": "HIVE DIGITAL TECHNOLOGIES LTD 08/21/2026 $4 Call",
+          "qty": 5.0,
+          "price": 0.025,
+          "mktVal": 12.5,
+          "dayChg": 12.3,
+          "dayPct": 6150.0,
+          "costBasis": 302.81,
+          "unrlPL": -290.31,
+          "unrlPct": -95.87,
+          "rating": null
+        }
+      ]
+    },
+    {
+      "name": "Crypto",
+      "kind": "crypto",
+      "positions": [
+        {
+          "symbol": "ETH",
+          "desc": "Staked ETH \u2014 Base app self-custody wallet (0x4b390578C9e7D518a284fA50EAc3019ae77D80df)",
+          "qty": 3.163,
+          "price": 2319.01001,
+          "mktVal": 7335.03,
+          "dayChg": 212.17,
+          "dayPct": 2.98,
+          "costBasis": 1784.45,
+          "unrlPL": 5550.58,
+          "unrlPct": 311.05,
+          "note": "ESTIMATED cost basis, not tax-verified. Staked via Coinbase Base app @ 2.24% APR. Price refreshed live via FMP Aug 20, 2026 ~21:11 UTC (holdings/cost basis unchanged from Joe's Aug 19 2026 report). Path: bought on Coinbase 2017-2020, sent off-exchange, traded/lent on KuCoin (Malta) holding ~3.00 ETH, repatriated, grown to 3.163 via staking. Cost basis method (Joe-directed): FIFO through the literal 'Bought' lines in the original Coinbase ledger for 3.163 ETH = $1,677.47 (avg $530.34/ETH, lots spanning Sep 2017-Aug 2020), plus the KuCoin trading drag (Joe-reported: $57.18 fees + $49.80 realized loss = $106.98) = $1,784.45 total (avg $564.16/ETH). Caveat: the underlying Coinbase 'Bought' trace assumes all Sent/Received/Converted lines in the pasted ledger are self-transfers/noise rather than real disposals \u2014 a full chronological FIFO check showed the ledger goes short by real amounts (0.557 ETH in Jan 2018, 0.100 ETH in Aug 2020) even before the KuCoin detour, suggesting the pasted activity feed is incomplete. Treat this as a good-faith estimate, not a certified figure \u2014 Coinbase Tax Center's actual cost-basis report would be authoritative if ever needed."
+        },
+        {
+          "symbol": "BTC",
+          "desc": "Bitcoin \u2014 Coinbase (Joe-reported holdings, Aug 19, 2026; price refreshed live via FMP Aug 20, 2026)",
+          "qty": 0.30381623,
+          "price": 72636.57813,
+          "mktVal": 22068.17,
+          "dayChg": 1016.91,
+          "dayPct": 4.83,
+          "costBasis": 2734.47,
+          "unrlPL": 19333.7,
+          "unrlPct": 707.04
+        },
+        {
+          "symbol": "XRP",
+          "desc": "XRP \u2014 Coinbase (Joe-reported holdings, Aug 19, 2026; price refreshed live via FMP Aug 20, 2026)",
+          "qty": 1000.885516,
+          "price": 1.2534,
+          "mktVal": 1254.51,
+          "dayChg": 149.09,
+          "dayPct": 13.49,
+          "costBasis": 578.6,
+          "unrlPL": 675.91,
+          "unrlPct": 116.82
+        },
+        {
+          "symbol": "SXT",
+          "desc": "Space and Time \u2014 Coinbase (Joe-reported holdings screen, Aug 19, 2026)",
+          "qty": 5000,
+          "price": 0.00725,
+          "mktVal": 36.25,
+          "dayChg": 0.0,
+          "dayPct": null,
+          "costBasis": 497.2,
+          "unrlPL": -460.95,
+          "unrlPct": -92.71,
+          "note": "FMP has no quote coverage for SXT (small-cap altcoin) \u2014 price held at Joe's last hand-reported value from Aug 19, 2026, NOT refreshed live. Confirm current price with Joe if precision matters (this is a $36 position, immaterial to portfolio totals)."
+        }
+      ]
     }
   ],
   "creditCards": [
     {
-      "name": "SAMPLE \u2014 VISA PLATINUM",
-      "balance": 4850.0,
-      "apr": 24.99,
-      "monthlyPayment": 150.0,
-      "limit": 9000
+      "name": "Amazon Card",
+      "balance": 9065.94,
+      "apr": 25.15,
+      "monthlyPayment": 400,
+      "limit": 0
     },
     {
-      "name": "SAMPLE \u2014 AMEX BLUE",
-      "balance": 2310.0,
-      "apr": 19.24,
-      "monthlyPayment": 120.0,
-      "limit": 6000
+      "name": "Capital One Venture",
+      "balance": 7181.75,
+      "apr": 21.49,
+      "monthlyPayment": 300,
+      "limit": 0
     },
     {
-      "name": "SAMPLE \u2014 STORE CARD",
-      "balance": 890.0,
-      "apr": 29.99,
-      "monthlyPayment": 40.0,
-      "limit": 1500
+      "name": "Citi Diamond",
+      "balance": 4192.31,
+      "apr": 21.24,
+      "monthlyPayment": 200,
+      "limit": 0
     }
   ],
-  "cashAccounts": [
-    {
-      "name": "SAMPLE \u2014 CHECKING",
-      "balance": 1850.0
-    },
-    {
-      "name": "SAMPLE \u2014 HY SAVINGS",
-      "balance": 6200.0
-    }
-  ],
+  "cashAccounts": [],
   "advisory": {
-    "thesis": "Momentum-led, liquidity-supported tape with rising dispersion. Keep core exposure to structural winners; force discipline on high-beta names and options risk.",
+    "thesis": "Real assets now $84,758.77 (up from $77,188.07 on a broad crypto/HIVE rally today: BTC +4.83%, ETH +2.98%, XRP +13.49%, HIVE +10.25%) against $20,440.00 in now-tracked debt across three cards \u2014 Amazon Card ($9,065.94 @ 25.15%), Capital One Venture ($7,181.75 @ 21.49%), and Citi Diamond ($4,192.31 @ 21.24%). Net of all three cards: $64,318.77 \u2014 and card debt is now COMPLETE (Joe confirmed the 4th card, Citi Rewards+, is an authorized-user card at $0, and the PayPal Mastercard is paid in full monthly). Bank cash is the last missing piece before true net worth. The good news (a strong up day) is masking the bad news: every concentration breach flagged last session got WORSE today, not better, because gains compounded into the same three already-oversized, correlated positions instead of being trimmed into anything new.",
     "points": [
-      "Core & Compounding: Size NVDA/MSFT/META as backbone; monetize with covered calls/diagonals; trail stops.",
-      "Risk Budgeting: Crypto near half of value \u2014 use rules-based scaling and constant index hedge around macros.",
-      "Upgrade the Hedge: 2\u20134% notional during events; spreads & roll winners; cut losers.",
-      "Quality vs Spec: Keep a small sandbox (QBTS, RR, QUBT, EVTL) with tight risk controls.",
-      "Cash Flow: Systematic call-writing on liquid holdings to target 0.5\u20131.0% monthly portfolio yield when IV pays."
+      "Mission: Track the full real picture \u2014 assets AND debt \u2014 and keep concentration risk inside stated caps (25% single-position, 30% crypto sleeve) rather than letting a good market day quietly widen the breaches.",
+      "Edge: None identified today that isn't already priced in \u2014 this is a risk-sizing review, not a new-opportunity call. The only asymmetry on the table is downside: three correlated, breached positions (HIVE, Crypto sleeve, and BTC within it) now make up the bulk of the book, so the portfolio's 'edge' is really just leveraged beta to one trade (BTC/crypto), dressed up as three separate tickers.",
+      "Strategy \u2014 Trim Into Strength, Not Weakness: Today's rally is the trim window, not a reason to hold longer. HIVE (36.69% of total, was 36.5%), Crypto sleeve (36.21%, was 34.5%), and BTC alone within Crypto (26.04%, confirmed breach in isolation for the first time) all grew further past cap on the same up-day \u2014 the classic 'winners get bigger' concentration trap. A partial trim on HIVE and/or spot BTC now locks in gains at a strong print instead of waiting for a red day to force the same decision at a worse price.",
+      "Strategy \u2014 Debt Before New Crypto Buys: Three cards now tracked \u2014 Amazon Card ($9,065.94 @ 25.15%, $400/mo), Capital One Venture ($7,181.75 @ 21.49%, $300/mo), and Citi Diamond ($4,192.31 @ 21.24%, $200/mo). Combined: $20,440.00 balance, $900/mo in payments, $392.82/mo interest, $507.18/mo actually paying down principal, all three independently on a payoff track of 27-32 months. At 21-25% APR across the board, guaranteed debt payoff still beats any expected-value crypto add \u2014 don't deploy new capital into Crypto sleeve or HIVE while these balances revolve.",
+      "Risk \u2014 HIVE Concentration (breach, worsened): 36.69% of tracked assets in one Retirement position (was 36.5% last session) \u2014 the single biggest structural risk in the book, ahead of the crypto sleeve itself.",
+      "Risk \u2014 Crypto Sleeve Cap (breach, worsened): 36.21% of tracked assets vs. the 30% cap (was 34.5%) \u2014 today's rally added to the breach rather than curing it.",
+      "Risk \u2014 BTC Single-Position (breach, confirmed standalone): Spot BTC inside the Crypto sleeve alone is now 26.04% of total, over the 25% single-position cap on its own for the first time \u2014 before even counting the $1,286 spot BTC held separately in Trust or the $11,256 GBTC (Bitcoin Trust) also in Trust.",
+      "Risk \u2014 Combined BTC/Crypto-Correlated Exposure: Crypto sleeve + HIVE + GBTC + Trust spot BTC together = 87.7% of tracked assets \u2014 unchanged from last session as a share, meaning today's diversified-looking rally across four different tickers was really one correlated move. A BTC drawdown hits nearly the entire book at once.",
+      "Risk \u2014 Piggy Bank Day% Still Anomalous (2nd session running): The account-level display is now fixed (shows '\u2014' instead of a misleading %, per the fix shipped this session), but Schwab's own per-position currentDayProfitLossPercentage field came back populated again today with the same distorted pattern as the Aug 19 rebalance (large negative day$ across all 11 positions alongside solidly positive unrealized P/L). This is the second consecutive day \u2014 worth a direct check of Schwab's Piggy Bank transaction history for Aug 19-20, or a call to Schwab if the pattern continues into a third day.",
+      "Risk \u2014 Data Completeness: This is assets-minus-all-card-debt, not net worth. The debt side is now COMPLETE \u2014 Citi Rewards+ is an authorized-user card at $0 and the PayPal Mastercard is a transactor paid in full monthly, so no further card balances exist to add. Bank cash is the one remaining untracked leg; the $64,318.77 'net' figure will move UP once cash is in \u2014 the first remaining data gap that helps rather than hurts.",
+      "Action Steps: (1) This week \u2014 decide and execute a partial trim on HIVE and/or spot BTC while the rally holds, sized to bring both back under their caps rather than a token trim. (2) This week \u2014 verify the Piggy Bank anomaly against Schwab's own transaction history; if it's a real recurring rebalance/TLH pattern, no action needed beyond monitoring, but if it looks like a Schwab data error, worth a support ticket. (3) Ongoing \u2014 no new capital into Crypto or HIVE until both are back inside cap AND the Amazon Card is meaningfully paid down; the $400/mo payment is currently barely outpacing interest. (4) Next \u2014 supply the remaining 3 credit cards and bank cash so the net-worth picture is complete, per the earlier pause instruction.",
+      "Citations: Schwab Trader API (live positions, 20 Aug. 2026 ~14:00 PT) and Financial Modeling Prep (live BTC/ETH/XRP quotes, 20 Aug. 2026 ~21:11 UTC) \u2014 both listed in Sources below with links. Coinbase holdings/cost-basis and the Amazon Card statement are Joe-reported personal account data (19-20 Aug. 2026) \u2014 not independently verifiable or publicly citable, carried as self-reported figures per the position/card notes."
     ]
   },
   "sources": [
     {
-      "text": "Charles Schwab. \"Trader API \u2014 Accounts and Positions.\" Charles Schwab Developer Portal, 2025",
+      "text": "Charles Schwab. \"Trader API \u2014 Accounts and Positions.\" Charles Schwab Developer Portal, 2026",
       "url": "https://developer.schwab.com/"
     },
     {
-      "text": "Yahoo Finance. Reference quotes for listed tickers, 2025",
-      "url": "https://finance.yahoo.com/"
+      "text": "Financial Modeling Prep. \"Cryptocurrency Quote (BTCUSD, ETHUSD, XRPUSD).\" Live quote, 20 Aug. 2026, ~21:11 UTC.",
+      "url": "https://site.financialmodelingprep.com/developer/docs"
+    },
+    {
+      "text": "Coinbase holdings and Amazon Card statement \u2014 Joe-reported personal account data, 19-20 Aug. 2026 (not independently verifiable/citable; treat as self-reported).",
+      "url": null
     }
   ]
 };

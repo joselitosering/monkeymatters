@@ -1,0 +1,95 @@
+name: Shadow Monkey — FFF Friday Financial Forecast (data pass)
+
+# Weekly sibling of mmm-daily.yml — read that file and MMM_STATUS.md first;
+# every architectural decision there applies here unchanged:
+#   - ZERO LLM calls (Max-plan constraint). This job fetches bars, grades the
+#     week's published trade ideas with pure math, computes stats, renders the
+#     FFF page. Narrative (week-in-review, thesis review, lessons, forecast)
+#     comes from the ON-DEMAND pass: a live Shadow Monkey chat writes
+#     data/weekly/YYYY-Www.insert.json, then re-run this workflow (Run
+#     workflow -> force) to merge it. Until then the page shows honest
+#     PENDING notices — same pattern as daily.
+#   - Fires Friday 2:10 PM PT: US equities close 1:00 PM PT, so the run
+#     grades the full week including Friday's session (fetch_prices
+#     synthesizes Friday's bar from /stable/quote if EOD history lags).
+#   - DST is handled by the double cron + the PT gate inside fff_build.py
+#     (same trick as daily; only the in-window firing proceeds).
+on:
+  schedule:
+    - cron: '10 21 * * 5'   # 2:10 PM PDT
+    - cron: '10 22 * * 5'   # 2:10 PM PST
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Run now regardless of the Friday-2:10-PT gate'
+        type: boolean
+        default: true
+      week:
+        description: 'Optional: any date (YYYY-MM-DD) inside the week to (re)build, e.g. a backfill or post-insert merge'
+        type: string
+        default: ''
+
+permissions:
+  contents: write
+
+concurrency:
+  group: fff-weekly
+  cancel-in-progress: false
+
+jobs:
+  forecast:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          # Real PAT, not GITHUB_TOKEN — default-token pushes don't trigger
+          # pages-deploy.yml (GitHub loop-prevention; see mmm-daily.yml).
+          token: ${{ secrets.SHADOW_MONKEY_PAT }}
+          fetch-depth: 1
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Grade week + render FFF
+        env:
+          FMP_API_KEY: ${{ secrets.FMP_API_KEY }}
+          # Optional — real /ES //NQ/$DXY bars. Refresh token dies ~7 days
+          # (manual schwab_auth.py re-run + secret update); stale = those
+          # symbols grade no_data, never a broken run.
+          SCHWAB_CLIENT_ID: ${{ secrets.SCHWAB_CLIENT_ID }}
+          SCHWAB_CLIENT_SECRET: ${{ secrets.SCHWAB_CLIENT_SECRET }}
+          SCHWAB_REFRESH_TOKEN: ${{ secrets.SCHWAB_REFRESH_TOKEN }}
+          FORCE_RUN: ${{ github.event.inputs.force }}
+          FFF_WEEK: ${{ github.event.inputs.week }}
+        run: python scripts/fff_build.py
+
+      - name: Sanitize (leak guard)
+        run: python scripts/sanitize.py .
+
+      - name: Commit and push
+        run: |
+          git config user.name "Shadow Monkey Bot"
+          git config user.email "shadowmonkey-bot@users.noreply.github.com"
+          git add shadowmonkey/fff shadowmonkey/index.html data/weekly data/outcomes data/prices
+          if git diff --cached --quiet; then
+            echo "No changes to commit (gate no-op or duplicate run)."
+            exit 0
+          fi
+          git commit -m "fff: $(TZ='America/Los_Angeles' date +%Y-%m-%d) weekly forecast auto-built"
+          git push origin HEAD:main
+
+# ── Setup notes ─────────────────────────────────────────────────────────────
+#   Secrets: identical set to mmm-daily.yml — nothing new to create.
+#   First run: Run workflow (force=true, week=2026-08-14 to rebuild W33 as a
+#   test) and READ the diff before trusting the Friday cron.
+#   On-demand narrative flow every Friday afternoon:
+#     1. 2:10 PM PT — this fires, grades the week, publishes FFF with
+#        PENDING narrative sections.
+#     2. Joe opens a Shadow Monkey chat: "write the FFF narrative for this
+#        week" — it reads data/daily/* + data/outcomes/* + data/weekly/
+#        <week>.json, writes data/weekly/<week>.insert.json (contract in
+#        FFF_STATUS.md), pushes via Desktop Commander.
+#     3. Run workflow (force=true) — merges narrative, FFF page goes full.

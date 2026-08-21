@@ -118,17 +118,24 @@ def load_config(path):
                 return dotenv[n]
         return cfg.get(cfg_key) if cfg_key else None
 
-    # monkeymatters .env convention first; legacy names accepted
-    cfg["app_key"] = pick("SCHWAB_CLIENT_ID", "SCHWAB_APP_KEY", cfg_key="app_key")
-    cfg["app_secret"] = pick("SCHWAB_CLIENT_SECRET", "SCHWAB_APP_SECRET", cfg_key="app_secret")
-    tok = pick("SCHWAB_TOKEN_PATH", cfg_key="token_path") or ".secrets/schwab_token.json"
+    # HHH needs its own Schwab app (Accounts and Trading Production) — distinct
+    # from any Market-Data-only app other pipelines in this repo (e.g. MMM) use.
+    # SCHWAB_HHH_* wins if set; falls back to the generic/legacy names for
+    # anyone who only ever has one Schwab app. Token path deliberately does
+    # NOT fall back to a generic SCHWAB_TOKEN_PATH — sharing a token file
+    # across two different OAuth clients corrupts both on every refresh.
+    cfg["app_key"] = pick("SCHWAB_HHH_CLIENT_ID", "SCHWAB_CLIENT_ID", "SCHWAB_APP_KEY", cfg_key="app_key")
+    cfg["app_secret"] = pick("SCHWAB_HHH_CLIENT_SECRET", "SCHWAB_CLIENT_SECRET", "SCHWAB_APP_SECRET", cfg_key="app_secret")
+    tok = pick("SCHWAB_HHH_TOKEN_PATH", cfg_key="token_path") or ".secrets/schwab_hhh_token.json"
     tok = Path(tok).expanduser()
     if not tok.is_absolute():
         tok = Path(cfg["_repo_root"]) / tok   # relative paths anchor at repo root (.env location)
     cfg["token_path"] = str(tok)
-    cfg["callback_url"] = pick("SCHWAB_CALLBACK_URL", cfg_key="callback_url") or "https://127.0.0.1:8182"
+    cfg["callback_url"] = pick("SCHWAB_HHH_CALLBACK_URL", "SCHWAB_CALLBACK_URL", cfg_key="callback_url") or "https://127.0.0.1:8182"
     cfg["_cfg_dir"] = str(Path(path).resolve().parent)
     cfg.setdefault("accounts", {})
+    cfg.setdefault("accounts_by_last4", {})
+    cfg.setdefault("accounts_by_last3", {})
     cfg.setdefault("crypto_account_names", ["Crypto"])
     cfg.setdefault("crypto_sleeve_cap_pct", 30)
     cfg.setdefault("single_position_cap_pct", 25)
@@ -190,8 +197,23 @@ def fetch_accounts(access_token):
         raise
 
 
-def map_position(pos, kind):
-    """Schwab position object -> template position schema."""
+def map_position(pos, kind, auto_managed=False):
+    """Schwab position object -> template position schema.
+
+    auto_managed=True (Piggy Bank et al, per hhh_config accounts_by_last3
+    "autoManaged": true) skips the day% fallback below. Schwab often omits
+    currentDayProfitLossPercentage for these robo/auto-managed sleeves, and
+    on a same-day rebalance or tax-loss harvest, currentDayProfitLoss (a real
+    dollar figure) reflects a realized loss sized against the OLD pre-rebalance
+    lot while marketValue reflects the NEW smaller post-rebalance holding —
+    dividing one by the other then produces a technically-computed but
+    economically-meaningless swing (e.g. "-45%" on a position that's actually
+    up double digits unrealized). Diagnosed 2026-08-19 against Piggy Bank's
+    -40.69% account-level day change, which traced to exactly this pattern:
+    11/11 positions all showing large negative day$ alongside healthy positive
+    unrlPL. Manually-managed accounts keep the fallback — a same-day rebalance
+    isn't expected there, and a real intraday move deserves a real percentage.
+    """
     inst = pos.get("instrument", {})
     asset = inst.get("assetType", "")
     qty = (pos.get("longQuantity", 0) or 0) - (pos.get("shortQuantity", 0) or 0)
@@ -201,7 +223,18 @@ def map_position(pos, kind):
     cost = round(avg * qty * mult, 2)
     unrl = round(mkt_val - cost, 2)
     day_chg = pos.get("currentDayProfitLoss", 0.0) or 0.0
-    day_pct = pos.get("currentDayProfitLossPercentage", None)
+    day_pct = None if auto_managed else pos.get("currentDayProfitLossPercentage", None)
+    # 2026-08-20 update: originally this only suppressed OUR fallback calc when
+    # Schwab supplied no percentage, on the theory Schwab's own reported % could
+    # still be trusted. Day 2 of the fix showed that's not safe here — Schwab
+    # started supplying its own currentDayProfitLossPercentage for Piggy Bank
+    # again, and it was numerically identical to what the fallback would have
+    # produced (still ~-45% on positions with healthy positive unrlPL), meaning
+    # the underlying distortion persists in Schwab's own field, not just in our
+    # fallback math. So autoManaged positions now suppress day% unconditionally
+    # — trust day$ and unrlPL/unrlPct for these sleeves, not day%.
+    if not auto_managed and day_pct is None and (mkt_val - day_chg):
+        day_pct = day_chg / (mkt_val - day_chg) * 100
     price = round(mkt_val / (qty * mult), 4) if qty else None
     return {
         "symbol": inst.get("symbol", "?"),
@@ -210,8 +243,7 @@ def map_position(pos, kind):
         "price": price,
         "mktVal": round(mkt_val, 2),
         "dayChg": round(day_chg, 2),
-        "dayPct": round(day_pct, 2) if day_pct is not None else (
-            round(day_chg / (mkt_val - day_chg) * 100, 2) if (mkt_val - day_chg) else 0.0),
+        "dayPct": round(day_pct, 2) if day_pct is not None else None,
         "costBasis": cost,
         "unrlPL": unrl,
         "unrlPct": round(unrl / cost * 100, 2) if cost > 0 else (100.0 if unrl > 0 else 0.0),
@@ -228,22 +260,64 @@ def guess_kind(positions):
     return "equity"
 
 
+def find_last3_collisions(raw):
+    """Schwab's own UI only shows 3 digits in some views, so that's the
+    matchable key — but 3 digits is a much smaller namespace (1000 combos)
+    than 4. Detect any two live accounts that share a last-3 so we never
+    silently misfile one of them under the other's name."""
+    seen = {}
+    for entry in raw:
+        last3 = str(entry.get("securitiesAccount", {}).get("accountNumber", ""))[-3:]
+        seen.setdefault(last3, []).append(entry)
+    return {k: v for k, v in seen.items() if len(v) > 1}
+
+
+def account_meta(cfg, entry, collisions=None):
+    """Resolve config metadata for one Schwab account. Priority: last-3
+    (accounts_by_last3 — what Schwab's nickname view actually shows),
+    then last-4 (accounts_by_last4), then full-hash (accounts). A last-3
+    that collides across two+ live accounts is refused (returns {}) rather
+    than guessed — caller must disambiguate via last-4 or hash mapping."""
+    acct = entry.get("securitiesAccount", {})
+    acctnum = str(acct.get("accountNumber", ""))
+    last3, last4 = acctnum[-3:], acctnum[-4:]
+    hash_or_num = entry.get("hashValue") or acctnum
+    ambiguous = collisions and last3 in collisions
+    if not ambiguous and last3 and last3 in cfg.get("accounts_by_last3", {}):
+        return cfg["accounts_by_last3"][last3], last3
+    if last4 and last4 in cfg.get("accounts_by_last4", {}):
+        return cfg["accounts_by_last4"][last4], last3
+    meta = cfg.get("accounts", {}).get(hash_or_num, {})
+    if ambiguous and not meta:
+        return {"_ambiguous_last3": True}, last3
+    return meta, last3
+
+
 def build_data(cfg, raw):
+    collisions = find_last3_collisions(raw)
     accounts_out = []
     for entry in raw:
         acct = entry.get("securitiesAccount", {})
-        hash_or_num = entry.get("hashValue") or acct.get("accountNumber", "")
-        meta = cfg["accounts"].get(hash_or_num, {})
+        meta, last3 = account_meta(cfg, entry, collisions)
+        if meta.get("_ambiguous_last3"):
+            sys.exit(f"[FATAL] Last-3 '{last3}' matches {len(collisions[last3])} live Schwab "
+                     f"accounts — can't tell them apart. Add accounts_by_last4 (or accounts "
+                     f"by hash, from --list-accounts) entries for these specific accounts.")
         positions = acct.get("positions", [])
         kind = meta.get("kind") or guess_kind(positions)
+        auto_managed = bool(meta.get("autoManaged", False))
         bal = acct.get("currentBalances", {})
         cash = round((bal.get("cashBalance", 0) or 0) + (bal.get("moneyMarketFund", 0) or 0), 2)
         accounts_out.append({
-            "name": meta.get("name") or f"Account …{str(acct.get('accountNumber',''))[-4:]}",
+            "name": meta.get("name") or f"Account …{last3}",
             "kind": kind,
+            "autoManaged": auto_managed or None,
             "cash": cash if cash > 0.005 else None,
-            "positions": [map_position(p, kind) for p in positions],
+            "positions": [map_position(p, kind, auto_managed) for p in positions],
         })
+    for a in accounts_out:
+        if not a.get("autoManaged"):
+            a.pop("autoManaged", None)
 
     # Non-Schwab data (crypto exchange, futures marks, credit cards, bank cash)
     # manual_accounts.json may also carry "creditCards" and "cashAccounts" —
@@ -278,7 +352,7 @@ def build_data(cfg, raw):
     analysis_path = resolve_side_file(cfg, "analysis_path", "analysis.json")
     analysis = json.loads(read_text_any(analysis_path)) if analysis_path and analysis_path.exists() else {}
     buckets = cfg.get("buckets", {})
-    auto_names = {m.get("name") for m in cfg["accounts"].values() if m.get("autoManaged")}
+    auto_names = {m.get("name") for m in list(cfg.get("accounts_by_last3", {}).values()) + list(cfg.get("accounts_by_last4", {}).values()) + list(cfg.get("accounts", {}).values()) if m.get("autoManaged")}
     for a in accounts_out:
         if a["name"] in auto_names:
             a["autoManaged"] = True
@@ -300,7 +374,10 @@ def build_data(cfg, raw):
 
     return {
         "meta": {
-            "generated": datetime.now().strftime("%a, %b %-d, %Y %H:%M %Z").strip(),
+            # %-d (no leading zero) is a glibc extension — Windows' C runtime
+            # raises ValueError on it. Build the no-leading-zero day manually
+            # so this works identically on Windows/macOS/Linux.
+            "generated": (lambda d: f"{d.strftime('%a, %b')} {d.day}, {d.strftime('%Y %H:%M')}")(datetime.now()),
             "source": "Schwab Trader API",
             "cryptoAccountNames": cfg["crypto_account_names"],
             "cryptoSleeveCapPct": cfg["crypto_sleeve_cap_pct"],
@@ -319,14 +396,28 @@ def build_data(cfg, raw):
     }
 
 
-def inject(template_path, out_path, data):
+def inject(template_path, out_path, data, archive_dir=None):
     html = read_text_any(template_path)
     payload = f"{START}\nconst PORTFOLIO_DATA = {json.dumps(data, indent=2)};\n{END}"
     pattern = re.compile(re.escape(START) + r".*?" + re.escape(END), re.DOTALL)
     if not pattern.search(html):
         sys.exit("[FATAL] PORTFOLIO_DATA markers not found in template.")
-    Path(out_path).write_text(pattern.sub(lambda _: payload, html), encoding="utf-8")
+    final_html = pattern.sub(lambda _: payload, html)
+    Path(out_path).write_text(final_html, encoding="utf-8")
     print(f"[OK] Wrote {out_path}")
+
+    # Optional dated archive copy — e.g. the shadowmonkey live site's
+    # hhh-daily folder (2026-08-20: Joe asked for the daily build to also
+    # land there going forward, dated hhh_YYYY-MM-DD.html, alongside the
+    # existing --out target which stays the "current" pointer). Same
+    # rendered HTML, just also written under a per-day filename. Uses
+    # datetime.now() once so the archive date always matches meta.generated.
+    if archive_dir:
+        archive_path = Path(archive_dir).expanduser()
+        archive_path.mkdir(parents=True, exist_ok=True)
+        dated_file = archive_path / f"hhh_{datetime.now().strftime('%Y-%m-%d')}.html"
+        dated_file.write_text(final_html, encoding="utf-8")
+        print(f"[OK] Archived dated snapshot to {dated_file}")
 
 
 def main():
@@ -334,6 +425,10 @@ def main():
     ap.add_argument("--config", default="hhh_config.json")
     ap.add_argument("--template", default="HHH_APEX_Template.html")
     ap.add_argument("--out", default="HHH_Latest.html")
+    ap.add_argument("--archive-dir", default=None,
+                    help="also write a dated copy (hhh_YYYY-MM-DD.html) here — e.g. the "
+                         "shadowmonkey live site's hhh-daily folder. Falls back to "
+                         "hhh_config.json's 'archive_dir' if not passed.")
     ap.add_argument("--dry-run", action="store_true", help="print mapped JSON, write nothing")
     ap.add_argument("--list-accounts", action="store_true",
                     help="print account hashes + last-4 + value so you can fill the config mapping")
@@ -346,30 +441,37 @@ def main():
     token = refresh_access_token(cfg)
     raw = fetch_accounts(token)
 
+    collisions = find_last3_collisions(raw)
     if args.list_accounts:
-        print(f"{'HASH':<44} {'ACCT':>8} {'TYPE':<10} {'POSITIONS':>9} {'VALUE':>14}  MAPPED AS")
+        print(f"{'LAST3':>6} {'LAST4':>6} {'HASH':<44} {'TYPE':<10} {'POSITIONS':>9} {'VALUE':>14}  MAPPED AS")
         for entry in raw:
             acct = entry.get("securitiesAccount", {})
+            acctnum = str(acct.get("accountNumber", ""))
             h = entry.get("hashValue", "?")
-            last4 = str(acct.get("accountNumber", ""))[-4:]
             val = acct.get("currentBalances", {}).get("liquidationValue", 0) or 0
-            mapped = cfg["accounts"].get(h, {}).get("name", "— UNMAPPED —")
-            print(f"{h:<44} …{last4:>7} {acct.get('type',''):<10} "
+            meta, last3 = account_meta(cfg, entry, collisions)
+            mapped = "!! AMBIGUOUS last-3 !!" if meta.get("_ambiguous_last3") else meta.get("name", "— UNMAPPED —")
+            print(f"…{acctnum[-3:]:>5} …{acctnum[-4:]:>5} {h:<44} {acct.get('type',''):<10} "
                   f"{len(acct.get('positions', [])):>9} {val:>14,.2f}  {mapped}")
-        print("\nCopy each HASH into hhh_config.json accounts{} with its sleeve name.")
+        if collisions:
+            print(f"\n[WARN] Last-3 collision(s): {', '.join(collisions)} — use LAST4 or HASH "
+                  f"in hhh_config.json for these, accounts_by_last3 won't disambiguate them.")
+        print("\nFill hhh_config.json accounts_by_last3{} (or accounts_by_last4{} for any collision) with LAST3/LAST4 -> sleeve name.")
         return
 
     data = build_data(cfg, raw)
-    unmapped = [e.get("hashValue") for e in raw if e.get("hashValue") not in cfg["accounts"]]
+    unmapped = [account_meta(cfg, e, collisions)[1] for e in raw if not account_meta(cfg, e, collisions)[0]]
     if unmapped:
         print(f"[WARN] {len(unmapped)} account(s) not in config mapping — "
-              f"run --list-accounts and fill hhh_config.json: {', '.join(h[:8]+'…' for h in unmapped)}")
+              f"run --list-accounts and add to hhh_config.json accounts_by_last3: "
+              f"{', '.join('…'+l3 for l3 in unmapped)}")
 
     if args.dry_run:
         json.dump(data, sys.stdout, indent=2)
         print()
         return
-    inject(args.template, args.out, data)
+    archive_dir = args.archive_dir or resolve_side_file(cfg, "archive_dir", None)
+    inject(args.template, args.out, data, archive_dir)
 
 
 if __name__ == "__main__":

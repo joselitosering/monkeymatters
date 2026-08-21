@@ -1,0 +1,221 @@
+{
+  "schema_version": 2,
+  "week": "2026-W33",
+  "days": [
+    "2026-08-10",
+    "2026-08-11",
+    "2026-08-12",
+    "2026-08-13",
+    "2026-08-14"
+  ],
+  "generated_at": "2026-08-18T20:24:20-07:00",
+  "stats": {
+    "ideas_total": 84,
+    "wins": 0,
+    "losses": 2,
+    "win_rate": 0.0,
+    "total_r": -2.0,
+    "expectancy_r": -1.0,
+    "no_trigger": 1,
+    "indeterminate": 0,
+    "no_data": 28,
+    "ungradable_v1": 53,
+    "by_instrument": {
+      "options": {
+        "n": 21,
+        "wins": 0,
+        "losses": 1,
+        "total_r": -1.0
+      },
+      "etf": {
+        "n": 19,
+        "wins": 0,
+        "losses": 1,
+        "total_r": -1.0
+      },
+      "stock": {
+        "n": 30,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "futures": {
+        "n": 14,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      }
+    },
+    "by_direction": {
+      "long": {
+        "n": 49,
+        "wins": 0,
+        "losses": 2,
+        "total_r": -2.0
+      },
+      "short": {
+        "n": 31,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "neutral": {
+        "n": 4,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      }
+    },
+    "by_priority": {
+      "P3": {
+        "n": 24,
+        "wins": 0,
+        "losses": 1,
+        "total_r": -1.0
+      },
+      "P2": {
+        "n": 45,
+        "wins": 0,
+        "losses": 1,
+        "total_r": -1.0
+      },
+      "P1": {
+        "n": 15,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      }
+    },
+    "by_setup": {
+      "Failed_Breakout_VWAP_Reversi": {
+        "n": 2,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Gap-and-Go": {
+        "n": 2,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "R2 Rejection": {
+        "n": 2,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Post-Earnings Fade": {
+        "n": 2,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Gap-and-Go BMO beat": {
+        "n": 3,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Sep 95C Unusual Flow": {
+        "n": 2,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      }
+    },
+    "by_day": {
+      "Tue": {
+        "n": 22,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      },
+      "Wed": {
+        "n": 22,
+        "wins": 0,
+        "losses": 1,
+        "total_r": -1.0
+      },
+      "Thu": {
+        "n": 20,
+        "wins": 0,
+        "losses": 1,
+        "total_r": -1.0
+      },
+      "Fri": {
+        "n": 20,
+        "wins": 0,
+        "losses": 0,
+        "total_r": 0.0
+      }
+    },
+    "daily_r_curve": [
+      {
+        "date": "2026-08-10",
+        "r": 0,
+        "cum_r": 0.0
+      },
+      {
+        "date": "2026-08-11",
+        "r": 0,
+        "cum_r": 0.0
+      },
+      {
+        "date": "2026-08-12",
+        "r": -1.0,
+        "cum_r": -1.0
+      },
+      {
+        "date": "2026-08-13",
+        "r": -1.0,
+        "cum_r": -2.0
+      },
+      {
+        "date": "2026-08-14",
+        "r": 0,
+        "cum_r": -2.0
+      }
+    ]
+  },
+  "market_week": {
+    "S&P 500": {
+      "close": 7785.76,
+      "change_pct": 0.36,
+      "asof": "2026-08-14"
+    },
+    "Nasdaq Comp": {
+      "close": 26729.16,
+      "change_pct": 0.14,
+      "asof": "2026-08-14"
+    },
+    "Gold (spot)": {
+      "close": 4437.3,
+      "change_pct": 0.85,
+      "asof": "2026-08-14"
+    },
+    "Silver (spot)": {
+      "close": 65.108,
+      "change_pct": 2.53,
+      "asof": "2026-08-14"
+    },
+    "Bitcoin": {
+      "close": 62975.19,
+      "change_pct": -2.95,
+      "asof": "2026-08-14"
+    },
+    "Ethereum": {
+      "close": 1880.41,
+      "change_pct": -1.71,
+      "asof": "2026-08-14"
+    },
+    "Brent Crude": {
+      "close": 88.52,
+      "change_pct": 5.95,
+      "asof": "2026-08-14"
+    },
+    "USD Index ($DXY)": null
+  },
+  "narrative_status": "pending",
+  "narrative": null
+}
