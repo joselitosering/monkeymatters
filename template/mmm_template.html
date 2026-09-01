@@ -41,20 +41,20 @@
 
   {{PREV_DATE_SHORT}}   e.g. "Aug 15" — prior session date (S05/S06 settlement labels)
 
-  S06 ECON CALENDAR: inject <tr> per event using <!-- INJECT: S06 ECON CALENDAR --> comment
+  S06 ECON CALENDAR: inject <tr> per event using [ INJECT: S06 ECON CALENDAR ] comment
     tokens: {{ECON_N_TIME}} {{ECON_N_EVENT}} {{ECON_N_STATUS}} {{ECON_N_EST}} {{ECON_N_ACT}} {{ECON_N_COLOR}}
-  S06 EARNINGS WATCH: inject <tr> per ticker using <!-- INJECT: S06 EARNINGS WATCH --> comment
+  S06 EARNINGS WATCH: inject <tr> per ticker using [ INJECT: S06 EARNINGS WATCH ] comment
     tokens: {{EARN_N_TICKER}} {{EARN_N_TIMING}} {{EARN_N_CLASS}} {{EARN_N_MOVE}} {{EARN_N_COLOR}} {{EARN_N_NOTE}}
-  S07 GAINERS: inject <tr> per gainer using <!-- INJECT: S07 GAINERS --> comment
+  S07 GAINERS: inject <tr> per gainer using [ INJECT: S07 GAINERS ] comment
     tokens: {{GAINER_N_TICKER}} {{GAINER_N_CAT1}} {{GAINER_N_CAT2}} {{GAINER_N_PCT}} {{GAINER_N_NOTE}}
-  S07 DECLINERS: inject <tr> per decliner using <!-- INJECT: S07 DECLINERS --> comment
+  S07 DECLINERS: inject <tr> per decliner using [ INJECT: S07 DECLINERS ] comment
     tokens: {{DECLINER_N_TICKER}} {{DECLINER_N_CAT1}} {{DECLINER_N_CAT2}} {{DECLINER_N_PCT}} {{DECLINER_N_NOTE}}
 
-  ALL TABLES: inject rows per the <!-- INJECT --> comment in each tbody
+  ALL TABLES: inject rows per the [ INJECT ] comment in each tbody
   TRADE TABLE: 20 rows, columns: #, Symbol, Type, Direction, Setup,
                Entry, Stop, Target, R:R, Notes, Priority
 ═══════════════════════════════════════════════════════════════════
---&gt;
+-->
 <script id="cowork-artifact-meta" type="application/json">
 {
   "name": "Morning Market Monitor Shadowmonkey",
