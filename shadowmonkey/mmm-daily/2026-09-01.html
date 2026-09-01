@@ -14,25 +14,25 @@
     Sep 1      e.g. "Aug 18"
     Tuesday     e.g. "Monday"
     NY Session (pre-open)   e.g. "NY Session"
-    PENDING    BULL | BEAR | MIXED
-    PENDING — awaiting analysis pass e.g. "BIDU EARNINGS BMO"
+    STRESSED    BULL | BEAR | MIXED
+    U.S.-Iran Hormuz escalation + global bond selloff; Fed hike odds flip to 66% e.g. "BIDU EARNINGS BMO"
 
   S01 SENTIMENT STRIP (6 tiles):
-    16.10  N/A  N/A
+    16.00  N/A  N/A
     N/A  N/A  N/A
     c-safe → c-safe | c-warn | c-bad
 
   S02 ADVISORY:
-    PENDING PENDING — awaiting analysis pass
-    — — — —
+    STAND DOWN / HALF RISK September opened with a thud: two tankers hit in the Strait of Hormuz overnight, crude +3-4%, and a global bond selloff pushing the 10Y toward 4.8% - its highest since January 2025. The tell that matters: FedWatch flipped from 60% HOLD to 66% HIKE in one week. That is a regime inversion, and the market is repricing it in real time - gold down with equities (yield liquidation, not rotation), chips taking the brunt, energy at new highs on war premium. VIX +7.6% off Monday's sub-15 close says the vol floor is in. Doctrine: survive first. No new swing risk until Friday's NFP resolves the hike question. Intraday /ES only, stressed-regime half-risk override, honor the trailing drawdown. The monkey moves when others freeze - but this is a freeze-and-watch tape, not a move tape.
+    Energy (XLE new highs), defensives, AAPL on CEO continuity DELL AMC, JOLTS/ISM today, ADP Wed, NFP Fri, BTC 80-82K resistance Chips/tech vs 4.8% 10Y, homebuilders, short-vol structures New swing longs pre-NFP, premium selling, chasing energy without pullback
 
   S03 BBM:
-    50 / 50 (0-100)
+    30 / 70 (0-100)
     {{BBM_SIGNAL_NAME}} / {{BBM_SIGNAL_VAL}}
 
   S04 KPI BAR (6 tiles):
-    7,632.40 N/A 4,394.50
-    77,553.07 7,632.40 2,435.18
+    7,633.23 N/A 4,391.80
+    77,331.23 7,633.23 2,423.61
     + {{*_CHANGE}} and {{*_COLOR}} per tile
 
   S05–S10 ANALYSIS BLOCKS (.ca-val):
@@ -41,13 +41,13 @@
 
   Aug 31   e.g. "Aug 15" — prior session date (S05/S06 settlement labels)
 
-  S06 ECON CALENDAR: inject <tr> per event using <tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr> comment
+  S06 ECON CALENDAR: inject <tr> per event using  comment
     tokens: {{ECON_N_TIME}} {{ECON_N_EVENT}} {{ECON_N_STATUS}} {{ECON_N_EST}} {{ECON_N_ACT}} {{ECON_N_COLOR}}
-  S06 EARNINGS WATCH: inject <tr> per ticker using <tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr> comment
+  S06 EARNINGS WATCH: inject <tr> per ticker using  comment
     tokens: {{EARN_N_TICKER}} {{EARN_N_TIMING}} {{EARN_N_CLASS}} {{EARN_N_MOVE}} {{EARN_N_COLOR}} {{EARN_N_NOTE}}
-  S07 GAINERS: inject <tr> per gainer using <tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr> comment
+  S07 GAINERS: inject <tr> per gainer using  comment
     tokens: {{GAINER_N_TICKER}} {{GAINER_N_CAT1}} {{GAINER_N_CAT2}} {{GAINER_N_PCT}} {{GAINER_N_NOTE}}
-  S07 DECLINERS: inject <tr> per decliner using <tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr> comment
+  S07 DECLINERS: inject <tr> per decliner using  comment
     tokens: {{DECLINER_N_TICKER}} {{DECLINER_N_CAT1}} {{DECLINER_N_CAT2}} {{DECLINER_N_PCT}} {{DECLINER_N_NOTE}}
 
   ALL TABLES: inject rows per the <!-- INJECT --> comment in each tbody
@@ -539,13 +539,13 @@
 </div>
 <div class="hdr-badges">
 <span class="sm-badge sm-badge-warn">● LIVE — Sep 1</span>
-<span class="sm-badge sm-badge-live">⚡ PENDING — awaiting analysis pass</span>
+<span class="sm-badge sm-badge-live">⚡ U.S.-Iran Hormuz escalation + global bond selloff; Fed hike odds flip to 66%</span>
 </div>
 </div>
 <div class="hdr-meta-grid">
 <div class="hdr-meta-cell"><div class="hm-label">Session</div><div class="hm-val">Tuesday, September 1, 2026</div></div>
 <div class="hdr-meta-cell"><div class="hm-label">Primary Entity</div><div class="hm-val">Monkey Matters LLC</div></div>
-<div class="hdr-meta-cell"><div class="hm-label">Regime</div><div class="hm-val" style="color:var(--safe)">PENDING</div></div>
+<div class="hdr-meta-cell"><div class="hm-label">Regime</div><div class="hm-val" style="color:var(--safe)">STRESSED</div></div>
 <div class="hdr-meta-cell"><div class="hm-label">Prime Directive</div><div class="hm-val" style="color:var(--accent2)">SURVIVE. COMPOUND. LEGACY.</div></div>
 </div>
 </div>
@@ -554,8 +554,8 @@
 <div class="sent-strip">
 <div class="sent-tile">
 <div class="st-lbl">VIX</div>
-<div class="st-val c-safe">16.10</div>
-<div class="st-sub c-safe">PENDING — awaiting analysis pass</div>
+<div class="st-val c-safe">16.00</div>
+<div class="st-sub c-safe">WAKING - off multi-month floor</div>
 </div>
 <div class="sent-tile">
 <div class="st-lbl">Fear &amp; Greed</div>
@@ -580,7 +580,7 @@
 <div class="sent-tile">
 <div class="st-lbl">Overall Sentiment</div>
 <div class="st-val c-safe">N/A</div>
-<div class="st-sub c-safe">PENDING — awaiting analysis pass</div>
+<div class="st-sub c-safe">Cautious risk-off, defensives leading</div>
 </div>
 </div>
 <!-- ══ TOP OF MIND ADVISORY + BULL VS BEAR ══════════════════ -->
@@ -589,26 +589,26 @@
 <div class="sm-card">
 <div class="card-hd">🧠 Top of Mind Advisory — Tuesday, September 1, 2026</div>
 <div class="adv-label">Market Temperament</div>
-<div class="adv-signal"><strong style="color:var(--text)">PENDING</strong> PENDING — awaiting analysis pass</div>
+<div class="adv-signal"><strong style="color:var(--text)">STAND DOWN / HALF RISK</strong> September opened with a thud: two tankers hit in the Strait of Hormuz overnight, crude +3-4%, and a global bond selloff pushing the 10Y toward 4.8% - its highest since January 2025. The tell that matters: FedWatch flipped from 60% HOLD to 66% HIKE in one week. That is a regime inversion, and the market is repricing it in real time - gold down with equities (yield liquidation, not rotation), chips taking the brunt, energy at new highs on war premium. VIX +7.6% off Monday's sub-15 close says the vol floor is in. Doctrine: survive first. No new swing risk until Friday's NFP resolves the hike question. Intraday /ES only, stressed-regime half-risk override, honor the trailing drawdown. The monkey moves when others freeze - but this is a freeze-and-watch tape, not a move tape.</div>
 <div class="adv-label">Direction &amp; Posture</div>
-<div class="adv-signal"><strong style="color:var(--text)">PENDING</strong> PENDING — awaiting analysis pass</div>
+<div class="adv-signal"><strong style="color:var(--text)">STAND DOWN / HALF RISK</strong> September opened with a thud: two tankers hit in the Strait of Hormuz overnight, crude +3-4%, and a global bond selloff pushing the 10Y toward 4.8% - its highest since January 2025. The tell that matters: FedWatch flipped from 60% HOLD to 66% HIKE in one week. That is a regime inversion, and the market is repricing it in real time - gold down with equities (yield liquidation, not rotation), chips taking the brunt, energy at new highs on war premium. VIX +7.6% off Monday's sub-15 close says the vol floor is in. Doctrine: survive first. No new swing risk until Friday's NFP resolves the hike question. Intraday /ES only, stressed-regime half-risk override, honor the trailing drawdown. The monkey moves when others freeze - but this is a freeze-and-watch tape, not a move tape.</div>
 <div class="adv-label">Key Signals to Watch</div>
-<div class="adv-chips"><span class="sig-chip sig-lean">—</span><span class="sig-chip sig-watch">—</span><span class="sig-chip sig-caution">—</span><span class="sig-chip sig-avoid">—</span></div>
+<div class="adv-chips"><span class="sig-chip sig-lean">Energy (XLE new highs), defensives, AAPL on CEO continuity</span><span class="sig-chip sig-watch">DELL AMC, JOLTS/ISM today, ADP Wed, NFP Fri, BTC 80-82K resistance</span><span class="sig-chip sig-caution">Chips/tech vs 4.8% 10Y, homebuilders, short-vol structures</span><span class="sig-chip sig-avoid">New swing longs pre-NFP, premium selling, chasing energy without pullback</span></div>
 <div class="adv-label" style="margin-top:8px">Operative Verdict</div>
-<div class="verdict-alert verdict-bull">⬡ PENDING — awaiting analysis pass</div>
+<div class="verdict-alert verdict-bull">⬡ Stressed regime confirmed. War premium + rate shock + hike-odds inversion in one tape. Half risk, intraday only, hedges through NFP. Capital preservation is the trade today.</div>
 </div>
 <div class="sm-card card-orange">
 <div class="card-hd orange">⚖ Bull vs Bear Meter — Sep 1</div>
 <div class="bbm-labels">
-<span class="bbm-sv-bull">▲ BULL 50%</span>
-<span class="bbm-sv-bear">BEAR 50% ▼</span>
+<span class="bbm-sv-bull">▲ BULL 30%</span>
+<span class="bbm-sv-bear">BEAR 70% ▼</span>
 </div>
 <div class="bbm-bar-wrap">
-<div class="bbm-bull" style="width:50%"></div>
-<div class="bbm-bear" style="width:50%"></div>
+<div class="bbm-bull" style="width:30%"></div>
+<div class="bbm-bear" style="width:70%"></div>
 </div>
-<div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px;letter-spacing:1px">PENDING — awaiting analysis pass</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px;letter-spacing:1px">Bond selloff + Hormuz war premium = risk-off open to September; NFP Friday is the resolver</div>
+<div class="bbm-sig"><span class="bbm-sn">Trend (Daily)</span><span class="bbm-sv bbm-sv-bear">LOWER</span></div><div class="bbm-sig"><span class="bbm-sn">Vol Regime</span><span class="bbm-sv bbm-sv-bear">EXPANDING</span></div><div class="bbm-sig"><span class="bbm-sn">Rates</span><span class="bbm-sv bbm-sv-bear">HEADWIND</span></div><div class="bbm-sig"><span class="bbm-sn">Energy</span><span class="bbm-sv bbm-sv-bull">LEADERSHIP</span></div><div class="bbm-sig"><span class="bbm-sn">Crypto</span><span class="bbm-sv bbm-sv-neut">REJECTED 80-82K</span></div><div class="bbm-sig"><span class="bbm-sn">Breadth</span><span class="bbm-sv bbm-sv-neut">DEFENSIVES LEAD</span></div>
 </div>
 </div>
 <!-- ══ THREE INTEL CARDS ══════════════════════════════════════ -->
@@ -616,31 +616,31 @@
 <div class="mi">
 <div class="sm-card card-orange">
 <div class="card-hd orange">⚡ Catalyst Alert</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>HORMUZ ESCALATION:</strong> Two tankers (Saudi + South Korean) hit by projectiles overnight as U.S.-Iran hostilities resume. WTI +3-4% to ~$89. Energy risk premium repricing.</div></div><div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>FED HIKE ODDS FLIPPED:</strong> FedWatch now 66% for a 25bp HIKE this month vs 60% HOLD one week ago. Regime inversion in a single week.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>GLOBAL BOND SELLOFF:</strong> 10Y near 4.8%, highest since Jan 2025. 30Y has spent 55 days above 5% this year, most since 2006.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>VIX WAKING UP:</strong> 16.1, +7.6% off Monday's sub-15 close (lowest monthly close since Nov 2024). Vol floor is in; hedges cheap no longer.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>GOLD DOWN WITH RISK:</strong> Gold -1.9% on a red equity day, third straight decline. Yield-driven liquidation, not rotation. Hedge is not hedging.</div></div>
 </div>
 <div class="sm-card card-cyan">
 <div class="card-hd cyan">📅 Today's Key Events</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>TODAY:</strong> JOLTS job openings + ISM Manufacturing, morning releases.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>WED:</strong> ADP employment report.</div></div><div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>FRI:</strong> Nonfarm payrolls - the print that locks or breaks the 66% hike odds.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>AFTER CLOSE:</strong> Dell (DELL) earnings; stock -4% into the print.</div></div>
 </div>
 <div class="sm-card">
 <div class="card-hd">⚡ Pre-Market Actionables</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>STAND DOWN on new swing longs</strong> until NFP Friday resolves the hike question. Chop + headline risk = donation conditions.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>/ES intraday only, half risk:</strong> Turtle Shell stressed-regime override applies - vol regime shifting, rails widening. Respect the trailing drawdown.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Energy strength is real:</strong> sector ETFs at new highs on Hormuz premium. Confirmation, not chase - entries only on pullback structure.</div></div><div class="alert-row"><div class="alert-dot adot-g"></div><div class="alert-txt"><strong>HIVE watch:</strong> BTC rejected at 80-82K resistance, now ~77.5K. No add zone yet; 200-WMA reclaim remains the cycle trigger.</div></div>
 </div>
 </div>
 <!-- ══ KPI BAR ════════════════════════════════════════════════ -->
 <div class="sec-label">04 — PRE-MARKET KEY PRICE LEVELS</div>
 <div class="kpi-bar">
-<div class="kpi"><div class="kpi-lbl">/ES Pre-Mkt</div><div class="kpi-val c-bad">7,632.40</div><div class="kpi-ch c-bad">-53.74 (-0.70%)</div></div>
+<div class="kpi"><div class="kpi-lbl">/ES Pre-Mkt</div><div class="kpi-val c-bad">7,633.23</div><div class="kpi-ch c-bad">-52.91 (-0.69%)</div></div>
 <div class="kpi"><div class="kpi-lbl">/NQ Pre-Mkt</div><div class="kpi-val c-sub">N/A</div><div class="kpi-ch c-sub">N/A</div></div>
-<div class="kpi"><div class="kpi-lbl">Gold (GCUSD)</div><div class="kpi-val c-bad">4,394.50</div><div class="kpi-ch c-bad">-87.00 (-1.94%)</div></div>
-<div class="kpi"><div class="kpi-lbl">Bitcoin (BTC)</div><div class="kpi-val c-bad">77,553.07</div><div class="kpi-ch c-bad">-1,006.04 (-1.28%)</div></div>
-<div class="kpi"><div class="kpi-lbl">S&amp;P 500 Close</div><div class="kpi-val c-bad">7,632.40</div><div class="kpi-ch c-bad">-53.74 (-0.70%)</div></div>
-<div class="kpi"><div class="kpi-lbl">Ethereum (ETH)</div><div class="kpi-val c-bad">2,435.18</div><div class="kpi-ch c-bad">-31.95 (-1.29%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Gold (GCUSD)</div><div class="kpi-val c-bad">4,391.80</div><div class="kpi-ch c-bad">-89.70 (-2.00%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Bitcoin (BTC)</div><div class="kpi-val c-bad">77,331.23</div><div class="kpi-ch c-bad">-1,227.88 (-1.56%)</div></div>
+<div class="kpi"><div class="kpi-lbl">S&amp;P 500 Close</div><div class="kpi-val c-bad">7,633.23</div><div class="kpi-ch c-bad">-52.91 (-0.69%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Ethereum (ETH)</div><div class="kpi-val c-bad">2,423.61</div><div class="kpi-ch c-bad">-43.52 (-1.76%)</div></div>
 </div>
 <!-- ══ REGIME BAR ════════════════════════════════════════════ -->
 <div class="regime">
 <span class="reg-badge reg-bull">{{REGIME_SIGNAL}}</span>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="reg-div"></div><div class="reg-item">Classifier: STRESSED - VIX +7.6% off multi-month floor, bonds selling globally, war premium in crude</div><div class="reg-div"></div><div class="reg-item">Half-risk override active per Turtle Shell stressed-regime protocol</div><div class="reg-div"></div><div class="reg-item">10Y ~4.8% = equity multiple compression pressure; growth/tech most exposed</div><div class="reg-div"></div><div class="reg-item">Hike-odds inversion inside one week = positioning whipsaw risk elevated</div>
 </div>
 <!-- ══ FUTURES ANALYSIS ══════════════════════════════════════ -->
 <div class="sec-label">05 — FUTURES INTELLIGENCE</div>
@@ -649,7 +649,7 @@
 <div class="sm-card">
 <div class="card-hd">📈 /ES — E-Mini S&amp;P 500 · Aug 31 Settlement</div>
 <table class="ftbl">
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td colspan="2" style="color:var(--muted);font-style:italic">PENDING - Schwab futures feed offline</td></tr>
 </table>
 <p class="tfoot-note">† estimated from session analysis; verify settlement at CME.com · TradingView</p>
 <div class="ca">
@@ -664,7 +664,7 @@
 <div class="sm-card">
 <div class="card-hd">📈 /NQ — E-Mini Nasdaq-100 · Aug 31 Settlement</div>
 <table class="ftbl">
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td colspan="2" style="color:var(--muted);font-style:italic">PENDING - Schwab futures feed offline</td></tr>
 </table>
 <p class="tfoot-note">† H/L/Volume/Momentum estimated from session analysis; verify settlement at CME.com · TradingView</p>
 <div class="ca">
@@ -684,7 +684,7 @@
 <div class="card-hd cyan">📅 Economic Calendar</div>
 <table class="etbl">
 <tr><th>Time (PT)</th><th>Event</th><th>Est</th><th>Act</th></tr>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>7:00 AM PT</td><td><strong>JOLTS Job Openings</strong> <span class="chk">TODAY</span></td><td>-</td><td class="c-warn">PENDING</td></tr><tr><td>7:00 AM PT</td><td><strong>ISM Manufacturing</strong> <span class="chk">TODAY</span></td><td>-</td><td class="c-warn">PENDING</td></tr><tr><td>Wed 5:15 AM PT</td><td><strong>ADP Employment</strong> <span class="chk">AHEAD</span></td><td>-</td><td class="c-sub">-</td></tr><tr><td>Fri 5:30 AM PT</td><td><strong>Nonfarm Payrolls</strong> <span class="chk">KEY</span></td><td>-</td><td class="c-sub">-</td></tr>
 </table>
 <div class="ca">
 <div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
@@ -697,7 +697,7 @@
 <div class="sm-card card-safe">
 <div class="card-hd" style="color:var(--safe)">💰 Earnings Watch</div>
 <table class="erntbl">
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>DELL</td><td><span class="timing t-amc">AMC TODAY</span></td><td class="c-bad" style="font-weight:700">-4% pre</td><td style="font-size:10px;color:var(--sub)">AI server backlog + guidance vs 4.8% 10Y</td></tr>
 </table>
 <div class="ca">
 <div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
@@ -708,7 +708,7 @@
 <!-- SECTORS -->
 <div class="sm-card">
 <div class="card-hd">🗂 Sector Performance — Aug 31</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="sector-row"><span class="sec-etf">XLE</span><span class="sec-name">Energy</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:60%;background:var(--safe)"></div></div><span class="sec-val c-safe">+1.5%</span></div><div class="sector-row"><span class="sec-etf">XLC</span><span class="sec-name">Comm Services</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:16%;background:var(--safe)"></div></div><span class="sec-val c-safe">+0.4%</span></div><div class="sector-row"><span class="sec-etf">XLP</span><span class="sec-name">Cons Defensive</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:12%;background:var(--safe)"></div></div><span class="sec-val c-safe">+0.3%</span></div><div class="sector-row"><span class="sec-etf">XLI</span><span class="sec-name">Industrials</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:24%;background:var(--danger)"></div></div><span class="sec-val c-bad">-0.6%</span></div><div class="sector-row"><span class="sec-etf">XLK</span><span class="sec-name">Technology</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:36%;background:var(--danger)"></div></div><span class="sec-val c-bad">-0.9%</span></div><div class="sector-row"><span class="sec-etf">SMH</span><span class="sec-name">Semiconductors</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:48%;background:var(--danger)"></div></div><span class="sec-val c-bad">-1.2%</span></div><div class="sector-row"><span class="sec-etf">ITB</span><span class="sec-name">Homebuilders</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:40%;background:var(--danger)"></div></div><span class="sec-val c-bad">-1.0%</span></div>
 <div class="ca" style="margin-top:8px">
 <div class="ca-row"><div class="ca-lbl">Rotation</div><div class="ca-val">{{CA_ROTATION}}</div></div>
 </div>
@@ -720,13 +720,13 @@
 <div class="sm-card card-safe">
 <div class="card-hd" style="color:var(--safe)">📈 Pre-Market Gainers</div>
 <table class="pmtbl">
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>AAPL</td><td><span class="pm-cat pm-earn">CEO</span> <span class="pm-cat pm-beat">TRANSITION</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+2.6%</td><td style="font-size:10px;color:var(--sub)">Ternus succeeds Cook</td></tr><tr><td>DUOL</td><td><span class="pm-cat pm-earn">UPGRADE</span> <span class="pm-cat pm-beat">ANALYST</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+6.0%</td><td style="font-size:10px;color:var(--sub)">Analyst upgrade</td></tr><tr><td>AKAM</td><td><span class="pm-cat pm-earn">UPGRADE</span> <span class="pm-cat pm-beat">PIPER</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">UP</td><td style="font-size:10px;color:var(--sub)">Overweight - AI compute inflection</td></tr>
 </table>
 </div>
 <div class="sm-card card-danger">
 <div class="card-hd" style="color:var(--danger)">📉 Pre-Market Decliners</div>
 <table class="pmtbl">
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>DELL</td><td><span class="pm-cat pm-earn">EARNINGS</span> <span class="pm-cat pm-miss">TONIGHT</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-4.3%</td><td style="font-size:10px;color:var(--sub)">De-risk into print</td></tr><tr><td>ITB</td><td><span class="pm-cat pm-earn">MACRO</span> <span class="pm-cat pm-miss">RATES</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-1.0%</td><td style="font-size:10px;color:var(--sub)">Construction spend lowest since Oct 23; mortgage rates 1yr+ high</td></tr><tr><td>SMH</td><td><span class="pm-cat pm-earn">MACRO</span> <span class="pm-cat pm-miss">YIELDS</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">DOWN</td><td style="font-size:10px;color:var(--sub)">Chips take brunt of yield-driven de-rate</td></tr>
 </table>
 </div>
 </div>
@@ -735,11 +735,11 @@
 <div class="grid2">
 <div class="sm-card">
 <div class="card-hd">🔍 Spotlight</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="spot-item"><div class="spot-hd">AAPL</div><div class="spot-body">Up ~2.6% on CEO transition: John Ternus succeeds Tim Cook. Market votes continuity + product focus. Rare green in a red tech tape.</div></div><div class="spot-item"><div class="spot-hd">HUT / NVDA</div><div class="spot-body">Anthropic reportedly signs $35B compute deal with Lambda; Hut 8 building the Texas data center, NVDA-linked capacity. Miner-to-AI-infra conversion thesis validating in size.</div></div><div class="spot-item"><div class="spot-hd">DELL</div><div class="spot-body">-4% into tonight's earnings. AI server backlog is the number that matters; guidance vs. 4.8% 10Y discount rate is the fight.</div></div>
 </div>
 <div class="sm-card card-orange">
 <div class="card-hd orange">🎯 Options Ideas</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="opt-item"><div class="opt-hd">VIX regime shift - own convexity, do not sell it</div><div class="opt-body">With VIX off a multi-month floor and hike odds flipping, short-vol carry is picking pennies in front of NFP. Structure: no new premium selling into Friday.</div></div><div class="opt-item"><div class="opt-hd">Energy call spreads over stock chase</div><div class="opt-body">XLE at highs on war premium. Defined-risk call spreads cap the chase risk if Hormuz de-escalates overnight.</div></div><div class="opt-item"><div class="opt-hd">Hedge tenor: through NFP</div><div class="opt-body">Any index hedge should carry past Friday's payrolls - the binary that resolves the 66/34 hike split.</div></div>
 </div>
 </div>
 <!-- ══ MONEY FLOW + UNUSUAL OPTIONS ═════════════════════════ -->
@@ -747,11 +747,11 @@
 <div class="grid2">
 <div class="sm-card">
 <div class="card-hd">💸 Dark Pool / Money Flow</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="mf-item"><div class="mf-name">Crude Oil (WTI)</div><div class="mf-val c-safe">WAR BID +3-4%</div></div><div class="mf-item"><div class="mf-name">Energy ETFs</div><div class="mf-val c-safe">NEW HIGHS</div></div><div class="mf-item"><div class="mf-name">10Y Treasury</div><div class="mf-val c-bad">YIELD 4.8%</div></div><div class="mf-item"><div class="mf-name">Gold</div><div class="mf-val c-bad">3RD DAY DOWN</div></div><div class="mf-item"><div class="mf-name">BTC</div><div class="mf-val c-warn">REJECTED 80K</div></div><div class="mf-item"><div class="mf-name">Homebuilders</div><div class="mf-val c-bad">RATE PAIN</div></div><div class="mf-item"><div class="mf-name">Defensives</div><div class="mf-val c-safe">ROTATION IN</div></div>
 </div>
 <div class="sm-card card-orange">
 <div class="card-hd orange">⚡ Unusual Options Activity</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="uo-item"><div class="uo-hd"><span class="uo-tk">PENDING</span><span class="uo-exp">no verified flow feed</span></div><div class="uo-body c-warn">Options flow data not available in this pass - not fabricating prints.</div></div>
 </div>
 </div>
 <!-- ══ MASTER TRADE TABLE ════════════════════════════════════ -->
@@ -799,7 +799,7 @@
 <th class="sortable" onclick="apexSortTable(10)">Priority</th>
 </tr>
 </thead>
-<tbody><tr><td colspan="11" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tbody><!-- INJECT UP TO 20 TRADE ROWS. Column order: #, Symbol, Type, Direction, Setup, Entry, Stop, Target, R:R, Notes, Priority -->
 <!-- <tr><td>{{N}}</td><td><strong>{{TICKER}}</strong></td><td><span class="t-type tf|ts|te|to">{{TYPE}}</span></td><td class="t-long|t-short|t-neut">{{DIRECTION}}</td><td>{{SETUP}}</td><td class="mono">{{ENTRY}}</td><td class="mono c-bad">{{STOP}}</td><td class="mono c-safe">{{TARGET}}</td><td class="t-rr">{{RR}}</td><td>{{NOTES}}</td><td class="t-pri">{{PRIORITY}}</td></tr> --></tbody>
 </table>
 </div>
