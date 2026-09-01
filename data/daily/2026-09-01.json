@@ -1,49 +1,49 @@
 {
-  "fetched_at": "2026-09-01T12:03:15.448599-07:00",
+  "fetched_at": "2026-09-01T12:17:21.899278-07:00",
   "quotes": {
     "VIX": {
-      "price": 16.4,
-      "change": 1.5,
-      "changePercentage": 9.78552,
+      "price": 16.2,
+      "change": 1.3,
+      "changePercentage": 8.44504,
       "color": "c-safe"
     },
     "SPX": {
-      "price": 7624.16,
-      "change": -61.98,
-      "changePercentage": -0.80639,
+      "price": 7631.01,
+      "change": -55.13,
+      "changePercentage": -0.71727,
       "color": "c-bad"
     },
     "GOLD": {
-      "price": 4380.4,
-      "change": -101.1,
-      "changePercentage": -2.25594,
+      "price": 4378.2,
+      "change": -103.3,
+      "changePercentage": -2.30503,
       "color": "c-bad"
     },
     "BTC": {
-      "price": 77097.63,
-      "change": -1461.48,
-      "changePercentage": -1.86036,
+      "price": 77207.77,
+      "change": -1351.34,
+      "changePercentage": -1.72015,
       "color": "c-bad"
     },
     "ETH": {
-      "price": 2412.24,
-      "change": -54.89,
-      "changePercentage": -2.22466,
+      "price": 2416.79,
+      "change": -50.34,
+      "changePercentage": -2.04024,
       "color": "c-bad"
     }
   },
   "schwab_futures": {
     "ES": {
-      "price": 7634.75,
-      "change": -64.0,
-      "changePercentage": -0.83127679,
+      "price": 7641.75,
+      "change": -57.0,
+      "changePercentage": -0.74035589,
       "color": "c-bad",
       "contract": "/ESU26"
     },
     "NQ": {
-      "price": 29081.0,
-      "change": -431.25,
-      "changePercentage": -1.46122048,
+      "price": 29118.5,
+      "change": -394.25,
+      "changePercentage": -1.335852,
       "color": "c-bad",
       "contract": "/NQU26"
     }
