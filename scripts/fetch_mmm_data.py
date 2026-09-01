@@ -137,6 +137,10 @@ def fetch_schwab_futures() -> dict:
                 "changePercentage": q.get("futurePercentChange"),
                 "color": color_for(change),
                 "contract": entry.get("symbol"),
+                # openPrice = RTH opening print; closePrice = prior settlement.
+                # Used for the color-coded Gap vs Settle row and the /NQ Open tile.
+                "open": q.get("openPrice"),
+                "prev_close": q.get("closePrice"),
             }
         return out
     except Exception as e:
@@ -270,9 +274,17 @@ def build_kpi_tokens(quotes: dict, schwab: dict) -> dict:
 
     if schwab.get("NQ"):
         q = schwab["NQ"]
-        t["NQ_PREMARKET"] = fmt(q["price"])
-        t["NQ_CHANGE"] = fmt_change(q)
-        t["NQ_COLOR"] = q["color"]
+        # Joe 2026-09-01: the /NQ tile is the OPENING PRINT (open vs prior
+        # settle), not the live mark -- once RTH has opened the open is the
+        # reference that matters for the session map. Falls back to the live
+        # mark if Schwab did not return openPrice/closePrice.
+        if q.get("open") and q.get("prev_close"):
+            oq = {"price": q["open"], "change": q["open"] - q["prev_close"],
+                  "changePercentage": (q["open"] - q["prev_close"]) / q["prev_close"] * 100.0}
+            oq["color"] = color_for(oq["change"])
+            t["NQ_PREMARKET"] = fmt(oq["price"]); t["NQ_CHANGE"] = fmt_change(oq); t["NQ_COLOR"] = oq["color"]
+        else:
+            t["NQ_PREMARKET"] = fmt(q["price"]); t["NQ_CHANGE"] = fmt_change(q); t["NQ_COLOR"] = q["color"]
         t["NQ_SOURCE"] = f"Schwab {q.get('contract', '/NQ')} (real futures)"
     else:
         t["NQ_PREMARKET"] = "N/A"
@@ -289,8 +301,50 @@ def build_kpi_tokens(quotes: dict, schwab: dict) -> dict:
 
     vix = quotes.get("VIX")
     t["VIX_VAL"] = fmt(vix["price"]) if vix else "N/A"
-    t["SENT_COLOR"] = vix["color"] if vix else "c-sub"
+    t["SENT_COLOR"] = vix["color"] if vix else "c-sub"   # legacy; tiles now use *_SEV
+    t["VIX_SEV"] = vix_severity(vix)
+
+    # Gap vs Settle rows (Futures Intelligence): open - prior settlement, color by severity.
+    for key in ("ES", "NQ"):
+        q = schwab.get(key) or {}
+        o, c = q.get("open"), q.get("prev_close")
+        if o and c:
+            gap = o - c; pct = gap / c * 100.0
+            t[f"{key}_GAP"] = f"{gap:+,.2f} ({pct:+.2f}%)"
+            t[f"{key}_GAP_COLOR"] = gap_severity(pct)
+        else:
+            t[f"{key}_GAP"] = "N/A"; t[f"{key}_GAP_COLOR"] = "c-sub"
     return t
+
+
+def vix_severity(vix: dict | None) -> str:
+    """Six-step severity class for the VIX tile. Level sets the band; a
+    >= +10% daily spike bumps one step toward bearish (vol expansion is the
+    signal, not just the level). Other sentiment tiles default to sv-neut
+    and are set by the on-demand analysis pass via the insert file."""
+    if not vix:
+        return "sv-neut"
+    p = vix["price"]; chg = vix.get("changePercentage") or 0.0
+    order = ["sv-bull", "sv-lean-bull", "sv-neut", "sv-caution", "sv-bear", "sv-bear2"]
+    if p < 13: i = 0
+    elif p < 15: i = 1
+    elif p < 17: i = 2
+    elif p < 20: i = 3
+    elif p < 28: i = 4
+    else: i = 5
+    if chg >= 10.0:
+        i = min(i + 1, 5)
+    return order[i]
+
+
+def gap_severity(pct: float) -> str:
+    """Opening-gap color: red for gap-downs, green for gap-ups, yellow flat."""
+    if pct <= -0.50: return "sv-bear2"
+    if pct <= -0.15: return "sv-bear"
+    if pct <  -0.05: return "sv-caution"
+    if pct <=  0.05: return "sv-neut"
+    if pct <   0.25: return "sv-lean-bull"
+    return "sv-bull"
 
 
 PENDING = "PENDING — awaiting analysis pass"
@@ -309,7 +363,10 @@ def render(template: str, now: datetime.datetime, kpi: dict, insert: dict | None
         "REGIME_LABEL": "PENDING", "PRIMARY_CATALYST": PENDING,
         "ES_PREMARKET": kpi.get("ES_PREMARKET", "N/A"),
         "ES_CHANGE": kpi.get("ES_CHANGE", "N/A"), "ES_COLOR": kpi.get("ES_COLOR", "c-sub"),
-        "NQ_PREMARKET": "N/A", "NQ_CHANGE": "N/A", "NQ_COLOR": "c-sub",
+        # BUG FIX 2026-09-01: these were hardcoded "N/A" and never read the
+        # kpi dict, so the /NQ tile stayed blank even with Schwab live.
+        "NQ_PREMARKET": kpi.get("NQ_PREMARKET", "N/A"),
+        "NQ_CHANGE": kpi.get("NQ_CHANGE", "N/A"), "NQ_COLOR": kpi.get("NQ_COLOR", "c-sub"),
         "GOLD_PRICE": kpi.get("GOLD_PRICE", "N/A"),
         "GOLD_CHANGE": kpi.get("GOLD_CHANGE", "N/A"), "GOLD_COLOR": kpi.get("GOLD_COLOR", "c-sub"),
         "BTC_PRICE": kpi.get("BTC_PRICE", "N/A"),
@@ -320,6 +377,13 @@ def render(template: str, now: datetime.datetime, kpi: dict, insert: dict | None
         "ETH_CHANGE": kpi.get("ETH_CHANGE", "N/A"), "ETH_COLOR": kpi.get("ETH_COLOR", "c-sub"),
         "VIX_VAL": kpi.get("VIX_VAL", "N/A"), "VIX_LABEL": PENDING,
         "SENT_COLOR": kpi.get("SENT_COLOR", "c-sub"),
+        # Severity classes (sv-bull .. sv-bear2). VIX is auto; the rest are
+        # set by the analysis pass. Regime defaults neutral until analysed.
+        "VIX_SEV": kpi.get("VIX_SEV", "sv-neut"),
+        "FNG_SEV": "sv-neut", "PUTCALL_SEV": "sv-neut", "BREADTH_SEV": "sv-neut",
+        "AAII_SEV": "sv-neut", "SENTIMENT_SEV": "sv-neut", "REGIME_SEV": "sv-neut",
+        "ES_GAP": kpi.get("ES_GAP", "N/A"), "ES_GAP_COLOR": kpi.get("ES_GAP_COLOR", "c-sub"),
+        "NQ_GAP": kpi.get("NQ_GAP", "N/A"), "NQ_GAP_COLOR": kpi.get("NQ_GAP_COLOR", "c-sub"),
         "FNG_VAL": "N/A", "FNG_LABEL": PENDING,
         "PUTCALL_VAL": "N/A", "PUTCALL_LABEL": PENDING,
         "BREADTH_VAL": "N/A", "BREADTH_LABEL": PENDING,

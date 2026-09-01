@@ -213,6 +213,16 @@
   .c-acc   { color: var(--accent)!important; }
   .c-acc3  { color: var(--accent3)!important; }
   .c-sub   { color: var(--sub)!important; }
+  /* ── SEVERITY GRADIENT (sentiment tiles + regime) ── green=bullish · lime=lean-bull · yellow=neutral · orange=caution · orange-red=bearish · red=strong bear */
+  .sv-bull      { color:#7dff5a!important; }
+  .sv-lean-bull { color:#c8ff00!important; }
+  .sv-neut      { color:#ffe600!important; }
+  .sv-caution   { color:#ff9a00!important; }
+  .sv-bear      { color:#ff4d00!important; }
+  .sv-bear2     { color:#ff1f1f!important; }
+  .sent-tile.sv-bull, .sent-tile.sv-lean-bull, .sent-tile.sv-neut, .sent-tile.sv-caution, .sent-tile.sv-bear, .sent-tile.sv-bear2 { border-bottom: 3px solid currentColor; }
+  .reg-badge.sv-bull, .reg-badge.sv-lean-bull, .reg-badge.sv-neut, .reg-badge.sv-caution, .reg-badge.sv-bear, .reg-badge.sv-bear2 { border-color: currentColor; }
+
   .c-good  { color: var(--safe)!important; }
 
   /* ── SURFACE CARD ───────────────────────────── */
@@ -545,42 +555,42 @@
 <div class="hdr-meta-grid">
 <div class="hdr-meta-cell"><div class="hm-label">Session</div><div class="hm-val">{{DATE_LONG}}</div></div>
 <div class="hdr-meta-cell"><div class="hm-label">Primary Entity</div><div class="hm-val">Monkey Matters LLC</div></div>
-<div class="hdr-meta-cell"><div class="hm-label">Regime</div><div class="hm-val" style="color:var(--safe)">{{REGIME_LABEL}}</div></div>
+<div class="hdr-meta-cell"><div class="hm-label">Regime</div><div class="hm-val {{REGIME_SEV}}">{{REGIME_LABEL}}</div></div>
 <div class="hdr-meta-cell"><div class="hm-label">Prime Directive</div><div class="hm-val" style="color:var(--accent2)">SURVIVE. COMPOUND. LEGACY.</div></div>
 </div>
 </div>
 <!-- ══ SENTIMENT STRIP ══════════════════════════════════════ -->
 <div class="sec-label">01 — MARKET SENTIMENT INDICATORS</div>
 <div class="sent-strip">
-<div class="sent-tile">
+<div class="sent-tile {{VIX_SEV}}">
 <div class="st-lbl">VIX</div>
-<div class="st-val {{SENT_COLOR}}">{{VIX_VAL}}</div>
-<div class="st-sub {{SENT_COLOR}}">{{VIX_LABEL}}</div>
+<div class="st-val {{VIX_SEV}}">{{VIX_VAL}}</div>
+<div class="st-sub {{VIX_SEV}}">{{VIX_LABEL}}</div>
 </div>
-<div class="sent-tile">
+<div class="sent-tile {{FNG_SEV}}">
 <div class="st-lbl">Fear &amp; Greed</div>
-<div class="st-val {{SENT_COLOR}}">{{FNG_VAL}}</div>
-<div class="st-sub {{SENT_COLOR}}">{{FNG_LABEL}}</div>
+<div class="st-val {{FNG_SEV}}">{{FNG_VAL}}</div>
+<div class="st-sub {{FNG_SEV}}">{{FNG_LABEL}}</div>
 </div>
-<div class="sent-tile">
+<div class="sent-tile {{PUTCALL_SEV}}">
 <div class="st-lbl">Put/Call</div>
-<div class="st-val {{SENT_COLOR}}">{{PUTCALL_VAL}}</div>
-<div class="st-sub {{SENT_COLOR}}">{{PUTCALL_LABEL}}</div>
+<div class="st-val {{PUTCALL_SEV}}">{{PUTCALL_VAL}}</div>
+<div class="st-sub {{PUTCALL_SEV}}">{{PUTCALL_LABEL}}</div>
 </div>
-<div class="sent-tile">
+<div class="sent-tile {{BREADTH_SEV}}">
 <div class="st-lbl">NYSE Breadth</div>
-<div class="st-val {{SENT_COLOR}}">{{BREADTH_VAL}}</div>
-<div class="st-sub {{SENT_COLOR}}">{{BREADTH_LABEL}}</div>
+<div class="st-val {{BREADTH_SEV}}">{{BREADTH_VAL}}</div>
+<div class="st-sub {{BREADTH_SEV}}">{{BREADTH_LABEL}}</div>
 </div>
-<div class="sent-tile">
+<div class="sent-tile {{AAII_SEV}}">
 <div class="st-lbl">AAII Bull/Bear</div>
-<div class="st-val {{SENT_COLOR}}">{{AAII_VAL}}</div>
-<div class="st-sub {{SENT_COLOR}}">{{AAII_LABEL}}</div>
+<div class="st-val {{AAII_SEV}}">{{AAII_VAL}}</div>
+<div class="st-sub {{AAII_SEV}}">{{AAII_LABEL}}</div>
 </div>
-<div class="sent-tile">
+<div class="sent-tile {{SENTIMENT_SEV}}">
 <div class="st-lbl">Overall Sentiment</div>
-<div class="st-val {{SENT_COLOR}}">{{SENTIMENT_VAL}}</div>
-<div class="st-sub {{SENT_COLOR}}">{{SENTIMENT_LABEL}}</div>
+<div class="st-val {{SENTIMENT_SEV}}">{{SENTIMENT_VAL}}</div>
+<div class="st-sub {{SENTIMENT_SEV}}">{{SENTIMENT_LABEL}}</div>
 </div>
 </div>
 <!-- ══ TOP OF MIND ADVISORY + BULL VS BEAR ══════════════════ -->
@@ -631,7 +641,7 @@
 <div class="sec-label">04 — PRE-MARKET KEY PRICE LEVELS</div>
 <div class="kpi-bar">
 <div class="kpi"><div class="kpi-lbl">/ES Pre-Mkt</div><div class="kpi-val {{ES_COLOR}}">{{ES_PREMARKET}}</div><div class="kpi-ch {{ES_COLOR}}">{{ES_CHANGE}}</div></div>
-<div class="kpi"><div class="kpi-lbl">/NQ Pre-Mkt</div><div class="kpi-val {{NQ_COLOR}}">{{NQ_PREMARKET}}</div><div class="kpi-ch {{NQ_COLOR}}">{{NQ_CHANGE}}</div></div>
+<div class="kpi"><div class="kpi-lbl">/NQ Open</div><div class="kpi-val {{NQ_COLOR}}">{{NQ_PREMARKET}}</div><div class="kpi-ch {{NQ_COLOR}}">{{NQ_CHANGE}}</div></div>
 <div class="kpi"><div class="kpi-lbl">Gold (GCUSD)</div><div class="kpi-val {{GOLD_COLOR}}">{{GOLD_PRICE}}</div><div class="kpi-ch {{GOLD_COLOR}}">{{GOLD_CHANGE}}</div></div>
 <div class="kpi"><div class="kpi-lbl">Bitcoin (BTC)</div><div class="kpi-val {{BTC_COLOR}}">{{BTC_PRICE}}</div><div class="kpi-ch {{BTC_COLOR}}">{{BTC_CHANGE}}</div></div>
 <div class="kpi"><div class="kpi-lbl">S&amp;P 500 Close</div><div class="kpi-val {{SPX_COLOR}}">{{SPX_CLOSE}}</div><div class="kpi-ch {{SPX_COLOR}}">{{SPX_CHANGE}}</div></div>
@@ -639,7 +649,7 @@
 </div>
 <!-- ══ REGIME BAR ════════════════════════════════════════════ -->
 <div class="regime">
-<span class="reg-badge reg-bull">{{REGIME_SIGNAL}}</span>
+<span class="reg-badge {{REGIME_SEV}}">{{REGIME_SIGNAL}}</span>
 <!-- INJECT: REGIME DETAILS — repeat <div class="reg-div"></div><div class="reg-item">{{DETAIL}}</div> per item -->
 </div>
 <!-- ══ FUTURES ANALYSIS ══════════════════════════════════════ -->
@@ -649,6 +659,7 @@
 <div class="sm-card">
 <div class="card-hd">📈 /ES — E-Mini S&amp;P 500 · {{PREV_DATE_SHORT}} Settlement</div>
 <table class="ftbl">
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="{{ES_GAP_COLOR}}">{{ES_GAP}}</td></tr>
 <!-- INJECT: /ES STATS — rows in order: Prev High(†), Prev Low(†), Settlement, Pre-Mkt Est., Gap/ADR ; sub "Pivot Levels (Classic Formula)": PP,R3,R2,R1,S1,S2,S3 ; sub "Volume Profile(†)": VAH,POC,VAL,Prev VWAP. Markup: <tr><td>{{LABEL}}</td><td class="acc|good|bad">{{VALUE}}</td></tr>, subheads: <tr class="ftbl-sub"><td colspan="2">— {{NAME}} —</td></tr> -->
 </table>
 <p class="tfoot-note">† estimated from session analysis; verify settlement at CME.com · TradingView</p>
@@ -664,6 +675,7 @@
 <div class="sm-card">
 <div class="card-hd">📈 /NQ — E-Mini Nasdaq-100 · {{PREV_DATE_SHORT}} Settlement</div>
 <table class="ftbl">
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="{{NQ_GAP_COLOR}}">{{NQ_GAP}}</td></tr>
 <!-- INJECT: /NQ STATS — same row order/markup as the /ES table above -->
 </table>
 <p class="tfoot-note">† H/L/Volume/Momentum estimated from session analysis; verify settlement at CME.com · TradingView</p>
