@@ -52,7 +52,7 @@ design — delete it, don't try to fix it.**
   HHH_STATUS.md suggesting otherwise — confirmed empirically.
 - **`sanitize.py` was flagging its own source file** — its `FORBIDDEN`
   regex list contains the pattern strings themselves as literal text
-  (`"HIVE.*cost.*basis"` matches itself). Excluded its own path from the
+  (the ticker-cost-basis forbidden-pattern literal matched itself). Excluded its own path from the
   scan. Zero actual leak, ever.
 - **Commit messages using `date -u` vs. Python's Pacific-time logic**
   drift a day apart every evening after ~5-6pm PT (past midnight UTC).
