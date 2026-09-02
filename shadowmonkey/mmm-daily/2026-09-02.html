@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+
+<!--
+═══════════════════════════════════════════════════════════════════
+  SHADOW MONKEY — MORNING MARKET MONITOR TEMPLATE v2.1
+  Style: APEX Dark / Lime-Green accent
+  Handler: Joe | Entity: Monkey Matters LLC / JVS Holdings LTD
+═══════════════════════════════════════════════════════════════════
+  ALL SECTIONS ARE DYNAMIC — replace every {{TOKEN}} with live data.
+  NO hardcoded values anywhere in this file.
+
+  GLOBAL TOKENS:
+    Wednesday, September 2, 2026       e.g. "Monday, August 18, 2026"
+    Sep 2      e.g. "Aug 18"
+    Wednesday     e.g. "Monday"
+    NY Session (pre-open)   e.g. "NY Session"
+    PENDING    BULL | BEAR | MIXED
+    PENDING — awaiting analysis pass e.g. "BIDU EARNINGS BMO"
+
+  S01 SENTIMENT STRIP (6 tiles):
+    15.40  N/A  N/A
+    N/A  N/A  N/A
+    c-bad → c-safe | c-warn | c-bad
+
+  S02 ADVISORY:
+    PENDING PENDING — awaiting analysis pass
+    — — — —
+
+  S03 BBM:
+    50 / 50 (0-100)
+    {{BBM_SIGNAL_NAME}} / {{BBM_SIGNAL_VAL}}
+
+  S04 KPI BAR (6 tiles):
+    7,685.00 29,136.50 4,419.30
+    77,103.52 7,675.67 2,389.81
+    + {{*_CHANGE}} and {{*_COLOR}} per tile
+
+  S05–S10 ANALYSIS BLOCKS (.ca-val):
+    {{CA_ANALYSIS}} {{CA_SPEC_MOVE}} {{CA_TRADE_IDEA}}
+    {{CA_STRATEGY}} + Levels: {{ENTRY}} {{STOP}} {{TARGET}} {{PIVOT}} {{VWAP}}
+
+  Sep 1   e.g. "Aug 15" — prior session date (S05/S06 settlement labels)
+
+  S06 ECON CALENDAR: inject <tr> per event using [ INJECT: S06 ECON CALENDAR ] comment
+    tokens: {{ECON_N_TIME}} {{ECON_N_EVENT}} {{ECON_N_STATUS}} {{ECON_N_EST}} {{ECON_N_ACT}} {{ECON_N_COLOR}}
+  S06 EARNINGS WATCH: inject <tr> per ticker using [ INJECT: S06 EARNINGS WATCH ] comment
+    tokens: {{EARN_N_TICKER}} {{EARN_N_TIMING}} {{EARN_N_CLASS}} {{EARN_N_MOVE}} {{EARN_N_COLOR}} {{EARN_N_NOTE}}
+  S07 GAINERS: inject <tr> per gainer using [ INJECT: S07 GAINERS ] comment
+    tokens: {{GAINER_N_TICKER}} {{GAINER_N_CAT1}} {{GAINER_N_CAT2}} {{GAINER_N_PCT}} {{GAINER_N_NOTE}}
+  S07 DECLINERS: inject <tr> per decliner using [ INJECT: S07 DECLINERS ] comment
+    tokens: {{DECLINER_N_TICKER}} {{DECLINER_N_CAT1}} {{DECLINER_N_CAT2}} {{DECLINER_N_PCT}} {{DECLINER_N_NOTE}}
+
+  ALL TABLES: inject rows per the [ INJECT ] comment in each tbody
+  TRADE TABLE: 20 rows, columns: #, Symbol, Type, Direction, Setup,
+               Entry, Stop, Target, R:R, Notes, Priority
+═══════════════════════════════════════════════════════════════════
+-->
+<script id="cowork-artifact-meta" type="application/json">
+{
+  "name": "Morning Market Monitor Shadowmonkey",
+  "schemaVersion": 1,
+  "description": "Shadow Monkey Morning Market Monitor — reference template with Overall Sentiment (Section 1), Bitcoin & Ethereum (Section 4). Updated Aug 18, 2026.",
+  "mcpTools": [],
+  "mcpServerNames": []
+}
+</script>
+<script id="cowork-artifact-meta" type="application/json">
+{
+  "name": "Morning Market Monitor Shadowmonkey",
+  "schemaVersion": 1,
+  "description": "Shadow Monkey Morning Market Monitor — reference template with Overall Sentiment (Section 1), Bitcoin & Ethereum (Section 4). Updated Aug 18, 2026.",
+  "mcpTools": [],
+  "mcpServerNames": []
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>SHADOW MONKEY // MORNING MARKET MONITOR — Wednesday, Wednesday, September 2, 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --black:   #080808;
+    --surface: #0f0f0f;
+    --surface2:#161616;
+    --border:  #222;
+    --accent:  #c8ff00;
+    --accent2: #ff4d00;
+    --accent3: #00d4ff;
+    --text:    #ffffff;
+    --muted:   #aaaaaa;
+    --danger:  #ff3333;
+    --safe:    #00ff88;
+    --warn:    #ffb800;
+    --sub:     #cccccc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* SCANLINE */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px);
+    pointer-events: none; z-index: 9999;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.55;
+    padding: 12px;
+  }
+
+  .wrap { max-width: 1240px; margin: 0 auto; }
+
+  /* ── HEADER ─────────────────────────────────── */
+  .hdr {
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    background: var(--surface);
+    padding: 20px 24px 18px;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hdr::after {
+    content: 'CLASSIFIED';
+    position: absolute; right: -18px; top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; color: var(--accent2);
+    letter-spacing: 8px; opacity: 0.35;
+  }
+  .hdr-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .hdr-classification { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 3px;
+    text-transform: uppercase; padding: 2px 8px;
+    border: 1px solid;
+  }
+  .tag-red   { border-color: var(--accent2); color: var(--accent2); }
+  .tag-green { border-color: var(--accent);  color: var(--accent);  }
+  .tag-blue  { border-color: var(--accent3); color: var(--accent3); }
+  .tag-muted { border-color: var(--muted);   color: var(--muted);   }
+  .tag-warn  { border-color: var(--warn);    color: var(--warn);    }
+
+  .hdr-title-block { flex: 1; }
+  .hdr-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+  .hdr-brand span { color: var(--accent); }
+  .hdr-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .hdr-meta-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--border);
+    margin-top: 16px;
+  }
+  .hdr-meta-cell { background: var(--surface2); padding: 10px 14px; }
+  .hm-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 2px;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 3px;
+  }
+  .hm-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; color: var(--accent);
+  }
+  .hdr-badges { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+  .sm-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 2px;
+    text-transform: uppercase; padding: 4px 10px;
+    border: 1px solid;
+  }
+  .sm-badge-live { border-color: var(--safe);    color: var(--safe); }
+  .sm-badge-warn { border-color: var(--warn);    color: var(--warn); }
+  .sm-badge-info { border-color: var(--accent3); color: var(--accent3); }
+
+  /* ── SECTION LABEL ───────────────────────────── */
+  .sec-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 3px;
+    color: var(--accent2); text-transform: uppercase;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+  }
+  .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── SENTIMENT STRIP ────────────────────────── */
+  .sent-strip { display: grid; grid-template-columns: repeat(6,1fr); gap: 1px; background: var(--border); margin-bottom: 8px; }
+  .sent-tile { background: var(--surface); padding: 10px 12px; text-align: center; }
+  .st-lbl { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+  .st-val { font-family: 'Bebas Neue', sans-serif; font-size: 28px; line-height: 1; color: var(--text); }
+  .st-sub { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1px; margin-top: 2px; }
+  .c-safe  { color: var(--safe)!important; }
+  .c-warn  { color: var(--warn)!important; }
+  .c-bad   { color: var(--danger)!important; }
+  .c-acc   { color: var(--accent)!important; }
+  .c-acc3  { color: var(--accent3)!important; }
+  .c-sub   { color: var(--sub)!important; }
+  /* ── SEVERITY GRADIENT (sentiment tiles + regime) ── green=bullish · lime=lean-bull · yellow=neutral · orange=caution · orange-red=bearish · red=strong bear */
+  .sv-bull      { color:#7dff5a!important; }
+  .sv-lean-bull { color:#c8ff00!important; }
+  .sv-neut      { color:#ffe600!important; }
+  .sv-caution   { color:#ff9a00!important; }
+  .sv-bear      { color:#ff4d00!important; }
+  .sv-bear2     { color:#ff1f1f!important; }
+  .sent-tile.sv-bull, .sent-tile.sv-lean-bull, .sent-tile.sv-neut, .sent-tile.sv-caution, .sent-tile.sv-bear, .sent-tile.sv-bear2 { border-bottom: 3px solid currentColor; }
+  .reg-badge.sv-bull, .reg-badge.sv-lean-bull, .reg-badge.sv-neut, .reg-badge.sv-caution, .reg-badge.sv-bear, .reg-badge.sv-bear2 { border-color: currentColor; }
+
+  .c-good  { color: var(--safe)!important; }
+
+  /* ── SURFACE CARD ───────────────────────────── */
+  .sm-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px;
+    position: relative;
+  }
+  .sm-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%; background: var(--accent);
+  }
+  .sm-card.card-orange::before { background: var(--accent2); }
+  .sm-card.card-cyan::before   { background: var(--accent3); }
+  .sm-card.card-safe::before   { background: var(--safe); }
+  .sm-card.card-danger::before { background: var(--danger); }
+
+  .card-hd {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .card-hd.orange { color: var(--accent2); }
+  .card-hd.cyan   { color: var(--accent3); }
+
+  /* ── LAYOUTS ────────────────────────────────── */
+  .grid2  { display: grid; grid-template-columns: 1fr 1fr;     gap: 1px; background: var(--border); margin-bottom: 8px; }
+  .grid3  { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 8px; }
+  .adv-row { display: grid; grid-template-columns: 3fr 1fr; gap: 1px; background: var(--border); margin-bottom: 8px; }
+  .alert-bbm { display: grid; grid-template-columns: 2fr 1fr; gap: 1px; background: var(--border); margin-bottom: 8px; }
+  .mi { display: grid; grid-template-columns: 2fr 1.2fr 1.4fr; gap: 1px; background: var(--border); margin-bottom: 8px; }
+
+  /* ── KPI BAR ────────────────────────────────── */
+  .kpi-bar { display: grid; grid-template-columns: repeat(6,1fr); gap: 1px; background: var(--border); margin-bottom: 8px; }
+  .kpi { background: var(--surface); padding: 10px 14px; }
+  .kpi-lbl { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+  .kpi-val { font-family: 'Bebas Neue', sans-serif; font-size: 26px; line-height: 1; }
+  .kpi-ch  { font-family: 'Space Mono', monospace; font-size: 10px; margin-top: 2px; }
+
+  /* ── REGIME BAR ─────────────────────────────── */
+  .regime {
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 10px 16px; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    font-family: 'Space Mono', monospace;
+  }
+  .reg-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; font-weight: 700; padding: 3px 10px;
+    text-transform: uppercase; letter-spacing: 2px; border: 1px solid;
+  }
+  .reg-bull   { border-color: var(--safe);    color: var(--safe); }
+  .reg-bear   { border-color: var(--danger);  color: var(--danger); }
+  .reg-mixed  { border-color: var(--warn);    color: var(--warn); }
+  .reg-item   { font-size: 10px; color: var(--sub); }
+  .reg-item strong { color: var(--text); }
+  .reg-div    { width: 1px; height: 16px; background: var(--border); }
+
+  /* ── STAT TABLE (FUTURES) ───────────────────── */
+  .ftbl { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; }
+  .ftbl td { padding: 4px 6px; border-bottom: 1px solid var(--border); font-size: 10px; }
+  .ftbl td:first-child { color: var(--sub); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; width: 120px; }
+  .ftbl td:last-child  { text-align: right; color: var(--text); }
+  .ftbl td.good  { color: var(--safe)!important; }
+  .ftbl td.bad   { color: var(--danger)!important; }
+  .ftbl td.warn  { color: var(--warn)!important; }
+  .ftbl td.acc   { color: var(--accent)!important; }
+  .ftbl td.acc3  { color: var(--accent3)!important; }
+
+  /* section sub-header within ftbl */
+  .ftbl-sub td {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px; letter-spacing: 2px;
+    color: var(--accent2); text-transform: uppercase;
+    padding-top: 10px; border-bottom: none;
+    background: var(--surface2);
+  }
+
+  /* ── ANALYSIS BLOCK ─────────────────────────── */
+  .ca { border-top: 1px solid var(--border); margin: 14px -16px -16px; }
+  .ca-row {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 8px; padding: 7px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+  }
+  .ca-row:last-child { border-bottom: none; }
+  .ca-lbl { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; padding-top: 2px; }
+  .ca-val { color: var(--sub); line-height: 1.5; }
+  .ca-val strong { color: var(--text); }
+  .ca-lvls { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+  .lv { font-family: 'Space Mono', monospace; font-size: 9px; padding: 2px 6px; font-weight: 700; white-space: nowrap; border: 1px solid; }
+  .lv-e { border-color: #1e3868; color: var(--accent3); background: #0a1428; }
+  .lv-s { border-color: #4a1212; color: var(--danger);  background: #200808; }
+  .lv-t { border-color: #0a3018; color: var(--safe);    background: #081a0a; }
+  .lv-n { border-color: var(--border); color: var(--sub); background: var(--surface2); }
+
+  /* ── ALERT BOXES ────────────────────────────── */
+  .alert-row { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 7px; font-size: 11px; }
+  .alert-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .adot-r { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
+  .adot-y { background: var(--warn);   box-shadow: 0 0 5px var(--warn); }
+  .adot-g { background: var(--safe);   box-shadow: 0 0 5px var(--safe); }
+  .alert-txt { color: var(--sub); line-height: 1.45; }
+  .alert-txt strong { color: var(--text); }
+
+  /* ── ADVISORY CARD ──────────────────────────── */
+  .adv-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 2px;
+    color: var(--muted); text-transform: uppercase;
+    margin-top: 10px; margin-bottom: 4px;
+  }
+  .adv-signal { font-size: 12px; color: var(--sub); line-height: 1.5; }
+  .adv-chips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+  .sig-chip {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; padding: 2px 7px;
+    text-transform: uppercase; letter-spacing: 1px; border: 1px solid;
+  }
+  .sig-lean    { border-color: var(--safe);    color: var(--safe); }
+  .sig-watch   { border-color: var(--accent3); color: var(--accent3); }
+  .sig-caution { border-color: var(--warn);    color: var(--warn); }
+  .sig-avoid   { border-color: var(--danger);  color: var(--danger); }
+
+  /* ── BULL VS BEAR METER ─────────────────────── */
+  .bbm-labels { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; margin-bottom: 6px; }
+  .bbm-bar-wrap { position: relative; height: 16px; background: var(--surface2); border: 1px solid var(--border); margin: 0 0 8px; overflow: hidden; }
+  .bbm-bull { height: 100%; background: linear-gradient(90deg, #0a2a14, var(--safe)); }
+  .bbm-bear { position: absolute; right: 0; top: 0; height: 100%; background: linear-gradient(270deg, #3a0a0a, var(--danger)); }
+  .bbm-signal-row { display: flex; justify-content: space-between; align-items: center; font-family: 'Space Mono', monospace; font-size: 9px; padding: 3px 0; border-bottom: 1px solid var(--border); }
+  .bbm-signal-row:last-child { border-bottom: none; }
+  .bbm-sn      { color: var(--sub); }
+  .bbm-sv-bull { color: var(--safe); font-weight: 700; }
+  .bbm-sv-bear { color: var(--danger); font-weight: 700; }
+  .bbm-sv-neut { color: var(--warn); font-weight: 700; }
+
+  /* ── ECON TABLE ─────────────────────────────── */
+  .etbl { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 10px; }
+  .etbl th { color: var(--muted); font-size: 8px; text-transform: uppercase; letter-spacing: 1.5px; padding: 4px 6px; border-bottom: 1px solid var(--border); text-align: left; font-weight: 400; }
+  .etbl td { padding: 5px 6px; border-bottom: 1px solid var(--border); color: var(--sub); }
+  .etbl td:first-child { color: var(--muted); font-size: 9px; white-space: nowrap; }
+  .etbl td strong { color: var(--text); }
+  .chk { color: var(--safe); }
+
+  /* ── EARNINGS TABLE ─────────────────────────── */
+  .erntbl { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 10px; }
+  .erntbl td { padding: 5px 6px; border-bottom: 1px solid var(--border); color: var(--sub); }
+  .erntbl td:first-child { color: var(--text); font-weight: 700; }
+  .timing { font-size: 8px; padding: 2px 5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border: 1px solid; }
+  .bmo      { border-color: #1a3060; color: var(--accent3); }
+  .amc      { border-color: #2e1e50; color: #c4b5fd; }
+  .reported { border-color: #0a3018; color: var(--safe); }
+
+  /* ── SECTOR ─────────────────────────────────── */
+  .sector-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .sector-row:last-child { border-bottom: none; }
+  .sec-etf  { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text); font-weight: 700; width: 46px; }
+  .sec-name { font-family: 'DM Sans', sans-serif; color: var(--sub); flex: 1; font-size: 11px; }
+  .sec-bar-wrap { width: 80px; height: 3px; background: var(--surface2); border: 1px solid var(--border); margin: 0 10px; }
+  .sec-bar  { height: 3px; }
+  .sec-val  { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 10px; width: 48px; text-align: right; }
+
+  /* ── GAINERS / DECLINERS ────────────────────── */
+  .pmtbl { width: 100%; border-collapse: collapse; }
+  .pmtbl td { padding: 5px 6px; border-bottom: 1px solid var(--border); }
+  .pmtbl td:first-child { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text); font-weight: 700; width: 52px; }
+  .pm-cat { font-family: 'Space Mono', monospace; font-size: 8px; padding: 1px 5px; font-weight: 700; letter-spacing: 1px; border: 1px solid; text-transform: uppercase; margin-right: 3px; }
+  .pm-earn { border-color: #1a3060; color: var(--accent3); }
+  .pm-ai   { border-color: var(--accent3); color: var(--accent3); background: rgba(0,212,255,0.06); }
+  .pm-beat { border-color: #0a3018; color: var(--safe); }
+  .pm-miss { border-color: #4a1212; color: var(--danger); }
+  .pm-geo  { border-color: #3a2810; color: var(--warn); }
+
+  /* ── SPOTLIGHT ──────────────────────────────── */
+  .spot-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .spot-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .spot-hd { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .spot-tk { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--accent); letter-spacing: 1px; }
+  .spot-mv { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; }
+  .spot-body { font-size: 11px; color: var(--sub); line-height: 1.5; }
+
+  /* ── OPTIONS IDEAS ──────────────────────────── */
+  .opt-item { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .opt-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .opt-hd { display: flex; gap: 8px; align-items: baseline; margin-bottom: 3px; }
+  .opt-tk  { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--accent); letter-spacing: 1px; }
+  .opt-str { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent3); }
+  .opt-body { font-size: 11px; color: var(--sub); line-height: 1.45; }
+
+  /* ── MONEY FLOW ─────────────────────────────── */
+  .mf-item { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .mf-item:last-child { border-bottom: none; }
+  .mf-name { color: var(--sub); font-size: 11px; flex: 1; }
+  .mf-name strong { color: var(--text); }
+  .mf-val  { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; }
+
+  /* ── UNUSUAL OPTIONS ────────────────────────── */
+  .uo-item { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .uo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .uo-hd  { display: flex; gap: 8px; align-items: center; margin-bottom: 2px; }
+  .uo-tk  { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--accent); letter-spacing: 1px; }
+  .uo-exp { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); }
+  .uo-body { font-size: 11px; color: var(--sub); line-height: 1.4; }
+
+  /* ── MASTER TRADE TABLE ─────────────────────── */
+  .tbl-section { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid var(--accent); padding: 16px; margin-bottom: 10px; overflow-x: auto; }
+  .tbl-hd { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--text); letter-spacing: 2px; margin-bottom: 12px; }
+  .tbl-hd span { color: var(--accent); }
+
+  .ttbl-controls {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    margin-bottom: 10px; padding: 8px 12px;
+    background: var(--surface2); border: 1px solid var(--border);
+  }
+  .ttbl-filter-lbl { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+  .ttbl-filter-input {
+    background: var(--black); border: 1px solid var(--border);
+    padding: 4px 8px; color: var(--text); font-size: 10px;
+    width: 100px; outline: none; font-family: 'Space Mono', monospace;
+  }
+  .ttbl-filter-input::placeholder { color: var(--muted); }
+  .ttbl-filter-input:focus { border-color: var(--accent); }
+  .ttbl-filter-select {
+    background: var(--black); border: 1px solid var(--border);
+    padding: 4px 8px; color: var(--sub);
+    font-size: 10px; cursor: pointer; outline: none;
+    font-family: 'Space Mono', monospace;
+  }
+  .ttbl-filter-select:focus { border-color: var(--accent); }
+  .ttbl-reset {
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: 4px 10px; color: var(--muted); font-size: 10px;
+    cursor: pointer; font-family: 'Space Mono', monospace;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .ttbl-reset:hover { color: var(--accent); border-color: var(--accent); }
+  .ttbl-count { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); margin-left: auto; white-space: nowrap; }
+
+  .ttbl { width: 100%; border-collapse: collapse; min-width: 980px; font-family: 'Space Mono', monospace; }
+  .ttbl th {
+    background: var(--surface2); color: var(--accent);
+    font-size: 9px; text-transform: uppercase; letter-spacing: 2px;
+    padding: 8px 8px; text-align: left;
+    border-bottom: 2px solid var(--accent); white-space: nowrap;
+  }
+  .ttbl td { padding: 6px 8px; border-bottom: 1px solid var(--border); font-size: 10px; }
+  .ttbl tr:hover td { background: var(--surface2); }
+
+  .t-type { font-size: 8px; padding: 1px 6px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid; white-space: nowrap; }
+  .tf { border-color: #1a3060; color: var(--accent3); }
+  .ts { border-color: var(--border); color: var(--sub); }
+  .te { border-color: #0a3018; color: var(--safe); background: rgba(0,255,136,0.04); }
+  .to { border-color: #3a2808; color: var(--warn); }
+  .t-long  { color: var(--safe);    font-weight: 700; }
+  .t-short { color: var(--danger);  font-weight: 700; }
+  .t-neut  { color: var(--accent3); font-weight: 700; }
+  .t-rr    { color: var(--warn);    font-weight: 700; }
+  .mono    { font-family: 'Space Mono', monospace; font-size: 10px; }
+  .ttbl th.sortable { cursor: pointer; user-select: none; }
+  .ttbl th.sortable:hover { color: var(--text); }
+  .ttbl th.sort-asc::after  { content: ' ▲'; font-size: 7px; opacity: .8; }
+  .ttbl th.sort-desc::after { content: ' ▼'; font-size: 7px; opacity: .8; }
+
+  /* ── TFOOT NOTE ─────────────────────────────── */
+  .tfoot-note { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 6px; }
+
+  /* ── HIGHLIGHT BOX ──────────────────────────── */
+  .highlight-box {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 12px 14px; font-family: 'Space Mono', monospace;
+    font-size: 10px; color: var(--sub); line-height: 1.8;
+  }
+  .highlight-box.orange { border-left-color: var(--accent2); }
+  .highlight-box.cyan   { border-left-color: var(--accent3); }
+
+  /* ── VERDICT ALERT ──────────────────────────── */
+  .verdict-alert {
+    border: 1px solid; padding: 10px 14px; margin-top: 8px;
+    font-family: 'Space Mono', monospace; font-size: 10px; line-height: 1.6;
+  }
+  .verdict-bull   { border-color: var(--safe);   color: var(--safe); }
+  .verdict-bear   { border-color: var(--danger); color: var(--danger); }
+  .verdict-warn   { border-color: var(--warn);   color: var(--warn); }
+
+  /* ── FOOTER ─────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border); margin-top: 16px;
+    padding: 20px 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--muted); letter-spacing: 4px; }
+  .footer-meta { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 1px; text-align: right; line-height: 1.9; }
+
+  /* ── RESPONSIVE ─────────────────────────────── */
+  @media (max-width: 900px) {
+    .sent-strip, .kpi-bar { grid-template-columns: repeat(3,1fr); }
+    .grid2, .grid3, .mi, .adv-row, .alert-bbm { grid-template-columns: 1fr; }
+    .hdr-meta-grid { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 520px) {
+    .sent-strip, .kpi-bar { grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<!-- ══ HEADER ══════════════════════════════════════════════ -->
+<div class="hdr">
+<div class="hdr-classification">
+<span class="tag tag-red">EYES ONLY</span>
+<span class="tag tag-green">OPERATIVE: SHADOW MONKEY</span>
+<span class="tag tag-muted">HANDLER: JOE</span>
+<span class="tag tag-blue">MONKEY MATTERS LLC</span>
+</div>
+<div class="hdr-top">
+<div class="hdr-title-block">
+<div class="hdr-brand">MORNING<br/><span>MARKET</span><br/>MONITOR</div>
+<div class="hdr-subtitle">Wednesday, September 2, 2026  ·  NY Session (pre-open)  ·  MONKEY MATTERS LLC</div>
+</div>
+<div class="hdr-badges">
+<span class="sm-badge sm-badge-warn">● LIVE — Sep 2</span>
+<span class="sm-badge sm-badge-live">⚡ PENDING — awaiting analysis pass</span>
+</div>
+</div>
+<div class="hdr-meta-grid">
+<div class="hdr-meta-cell"><div class="hm-label">Session</div><div class="hm-val">Wednesday, September 2, 2026</div></div>
+<div class="hdr-meta-cell"><div class="hm-label">Primary Entity</div><div class="hm-val">Monkey Matters LLC</div></div>
+<div class="hdr-meta-cell"><div class="hm-label">Regime</div><div class="hm-val sv-neut">PENDING</div></div>
+<div class="hdr-meta-cell"><div class="hm-label">Prime Directive</div><div class="hm-val" style="color:var(--accent2)">SURVIVE. COMPOUND. LEGACY.</div></div>
+</div>
+</div>
+<!-- ══ SENTIMENT STRIP ══════════════════════════════════════ -->
+<div class="sec-label">01 — MARKET SENTIMENT INDICATORS</div>
+<div class="sent-strip">
+<div class="sent-tile sv-neut">
+<div class="st-lbl">VIX</div>
+<div class="st-val sv-neut">15.40</div>
+<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+</div>
+<div class="sent-tile sv-neut">
+<div class="st-lbl">Fear &amp; Greed</div>
+<div class="st-val sv-neut">N/A</div>
+<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+</div>
+<div class="sent-tile sv-neut">
+<div class="st-lbl">Put/Call</div>
+<div class="st-val sv-neut">N/A</div>
+<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+</div>
+<div class="sent-tile sv-neut">
+<div class="st-lbl">NYSE Breadth</div>
+<div class="st-val sv-neut">N/A</div>
+<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+</div>
+<div class="sent-tile sv-neut">
+<div class="st-lbl">AAII Bull/Bear</div>
+<div class="st-val sv-neut">N/A</div>
+<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+</div>
+<div class="sent-tile sv-neut">
+<div class="st-lbl">Overall Sentiment</div>
+<div class="st-val sv-neut">N/A</div>
+<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+</div>
+</div>
+<!-- ══ TOP OF MIND ADVISORY + BULL VS BEAR ══════════════════ -->
+<div class="sec-label">02 — OPERATIVE ADVISORY &amp; POSITIONING METER</div>
+<div class="adv-row">
+<div class="sm-card">
+<div class="card-hd">🧠 Top of Mind Advisory — Wednesday, September 2, 2026</div>
+<div class="adv-label">Market Temperament</div>
+<div class="adv-signal"><strong style="color:var(--text)">PENDING</strong> PENDING — awaiting analysis pass</div>
+<div class="adv-label">Direction &amp; Posture</div>
+<div class="adv-signal"><strong style="color:var(--text)">PENDING</strong> PENDING — awaiting analysis pass</div>
+<div class="adv-label">Key Signals to Watch</div>
+<div class="adv-chips"><span class="sig-chip sig-lean">—</span><span class="sig-chip sig-watch">—</span><span class="sig-chip sig-caution">—</span><span class="sig-chip sig-avoid">—</span></div>
+<div class="adv-label" style="margin-top:8px">Operative Verdict</div>
+<div class="verdict-alert verdict-bull">⬡ PENDING — awaiting analysis pass</div>
+</div>
+<div class="sm-card card-orange">
+<div class="card-hd orange">⚖ Bull vs Bear Meter — Sep 2</div>
+<div class="bbm-labels">
+<span class="bbm-sv-bull">▲ BULL 50%</span>
+<span class="bbm-sv-bear">BEAR 50% ▼</span>
+</div>
+<div class="bbm-bar-wrap">
+<div class="bbm-bull" style="width:50%"></div>
+<div class="bbm-bear" style="width:50%"></div>
+</div>
+<div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px;letter-spacing:1px">PENDING — awaiting analysis pass</div>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</div>
+</div>
+<!-- ══ THREE INTEL CARDS ══════════════════════════════════════ -->
+<div class="sec-label">03 — CATALYST ALERTS &amp; PRE-MARKET ACTIONABLES</div>
+<div class="mi">
+<div class="sm-card card-orange">
+<div class="card-hd orange">⚡ Catalyst Alert</div>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</div>
+<div class="sm-card card-cyan">
+<div class="card-hd cyan">📅 Today's Key Events</div>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</div>
+<div class="sm-card">
+<div class="card-hd">⚡ Pre-Market Actionables</div>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</div>
+</div>
+<!-- ══ KPI BAR ════════════════════════════════════════════════ -->
+<div class="sec-label">04 — PRE-MARKET KEY PRICE LEVELS</div>
+<div class="kpi-bar">
+<div class="kpi"><div class="kpi-lbl">/ES Pre-Mkt</div><div class="kpi-val c-safe">7,685.00</div><div class="kpi-ch c-safe">+42.25 (+0.55%)</div></div>
+<div class="kpi"><div class="kpi-lbl">/NQ Open</div><div class="kpi-val c-safe">29,136.50</div><div class="kpi-ch c-safe">+11.00 (+0.04%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Gold (GCUSD)</div><div class="kpi-val c-safe">4,419.30</div><div class="kpi-ch c-safe">+22.90 (+0.52%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Bitcoin (BTC)</div><div class="kpi-val c-bad">77,103.52</div><div class="kpi-ch c-bad">-292.37 (-0.38%)</div></div>
+<div class="kpi"><div class="kpi-lbl">S&amp;P 500 Close</div><div class="kpi-val c-safe">7,675.67</div><div class="kpi-ch c-safe">+44.20 (+0.58%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Ethereum (ETH)</div><div class="kpi-val c-bad">2,389.81</div><div class="kpi-ch c-bad">-27.85 (-1.15%)</div></div>
+</div>
+<!-- ══ REGIME BAR ════════════════════════════════════════════ -->
+<div class="regime">
+<span class="reg-badge sv-neut">{{REGIME_SIGNAL}}</span>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</div>
+<!-- ══ FUTURES ANALYSIS ══════════════════════════════════════ -->
+<div class="sec-label">05 — FUTURES INTELLIGENCE</div>
+<div class="grid2">
+<!-- /ES -->
+<div class="sm-card">
+<div class="card-hd">📈 /ES — E-Mini S&amp;P 500 · Sep 1 Settlement</div>
+<table class="ftbl">
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="sv-neut">+2.25 (+0.03%)</td></tr>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</table>
+<p class="tfoot-note">† estimated from session analysis; verify settlement at CME.com · TradingView</p>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">{{CA_STRATEGY}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+</div>
+</div>
+<!-- /NQ -->
+<div class="sm-card">
+<div class="card-hd">📈 /NQ — E-Mini Nasdaq-100 · Sep 1 Settlement</div>
+<table class="ftbl">
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="sv-neut">+11.00 (+0.04%)</td></tr>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</table>
+<p class="tfoot-note">† H/L/Volume/Momentum estimated from session analysis; verify settlement at CME.com · TradingView</p>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">{{CA_STRATEGY}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+</div>
+</div>
+</div>
+<!-- ══ ECON + EARNINGS + SECTORS ══════════════════════════════ -->
+<div class="sec-label">06 — ECONOMIC CALENDAR · EARNINGS · SECTOR ROTATION</div>
+<div class="grid3">
+<!-- ECON CALENDAR -->
+<div class="sm-card card-cyan">
+<div class="card-hd cyan">📅 Economic Calendar</div>
+<table class="etbl">
+<tr><th>Time (PT)</th><th>Event</th><th>Est</th><th>Act</th></tr>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</table>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+</div>
+</div>
+<!-- EARNINGS -->
+<div class="sm-card card-safe">
+<div class="card-hd" style="color:var(--safe)">💰 Earnings Watch</div>
+<table class="erntbl">
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</table>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+</div>
+</div>
+<!-- SECTORS -->
+<div class="sm-card">
+<div class="card-hd">🗂 Sector Performance — Sep 1</div>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="ca" style="margin-top:8px">
+<div class="ca-row"><div class="ca-lbl">Rotation</div><div class="ca-val">{{CA_ROTATION}}</div></div>
+</div>
+</div>
+</div>
+<!-- ══ GAINERS + DECLINERS ════════════════════════════════════ -->
+<div class="sec-label">07 — PRE-MARKET MOVERS</div>
+<div class="grid2">
+<div class="sm-card card-safe">
+<div class="card-hd" style="color:var(--safe)">📈 Pre-Market Gainers</div>
+<table class="pmtbl">
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</table>
+</div>
+<div class="sm-card card-danger">
+<div class="card-hd" style="color:var(--danger)">📉 Pre-Market Decliners</div>
+<table class="pmtbl">
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</table>
+</div>
+</div>
+<!-- ══ SPOTLIGHT + OPTIONS IDEAS ════════════════════════════ -->
+<div class="sec-label">08 — SPOTLIGHT &amp; OPTIONS INTELLIGENCE</div>
+<div class="grid2">
+<div class="sm-card">
+<div class="card-hd">🔍 Spotlight</div>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</div>
+<div class="sm-card card-orange">
+<div class="card-hd orange">🎯 Options Ideas</div>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</div>
+</div>
+<!-- ══ MONEY FLOW + UNUSUAL OPTIONS ═════════════════════════ -->
+<div class="sec-label">09 — DARK POOL &amp; INSTITUTIONAL FLOW</div>
+<div class="grid2">
+<div class="sm-card">
+<div class="card-hd">💸 Dark Pool / Money Flow</div>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</div>
+<div class="sm-card card-orange">
+<div class="card-hd orange">⚡ Unusual Options Activity</div>
+<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+</div>
+</div>
+<!-- ══ MASTER TRADE TABLE ════════════════════════════════════ -->
+<div class="sec-label">10 — MASTER TRADE INTELLIGENCE</div>
+<div class="tbl-section">
+<div class="tbl-hd">MASTER TRADE IDEAS — <span>Wednesday, September 2, 2026</span></div>
+<div class="ttbl-controls">
+<span class="ttbl-filter-lbl">Filter:</span>
+<input class="ttbl-filter-input" id="fSymbol" oninput="apexFilterTable()" placeholder="Symbol…"/>
+<select class="ttbl-filter-select" id="fType" onchange="apexFilterTable()">
+<option value="">All Types</option>
+<option value="futures">Futures</option>
+<option value="stock">Stock</option>
+<option value="etf">ETF</option>
+<option value="options">Options</option>
+</select>
+<select class="ttbl-filter-select" id="fDir" onchange="apexFilterTable()">
+<option value="">All Directions</option>
+<option value="long">Long</option>
+<option value="short">Short</option>
+<option value="neut">Neutral</option>
+</select>
+<select class="ttbl-filter-select" id="fPri" onchange="apexFilterTable()">
+<option value="">All Priority</option>
+<option value="3">★★★ High</option>
+<option value="2">★★ Medium</option>
+<option value="1">★ Low</option>
+</select>
+<button class="ttbl-reset" onclick="apexResetFilters()">Reset</button>
+<span class="ttbl-count" id="tradeCount">0 / 0 trades</span>
+</div>
+<table class="ttbl" id="apexTradeTable">
+<thead>
+<tr>
+<th class="sortable" onclick="apexSortTable(0)">#</th>
+<th class="sortable" onclick="apexSortTable(1)">Symbol</th>
+<th class="sortable" onclick="apexSortTable(2)">Type</th>
+<th class="sortable" onclick="apexSortTable(3)">Direction</th>
+<th>Setup</th>
+<th class="sortable" onclick="apexSortTable(5)">Entry</th>
+<th>Stop</th>
+<th>Target</th>
+<th class="sortable" onclick="apexSortTable(8)">R:R</th>
+<th>Notes</th>
+<th class="sortable" onclick="apexSortTable(10)">Priority</th>
+</tr>
+</thead>
+<tbody><tr><td colspan="11" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<!-- <tr><td>{{N}}</td><td><strong>{{TICKER}}</strong></td><td><span class="t-type tf|ts|te|to">{{TYPE}}</span></td><td class="t-long|t-short|t-neut">{{DIRECTION}}</td><td>{{SETUP}}</td><td class="mono">{{ENTRY}}</td><td class="mono c-bad">{{STOP}}</td><td class="mono c-safe">{{TARGET}}</td><td class="t-rr">{{RR}}</td><td>{{NOTES}}</td><td class="t-pri">{{PRIORITY}}</td></tr> --></tbody>
+</table>
+</div>
+<!-- ══ FOOTER ════════════════════════════════════════════════ -->
+<footer><div class="footer-logo">SHADOW MONKEY</div><div class="footer-meta">MORNING MARKET MONITOR — Wednesday, Wednesday, September 2, 2026<br/>OPERATIVE: SHADOW MONKEY // HANDLER: JOE<br/>ENTITY: MONKEY MATTERS LLC / JVS HOLDINGS LTD<br/>PLATFORM: CLAUDE SONNET 5 // EYES ONLY<br/>† All trade ideas are informational only, not financial advice.</div></footer>
+</div><!-- /.wrap -->
+<script>
+(function(){
+  var tbody = document.querySelector('#apexTradeTable tbody');
+  var sortState = {col: -1, asc: true};
+  function allRows(){ return Array.from(tbody.querySelectorAll('tr')); }
+  function cellVal(row, col){ var c = row.cells[col]; return c ? c.textContent.trim() : ''; }
+  function applyFilter(){
+    var sym  = (document.getElementById('fSymbol').value || '').toLowerCase().trim();
+    var type = (document.getElementById('fType').value || '').toLowerCase();
+    var dir  = (document.getElementById('fDir').value || '').toLowerCase();
+    var pri  = (document.getElementById('fPri').value || '');
+    var shown = 0, total = 0;
+    allRows().forEach(function(row){
+      total++;
+      var ok = true;
+      if(sym && cellVal(row,1).toLowerCase().indexOf(sym) === -1) ok = false;
+      if(ok && type){
+        var ttext = cellVal(row,2).toLowerCase();
+        if(type === 'etf'){ if(ttext.indexOf('etf') === -1) ok = false; }
+        else { if(ttext.indexOf(type) === -1) ok = false; }
+      }
+      if(ok && dir){
+        var dcls = row.cells[3] ? (row.cells[3].className || '') : '';
+        if(dir === 'long'  && dcls.indexOf('t-long')  === -1) ok = false;
+        if(dir === 'short' && dcls.indexOf('t-short') === -1) ok = false;
+        if(dir === 'neut'  && dcls.indexOf('t-neut')  === -1) ok = false;
+      }
+      if(ok && pri){
+        var stars = (cellVal(row,10).match(/★/g) || []).length.toString();
+        if(stars !== pri) ok = false;
+      }
+      row.style.display = ok ? '' : 'none';
+      if(ok) shown++;
+    });
+    var el = document.getElementById('tradeCount');
+    if(el) el.textContent = shown + ' / ' + total + ' trades';
+  }
+  function applySort(col){
+    var rows = allRows();
+    var asc  = (sortState.col === col) ? !sortState.asc : true;
+    sortState = {col: col, asc: asc};
+    document.querySelectorAll('#apexTradeTable th').forEach(function(th){ th.classList.remove('sort-asc','sort-desc'); });
+    var allTh = document.querySelectorAll('#apexTradeTable th');
+    if(allTh[col]) allTh[col].classList.add(asc ? 'sort-asc' : 'sort-desc');
+    rows.sort(function(a,b){
+      var va = cellVal(a,col), vb = cellVal(b,col);
+      var mult = asc ? 1 : -1;
+      if(col === 0) return mult*(parseInt(va)-parseInt(vb));
+      if(col === 10){ var sa=(va.match(/★/g)||[]).length; var sb=(vb.match(/★/g)||[]).length; return mult*(sa-sb); }
+      if(col === 8){ var na=va==='Event'?-1:(parseFloat(va.replace('1:',''))||0); var nb=vb==='Event'?-1:(parseFloat(vb.replace('1:',''))||0); return mult*(na-nb); }
+      return mult*va.toLowerCase().localeCompare(vb.toLowerCase());
+    });
+    rows.forEach(function(r){ tbody.appendChild(r); });
+    applyFilter();
+  }
+  window.apexFilterTable  = applyFilter;
+  window.apexResetFilters = function(){
+    ['fSymbol','fType','fDir','fPri'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+    applyFilter();
+  };
+  window.apexSortTable = applySort;
+  applyFilter();
+})();
+</script>
+</body>
+</html>
