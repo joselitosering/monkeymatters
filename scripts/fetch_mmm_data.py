@@ -461,6 +461,44 @@ def build_futures_stats_rows(key: str, q: dict) -> str | None:
     return "".join(rows)
 
 
+CNN_FNG_URL = "https://production.dataviz.cnn.io/index/fearandgreed/graphdata"
+
+# CNN's own rating buckets, mapped to our six-step severity scale.
+_FNG_SEV = {
+    "extreme fear": "sv-bear2", "fear": "sv-bear", "neutral": "sv-neut",
+    "greed": "sv-lean-bull", "extreme greed": "sv-bull",
+}
+
+
+def fetch_fear_greed() -> dict | None:
+    """CNN's own internal JSON API (the same one their front-end widget
+    calls) -- confirmed live and unauthenticated 2026-09-02. Returns None
+    on any failure; the KPI tile falls back to its prior PENDING behavior
+    rather than blocking the whole run over one third-party call.
+    """
+    try:
+        req = urllib.request.Request(CNN_FNG_URL, headers={
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/128.0.0.0 Safari/537.36",
+            "Referer": "https://www.cnn.com/markets/fear-and-greed",
+            "Origin": "https://www.cnn.com",
+            "Accept": "application/json, text/plain, */*",
+        })
+        with urllib.request.urlopen(req, timeout=15) as r:
+            d = json.loads(r.read().decode())["fear_and_greed"]
+        score = round(d["score"])
+        rating = d["rating"].lower()
+        prev_close = round(d["previous_close"])
+        delta = score - prev_close
+        return {
+            "val": str(score),
+            "label": f"{rating.title()} ({delta:+d} vs prior close)",
+            "sev": _FNG_SEV.get(rating, "sv-neut"),
+        }
+    except Exception as e:
+        print(f"WARN: Fear & Greed fetch failed: {e}", file=sys.stderr)
+        return None
+
+
 def build_kpi_tokens(quotes: dict, schwab: dict) -> dict:
     """KPI bar + VIX sentiment tile. ES/NQ prefer real Schwab futures when
     available (schwab dict non-empty); otherwise fall back to the FMP
@@ -511,6 +549,12 @@ def build_kpi_tokens(quotes: dict, schwab: dict) -> dict:
     t["VIX_VAL"] = fmt(vix["price"]) if vix else "N/A"
     t["SENT_COLOR"] = vix["color"] if vix else "c-sub"   # legacy; tiles now use *_SEV
     t["VIX_SEV"] = vix_severity(vix)
+
+    fng = fetch_fear_greed()
+    if fng:
+        t["FNG_VAL"] = fng["val"]
+        t["FNG_LABEL"] = fng["label"] + " -- CNN Fear & Greed, live"
+        t["FNG_SEV"] = fng["sev"]
 
     # Gap vs Settle rows (Futures Intelligence): open - prior settlement, color by severity.
     for key in ("ES", "NQ"):
@@ -588,11 +632,21 @@ def render(template: str, now: datetime.datetime, kpi: dict, insert: dict | None
         # Severity classes (sv-bull .. sv-bear2). VIX is auto; the rest are
         # set by the analysis pass. Regime defaults neutral until analysed.
         "VIX_SEV": kpi.get("VIX_SEV", "sv-neut"),
-        "FNG_SEV": "sv-neut", "PUTCALL_SEV": "sv-neut", "BREADTH_SEV": "sv-neut",
-        "AAII_SEV": "sv-neut", "SENTIMENT_SEV": "sv-neut", "REGIME_SEV": "sv-neut",
+        # BUG FIX 2026-09-02: these were hardcoded literals ("sv-neut" etc.),
+        # not kpi.get(...) -- they silently clobbered whatever build_kpi_tokens()
+        # (e.g. fetch_fear_greed()) had already computed. Same class of bug as
+        # the NQ_PREMARKET fix earlier today. REGIME_SEV stays literal-default
+        # (sv-neut) -- there is no mechanical regime classifier yet, only the
+        # analysis pass sets it meaningfully.
+        "FNG_SEV": kpi.get("FNG_SEV", "sv-neut"),
+        "PUTCALL_SEV": kpi.get("PUTCALL_SEV", "sv-neut"),
+        "BREADTH_SEV": kpi.get("BREADTH_SEV", "sv-neut"),
+        "AAII_SEV": kpi.get("AAII_SEV", "sv-neut"),
+        "SENTIMENT_SEV": kpi.get("SENTIMENT_SEV", "sv-neut"),
+        "REGIME_SEV": "sv-neut",
         "ES_GAP": kpi.get("ES_GAP", "N/A"), "ES_GAP_COLOR": kpi.get("ES_GAP_COLOR", "c-sub"),
         "NQ_GAP": kpi.get("NQ_GAP", "N/A"), "NQ_GAP_COLOR": kpi.get("NQ_GAP_COLOR", "c-sub"),
-        "FNG_VAL": "N/A", "FNG_LABEL": PENDING,
+        "FNG_VAL": kpi.get("FNG_VAL", "N/A"), "FNG_LABEL": kpi.get("FNG_LABEL", PENDING),
         "PUTCALL_VAL": "N/A", "PUTCALL_LABEL": PENDING,
         "BREADTH_VAL": "N/A", "BREADTH_LABEL": PENDING,
         "AAII_VAL": "N/A", "AAII_LABEL": PENDING,
