@@ -57,6 +57,8 @@
     "{{S_STOP}}": "NFP > 75K = hike locked",
     "{{S_TARGET}}": "CPI next wk",
     "{{PIVOT}}": "NFP ~45K",
-    "{{VWAP}}": "FOMC Sept 16"
-  }
+    "{{VWAP}}": "FOMC Sept 16",
+    "{{CA_STRATEGY}}": "Doctrine through Friday: hedged, half-N, no directional macro bet before NFP. Use rate-driven dips to scale RAMP sleeves with defined risk (call spreads, not stock) and let the print set the September path. If NFP < 25K, add duration-sensitive sleeves (quantum, space) first; if > 75K, energy and AI-hardware backlog names are the only longs that work."
+  },
+  "CA_ROTATION": "Bounce leadership is defensive-plus-earnings, not risk-on: comm services +2.21% (AMZN ex, GOOGL/META bid), financials +0.77% on the 2Y at 4.40%, energy +0.72% on $95 crude, staples +0.65%. Tech -0.27% and real estate -0.51% are the two rate-sensitive groups still red — the 10Y at 4.81% is doing the sector allocation. Inside tech the dispersion is the story: AI hardware (DELL +9%, 2x ETF +15%) versus software/cyber (MDB -12%, PANW ~-10%) — the tape pays backlog and punishes guidance. RAMP read: AI infra and MED (MDT beat-and-raise) have live bids; quantum and space stay duration-sensitive until CPI/FOMC set the rate path; blockchain flat with BTC at 77.5K."
 }
