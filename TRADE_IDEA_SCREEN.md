@@ -50,3 +50,33 @@ exposure is a table that forgot the mission.
    (contracts, customer mix). Pull if it hits section 1 or cannot be cleared.
 3. Tag every row.
 4. Add a SCREEN APPLIED line to Actionables on the page.
+
+## Grounding rule -- confirmed live 2026-09-02, standing as of this date
+
+**No row without a retrieved number.** Every trade-table row must cite either:
+(a) a Schwab pivot/VAH/POC/ATR level from the pipeline data,
+(b) an FMP quote, sector snapshot, or gainers/losers figure pulled this session, or
+(c) a web-search-sourced current price, 52-week range, or specific catalyst (earnings figure, analyst
+    action, headline) with the source and approximate date noted.
+
+"Pullback to the 20-EMA" or "below the Aug low" with no actual number behind it is not a level -- it is
+a placeholder, and it is not acceptable regardless of which model wrote it.
+
+**If a candidate name cannot be grounded in the time available, it is dropped from the table.**
+RAMP-sleeve inclusion does not exempt a name from this bar -- a smaller table with real numbers beats
+a full table with filler.
+
+**FMP plan constraint (confirmed 2026-09-02):** this account's FMP tier does not support individual-
+equity \quote\ or \	echnicalIndicators\ calls for arbitrary tickers (both return ACCESS DENIED /
+no-approval errors). Available FMP tools: \marketPerformance\ (sector snapshots, biggest
+gainers/losers), \commodity\ (single-symbol quote/EOD for some symbols, inconsistently gated),
+Schwab futures/price-history (already pipeline-integrated for /ES /NQ). For any other single-name
+stock or ETF, the grounding source is web_search -- pull current price, day range, 52-week range,
+and the specific catalyst before writing the row, and cite it as web-sourced with an approximate date.
+
+**Confirmation test (2026-09-02):** applying this rule to 5 previously-templated rows (HUT, RKLB,
+IONQ, OABI, ARKQ) changed two conclusions on real data -- RKLB flipped LONG to NEUTRAL (a false "RS
+holding" claim was corrected by real technicals showing a confirmed downtrend, Strong Sell rating,
+-21% since a Sell signal), and OABI flipped from a fabricated pullback setup to an honest no-chase
+call once its real move (+22% into 52-week highs) was checked. The rule is confirmed to catch real
+errors, not just add decoration. Model used: Claude Sonnet 5.
