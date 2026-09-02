@@ -1,89 +1,86 @@
 {
-  "fetched_at": "2026-09-02T09:46:03.721071-07:00",
+  "fetched_at": "2026-09-02T14:41:44.984393-07:00",
   "quotes": {
     "VIX": {
-      "price": 15.4,
-      "change": -0.9,
-      "changePercentage": -5.63035,
+      "price": 15.2,
+      "change": -1.1,
+      "changePercentage": -6.97674,
       "color": "c-bad"
     },
     "SPX": {
-      "price": 7665.31,
-      "change": 33.84,
-      "changePercentage": 0.44343,
+      "price": 7667.45,
+      "change": 35.98,
+      "changePercentage": 0.47147,
       "color": "c-safe"
     },
     "GOLD": {
-      "price": 4415,
-      "change": 18.6,
-      "changePercentage": 0.42307,
+      "price": 4414.6,
+      "change": 18.2,
+      "changePercentage": 0.41398,
       "color": "c-safe"
     },
     "BTC": {
-      "price": 77266.78,
-      "change": -129.11,
-      "changePercentage": -0.16682,
+      "price": 77360.26,
+      "change": -35.63,
+      "changePercentage": -0.04603604,
       "color": "c-bad"
     },
     "ETH": {
-      "price": 2390.33,
-      "change": -27.33,
-      "changePercentage": -1.13058,
+      "price": 2392.98,
+      "change": -24.68,
+      "changePercentage": -1.02097,
       "color": "c-bad"
     }
   },
   "schwab_futures": {
     "ES": {
-      "price": 7674.75,
-      "change": 32.0,
-      "changePercentage": 0.41869746,
+      "price": 7669.25,
+      "change": 26.5,
+      "changePercentage": 0.34673383,
       "color": "c-safe",
       "contract": "/ESU26",
-      "open": 7645.0,
+      "open": 0.0,
       "prev_close": 7642.75,
       "profile": {
-        "session_date": "2026-09-01",
+        "session_date": "2026-09-02",
         "prev": {
-          "high": 7708.0,
-          "low": 7621.5,
-          "settle": 7647.5,
-          "range": 86.5,
-          "volume": 1541395
+          "high": 7691.25,
+          "low": 7618.5,
+          "settle": 7669.25,
+          "range": 72.75,
+          "volume": 1269740
         },
-        "adr5": 59.75,
+        "adr5": 66.4,
         "pivots": {
-          "PP": 7659.0,
-          "R1": 7696.5,
-          "S1": 7610.0,
-          "R2": 7745.5,
-          "S2": 7572.5,
-          "R3": 7783.0,
-          "S3": 7523.5
+          "PP": 7659.67,
+          "R1": 7700.83,
+          "S1": 7628.08,
+          "R2": 7732.42,
+          "S2": 7586.92,
+          "R3": 7773.58,
+          "S3": 7555.33
         },
         "rth_profile": {
-          "poc": 7645.0,
-          "vah": 7660.0,
-          "val": 7633.0,
-          "vwap": 7649.12,
-          "volume": 1220444,
+          "poc": 7678.0,
+          "vah": 7687.0,
+          "val": 7672.0,
+          "vwap": 7673.99,
+          "volume": 994996,
           "bin": 1.0,
           "va_pct": 0.7,
-          "high": 7673.75,
-          "low": 7621.5,
+          "high": 7691.25,
+          "low": 7643.0,
           "bars": 390
         },
-        "overnight": {
-          "high": 7691.25,
-          "low": 7618.5
-        },
+        "overnight": {},
         "turtle": {
-          "atr20": 58.05,
-          "n2": 116.1,
-          "half_n": 29.02,
+          "atr20": 57.96,
+          "n2": 115.92,
+          "half_n": 28.98,
           "d20": {
             "n": 20,
             "hi": 7838.5,
-            "lo": 7621.5,
+            "lo": 7618.5,
             "bars": 20
           },
           "d55": {
@@ -97,56 +94,53 @@
       }
     },
     "NQ": {
-      "price": 29147.5,
-      "change": 22.0,
-      "changePercentage": 0.07553518,
+      "price": 29141.0,
+      "change": 15.5,
+      "changePercentage": 0.05321797,
       "color": "c-safe",
       "contract": "/NQU26",
-      "open": 29136.5,
+      "open": 0.0,
       "prev_close": 29125.5,
       "profile": {
-        "session_date": "2026-09-01",
+        "session_date": "2026-09-02",
         "prev": {
-          "high": 29571.25,
-          "low": 29002.0,
-          "settle": 29139.0,
-          "range": 569.25,
-          "volume": 545209
+          "high": 29213.0,
+          "low": 28927.25,
+          "settle": 29141.0,
+          "range": 285.75,
+          "volume": 436444
         },
-        "adr5": 373.05,
+        "adr5": 361.85,
         "pivots": {
-          "PP": 29237.42,
-          "R1": 29472.83,
-          "S1": 28903.58,
-          "R2": 29806.67,
-          "S2": 28668.17,
-          "R3": 30042.08,
-          "S3": 28334.33
+          "PP": 29093.75,
+          "R1": 29260.25,
+          "S1": 28974.5,
+          "R2": 29379.5,
+          "S2": 28808.0,
+          "R3": 29546.0,
+          "S3": 28688.75
         },
         "rth_profile": {
-          "poc": 29110.0,
-          "vah": 29205.0,
-          "val": 29070.0,
-          "vwap": 29150.62,
-          "volume": 390030,
+          "poc": 29145.0,
+          "vah": 29200.0,
+          "val": 29115.0,
+          "vwap": 29138.52,
+          "volume": 304302,
           "bin": 5.0,
           "va_pct": 0.7,
-          "high": 29317.75,
-          "low": 29002.0,
+          "high": 29213.0,
+          "low": 29017.25,
           "bars": 390
         },
-        "overnight": {
-          "high": 29213.0,
-          "low": 28927.25
-        },
+        "overnight": {},
         "turtle": {
-          "atr20": 401.8,
-          "n2": 803.6,
-          "half_n": 200.9,
+          "atr20": 388.93,
+          "n2": 777.85,
+          "half_n": 194.46,
           "d20": {
             "n": 20,
             "hi": 30343.0,
-            "lo": 28946.75,
+            "lo": 28927.25,
             "bars": 20
           },
           "d55": {
