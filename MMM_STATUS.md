@@ -120,3 +120,21 @@ local-test fallback path (checks real env vars first, `.env` second).
 - Volume-profile method: each 1-min bar's volume spread across the price bins
   its range touches (ES 1-pt bins, NQ 5-pt); value area expanded from POC by
   the larger neighbouring pair (CBOT Market Profile method).
+
+## Analysis-pass completeness checklist (every insert must cover ALL of these)
+
+Flat tokens: REGIME_LABEL, REGIME_SIGNAL, REGIME_SEV, PRIMARY_CATALYST, VIX_LABEL,
+FNG_VAL/LABEL/SEV, PUTCALL_VAL/LABEL/SEV, BREADTH_VAL/LABEL/SEV, AAII_VAL/LABEL/SEV,
+SENTIMENT_VAL/LABEL/SEV, ADVISORY_VERDICT, ADVISORY_BODY, SIGNAL_BULL/WATCH/CAUTION/AVOID,
+OPERATIVE_VERDICT_TEXT, BBM_BULL_PCT, BBM_BEAR_PCT, BBM_HEADLINE, **CA_ROTATION** (sector card).
+
+INJECTED_SECTIONS (keys must be exact template bytes -- extract at runtime, never hand-type):
+ALERTS, EVENTS, ACTIONABLES (+ SCREEN APPLIED line), REGIME DETAILS, BBM SIGNAL ROWS, SECTORS,
+SPOTLIGHT, OPTIONS IDEAS, MONEY FLOW, UNUSUAL OPTIONS, S06 ECON CALENDAR, S06 EARNINGS WATCH,
+S07 GAINERS, S07 DECLINERS, the 20-row trade table (marker has NO colon: "INJECT UP TO 20 TRADE ROWS"),
+the /ES and /NQ analysis blocks (CA_ANALYSIS, CA_SPEC_MOVE, CA_TRADE_IDEA, CA_STRATEGY + 8 level tokens,
+targeted by the card's unique bytes), and the Econ card's bare tokens: {{CA_ANALYSIS}}, {{CA_SPEC_MOVE}},
+{{CA_TRADE_IDEA}}, **{{CA_STRATEGY}}** (the econ card HAS a Strategy row), + the 8 level tokens.
+/ES STATS and /NQ STATS are pipeline-filled -- do not hand-type them.
+
+Verify on the live page: 0 visible {{TOKENS}} outside comments, 20 trade rows, 0 PENDING.
