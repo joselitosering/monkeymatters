@@ -27,9 +27,10 @@ the KPI tiles as cash-index-derived rather than silently mislabeling
 them as futures.
 """
 from __future__ import annotations
-import os, re, sys, json, subprocess, datetime
+import os, re, sys, json, subprocess, datetime, math
 from pathlib import Path
 from zoneinfo import ZoneInfo
+ET = ZoneInfo("America/New_York")
 import urllib.request
 import urllib.parse
 
@@ -65,6 +66,12 @@ SOURCES = {
 
 SCHWAB_TOKEN_URL = "https://api.schwabapi.com/v1/oauth/token"
 SCHWAB_QUOTES_URL = "https://api.schwabapi.com/marketdata/v1/quotes"
+SCHWAB_HISTORY_URL = "https://api.schwabapi.com/marketdata/v1/pricehistory"
+# Volume-profile settings. Bin width in index points (ES ticks 0.25 -> 1pt bins;
+# NQ ticks 0.25 but moves 4x -> 5pt bins). 70% value area is the CME/market-
+# profile convention.
+PROFILE_BIN = {"ES": 1.0, "NQ": 5.0}
+VALUE_AREA_PCT = 0.70
 
 
 def fetch_schwab_futures() -> dict:
@@ -116,6 +123,7 @@ def fetch_schwab_futures() -> dict:
         with urllib.request.urlopen(req, timeout=15) as resp:
             access_token = json.loads(resp.read().decode())["access_token"]
 
+        _schwab_token_cache["access_token"] = access_token
         url = SCHWAB_QUOTES_URL + "?" + urllib.parse.urlencode({"symbols": "/ES,/NQ"})
         req = urllib.request.Request(
             url, headers={"Authorization": f"Bearer {access_token}", "Accept": "application/json"}
@@ -142,6 +150,15 @@ def fetch_schwab_futures() -> dict:
                 "open": q.get("openPrice"),
                 "prev_close": q.get("closePrice"),
             }
+        # Volume profile + pivots from Schwab price history. Per-contract
+        # try/except: a profile failure must never take the quotes down.
+        for key, symbol in (("ES", "/ES"), ("NQ", "/NQ")):
+            if key not in out:
+                continue
+            try:
+                out[key]["profile"] = fetch_schwab_profile(access_token, key, symbol)
+            except Exception as e:
+                print(f"WARN: {key} profile failed: {e}", file=sys.stderr)
         return out
     except Exception as e:
         print(f"WARN: Schwab futures fetch failed, falling back to FMP proxy: {e}", file=sys.stderr)
@@ -253,6 +270,197 @@ def fmt_change(d: dict | None) -> str:
     return f"{sign}{d['change']:,.2f}{pct_str}"
 
 
+_schwab_token_cache: dict = {}
+
+
+def _schwab_get(access_token: str, url: str, params: dict) -> dict:
+    req = urllib.request.Request(
+        url + "?" + urllib.parse.urlencode(params),
+        headers={"Authorization": f"Bearer {access_token}", "Accept": "application/json"},
+    )
+    with urllib.request.urlopen(req, timeout=20) as resp:
+        return json.loads(resp.read().decode())
+
+
+def _et(ms: int) -> datetime.datetime:
+    return datetime.datetime.fromtimestamp(ms / 1000, ET)
+
+
+def compute_volume_profile(bars: list, bin_size: float, va_pct: float = VALUE_AREA_PCT) -> dict:
+    """Market-profile style volume profile from OHLCV bars.
+
+    Each bar's volume is spread evenly across every price bin its high-low
+    range touches (the standard approximation when tick-level prints are
+    not available). POC = highest-volume bin. Value area = bins around the
+    POC holding va_pct of total volume, expanded by adding whichever
+    neighbouring pair (above vs below) carries more volume -- the CBOT
+    Market Profile method. VAH/VAL are the outer edges of that area.
+    VWAP is volume-weighted typical price over the same bars.
+    """
+    vol_at: dict = {}
+    pv = 0.0; vtot = 0.0
+    for b in bars:
+        v = float(b.get("volume") or 0)
+        if v <= 0:
+            continue
+        lo = math.floor(b["low"] / bin_size) * bin_size
+        hi = math.floor(b["high"] / bin_size) * bin_size
+        nb = int(round((hi - lo) / bin_size)) + 1
+        share = v / nb
+        for i in range(nb):
+            p = round(lo + i * bin_size, 4)
+            vol_at[p] = vol_at.get(p, 0.0) + share
+        pv += (b["high"] + b["low"] + b["close"]) / 3.0 * v
+        vtot += v
+    if not vol_at or vtot <= 0:
+        return {}
+    prices = sorted(vol_at)
+    poc = max(prices, key=lambda p: (vol_at[p], -abs(p - pv / vtot)))
+    target = vtot * va_pct
+    i = j = prices.index(poc)
+    area = vol_at[poc]
+    while area < target and (i > 0 or j < len(prices) - 1):
+        up = sum(vol_at[p] for p in prices[j + 1:j + 3])
+        dn = sum(vol_at[p] for p in prices[max(0, i - 2):i])
+        if (up >= dn and j < len(prices) - 1) or i == 0:
+            step = min(2, len(prices) - 1 - j); j += step
+            area += sum(vol_at[p] for p in prices[j - step + 1:j + 1])
+        else:
+            step = min(2, i); i -= step
+            area += sum(vol_at[p] for p in prices[i:i + step])
+    return {
+        "poc": poc, "vah": prices[j] + bin_size, "val": prices[i],
+        "vwap": round(pv / vtot, 2), "volume": int(vtot),
+        "bin": bin_size, "va_pct": va_pct,
+        "high": max(b["high"] for b in bars), "low": min(b["low"] for b in bars),
+        "bars": len(bars),
+    }
+
+
+def fetch_schwab_profile(access_token: str, key: str, symbol: str) -> dict:
+    """Prior-session stats for the Futures Intelligence table, all from
+    Schwab price history (the same feed the quote comes from):
+
+      daily bars   -> previous session H/L/settle, classic pivots, 5-session ADR
+      1-minute bars-> RTH (09:30-16:00 ET) volume profile: VAH/POC/VAL/VWAP,
+                      plus overnight (Globex) high/low so far for today.
+
+    'Previous session' = the most recent RTH window that has fully closed
+    as of now (ET) -- so a 06:10 PT run on Sep 2 profiles Sep 1 RTH.
+    """
+    now = datetime.datetime.now(ET)
+    daily = _schwab_get(access_token, SCHWAB_HISTORY_URL, {
+        "symbol": symbol, "periodType": "month", "period": 3,
+        "frequencyType": "daily", "frequency": 1}).get("candles", [])
+    intraday = _schwab_get(access_token, SCHWAB_HISTORY_URL, {
+        "symbol": symbol, "periodType": "day", "period": 3,
+        "frequencyType": "minute", "frequency": 1, "needExtendedHoursData": "true"}).get("candles", [])
+    if not daily or not intraday:
+        raise RuntimeError("empty price history")
+
+    # --- prior completed RTH session ---
+    by_date: dict = {}
+    for b in intraday:
+        t = _et(b["datetime"]); hm = t.strftime("%H:%M")
+        if "09:30" <= hm < "16:00":
+            by_date.setdefault(t.date(), []).append(b)
+    closed = [d for d in sorted(by_date) if datetime.datetime.combine(d, datetime.time(16, 0), ET) <= now]
+    if not closed:
+        raise RuntimeError("no completed RTH session in window")
+    pd = closed[-1]
+    rth = by_date[pd]
+    prof = compute_volume_profile(rth, PROFILE_BIN[key])
+
+    # --- daily bars: settle/H/L for that session date, ADR over prior 5 ---
+    dbars = [(_et(b["datetime"]).date(), b) for b in daily]
+    prev = next((b for d, b in reversed(dbars) if d <= pd), None)
+    if not prev:
+        raise RuntimeError("no daily bar for prior session")
+    hist = [b for d, b in dbars if d <= pd][-5:]
+    adr5 = sum(b["high"] - b["low"] for b in hist) / len(hist)
+    H, L, C = prev["high"], prev["low"], prev["close"]
+    PP = (H + L + C) / 3
+    piv = {"PP": PP, "R1": 2 * PP - L, "S1": 2 * PP - H, "R2": PP + (H - L),
+           "S2": PP - (H - L), "R3": H + 2 * (PP - L), "S3": L - 2 * (H - PP)}
+
+    # --- Turtle Shell (Donchian / ATR) from completed sessions up to pd ---
+    done = [b for d, b in dbars if d <= pd]
+    trs = []
+    for a, b in zip(done[:-1], done[1:]):
+        trs.append(max(b["high"] - b["low"], abs(b["high"] - a["close"]), abs(b["low"] - a["close"])))
+    atr20 = sum(trs[-20:]) / len(trs[-20:]) if trs else None
+    def donch(n):
+        w = done[-n:]
+        return {"n": n, "hi": max(b["high"] for b in w), "lo": min(b["low"] for b in w), "bars": len(w)}
+    turtle = {"atr20": round(atr20, 2) if atr20 else None,
+              "n2": round(atr20 * 2, 2) if atr20 else None, "half_n": round(atr20 * 0.5, 2) if atr20 else None,
+              "d20": donch(20), "d55": donch(55)}
+
+    # --- overnight (Globex) range since 18:00 ET of the prior session ---
+    on_start = datetime.datetime.combine(pd, datetime.time(18, 0), ET)
+    on = [b for b in intraday if _et(b["datetime"]) >= on_start]
+    overnight = {"high": max(b["high"] for b in on), "low": min(b["low"] for b in on)} if on else {}
+
+    return {
+        "session_date": pd.isoformat(), "prev": {"high": H, "low": L, "settle": C,
+        "range": H - L, "volume": prev.get("volume")}, "adr5": round(adr5, 2),
+        "pivots": {k: round(v, 2) for k, v in piv.items()},
+        "rth_profile": prof, "overnight": overnight, "turtle": turtle,
+        "source": f"Schwab {symbol} price history: daily + 1-min RTH bars",
+    }
+
+
+def build_futures_stats_rows(key: str, q: dict) -> str | None:
+    """Rows for the /ES or /NQ Futures Intelligence table, in the order the
+    template's INJECT comment specifies. Returns None if no profile data."""
+    p = q.get("profile")
+    if not p:
+        return None
+    def r(l, v, c="acc"): return f'<tr><td>{l}</td><td class="{c}">{v}</td></tr>'
+    def sub(n): return f'<tr class="ftbl-sub"><td colspan="2">— {n} —</td></tr>'
+    pv, pr, on, prof = p["pivots"], p["prev"], p.get("overnight") or {}, p.get("rth_profile") or {}
+    live = q.get("price"); chg = q.get("change") or 0
+    rows = [
+        r(f"Prev High ({p['session_date'][5:]})", fmt(pr["high"])),
+        r(f"Prev Low ({p['session_date'][5:]})", fmt(pr["low"])),
+        r("Settlement", fmt(pr["settle"])),
+        r("Pre-Mkt (live mark)", fmt(live), "good" if chg >= 0 else "bad"),
+        r("Overnight High / Low", f"{fmt(on.get('high'))} / {fmt(on.get('low'))}" if on else "N/A"),
+        r("Prev Range vs 5-day ADR", f"{pr['range']:,.2f} vs {p['adr5']:,.2f} = {pr['range'] / p['adr5'] * 100:.0f}%",
+          "bad" if pr["range"] > p["adr5"] * 1.25 else "acc"),
+        sub("Pivot Levels (Classic Formula)"),
+        r("PP", fmt(pv["PP"])), r("R3", fmt(pv["R3"]), "good"), r("R2", fmt(pv["R2"]), "good"), r("R1", fmt(pv["R1"]), "good"),
+        r("S1", fmt(pv["S1"]), "bad"), r("S2", fmt(pv["S2"]), "bad"), r("S3", fmt(pv["S3"]), "bad"),
+    ]
+    t = p.get("turtle") or {}
+    if t.get("atr20"):
+        def dstat(d):
+            if live is None: return ""
+            if live > d["hi"]: return " — ABOVE: long breakout"
+            if live < d["lo"]: return " — BELOW: short breakout"
+            return " — inside, no signal"
+        rows += [
+            sub("Turtle Shell (ATR-20 N · Donchian)"),
+            r("N = ATR(20)", f"{t['atr20']:,.2f} pts"),
+            r("2N stop / 0.5N add", f"{t['n2']:,.2f} / {t['half_n']:,.2f} pts"),
+            r("Donchian 20 Hi/Lo (S1)", f"{fmt(t['d20']['hi'])} / {fmt(t['d20']['lo'])}{dstat(t['d20'])}",
+              "good" if live and live > t['d20']['hi'] else ("bad" if live and live < t['d20']['lo'] else "acc")),
+            r("Donchian 55 Hi/Lo (S2)", f"{fmt(t['d55']['hi'])} / {fmt(t['d55']['lo'])}{dstat(t['d55'])}",
+              "good" if live and live > t['d55']['hi'] else ("bad" if live and live < t['d55']['lo'] else "acc")),
+        ]
+    rows.append(sub(f"Volume Profile (RTH {p['session_date'][5:]}, {int(prof.get('va_pct', 0.7) * 100)}% VA)"))
+    if prof:
+        rows += [
+            r("VAH", fmt(prof["vah"]), "good"), r("POC", fmt(prof["poc"])), r("VAL", fmt(prof["val"]), "bad"),
+            r("Prev VWAP (RTH)", fmt(prof["vwap"])),
+            r("RTH Volume / Bars", f"{prof['volume']:,} / {prof['bars']}"),
+        ]
+    else:
+        rows.append(r("VAH / POC / VAL", "N/A — no RTH bars returned"))
+    rows.append(f'<tr><td colspan="2" style="font-size:9px;color:var(--muted)">{p["source"]}</td></tr>')
+    return "".join(rows)
+
+
 def build_kpi_tokens(quotes: dict, schwab: dict) -> dict:
     """KPI bar + VIX sentiment tile. ES/NQ prefer real Schwab futures when
     available (schwab dict non-empty); otherwise fall back to the FMP
@@ -350,7 +558,7 @@ def gap_severity(pct: float) -> str:
 PENDING = "PENDING — awaiting analysis pass"
 
 
-def render(template: str, now: datetime.datetime, kpi: dict, insert: dict | None) -> str:
+def render(template: str, now: datetime.datetime, kpi: dict, insert: dict | None, schwab: dict | None = None) -> str:
     date_long = now.strftime("%A, %B ") + str(now.day) + now.strftime(", %Y")
     date_short = now.strftime("%b ") + str(now.day)
     day_of_week = now.strftime("%A")
@@ -401,10 +609,22 @@ def render(template: str, now: datetime.datetime, kpi: dict, insert: dict | None
     for key, val in values.items():
         html = html.replace("{{" + key + "}}", str(val))
 
+    # Futures Intelligence tables are PIPELINE-FILLED from Schwab price
+    # history (prev H/L/settle, pivots, ADR, Turtle Shell N/Donchian, RTH
+    # volume profile) and take precedence over the analysis insert: these
+    # are mechanical numbers from the real contract feed, not analysis.
+    # Any /ES STATS or /NQ STATS key in an insert is a no-op once filled.
+    # If Schwab is unavailable the marker is left for the insert / pending.
+    for key in ("ES", "NQ"):
+        rows = build_futures_stats_rows(key, (schwab or {}).get(key) or {})
+        if rows:
+            html = re.sub(r"<!--\s*INJECT: /" + key + r" STATS.*?-->", lambda _m: rows, html, count=1, flags=re.S)
+
     if insert and "INJECTED_SECTIONS" in insert:
         for marker, content in insert["INJECTED_SECTIONS"].items():
             html = html.replace(marker, content)
-    else:
+
+    if not (insert and "INJECTED_SECTIONS" in insert):
         # Replace every remaining INJECT comment block with an explicit,
         # visible pending notice rather than leaving raw comments or
         # blank tables -- honest about what hasn't run yet.
@@ -488,7 +708,7 @@ def main() -> None:
     if insert:
         print(f"Found on-demand insert for {date_str} — merging analysis content.")
 
-    html = render(template, now, kpi, insert)
+    html = render(template, now, kpi, insert, schwab)
     validate(html)
 
     OUT_DIR.mkdir(parents=True, exist_ok=True)

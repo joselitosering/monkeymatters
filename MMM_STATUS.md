@@ -102,3 +102,21 @@ local-test fallback path (checks real env vars first, `.env` second).
 - On-demand insert merge is still manual (I read the JSON, write content,
   push via Desktop Commander) — no helper script exists yet. Fine as a
   process; flag if it becomes worth automating.
+
+
+## 2026-09-02 — Futures Intelligence tables are now pipeline-filled
+
+- `fetch_schwab_profile()` pulls Schwab price history per contract: daily bars
+  (prev H/L/settle, classic pivots, 5-day ADR, ATR-20 N, 2N/0.5N, Donchian
+  20/55 with live-price status) and 1-minute bars for the last completed RTH
+  session (09:30-16:00 ET) -> 70% value area VAH/POC/VAL, VWAP, volume.
+- `build_futures_stats_rows()` renders the /ES and /NQ tables. These take
+  PRECEDENCE over the analysis insert: /ES STATS and /NQ STATS keys in an
+  insert are no-ops once the pipeline has filled them. Analysis belongs in the
+  CA_* blocks, not in hand-typed tables. FMP cash-index proxies are no longer
+  used for these tables.
+- Profile data is persisted under `schwab_futures.<ES|NQ>.profile` in the
+  daily data JSON for audit.
+- Volume-profile method: each 1-min bar's volume spread across the price bins
+  its range touches (ES 1-pt bins, NQ 5-pt); value area expanded from POC by
+  the larger neighbouring pair (CBOT Market Profile method).
