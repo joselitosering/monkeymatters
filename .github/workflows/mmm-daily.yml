@@ -12,16 +12,22 @@ name: Shadow Monkey — Daily MMM (data pass)
 # runs entirely on GitHub's servers.
 on:
   schedule:
-    # Target is 6:10 AM PT, not 6:25 -- the deadline is when the PUSH
-    # completes, not when the job starts. Measured local runtime
-    # (fetch+render+sanitize+commit+push) is ~8s; the 15-min buffer exists
-    # for GitHub Actions' own runner-allocation/checkout/setup-python
-    # overhead and cron-queue delay, neither of which is measurable
-    # without a real triggered run on GitHub's infrastructure (can't do
-    # that from here -- no gh auth). Validate against a real run's
-    # reported Actions duration once secrets are in and adjust from there.
-    - cron: '10 13 * * 1-5'   # ~6:10 AM PDT
-    - cron: '10 14 * * 1-5'   # ~6:10 AM PST
+    # BUG FIX 2026-09-02: both entries below used to run EVERY weekday,
+    # ALL YEAR, with no seasonal gating -- meaning the "wrong" one for the
+    # current DST state fired an unwanted extra run daily, and real
+    # `gh run list` evidence showed schedule-triggered runs actually
+    # starting ~4 HOURS late (17:09/17:52 UTC observed for a 13:10/14:10
+    # UTC target) -- consistent with GitHub's documented schedule-trigger
+    # queuing delay under platform load, worse near common/round minutes.
+    # Fix: (1) month-range-gate each cron to its correct DST season so
+    # only ONE is ever live on a given day; (2) moved off :10 (a common,
+    # more-contended offset) to :07. DST is UTC-7 (PDT) roughly 2nd Sun
+    # Mar - 1st Sun Nov, UTC-8 (PST) the rest of the year; the month-
+    # boundary approximation can be off by a few days at the Mar/Nov
+    # transition (an extra run at ~5:07 or 7:07 local for a few days),
+    # never a multi-hour miss.
+    - cron: '7 13 * 3-10 1-5'       # 6:07 AM PDT, Mar-Oct
+    - cron: '7 14 * 11,12,1,2 1-5'  # 6:07 AM PST, Nov-Feb
   workflow_dispatch:
     inputs:
       force:
@@ -75,7 +81,15 @@ jobs:
           SCHWAB_CLIENT_SECRET: ${{ secrets.SCHWAB_CLIENT_SECRET }}
           SCHWAB_REFRESH_TOKEN: ${{ secrets.SCHWAB_REFRESH_TOKEN }}
           FORCE_RUN: ${{ github.event.inputs.force }}
-        run: python scripts/fetch_mmm_data.py
+        # Retry: FMP/Schwab/CNN/CBOE are third-party HTTP calls that can
+        # transiently fail. One flaky call must not blank a real trading
+        # day's numbers before 6:25am -- retry up to 3x with backoff.
+        run: |
+          for i in 1 2 3; do
+            python scripts/fetch_mmm_data.py && break
+            echo "Attempt $i failed, retrying in 20s..."
+            sleep 20
+          done
 
       - name: Commit and push
         run: |
