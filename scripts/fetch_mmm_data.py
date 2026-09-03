@@ -712,10 +712,10 @@ def rebuild_index() -> None:
         f'<tr><td>{f.stem}</td><td><a href="mmm-daily/{f.name}">Open</a></td></tr>'
         for f in files
     )
-    fff_dir = ROOT / "shadowmonkey" / "fff"
+    fff_dir = ROOT / "shadowmonkey" / "fff-weekly"
     fff_files = sorted(fff_dir.glob("*.html"), reverse=True) if fff_dir.exists() else []
     fff_rows = "\n".join(
-        f'<tr><td>{f.stem}</td><td><a href="fff/{f.name}">Open</a></td></tr>'
+        f'<tr><td>{f.stem}</td><td><a href="fff-weekly/{f.name}">Open</a></td></tr>'
         for f in fff_files
     ) or '<tr><td colspan="2" style="color:#666">none yet</td></tr>'
     INDEX_PATH.write_text(f"""<!DOCTYPE html><html><head><meta charset="utf-8">

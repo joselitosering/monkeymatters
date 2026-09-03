@@ -73,7 +73,7 @@ jobs:
         run: |
           git config user.name "Shadow Monkey Bot"
           git config user.email "shadowmonkey-bot@users.noreply.github.com"
-          git add shadowmonkey/fff shadowmonkey/index.html data/weekly data/outcomes data/prices
+          git add shadowmonkey/fff-weekly shadowmonkey/index.html data/weekly data/outcomes data/prices
           if git diff --cached --quiet; then
             echo "No changes to commit (gate no-op or duplicate run)."
             exit 0

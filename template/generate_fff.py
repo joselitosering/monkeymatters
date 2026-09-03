@@ -7,7 +7,7 @@ from the pinned "Morning Market Monitor Shadowmonkey" artifact, do not
 fork), same section order, rebranded FFF and converted from a one-off
 into automation per WEEKLY_PIPELINE_HANDOFF.md:
   1. week is COMPUTED (passed in by fff_build.py), never hardcoded
-  2. paths: template/ (singular), publishes to shadowmonkey/fff/
+  2. paths: template/ (singular), publishes to shadowmonkey/fff-weekly/
   3. narrative is NOT literal prose in this file: deterministic stats are
      Python (real math, always rendered); qualitative sections merge from
      data/weekly/YYYY-Www.insert.json (written by the on-demand Shadow
@@ -23,7 +23,7 @@ from zoneinfo import ZoneInfo
 
 ROOT = Path(__file__).resolve().parent.parent
 TEMPLATE_DIR = ROOT / "template"
-OUT_DIR = ROOT / "shadowmonkey" / "fff"
+OUT_DIR = ROOT / "shadowmonkey" / "fff-weekly"
 DAILY_SITE_DIR = ROOT / "shadowmonkey" / "mmm-daily"
 INDEX_PATH = ROOT / "shadowmonkey" / "index.html"
 DATA_DAILY = ROOT / "data" / "daily"
@@ -502,7 +502,7 @@ def rebuild_index() -> None:
         f'<tr><td>{f.stem}</td><td><a href="mmm-daily/{f.name}">Open</a></td></tr>'
         for f in daily_files)
     fff_rows = "\n".join(
-        f'<tr><td>{f.stem}</td><td><a href="fff/{f.name}">Open</a></td></tr>'
+        f'<tr><td>{f.stem}</td><td><a href="fff-weekly/{f.name}">Open</a></td></tr>'
         for f in fff_files) or '<tr><td colspan="2" style="color:#666">none yet</td></tr>'
     INDEX_PATH.write_text(f"""<!DOCTYPE html><html><head><meta charset="utf-8">
 <title>Shadow Monkey — Monkey Matters LLC</title>
