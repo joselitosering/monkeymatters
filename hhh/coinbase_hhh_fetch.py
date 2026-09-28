@@ -85,6 +85,10 @@ SYMBOL_ALIASES = {
     "BTC": "BTC", "WBTC": "BTC", "CBBTC": "BTC",
     "XRP": "XRP",
     "SXT": "SXT",
+    # SOL added Sep 22, 2026 (Joe: "add venmo assets") — 4.002 SOL held on Venmo,
+    # tracked manually in manual_accounts.json; listed here so the sleeve scope
+    # (BTC/ETH/XRP/SXT/SOL) and the on-chain filter stay in agreement.
+    "SOL": "SOL", "WSOL": "SOL",
 }
 
 SCRIPT_DIR = Path(__file__).resolve().parent

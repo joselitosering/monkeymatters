@@ -172,9 +172,21 @@ def refresh_access_token(cfg):
     try:
         fresh = http_json(req)
     except urllib.error.HTTPError as e:
+        # Schwab serves error bodies gzip-compressed; a naive .decode() raises
+        # UnicodeDecodeError (0x1f 0x8b magic) and buried this whole message under a
+        # traceback for the Aug 26-28, 2026 token-expiry failures. Decompress if
+        # needed and never let body-reading crash the real error report.
+        try:
+            raw = e.read()
+            if raw[:2] == b"\x1f\x8b":
+                import gzip
+                raw = gzip.decompress(raw)
+            body = raw.decode("utf-8", errors="replace")[:300]
+        except Exception:
+            body = "<unreadable>"
         sys.exit(f"[FATAL] Token refresh failed ({e.code}). Schwab refresh tokens "
-                 f"expire every ~7 days — re-run the browser login flow and save a "
-                 f"new token to {token_path}. Body: {e.read().decode()[:300]}")
+                 f"expire every ~7 days — run \"py schwab_auth.py\" to re-authenticate "
+                 f"and save a new token to {token_path}. Body: {body}")
     tok.update(fresh)
     tok["_refreshed_at"] = datetime.now().isoformat(timespec="seconds")
     token_path.write_text(json.dumps(tok, indent=2), encoding="utf-8")
@@ -235,6 +247,14 @@ def map_position(pos, kind, auto_managed=False):
     # — trust day$ and unrlPL/unrlPct for these sleeves, not day%.
     if not auto_managed and day_pct is None and (mkt_val - day_chg):
         day_pct = day_chg / (mkt_val - day_chg) * 100
+    # 2026-08-28 update (Joe's call): the day$ DOLLAR figure is now suppressed for
+    # autoManaged positions too — a week of live runs showed Schwab's
+    # currentDayProfitLoss for Piggy Bank carries the same rebalance distortion
+    # every day (e.g. -$940 on a $1.4K sleeve that barely moves). Position rows
+    # show '—'; the ACCOUNT-level day change for these sleeves is instead derived
+    # from the prior dated snapshot (see derive_automanaged_day) or shown as '—'.
+    if auto_managed:
+        day_chg = None
     price = round(mkt_val / (qty * mult), 4) if qty else None
     return {
         "symbol": inst.get("symbol", "?"),
@@ -242,7 +262,7 @@ def map_position(pos, kind, auto_managed=False):
         "qty": qty,
         "price": price,
         "mktVal": round(mkt_val, 2),
-        "dayChg": round(day_chg, 2),
+        "dayChg": round(day_chg, 2) if day_chg is not None else None,
         "dayPct": round(day_pct, 2) if day_pct is not None else None,
         "costBasis": cost,
         "unrlPL": unrl,
@@ -396,7 +416,59 @@ def build_data(cfg, raw):
     }
 
 
-def inject(template_path, out_path, data, archive_dir=None):
+def derive_automanaged_day(data, archive_dir):
+    """Account-level day change for autoManaged sleeves (Piggy Bank), derived
+    from the archive instead of Schwab's distorted per-position day$ figures.
+
+    Method (Joe's decision, 2026-08-28): day change = today's total unrealized
+    P/L minus the same account's total unrealized P/L in the MOST RECENT dated
+    snapshot before today in archive_dir; day% = that delta over the prior
+    snapshot's account value. Unrealized-delta (rather than raw value-delta)
+    nets out cash deposits into the robo sleeve; a rebalance day can still
+    shift it via basis resets, but across snapshots that error doesn't compound
+    the way Schwab's intraday rebalance artifact did. If no prior snapshot (or
+    no matching account) exists, the fields stay absent and the dashboard shows
+    '—' — per Joe: "if either way does not work, take it out is fine."
+    """
+    if not archive_dir:
+        return
+    archive_path = Path(archive_dir).expanduser()
+    if not archive_path.is_dir():
+        return
+    today_name = f"hhh_{datetime.now().strftime('%Y-%m-%d')}.html"
+    priors = sorted(p.name for p in archive_path.glob("hhh_????-??-??.html")
+                    if p.name < today_name)
+    if not priors:
+        return
+    prior_file = archive_path / priors[-1]
+    m = re.search(re.escape(START) + r"\s*const PORTFOLIO_DATA = (\{.*?\});\s*" + re.escape(END),
+                  read_text_any(prior_file), re.DOTALL)
+    if not m:
+        print(f"[WARN] derive_automanaged_day: no data block in {prior_file.name}; skipping.")
+        return
+    try:
+        prior = json.loads(m.group(1))
+    except json.JSONDecodeError:
+        print(f"[WARN] derive_automanaged_day: unparseable data in {prior_file.name}; skipping.")
+        return
+    prior_by_name = {a.get("name"): a for a in prior.get("accounts", [])}
+    for acct in data.get("accounts", []):
+        if not acct.get("autoManaged"):
+            continue
+        pa = prior_by_name.get(acct.get("name"))
+        if not pa:
+            continue
+        prior_unrl = sum((p.get("unrlPL") or 0) for p in pa.get("positions", []))
+        prior_val = sum((p.get("mktVal") or 0) for p in pa.get("positions", [])) + (pa.get("cash") or 0)
+        today_unrl = sum((p.get("unrlPL") or 0) for p in acct.get("positions", []))
+        acct["dayChg"] = round(today_unrl - prior_unrl, 2)
+        acct["dayPct"] = round((today_unrl - prior_unrl) / prior_val * 100, 2) if prior_val else None
+        acct["dayNote"] = f"derived: Δ unrealized P/L vs {prior_file.stem.replace('hhh_', '')} snapshot"
+        print(f"[OK] {acct['name']}: day change derived from {prior_file.name} "
+              f"({acct['dayChg']:+.2f}, {acct['dayPct'] if acct['dayPct'] is not None else '—'}%)")
+
+
+def inject(template_path, out_path, data, archive_dir=None, extra_archive_dirs=()):
     html = read_text_any(template_path)
     payload = f"{START}\nconst PORTFOLIO_DATA = {json.dumps(data, indent=2)};\n{END}"
     pattern = re.compile(re.escape(START) + r".*?" + re.escape(END), re.DOTALL)
@@ -412,8 +484,14 @@ def inject(template_path, out_path, data, archive_dir=None):
     # existing --out target which stays the "current" pointer). Same
     # rendered HTML, just also written under a per-day filename. Uses
     # datetime.now() once so the archive date always matches meta.generated.
-    if archive_dir:
-        archive_path = Path(archive_dir).expanduser()
+    # 2026-08-28 (Joe): outputs must never overwrite each other — every build lands
+    # as a dated file in shadowmonkey\hhh-daily (automated 2pm runs) or
+    # shadowmonkey\hhh-weekly (weekly review builds, --weekly). --out stays the
+    # working "current" pointer for the pipeline only.
+    for d in [archive_dir, *extra_archive_dirs]:
+        if not d:
+            continue
+        archive_path = Path(d).expanduser()
         archive_path.mkdir(parents=True, exist_ok=True)
         dated_file = archive_path / f"hhh_{datetime.now().strftime('%Y-%m-%d')}.html"
         dated_file.write_text(final_html, encoding="utf-8")
@@ -429,6 +507,9 @@ def main():
                     help="also write a dated copy (hhh_YYYY-MM-DD.html) here — e.g. the "
                          "shadowmonkey live site's hhh-daily folder. Falls back to "
                          "hhh_config.json's 'archive_dir' if not passed.")
+    ap.add_argument("--weekly", action="store_true",
+                    help="also archive this build as the week's dated snapshot into "
+                         "hhh_config.json's 'weekly_archive_dir' (shadowmonkey\\hhh-weekly).")
     ap.add_argument("--dry-run", action="store_true", help="print mapped JSON, write nothing")
     ap.add_argument("--list-accounts", action="store_true",
                     help="print account hashes + last-4 + value so you can fill the config mapping")
@@ -471,7 +552,15 @@ def main():
         print()
         return
     archive_dir = args.archive_dir or resolve_side_file(cfg, "archive_dir", None)
-    inject(args.template, args.out, data, archive_dir)
+    extra = []
+    if args.weekly:
+        weekly_dir = resolve_side_file(cfg, "weekly_archive_dir", None)
+        if weekly_dir:
+            extra.append(weekly_dir)
+        else:
+            print("[WARN] --weekly given but hhh_config.json has no 'weekly_archive_dir'; skipping weekly archive.")
+    derive_automanaged_day(data, archive_dir)  # must run BEFORE inject writes today's snapshot
+    inject(args.template, args.out, data, archive_dir, extra)
 
 
 if __name__ == "__main__":

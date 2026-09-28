@@ -315,7 +315,6 @@
     <div class="section-header"><span class="section-num">02</span><h2>ACCOUNT GAUGES</h2></div>
     <p>Each account gauged on a 0–100 health score: day momentum, unrealized cushion, position dispersion, and share of positions underwater. The Credit Debt card scores utilization, principal velocity, and APR pressure across all cards; the Cash card gauges dry powder across brokerage sweeps and bank balances. All computed by the on-page rules engine — refreshes with every data injection.</p>
     <div class="account-grid" id="account-cards"><!-- JS --></div>
-    <div id="debt-projection"><!-- JS --></div>
   </section>
 
   <!-- 03 RISK RADAR -->
@@ -375,8 +374,8 @@
 /*PORTFOLIO_DATA_START*/
 const PORTFOLIO_DATA = {
   "meta": {
-    "generated": "Fri, Aug 15, 2025",
-    "source": "Dashboard sheet (sample) — Schwab API in production",
+    "generated": "Sat, Sep 19, 2026 14:00",
+    "source": "Schwab Trader API",
     "cryptoAccountNames": [
       "Crypto"
     ],
@@ -385,695 +384,484 @@ const PORTFOLIO_DATA = {
   },
   "accounts": [
     {
-      "name": "Crypto",
-      "kind": "crypto",
-      "positions": [
-        {
-          "symbol": "BTC",
-          "desc": "BTC-USD",
-          "qty": 0.30381623,
-          "price": 119079.24,
-          "mktVal": 36178.21,
-          "dayChg": -804.42,
-          "dayPct": -2.22,
-          "costBasis": 2734.47,
-          "unrlPL": 33443.74,
-          "unrlPct": 1223.04,
-          "rating": "F A- | T A-",
-          "strategy": "Core position — hold 0.25+ BTC floor in cold custody; trim 10–15% at $125K and $140K ladders; re-arm bids at the 21-week EMA."
-        },
-        {
-          "symbol": "ETH",
-          "desc": "ETH-USD",
-          "qty": 3.0865,
-          "price": 4652.72,
-          "mktVal": 14360.62,
-          "dayChg": -295.44,
-          "dayPct": -2.06,
-          "costBasis": 1921.0,
-          "unrlPL": 12439.62,
-          "unrlPct": 647.56,
-          "rating": "F A- | T A-",
-          "strategy": "Hold core; prudent staking only through vetted custody; trim starting $5K; add on $4,200 retests that hold."
-        },
-        {
-          "symbol": "XRP",
-          "desc": "XRP-USD",
-          "qty": 1000.89,
-          "price": 3.12,
-          "mktVal": 3127.67,
-          "dayChg": -127.53,
-          "dayPct": -4.08,
-          "costBasis": 580.51,
-          "unrlPL": 2547.15,
-          "unrlPct": 438.78,
-          "rating": "F C | T C",
-          "strategy": "Reduce into strength — +439% on basis with C-grade fundamentals; keep a tracker position only if $3.00 holds."
-        },
-        {
-          "symbol": "SXT",
-          "desc": "SXT-USD",
-          "qty": 3000,
-          "price": 0.09,
-          "mktVal": 276.6,
-          "dayChg": 15.78,
-          "dayPct": 5.7,
-          "costBasis": 330.0,
-          "unrlPL": -53.4,
-          "unrlPct": -16.18,
-          "rating": "F D- | T D",
-          "strategy": "Exit candidate — underwater with no institutional thesis; sell into any pump ≥ basis, otherwise cut on next sleeve rebalance."
-        },
-        {
-          "symbol": "ADA",
-          "desc": "ADA-USD",
-          "qty": 150.405681,
-          "price": 0.95,
-          "mktVal": 143.44,
-          "dayChg": -6.25,
-          "dayPct": -4.36,
-          "costBasis": 81.22,
-          "unrlPL": 62.22,
-          "unrlPct": 76.61,
-          "rating": "F C- | T C",
-          "strategy": "Consolidate into majors on the next relief bounce; too small to move the sleeve, big enough to leak attention."
-        }
-      ],
-      "analysis": {
-        "technical": "BTC holding the breakout shelf above $112K after printing new highs — today's -2.2% is a pullback inside an intact uptrend, not distribution. ETH showing relative strength above $4,400 with the $4,200 reclaim level as first support; XRP and ADA trading high-beta to BTC with deeper drawdowns on red days.",
-        "fundamental": "Post-halving supply squeeze plus spot-ETF flows remain the structural bid for BTC; ETH carries the staking-yield and L2-activity story. XRP is a regulatory-clarity trade, ADA a laggard L1, SXT a venture-grade micro-cap with no earnings anchor — the sleeve's quality is concentrated in its top two holdings.",
-        "guidance": "Sleeve is 48% of portfolio vs the 30% cap — the mission is controlled reduction into strength, not panic selling. Ladder 10–15% profit-takes on BTC/ETH at predefined levels, hedge macro prints (CPI/Fed) with index put spreads, and consolidate the small alts into majors on their next bounce."
-      }
-    },
-    {
-      "name": "Retirement",
-      "kind": "equity",
-      "positions": [
-        {
-          "symbol": "HIVE",
-          "desc": "HIVE DIGITAL TECHNOLOG F",
-          "qty": 10000,
-          "price": 2.25,
-          "mktVal": 22500.0,
-          "dayChg": 200.0,
-          "dayPct": 0.89,
-          "costBasis": 36041.42,
-          "unrlPL": -13541.42,
-          "unrlPct": -37.57,
-          "rating": "F C | T C",
-          "strategy": "Collar: write 1–3mo OTM calls to fund OTM puts; trim 10% into any spike over $2.60; full thesis review if HPC revenue guidance slips."
-        }
-      ],
-      "analysis": {
-        "technical": "HIVE basing in the $2.00–2.60 range after a long downtrend; today's +0.9% on green BTC confirms the correlation beta. A reclaim of $2.60 opens $3.00; loss of $2.00 invalidates the base.",
-        "fundamental": "HIVE's HPC/AI-datacenter pivot is the recovery thesis layered on top of green-energy BTC mining economics — but at -37.6% on a $36K basis, this is a single-name sleeve carrying the entire retirement bucket's risk.",
-        "guidance": "Collar the position: write 1–3 month OTM calls to finance OTM puts, capping downside while the base builds. If BTC correlation spikes the volatility, use strength to begin diversifying the sleeve — retirement capital should not live on one ticker's turnaround."
-      }
-    },
-    {
       "name": "Trust",
       "kind": "equity",
       "positions": [
         {
-          "symbol": "BTC",
-          "desc": "GRAYSCALE BITCOIN MINI TRUST ETF",
-          "qty": 40,
-          "price": 52.27,
-          "mktVal": 2090.8,
-          "dayChg": -86.8,
-          "dayPct": -3.99,
-          "costBasis": 0.0,
-          "unrlPL": 2090.8,
-          "unrlPct": 100.0,
-          "rating": "F B+ | T B",
-          "strategy": "Hold — lowest-fee BTC wrapper; destination vehicle for future GBTC migration tranches."
-        },
-        {
           "symbol": "GBTC",
-          "desc": "GRAYSCALE BITCOIN TRUST ETF",
-          "qty": 200,
-          "price": 92.75,
-          "mktVal": 18550.0,
-          "dayChg": -770.0,
-          "dayPct": -3.99,
-          "costBasis": 2222.0,
-          "unrlPL": 16328.0,
-          "unrlPct": 734.83,
-          "rating": "F B | T B",
-          "strategy": "Migrate to Mini in annual tax-budgeted tranches; never all at once — the 735% embedded gain is the constraint."
+          "desc": "Grayscale Bitcoin Trust ETF",
+          "qty": 200.0,
+          "price": 62.81,
+          "mktVal": 12562.0,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 2004.3,
+          "unrlPL": 10557.7,
+          "unrlPct": 526.75,
+          "rating": null
+        },
+        {
+          "symbol": "BTC",
+          "desc": "GRAYSCALE BITCOIN MINI TR ETF",
+          "qty": 40.0,
+          "price": 35.91,
+          "mktVal": 1436.4,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 222.7,
+          "unrlPL": 1213.7,
+          "unrlPct": 544.99,
+          "rating": null
         }
-      ],
-      "analysis": {
-        "technical": "Both units track spot BTC one-for-one — today's -4.0% is pure beta. No independent technicals beyond BTC's own levels ($112K support, $125K measured move).",
-        "fundamental": "GBTC's 1.5% fee vs BTC Mini's 0.15% is a permanent 135bps annual drag on the larger holding. The +735% embedded gain makes a full swap a taxable event — fee savings vs realized-gain cost is the real math, inside the trust's tax posture.",
-        "guidance": "Hold the exposure; migrate GBTC into the Mini in measured annual tranches sized to the trust's tax budget. No leverage, no yield products — this sleeve is generational custody, not a trading book."
-      }
+      ]
     },
     {
-      "name": "Savings",
+      "name": "Retirement",
       "kind": "equity",
+      "cash": 12.42,
       "positions": [
         {
-          "symbol": "DDD",
-          "desc": "3D SYS CORP DEL",
-          "qty": 100,
-          "price": 2.09,
-          "mktVal": 209.0,
-          "dayChg": -24.0,
-          "dayPct": -11.48,
-          "costBasis": 173.5,
-          "unrlPL": 35.5,
-          "unrlPct": 20.46,
-          "rating": "F D+ | T C-",
-          "strategy": "Exit on strength — legacy 3D printing thesis stale; today's -11.5% confirms no institutional sponsorship; sell any bounce toward basis."
-        },
-        {
-          "symbol": "OSTX",
-          "desc": "OS THERAPIES INC",
-          "qty": 200,
-          "price": 2.15,
-          "mktVal": 430.0,
-          "dayChg": 54.0,
-          "dayPct": 12.56,
-          "costBasis": 372.0,
-          "unrlPL": 58.0,
-          "unrlPct": 15.59,
-          "rating": "F D | T C",
-          "strategy": "Event-driven biotech — hold through catalyst with a hard stop at $1.80; size stays tracker-tier; take half off on +30% spikes."
-        },
-        {
-          "symbol": "META",
-          "desc": "META PLATFORMS INC CLASS A",
-          "qty": 1.0056,
-          "price": 782.13,
-          "mktVal": 786.51,
-          "dayChg": 2.06,
-          "dayPct": 0.26,
-          "costBasis": 277.21,
-          "unrlPL": 509.3,
-          "unrlPct": 183.72,
-          "rating": "F A- | T B",
-          "strategy": "Core compounder — hold; monetize with 0.25Δ covered calls 30–45 DTE when IV pays; trail stop under the 50DMA."
-        },
-        {
-          "symbol": "MSFT",
-          "desc": "MICROSOFT CORP",
-          "qty": 1.0338,
-          "price": 522.48,
-          "mktVal": 540.14,
-          "dayChg": 1.96,
-          "dayPct": 0.36,
-          "costBasis": 349.07,
-          "unrlPL": 191.07,
-          "unrlPct": 54.74,
-          "rating": "F A | T B",
-          "strategy": "Core compounder — hold; diagonals acceptable for yield; add on 10% drawdowns to the 200DMA."
-        },
-        {
-          "symbol": "NVDA",
-          "desc": "NVIDIA CORP",
-          "qty": 5.0747,
-          "price": 182.02,
-          "mktVal": 923.7,
-          "dayChg": 2.44,
-          "dayPct": 0.26,
-          "costBasis": 181.23,
-          "unrlPL": 742.47,
-          "unrlPct": 409.68,
-          "rating": "F A | T B+",
-          "strategy": "Backbone position — trail stops under rising 21–50DMA; write CCs above supply zones; trim 5–10% only into parabolic extensions."
-        },
-        {
-          "symbol": "QBTS",
-          "desc": "D-WAVE QUANTUM INC",
-          "qty": 100,
-          "price": 18.18,
-          "mktVal": 1818.0,
-          "dayChg": -47.0,
-          "dayPct": -2.59,
-          "costBasis": 549.38,
-          "unrlPL": 1268.62,
-          "unrlPct": 230.92,
-          "rating": "F C | T C",
-          "strategy": "Bank the win in tranches — +231% on a spec name demands harvesting; sell 1/3 now, 1/3 at next high, run the rest with a 20% trail."
-        },
-        {
-          "symbol": "RR",
-          "desc": "RICHTECH ROBOTICS INC CLASS B",
-          "qty": 200,
-          "price": 2.26,
-          "mktVal": 452.0,
-          "dayChg": 22.0,
-          "dayPct": 4.87,
-          "costBasis": 398.85,
-          "unrlPL": 53.15,
-          "unrlPct": 13.33,
-          "rating": "F D | T C",
-          "strategy": "Momentum spec — ride with a stop under the 21DMA; +4.9% day earns it a hold, but this is a trade, not a position."
-        },
-        {
-          "symbol": "KITT",
-          "desc": "NAUTICUS ROBOTICS INC",
-          "qty": 400,
-          "price": 0.88,
-          "mktVal": 345.72,
-          "dayChg": -3.04,
-          "dayPct": -0.88,
-          "costBasis": 398.85,
-          "unrlPL": -53.13,
-          "unrlPct": -13.32,
-          "rating": "F F | T D",
-          "strategy": "Cut — F-grade fundamentals, underwater, illiquid; exit on next green tape and recycle capital to the core."
-        },
-        {
-          "symbol": "ETH",
-          "desc": "GRAYSCALE ETHEREUM MINI",
-          "qty": 10,
-          "price": 42.78,
-          "mktVal": 427.8,
-          "dayChg": -19.0,
-          "dayPct": -4.44,
-          "costBasis": 248.2,
-          "unrlPL": 179.6,
-          "unrlPct": 72.36,
-          "rating": "F B+ | T B",
-          "strategy": "Hold — low-fee ETH wrapper; pairs with the crypto sleeve's ETH thesis at equity-account convenience."
-        },
-        {
-          "symbol": "ETHE",
-          "desc": "GRAYSCALE ETHEREUM TR ET",
-          "qty": 100,
-          "price": 37.48,
-          "mktVal": 3748.0,
-          "dayChg": -167.0,
-          "dayPct": -4.46,
-          "costBasis": 2233.75,
-          "unrlPL": 1514.25,
-          "unrlPct": 67.79,
-          "rating": "F B | T B",
-          "strategy": "Fee-swap candidate — migrate to the Mini within the year's tax budget; same exposure, 90% less drag."
+          "symbol": "HIVE",
+          "desc": "HIVE",
+          "qty": 10000.0,
+          "price": 3.41,
+          "mktVal": 34100.0,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 36041.42,
+          "unrlPL": -1941.42,
+          "unrlPct": -5.39,
+          "rating": null
         }
-      ],
-      "analysis": {
-        "technical": "Barbell tape: the megacap core (NVDA/MSFT/META) grinding at highs with shallow pullbacks, while the spec book (QBTS +231%, OSTX +12.6% today, DDD -11.5% today) whipsaws. ETH-linked units (ETHE/Mini) tracking ETH's -4.4% day.",
-        "fundamental": "Core is the AI-capex supercycle — NVDA supply-constrained compute, MSFT Azure/Copilot monetization, META ad-engine plus AI leverage. The spec names are optionality bets: QBTS on quantum annealing adoption, OSTX on trial catalysts, RR/KITT on robotics narratives with weak balance sheets.",
-        "guidance": "Protect the core with covered calls and trailing stops — it finances the sandbox. Cap the spec book's total weight, take QBTS profits in tranches, and cut the names with broken theses rather than averaging down. Consider ETHE→Mini fee swap using the same tax-budget logic as the Trust."
-      }
-    },
-    {
-      "name": "Hedge",
-      "kind": "options",
-      "positions": [
-        {
-          "symbol": "BMNR 08/15/2025 65.00 C",
-          "desc": "CALL BITMINE IMMERSION T $65 EXP 08/15/25",
-          "qty": 2,
-          "price": 0.75,
-          "mktVal": 150.0,
-          "dayChg": -167.27,
-          "dayPct": -111.51,
-          "costBasis": 600.56,
-          "unrlPL": -450.0,
-          "unrlPct": -74.93,
-          "rating": "F D | T C-",
-          "strategy": "Expires today — write it off, log the lesson: no more far-OTM weeklies in the hedge sleeve."
-        },
-        {
-          "symbol": "RKLB 09/12/2025 50.00 C",
-          "desc": "CALL ROCKET LAB CORP $50 EXP 09/12/25",
-          "qty": 1,
-          "price": 1.41,
-          "mktVal": 141.0,
-          "dayChg": -10.72,
-          "dayPct": -7.6,
-          "costBasis": 215.56,
-          "unrlPL": -74.0,
-          "unrlPct": -34.33,
-          "rating": "F B- | T B-",
-          "strategy": "Salvage decision this week: exit on any RKLB strength or convert to a call spread to stop the theta bleed; do not hold into the final two weeks."
-        },
-        {
-          "symbol": "/ES Futures",
-          "desc": "Futures Positions Market Value",
-          "qty": 4,
-          "price": null,
-          "mktVal": 2750.0,
-          "dayChg": -100.0,
-          "dayPct": -3.64,
-          "costBasis": 1300.0,
-          "unrlPL": 1450.0,
-          "unrlPct": 111.54,
-          "rating": null,
-          "strategy": "Trail stop at +75% of open profit; flatten by 4:58 PM ET daily per protocol; size stays within Phase margin discipline."
-        }
-      ],
-      "analysis": {
-        "technical": "/ES runner +111% on cost with 4 contracts on — the sleeve's only working hedge. BMNR calls expiring today effectively at zero; RKLB Sept calls -34% with theta accelerating.",
-        "fundamental": "This sleeve exists to buy protection and event convexity, not to hold decaying long-shot calls. Single-name speculative calls are doing the opposite of the sleeve's job.",
-        "guidance": "Run 2–4% notional coverage during event windows using defined-risk spreads. Let today's expirations bury themselves, stop replacing them, and keep the /ES position on a hard trail with the 4:58 PM flat rule absolute."
-      }
-    },
-    {
-      "name": "Piggy Bank",
-      "kind": "etf",
-      "cash": 262.87,
-      "positions": [
-        {
-          "symbol": "CMF",
-          "desc": "iShares CA Muni Bond ETF",
-          "qty": 1,
-          "price": 55.67,
-          "mktVal": 55.67,
-          "dayChg": -0.09,
-          "dayPct": -0.16,
-          "costBasis": 55.47,
-          "unrlPL": 0.2,
-          "unrlPct": 0.36,
-          "bucket": "Bonds"
-        },
-        {
-          "symbol": "FNDA",
-          "desc": "Schwab Fundamental U.S. Small Co.",
-          "qty": 4,
-          "price": 30.33,
-          "mktVal": 121.32,
-          "dayChg": -1.48,
-          "dayPct": -1.22,
-          "costBasis": 108.82,
-          "unrlPL": 12.5,
-          "unrlPct": 11.49,
-          "bucket": "US Equity"
-        },
-        {
-          "symbol": "FNDE",
-          "desc": "Schwab Fundamental Emerging Mkts",
-          "qty": 4,
-          "price": 34.36,
-          "mktVal": 137.44,
-          "dayChg": -1.52,
-          "dayPct": -1.11,
-          "costBasis": 127.98,
-          "unrlPL": 9.46,
-          "unrlPct": 7.39,
-          "bucket": "Emerging Mkts"
-        },
-        {
-          "symbol": "FNDF",
-          "desc": "Schwab Fundamental International",
-          "qty": 3,
-          "price": 41.94,
-          "mktVal": 125.82,
-          "dayChg": -0.36,
-          "dayPct": -0.29,
-          "costBasis": 115.74,
-          "unrlPL": 10.08,
-          "unrlPct": 8.71,
-          "bucket": "Intl Equity"
-        },
-        {
-          "symbol": "FNDX",
-          "desc": "Schwab Fundamental U.S. Large Co.",
-          "qty": 10,
-          "price": 25.38,
-          "mktVal": 253.8,
-          "dayChg": -0.2,
-          "dayPct": -0.08,
-          "costBasis": 232.95,
-          "unrlPL": 20.85,
-          "unrlPct": 8.95,
-          "bucket": "US Equity"
-        },
-        {
-          "symbol": "HAUZ",
-          "desc": "Xtrackers International Real Estate",
-          "qty": 1,
-          "price": 23.43,
-          "mktVal": 23.43,
-          "dayChg": -0.01,
-          "dayPct": -0.04,
-          "costBasis": 21.97,
-          "unrlPL": 1.46,
-          "unrlPct": 6.65,
-          "bucket": "Real Estate"
-        },
-        {
-          "symbol": "SCHA",
-          "desc": "Schwab U.S. Small-Cap",
-          "qty": 3,
-          "price": 26.64,
-          "mktVal": 79.92,
-          "dayChg": -0.87,
-          "dayPct": -1.09,
-          "costBasis": 71.51,
-          "unrlPL": 8.41,
-          "unrlPct": 11.76,
-          "bucket": "US Equity"
-        },
-        {
-          "symbol": "SCHC",
-          "desc": "Schwab International Small-Cap",
-          "qty": 1,
-          "price": 43.83,
-          "mktVal": 43.83,
-          "dayChg": -0.21,
-          "dayPct": -0.48,
-          "costBasis": 39.68,
-          "unrlPL": 4.15,
-          "unrlPct": 10.46,
-          "bucket": "Intl Equity"
-        },
-        {
-          "symbol": "SCHF",
-          "desc": "Schwab International Equity",
-          "qty": 8,
-          "price": 22.73,
-          "mktVal": 181.84,
-          "dayChg": -0.32,
-          "dayPct": -0.18,
-          "costBasis": 170.6,
-          "unrlPL": 11.24,
-          "unrlPct": 6.59,
-          "bucket": "Intl Equity"
-        },
-        {
-          "symbol": "SCHG",
-          "desc": "Schwab U.S. Large-Cap Growth",
-          "qty": 1,
-          "price": 30.75,
-          "mktVal": 30.75,
-          "dayChg": 0.03,
-          "dayPct": 0.1,
-          "costBasis": 26.98,
-          "unrlPL": 3.77,
-          "unrlPct": 13.97,
-          "bucket": "US Equity"
-        },
-        {
-          "symbol": "SCHH",
-          "desc": "Schwab U.S. REIT",
-          "qty": 1,
-          "price": 20.89,
-          "mktVal": 20.89,
-          "dayChg": -0.17,
-          "dayPct": -0.81,
-          "costBasis": 20.65,
-          "unrlPL": 0.24,
-          "unrlPct": 1.16,
-          "bucket": "Real Estate"
-        },
-        {
-          "symbol": "SCHX",
-          "desc": "Schwab U.S. Large-Cap",
-          "qty": 8,
-          "price": 25.53,
-          "mktVal": 204.24,
-          "dayChg": -0.08,
-          "dayPct": -0.04,
-          "costBasis": 183.16,
-          "unrlPL": 21.08,
-          "unrlPct": 11.51,
-          "bucket": "US Equity"
-        },
-        {
-          "symbol": "SPEM",
-          "desc": "SPDR Emerging Markets",
-          "qty": 2,
-          "price": 44.19,
-          "mktVal": 88.38,
-          "dayChg": -1.02,
-          "dayPct": -1.15,
-          "costBasis": 83.11,
-          "unrlPL": 5.27,
-          "unrlPct": 6.34,
-          "bucket": "Emerging Mkts"
-        }
-      ],
-      "autoManaged": true,
-      "analysis": {
-        "guidance": "Automated Schwab account — allocation, rebalancing, and tax-loss harvesting run robo-side. Human job: keep contributions automated, review drift quarterly, and resist tinkering. No single ETF over 20% of sleeve per doctrine."
-      }
+      ]
     },
     {
       "name": "Income",
       "kind": "options",
+      "cash": 5.72,
       "positions": [
         {
-          "symbol": "EVTL 10/17/2025 5.00 C",
-          "desc": "CALL VERTICAL AEROSPACE $5 EXP 10/17/25",
-          "qty": 2,
-          "price": 1.03,
-          "mktVal": 205.0,
-          "dayChg": -30.02,
-          "dayPct": -14.64,
-          "costBasis": 251.12,
-          "unrlPL": -46.12,
-          "unrlPct": -18.37,
-          "rating": "F D | T D",
-          "strategy": "Convert to a vertical (sell the $7.50s) to define risk and claw back premium; exit entirely if EVTL loses $4.00."
+          "symbol": "LAES",
+          "desc": "LAES",
+          "qty": 100.0,
+          "price": 2.24,
+          "mktVal": 224.0,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 316.75,
+          "unrlPL": -92.75,
+          "unrlPct": -29.28,
+          "rating": null
         },
         {
-          "symbol": "MVST 08/15/2025 3.00 C",
-          "desc": "CALL MICROVAST HLDGS INC $3 EXP 08/15/25",
-          "qty": 6,
-          "price": 0.03,
-          "mktVal": 15.0,
-          "dayChg": -30.0,
-          "dayPct": -200.0,
-          "costBasis": 61.36,
-          "unrlPL": -46.36,
-          "unrlPct": -75.55,
-          "rating": "F D | T D",
-          "strategy": "Expires today at a near-total loss — no action; entry rule violation logged (weekly lotto)."
+          "symbol": "BBAI",
+          "desc": "BBAI",
+          "qty": 100.0,
+          "price": 2.8,
+          "mktVal": 280.0,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 412.99,
+          "unrlPL": -132.99,
+          "unrlPct": -32.2,
+          "rating": null
         },
         {
-          "symbol": "NVDA 08/29/2025 205.00 C",
-          "desc": "CALL NVIDIA CORP $205 EXP 08/29/25",
-          "qty": 4,
-          "price": 1.15,
-          "mktVal": 462.0,
-          "dayChg": -0.36,
-          "dayPct": -0.08,
-          "costBasis": 502.24,
-          "unrlPL": -40.24,
-          "unrlPct": -8.01,
-          "rating": "F A | T B+",
-          "strategy": "Two weeks of runway — sell half on any NVDA push through $190; convert remainder to a 205/215 spread; hard exit at -50% of remaining premium."
+          "symbol": "MVST",
+          "desc": "MVST",
+          "qty": 100.0,
+          "price": 0.6373,
+          "mktVal": 63.73,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 114.5,
+          "unrlPL": -50.77,
+          "unrlPct": -44.34,
+          "rating": null
+        }
+      ]
+    },
+    {
+      "name": "Piggy Bank",
+      "kind": "etf",
+      "autoManaged": true,
+      "cash": 275.93,
+      "positions": [
+        {
+          "symbol": "SCHA",
+          "desc": "Schwab US Small-Cap ETF",
+          "qty": 2.0,
+          "price": 33.44,
+          "mktVal": 66.88,
+          "dayChg": null,
+          "dayPct": null,
+          "costBasis": 56.52,
+          "unrlPL": 10.36,
+          "unrlPct": 18.33,
+          "rating": null,
+          "bucket": "US Equity"
         },
         {
-          "symbol": "PANW 08/15/2025 177.50 C",
-          "desc": "CALL PALO ALTO NETWORKS $177.5 EXP 08/15/25",
-          "qty": 2,
-          "price": 0.92,
-          "mktVal": 60.0,
-          "dayChg": -268.0,
-          "dayPct": -446.67,
-          "costBasis": 185.12,
-          "unrlPL": -125.12,
-          "unrlPct": -67.59,
-          "rating": "F A- | T B-",
-          "strategy": "Expires today — salvage anything above $0 at the close; post-mortem: earnings-week short-dated calls are banned going forward."
+          "symbol": "FNDF",
+          "desc": "Schwab Fundamental International Eq ETF",
+          "qty": 2.0,
+          "price": 54.72,
+          "mktVal": 109.44,
+          "dayChg": null,
+          "dayPct": null,
+          "costBasis": 90.12,
+          "unrlPL": 19.32,
+          "unrlPct": 21.44,
+          "rating": null,
+          "bucket": "Intl Equity"
         },
         {
-          "symbol": "QUBT 08/29/2025 18.50 C",
-          "desc": "CALL QUANTUM COMPUTING I $18.5 EXP 08/29/25",
-          "qty": 1,
-          "price": 0.55,
-          "mktVal": 55.0,
-          "dayChg": -0.13,
-          "dayPct": -0.24,
-          "costBasis": 100.56,
-          "unrlPL": -45.56,
-          "unrlPct": -45.31,
-          "rating": "F D- | T C-",
-          "strategy": "Lottery remnant — set a GTC sell at 2x current mark and let it ride or die; no adds."
+          "symbol": "SPEM",
+          "desc": "State Street SPDR Portfolio Emerging Markets ETF",
+          "qty": 1.0,
+          "price": 52.4,
+          "mktVal": 52.4,
+          "dayChg": null,
+          "dayPct": null,
+          "costBasis": 47.8,
+          "unrlPL": 4.6,
+          "unrlPct": 9.62,
+          "rating": null,
+          "bucket": "Emerging Mkts"
         },
         {
-          "symbol": "QUBT 08/15/2026 18.50 C",
-          "desc": "CALL QUANTUM COMPUTING I $18.5 EXP 08/15/26",
-          "qty": 1,
-          "price": 0.13,
-          "mktVal": 12.5,
-          "dayChg": 0.02,
-          "dayPct": 0.12,
-          "costBasis": 15.0,
-          "unrlPL": -2.5,
-          "unrlPct": -16.67,
-          "rating": "F D- | T C-",
-          "strategy": "LEAPS-style holdover — hold; a year of runway on a $15 basis is acceptable optionality; reassess at 6 months to expiry."
+          "symbol": "FNDX",
+          "desc": "Schwab Fundamental U.S. Large CompanyETF",
+          "qty": 6.0,
+          "price": 32.1,
+          "mktVal": 192.6,
+          "dayChg": null,
+          "dayPct": null,
+          "costBasis": 161.26,
+          "unrlPL": 31.34,
+          "unrlPct": 19.43,
+          "rating": null,
+          "bucket": "US Equity"
         },
         {
-          "symbol": "RKT 08/29/2025 18.00 C",
-          "desc": "CALL ROCKET COMPANIES CL $18 EXP 08/29/25",
-          "qty": 2,
-          "price": 1.31,
-          "mktVal": 262.0,
-          "dayChg": -1.38,
-          "dayPct": -0.53,
-          "costBasis": 103.12,
-          "unrlPL": 158.88,
-          "unrlPct": 154.07,
-          "rating": "F C+ | T C+",
-          "strategy": "Harvest — close half now at +154%, roll the rest up to the $19s for reduced basis; winner discipline beats greed."
+          "symbol": "SCHF",
+          "desc": "Schwab International Equity ETF",
+          "qty": 5.0,
+          "price": 27.73,
+          "mktVal": 138.65,
+          "dayChg": null,
+          "dayPct": null,
+          "costBasis": 120.1,
+          "unrlPL": 18.55,
+          "unrlPct": 15.45,
+          "rating": null,
+          "bucket": "Intl Equity"
+        },
+        {
+          "symbol": "FNDE",
+          "desc": "Schwab Fundamental Emerging MarketsEqETF",
+          "qty": 3.0,
+          "price": 42.29,
+          "mktVal": 126.87,
+          "dayChg": null,
+          "dayPct": null,
+          "costBasis": 111.53,
+          "unrlPL": 15.34,
+          "unrlPct": 13.75,
+          "rating": null,
+          "bucket": "Emerging Mkts"
+        },
+        {
+          "symbol": "HAUZ",
+          "desc": "Xtrackers International Real Estate ETF",
+          "qty": 1.0,
+          "price": 21.62,
+          "mktVal": 21.62,
+          "dayChg": null,
+          "dayPct": null,
+          "costBasis": 23.41,
+          "unrlPL": -1.79,
+          "unrlPct": -7.65,
+          "rating": null,
+          "bucket": "Real Estate"
+        },
+        {
+          "symbol": "FNDA",
+          "desc": "Schwab Fundamental U.S. Small CompanyETF",
+          "qty": 3.0,
+          "price": 35.79,
+          "mktVal": 107.37,
+          "dayChg": null,
+          "dayPct": null,
+          "costBasis": 93.2,
+          "unrlPL": 14.17,
+          "unrlPct": 15.2,
+          "rating": null,
+          "bucket": "US Equity"
+        },
+        {
+          "symbol": "SCHH",
+          "desc": "Schwab US REIT ETF",
+          "qty": 1.0,
+          "price": 22.74,
+          "mktVal": 22.74,
+          "dayChg": null,
+          "dayPct": null,
+          "costBasis": 21.24,
+          "unrlPL": 1.5,
+          "unrlPct": 7.06,
+          "rating": null,
+          "bucket": "Real Estate"
+        },
+        {
+          "symbol": "SCHX",
+          "desc": "Schwab US Large-Cap ETF",
+          "qty": 6.0,
+          "price": 30.07,
+          "mktVal": 180.42,
+          "dayChg": null,
+          "dayPct": null,
+          "costBasis": 161.63,
+          "unrlPL": 18.79,
+          "unrlPct": 11.63,
+          "rating": null,
+          "bucket": "US Equity"
+        },
+        {
+          "symbol": "CMF",
+          "desc": "iShares California Muni Bond ETF",
+          "qty": 1.0,
+          "price": 55.09,
+          "mktVal": 55.09,
+          "dayChg": null,
+          "dayPct": null,
+          "costBasis": 57.34,
+          "unrlPL": -2.25,
+          "unrlPct": -3.92,
+          "rating": null,
+          "bucket": "Bonds"
         }
       ],
-      "analysis": {
-        "technical": "The book is short-dated long calls, not income structures — PANW and MVST expire today near worthless, RKT +154% is the one winner, NVDA 205C needs a fresh leg higher within two weeks to pay.",
-        "fundamental": "An income sleeve earns by selling time (spreads, diagonals, covered structures), not buying weekly lottery tickets. Current construction is negative-expectancy gamma with -30.6% on the day as the receipt.",
-        "guidance": "Rebuild the sleeve: verticals and diagonals only, risk ≤0.5% per trade, no naked short calls, and harvest RKT now — a +154% option gain unbanked is a donation to theta. Grade every new trade against the 5:1 risk rule before entry."
-      }
+      "dayChg": -0.24,
+      "dayPct": -0.02,
+      "dayNote": "derived: \u0394 unrealized P/L vs 2026-09-18 snapshot"
+    },
+    {
+      "name": "Savings",
+      "kind": "equity",
+      "cash": 22.66,
+      "positions": [
+        {
+          "symbol": "DDD",
+          "desc": "DDD",
+          "qty": 200.0,
+          "price": 3.63,
+          "mktVal": 726.0,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 381.08,
+          "unrlPL": 344.92,
+          "unrlPct": 90.51,
+          "rating": null
+        },
+        {
+          "symbol": "ETHE",
+          "desc": "Grayscale Ethereum Staking ETF",
+          "qty": 100.0,
+          "price": 21.22,
+          "mktVal": 2122.0,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 2233.75,
+          "unrlPL": -111.75,
+          "unrlPct": -5.0,
+          "rating": null
+        },
+        {
+          "symbol": "LUNR",
+          "desc": "LUNR",
+          "qty": 50.0,
+          "price": 13.92,
+          "mktVal": 696.0,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 492.5,
+          "unrlPL": 203.5,
+          "unrlPct": 41.32,
+          "rating": null
+        },
+        {
+          "symbol": "SPCE",
+          "desc": "SPCE",
+          "qty": 100.0,
+          "price": 3.07,
+          "mktVal": 307.0,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 299.61,
+          "unrlPL": 7.39,
+          "unrlPct": 2.47,
+          "rating": null
+        },
+        {
+          "symbol": "ETH",
+          "desc": "GRAYSCALE ETHEREUM STAKING MINI ETF",
+          "qty": 10.0,
+          "price": 25.18,
+          "mktVal": 251.8,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 248.2,
+          "unrlPL": 3.6,
+          "unrlPct": 1.45,
+          "rating": null
+        },
+        {
+          "symbol": "QBTS",
+          "desc": "QBTS",
+          "qty": 100.0,
+          "price": 17.11,
+          "mktVal": 1711.0,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 549.38,
+          "unrlPL": 1161.62,
+          "unrlPct": 211.44,
+          "rating": null
+        },
+        {
+          "symbol": "PATH",
+          "desc": "PATH",
+          "qty": 100.0,
+          "price": 13.39,
+          "mktVal": 1339.0,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 1130.76,
+          "unrlPL": 208.24,
+          "unrlPct": 18.42,
+          "rating": null
+        }
+      ]
+    },
+    {
+      "name": "Hedge",
+      "kind": "options",
+      "cash": 24.12,
+      "positions": [
+        {
+          "symbol": "EVTL",
+          "desc": "EVTL",
+          "qty": 1000.0,
+          "price": 0.6328,
+          "mktVal": 632.8,
+          "dayChg": 0.0,
+          "dayPct": 0.0,
+          "costBasis": 842.3,
+          "unrlPL": -209.5,
+          "unrlPct": -24.87,
+          "rating": null
+        }
+      ]
+    },
+    {
+      "name": "Crypto",
+      "kind": "crypto",
+      "positions": [
+        {
+          "symbol": "ETH",
+          "desc": "Staked ETH \u2014 Base app self-custody wallet (0x4b390578C9e7D518a284fA50EAc3019ae77D80df)",
+          "qty": 3.163,
+          "price": 2440.8,
+          "mktVal": 7720.25,
+          "dayChg": -223.02,
+          "dayPct": -2.81,
+          "costBasis": 1784.45,
+          "unrlPL": 5935.8,
+          "unrlPct": 332.64,
+          "note": "ESTIMATED cost basis, not tax-verified. Staked via Coinbase Base app @ 2.24% APR. Price refreshed live via FMP Aug 28, 2026 ~21:34 UTC (holdings/cost basis unchanged from Joe's Aug 19 2026 report). Path: bought on Coinbase 2017-2020, sent off-exchange, traded/lent on KuCoin (Malta) holding ~3.00 ETH, repatriated, grown to 3.163 via staking. Cost basis method (Joe-directed): FIFO through the literal 'Bought' lines in the original Coinbase ledger for 3.163 ETH = $1,677.47 (avg $530.34/ETH, lots spanning Sep 2017-Aug 2020), plus the KuCoin trading drag (Joe-reported: $57.18 fees + $49.80 realized loss = $106.98) = $1,784.45 total (avg $564.16/ETH). Caveat: the underlying Coinbase 'Bought' trace assumes all Sent/Received/Converted lines in the pasted ledger are self-transfers/noise rather than real disposals \u2014 a full chronological FIFO check showed the ledger goes short by real amounts (0.557 ETH in Jan 2018, 0.100 ETH in Aug 2020) even before the KuCoin detour, suggesting the pasted activity feed is incomplete. Treat this as a good-faith estimate, not a certified figure \u2014 Coinbase Tax Center's actual cost-basis report would be authoritative if ever needed."
+        },
+        {
+          "symbol": "BTC",
+          "desc": "Bitcoin \u2014 Coinbase (Joe-reported holdings, Aug 19, 2026; price refreshed live via FMP Aug 28, 2026)",
+          "qty": 0.30381623,
+          "price": 77756.59,
+          "mktVal": 23623.71,
+          "dayChg": -761.14,
+          "dayPct": -3.12,
+          "costBasis": 2734.47,
+          "unrlPL": 20889.24,
+          "unrlPct": 763.92
+        },
+        {
+          "symbol": "XRP",
+          "desc": "XRP \u2014 Coinbase (Joe-reported holdings, Aug 19, 2026; price refreshed live via FMP Aug 28, 2026)",
+          "qty": 1000.885516,
+          "price": 1.3827,
+          "mktVal": 1383.92,
+          "dayChg": -70.49,
+          "dayPct": -4.85,
+          "costBasis": 578.6,
+          "unrlPL": 805.32,
+          "unrlPct": 139.18
+        },
+        {
+          "symbol": "SXT",
+          "desc": "Space and Time \u2014 Coinbase (Joe-reported holdings screen, Aug 19, 2026)",
+          "qty": 5000,
+          "price": 0.00725,
+          "mktVal": 36.25,
+          "dayChg": 0.0,
+          "dayPct": null,
+          "costBasis": 497.2,
+          "unrlPL": -460.95,
+          "unrlPct": -92.71,
+          "note": "FMP has no quote coverage for SXT (small-cap altcoin) \u2014 price held at Joe's last hand-reported value from Aug 19, 2026, NOT refreshed live. Confirm current price with Joe if precision matters (this is a $36 position, immaterial to portfolio totals)."
+        }
+      ]
     }
   ],
   "creditCards": [
     {
-      "name": "SAMPLE — VISA PLATINUM",
-      "balance": 4850.0,
-      "apr": 24.99,
-      "monthlyPayment": 150.0,
-      "limit": 9000
+      "name": "Amazon Card",
+      "balance": 9065.94,
+      "apr": 25.15,
+      "monthlyPayment": 400,
+      "limit": 0,
+      "_note": "Joe-reported Aug 20, 2026, corrected same day (original message had a typo on the smaller tranche). Two interest-bearing tranches, now EXACT (no unexplained gap): $3,241.10 @ 22.74% (= total $9,065.94 minus the $5,824.84 tranche) and $5,824.84 @ 26.49%. Sum matches the statement balance exactly. apr=25.15% is the precise balance-weighted blended rate across both tranches \u2014 no assumption needed."
     },
     {
-      "name": "SAMPLE — AMEX BLUE",
-      "balance": 2310.0,
-      "apr": 19.24,
-      "monthlyPayment": 120.0,
-      "limit": 6000
+      "name": "Capital One Venture",
+      "balance": 7181.75,
+      "apr": 21.49,
+      "monthlyPayment": 300,
+      "limit": 0,
+      "_note": "Joe-reported Aug 20, 2026."
     },
     {
-      "name": "SAMPLE — STORE CARD",
-      "balance": 890.0,
-      "apr": 29.99,
-      "monthlyPayment": 40.0,
-      "limit": 1500
+      "name": "Citi Diamond",
+      "balance": 4192.31,
+      "apr": 21.24,
+      "monthlyPayment": 200,
+      "limit": 0,
+      "_note": "Joe-reported Aug 20, 2026."
     }
   ],
   "cashAccounts": [
     {
-      "name": "SAMPLE — CHECKING",
-      "balance": 1850.0
+      "name": "SAMPLE \u2014 CHECKING",
+      "balance": 0
     },
     {
-      "name": "SAMPLE — HY SAVINGS",
-      "balance": 6200.0
+      "name": "SAMPLE \u2014 SAVINGS",
+      "balance": 0
     }
   ],
-  "advisory": {
-    "thesis": "Momentum-led, liquidity-supported tape with rising dispersion. Keep core exposure to structural winners; force discipline on high-beta names and options risk.",
-    "points": [
-      "Core & Compounding: Size NVDA/MSFT/META as backbone; monetize with covered calls/diagonals; trail stops.",
-      "Risk Budgeting: Crypto near half of value — use rules-based scaling and constant index hedge around macros.",
-      "Upgrade the Hedge: 2–4% notional during events; spreads & roll winners; cut losers.",
-      "Quality vs Spec: Keep a small sandbox (QBTS, RR, QUBT, EVTL) with tight risk controls.",
-      "Cash Flow: Systematic call-writing on liquid holdings to target 0.5–1.0% monthly portfolio yield when IV pays."
-    ]
-  },
+  "advisory": null,
   "sources": [
     {
-      "text": "Charles Schwab. \"Trader API — Accounts and Positions.\" Charles Schwab Developer Portal, 2025",
+      "text": "Charles Schwab. \"Trader API \u2014 Accounts and Positions.\" Charles Schwab Developer Portal, 2026",
       "url": "https://developer.schwab.com/"
-    },
-    {
-      "text": "Yahoo Finance. Reference quotes for listed tickers, 2025",
-      "url": "https://finance.yahoo.com/"
     }
   ]
 };
@@ -1117,14 +905,6 @@ const accounts = D.accounts.map((a, i) => {
   if (a.autoManaged) {
     dayChg = (typeof a.dayChg === 'number') ? a.dayChg : null;
     dayPct = (typeof a.dayPct === 'number') ? a.dayPct : null;
-  } else if (a.positions.length > 0 && !a.positions.some(p => typeof p.dayChg === 'number')) {
-    // 2026-09-27: a brokerage-frozen account (e.g. a stale weekly build where the
-    // Schwab pull didn't refresh) has every position's dayChg nulled out rather
-    // than a real zero. Summing null||0 would render a false "$0.00 · 0.00%" that
-    // claims "checked, no move" when the truth is "no data" — same failure mode
-    // Joe flagged for Piggy Bank on 2026-08-28. Render '—' instead.
-    dayChg = null;
-    dayPct = null;
   } else {
     dayChg = a.positions.reduce((s,p)=>s+(p.dayChg||0),0);
     const prev = value - dayChg;
@@ -1189,35 +969,12 @@ function healthScore(a){
 /* ---------- credit debt + cash aggregates ---------- */
 const CC = (D.creditCards||[]).map(c=>{
   const r = (c.apr||0)/100/12;
+  const interest = (c.balance||0)*r;
   const pmt = c.monthlyPayment||0;
-  /* Balance aging (Joe, 2026-09-20): when a card carries balanceAsOf
-     (YYYY-MM-DD, the date its stated balance was true), the stated balance is
-     rolled forward one cycle per elapsed month AT VIEW TIME:
-     bal' = bal × (1 + apr/12) − payment (final cycle clamped at zero).
-     The ESTIMATE assumes on-time payments and NO new charges — every stat,
-     the projection, and the risk rules downstream use the aged balance.
-     Refresh real balances (and balanceAsOf) whenever statements arrive. */
-  const stated = c.balance||0;
-  let bal = stated, aged = 0;
-  if (c.balanceAsOf){
-    const as = new Date(c.balanceAsOf + 'T00:00:00');
-    if (!isNaN(as)){
-      const now = new Date();
-      aged = Math.max(0, (now.getFullYear()-as.getFullYear())*12 + (now.getMonth()-as.getMonth())
-                          - (now.getDate() < as.getDate() ? 1 : 0));
-      for (let k=0; k<aged && bal>0.005; k++){
-        const i = bal*r;
-        bal = Math.max(0, bal + i - Math.min(pmt, bal+i));
-      }
-      bal = Math.round(bal*100)/100;
-    }
-  }
-  const interest = bal*r;
   let payoffMo = null;
-  if (pmt > interest && r > 0) payoffMo = Math.ceil(-Math.log(1 - bal*r/pmt)/Math.log(1+r));
-  else if (r === 0 && pmt > 0) payoffMo = Math.ceil(bal/pmt);
-  return Object.assign({}, c, {balance: bal, statedBalance: stated, agedMonths: aged,
-    interest, pmt, payoffMo, util: c.limit ? bal/c.limit*100 : null});
+  if (pmt > interest && r > 0) payoffMo = Math.ceil(-Math.log(1 - (c.balance||0)*r/pmt)/Math.log(1+r));
+  else if (r === 0 && pmt > 0) payoffMo = Math.ceil((c.balance||0)/pmt);
+  return Object.assign({}, c, {interest, pmt, payoffMo, util: c.limit ? (c.balance||0)/c.limit*100 : null});
 });
 const DEBT = {
   bal: CC.reduce((s,c)=>s+(c.balance||0),0),
@@ -1421,7 +1178,7 @@ $('account-cards').innerHTML = accounts.map(a=>{
 }).join('');
 
 /* credit debt card */
-if (CC.length && DEBT.bal > 0.005){
+if (CC.length){
   const utilScore = DEBT.util==null ? 50 : Math.max(0, 100-DEBT.util);
   const prinScore = DEBT.pay>0 ? DEBT.principal/DEBT.pay*100 : 0;
   const aprScore  = Math.max(0, Math.min(100, 100-(DEBT.wApr-10)*4));
@@ -1445,8 +1202,7 @@ if (CC.length && DEBT.bal > 0.005){
     ${DEBT.util!=null?`<div class="stat-row"><span class="stat-label">UTILIZATION</span><span class="stat-value ${DEBT.util>30?'red':'accent'}">${DEBT.util.toFixed(1)}% of ${fmt$(DEBT.limit).replace('.00','')}</span></div>`:''}
     <div class="stat-row"><span class="stat-label">EST PAYOFF</span><span class="stat-value ${payoff?'':'red'}">${payoff?payoff+' MO ('+Math.floor(payoff/12)+'Y '+(payoff%12)+'M)':'NEVER — PAYMENT ≤ INTEREST'}</span></div>
     <div class="stat-row"><span class="stat-label">DEBT / PORTFOLIO</span><span class="stat-value orange">${(DEBT.bal/TOT.value*100).toFixed(1)}%</span></div>
-    ${CC.map(c=>`<div class="stat-row"><span class="stat-label">${esc(c.name)}</span><span class="stat-value" style="white-space:nowrap">${c.agedMonths?'<span class="blue">≈</span>':''}${fmt$(c.balance)} @ ${c.apr}%${c.pmt<=c.interest?' <span class="red">⚠</span>':''}</span></div>`).join('')}
-    ${CC.some(c=>c.agedMonths)?`<div class="mono-note" style="margin-top:10px">≈ EST BALANCE — STATEMENT FIGURE ROLLED FORWARD ${Math.max(...CC.map(c=>c.agedMonths))} CYCLE(S) BY APR &amp; PAYMENT · ASSUMES ON-TIME PAYMENTS, NO NEW CHARGES</div>`:''}
+    ${CC.map(c=>`<div class="stat-row"><span class="stat-label">${esc(c.name)}</span><span class="stat-value" style="white-space:nowrap">${fmt$(c.balance)} @ ${c.apr}%${c.pmt<=c.interest?' <span class="red">⚠</span>':''}</span></div>`).join('')}
   </div>`);
 }
 
@@ -1469,125 +1225,6 @@ if (CASH.total > 0){
     ${EXT_CASH.map(c=>`<div class="stat-row"><span class="stat-label">${esc(c.name)}</span><span class="stat-value">${fmt$(c.balance)}</span></div>`).join('')}
     ${DEBT.bal>0?`<div class="stat-row"><span class="stat-label">CASH − CC DEBT</span><span class="stat-value ${CASH.total-DEBT.bal>=0?'green':'red'}">${fmt$(CASH.total-DEBT.bal,true)}</span></div>`:''}
   </div>`);
-}
-
-/* ---------- debt amortization projection (Joe, 2026-09-19) ----------
-   Auto-computes the month-by-month payoff path from each card's balance, APR
-   and monthly payment. The spread between the payment and that month's
-   interest — the monthly PAYMENT ARBITRAGE — is the only part that retires
-   principal; this engine compounds it forward per card, month by month
-   (bal' = bal × (1 + apr/12) − payment, final month clamped), and tracks the
-   DEBT-TO-ASSET DIFFERENCE (assets held at today's snapshot) until debt = 0.
-   Pure function of PORTFOLIO_DATA — recomputes on every data injection. */
-if (CC.length && DEBT.bal > 0){
-  const MAXM = 361, SHOWM = 60;
-  const sim = CC.map(c=>({name:c.name, bal:c.balance||0, r:(c.apr||0)/100/12,
-                          pmt:c.monthlyPayment||0, payoffAt:null,
-                          bleeder:(c.monthlyPayment||0) <= (c.balance||0)*((c.apr||0)/100/12)}));
-  const assets0 = CASH.assets;
-  const sched = [];
-  let totInt = 0, totPaid = 0, mm = 0;
-  while (mm < MAXM && sim.some(c=>c.bal > 0.005)){
-    mm++;
-    let mi = 0, mp = 0, pay = 0;
-    sim.forEach(c=>{
-      if (c.bal <= 0.005 || (c.pmt <= 0 && c.r <= 0)) return;
-      const i = c.bal * c.r;
-      const p = Math.min(c.pmt, c.bal + i);       // final payment clamps to remaining
-      c.bal = c.bal + i - p;
-      mi += i; pay += p; mp += (p - i);
-      if (c.bal <= 0.005){ c.bal = 0; if (!c.payoffAt) c.payoffAt = mm; }
-    });
-    totInt += mi; totPaid += pay;
-    sched.push({m:mm, pay, int:mi, prin:mp, bal:sim.reduce((s,c)=>s+c.bal,0)});
-    if (pay <= 0) break;                           // nothing being paid — stop
-  }
-  const done = sim.every(c=>c.bal <= 0.005);
-  const bleeders = sim.filter(c=>c.bleeder);
-  const payoffM = done ? mm : null;
-  const NOW = new Date();
-  const monthLabel = k => {
-    const d = new Date(NOW.getFullYear(), NOW.getMonth()+k, 1);
-    return d.toLocaleString('en-US',{month:'short'}).toUpperCase() + ' ' + d.getFullYear();
-  };
-  const arb0 = sched.length && sched[0].pay>0 ? sched[0].prin/sched[0].pay*100 : 0;
-
-  /* --- projection chart: total balance by month --- */
-  const view = sched.slice(0, SHOWM);
-  const W=680, H=180, PL=48, PR=12, PT=14, PB=26;
-  const maxB = Math.max(DEBT.bal, ...view.map(r=>r.bal));
-  const X = i => PL + i/Math.max(1,view.length)*(W-PL-PR);
-  const Y = v => PT + (1 - v/maxB)*(H-PT-PB);
-  let line = 'M'+X(0).toFixed(1)+','+Y(DEBT.bal).toFixed(1);
-  view.forEach((r,i)=>{ line += ' L'+X(i+1).toFixed(1)+','+Y(r.bal).toFixed(1); });
-  const area = line + ' L'+X(view.length).toFixed(1)+','+Y(0).toFixed(1)+' L'+X(0).toFixed(1)+','+Y(0).toFixed(1)+' Z';
-  let grid='', glab='';
-  for (let g=0; g<=4; g++){
-    const v = maxB*g/4, gy = Y(v);
-    grid += `<line x1="${PL}" y1="${gy.toFixed(1)}" x2="${W-PR}" y2="${gy.toFixed(1)}" stroke="#1c1c1c" stroke-width="1"/>`;
-    glab += `<text x="${PL-6}" y="${(gy+3).toFixed(1)}" text-anchor="end" font-family="Space Mono" font-size="8" fill="#666">$${(v/1000).toFixed(v>=10000?0:1)}K</text>`;
-  }
-  let xlab='';
-  for (let i=0; i<=view.length; i+=12)
-    xlab += `<text x="${X(i).toFixed(1)}" y="${H-8}" text-anchor="middle" font-family="Space Mono" font-size="8" fill="#666">${i===0?'NOW':'+'+i+'MO'}</text>`;
-  let marks='';
-  sim.filter(c=>c.payoffAt && c.payoffAt <= view.length).forEach((c,k)=>{
-    const mx = X(c.payoffAt);
-    const lx = Math.max(PL+52, Math.min(W-PR-52, mx));   // keep the label inside the plot
-    marks += `<line x1="${mx.toFixed(1)}" y1="${PT}" x2="${mx.toFixed(1)}" y2="${H-PB}" stroke="#00ff88" stroke-width="1" stroke-dasharray="3,3" opacity="0.55"/>
-      <text x="${lx.toFixed(1)}" y="${(PT+9+k*10)}" text-anchor="middle" font-family="Space Mono" font-size="7.5" fill="#00ff88">${esc(c.name.split(' ')[0]).toUpperCase()} ✓ ${monthLabel(c.payoffAt)}</text>`;
-  });
-  const endDot = done && payoffM <= view.length
-    ? `<circle cx="${X(payoffM).toFixed(1)}" cy="${Y(0).toFixed(1)}" r="3.5" fill="#00ff88"/>`
-    : `<circle cx="${X(view.length).toFixed(1)}" cy="${Y(view.length?view[view.length-1].bal:DEBT.bal).toFixed(1)}" r="3.5" fill="#e0442e"/>`;
-
-  /* --- amortization table rows: months 1–12, then every 6th, always the last --- */
-  const rows = sched.filter((r,i)=> i < 12 || r.m % 6 === 0 || i === sched.length-1);
-  const seen = new Set();
-  const tableRows = rows.filter(r=>{ if(seen.has(r.m)) return false; seen.add(r.m); return true; })
-    .map(r=>`<tr${r.m===payoffM?' style="background:var(--surface2)"':''}>
-      <td class="accent">${r.m===payoffM?'★ ':''}M${r.m} · ${monthLabel(r.m)}</td>
-      <td class="num">${fmt$(r.pay)}</td>
-      <td class="num red">${fmt$(-r.int,true)}</td>
-      <td class="num green">${fmt$(r.prin)}</td>
-      <td class="num ${r.prin>0&&r.pay>0?'':'red'}">${r.pay>0?(r.prin/r.pay*100).toFixed(1)+'%':'—'}</td>
-      <td class="num orange">${fmt$(r.bal)}</td>
-      <td class="num muted">${assets0>0?(r.bal/assets0*100).toFixed(1)+'%':'—'}</td>
-      <td class="num ${assets0-r.bal>=0?'green':'red'}">${fmt$(assets0-r.bal,true)}</td>
-    </tr>`).join('');
-
-  $('debt-projection').innerHTML = `<div class="chart-block">
-    <div class="chart-title">Debt Amortization Projection — Auto-Computed From Balance × APR × Payment</div>
-    <div class="meta-grid" style="margin-top:0">
-      <div class="meta-cell"><div class="meta-label">Debt-Free Date</div>
-        <div class="meta-value ${done?'green':'red'}">${done ? monthLabel(payoffM) : 'NEVER'}</div>
-        <div class="meta-sub">${done ? 'T+'+payoffM+' MO AT CURRENT PAYMENTS' : 'PAYMENT ≤ INTEREST ON '+bleeders.length+' CARD(S)'}</div></div>
-      <div class="meta-cell"><div class="meta-label">Interest To Payoff</div>
-        <div class="meta-value red">${fmt$(-totInt,true)}</div>
-        <div class="meta-sub">OF ${fmt$(totPaid).replace('.00','')} TOTAL PAID${done?'':' (FIRST '+sched.length+' MO)'}</div></div>
-      <div class="meta-cell"><div class="meta-label">Payment Arbitrage</div>
-        <div class="meta-value ${arb0>50?'green':''}" style="${arb0<=50&&arb0>0?'color:var(--accent2)':''}">${arb0.toFixed(1)}%</div>
-        <div class="meta-sub">OF MONTH-1 PAYMENT RETIRES PRINCIPAL — REST FEEDS THE BANK</div></div>
-      <div class="meta-cell"><div class="meta-label">Debt-To-Asset Gap</div>
-        <div class="meta-value">${fmt$(assets0-DEBT.bal,true)}</div>
-        <div class="meta-sub">NOW (${assets0>0?(DEBT.bal/assets0*100).toFixed(1):'—'}% OF ASSETS) → ${done?fmt$(assets0,true)+' AT PAYOFF':'GAP KEEPS WIDENING'}</div></div>
-    </div>
-    <div style="margin-top:18px">
-      <svg viewBox="0 0 ${W} ${H}" style="width:100%;display:block">
-        ${grid}${glab}${xlab}
-        <path d="${area}" fill="#e0442e" opacity="0.16"/>
-        <path d="${line}" fill="none" stroke="#e0442e" stroke-width="1.8"/>
-        ${marks}${endDot}
-      </svg>
-    </div>
-    <div class="mono-note">TOTAL CARD BALANCE PROJECTED FORWARD${view.length<sched.length?' (FIRST '+SHOWM+' MO SHOWN)':''} · ✓ = CARD RETIRED · ASSETS HELD AT TODAY'S ${fmt$(assets0).replace('.00','')} SNAPSHOT — MARKET MOVES NOT PROJECTED${CC.some(c=>c.agedMonths)?' · STARTING BALANCES ARE ≈ESTIMATES AGED FROM STATEMENT DATES':''}</div>
-    ${bleeders.length?`<div class="alert alert-danger" style="margin:16px 0 4px"><div class="alert-label">BLEEDER ALERT</div><p>${bleeders.map(b=>esc(b.name)).join(', ')}: monthly payment does not cover monthly interest — the balance compounds against you and no payoff date exists. Raise the payment above the interest line or restructure.</p></div>`:''}
-    <div class="scroll-x"><table>
-      <thead><tr><th>Month</th><th class="num">Payment</th><th class="num">Interest</th><th class="num">Principal</th><th class="num">Arbitrage</th><th class="num">Balance</th><th class="num">Debt/Assets</th><th class="num">Net (Assets−Debt)</th></tr></thead>
-      <tbody>${tableRows}</tbody>
-    </table></div>
-    <div class="mono-note">ARBITRAGE = PRINCIPAL SHARE OF THAT MONTH'S PAYMENT — IT RISES EVERY MONTH AS INTEREST SHRINKS ON A FALLING BALANCE. MONTHS 1–12 SHOWN, THEN EVERY 6TH, ★ = FINAL PAYMENT.</div>
-  </div>`;
 }
 
 /* ---------- risk radar ---------- */
