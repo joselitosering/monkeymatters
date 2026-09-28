@@ -353,7 +353,7 @@ def fetch_schwab_profile(access_token: str, key: str, symbol: str) -> dict:
         "symbol": symbol, "periodType": "month", "period": 3,
         "frequencyType": "daily", "frequency": 1}).get("candles", [])
     intraday = _schwab_get(access_token, SCHWAB_HISTORY_URL, {
-        "symbol": symbol, "periodType": "day", "period": 3,
+        "symbol": symbol, "periodType": "day", "period": 10,
         "frequencyType": "minute", "frequency": 1, "needExtendedHoursData": "true"}).get("candles", [])
     if not daily or not intraday:
         raise RuntimeError("empty price history")
