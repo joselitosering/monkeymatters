@@ -1,0 +1,55 @@
+{
+  "fetched_at": "2026-09-28T11:44:24.195314-07:00",
+  "quotes": {
+    "VIX": {
+      "price": 15.9,
+      "change": 1.0,
+      "changePercentage": 6.9267,
+      "color": "c-safe"
+    },
+    "SPX": {
+      "price": 7699.08,
+      "change": -44.33,
+      "changePercentage": -0.57249,
+      "color": "c-bad"
+    },
+    "GOLD": {
+      "price": 4164.6,
+      "change": -156.6,
+      "changePercentage": -3.62399,
+      "color": "c-bad"
+    },
+    "BTC": {
+      "price": 83827.61,
+      "change": -629.69,
+      "changePercentage": -0.74557,
+      "color": "c-bad"
+    },
+    "ETH": {
+      "price": 2688.69,
+      "change": 1.1,
+      "changePercentage": 0.04100331,
+      "color": "c-safe"
+    }
+  },
+  "schwab_futures": {
+    "ES": {
+      "price": 7761.25,
+      "change": -42.5,
+      "changePercentage": -0.54460996,
+      "color": "c-bad",
+      "contract": "/ESZ26",
+      "open": 7796.0,
+      "prev_close": 7803.75
+    },
+    "NQ": {
+      "price": 30618.25,
+      "change": -270.0,
+      "changePercentage": -0.8740905,
+      "color": "c-bad",
+      "contract": "/NQZ26",
+      "open": 30870.0,
+      "prev_close": 30889.25
+    }
+  }
+}
