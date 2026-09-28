@@ -660,6 +660,23 @@ def render(template: str, now: datetime.datetime, kpi: dict, insert: dict | None
         values.update(insert)  # on-demand pass can override any of the above
 
     html = template
+
+    # BUG FIX 2026-09-28: INJECTED_SECTIONS must run FIRST, against the
+    # still-pristine template. It was previously applied AFTER the flat
+    # {{TOKEN}} pass below, which meant any big-block marker that itself
+    # contained a flat token (e.g. {{PREV_DATE_SHORT}} inside the /ES and
+    # /NQ card headers) could never match -- that substring had already
+    # been replaced with real text by the time .replace(marker, content)
+    # ran, so the swap silently no-opped and the raw {{CA_ANALYSIS}} /
+    # {{ENTRY}}/{{STOP}}/{{TARGET}}/etc. placeholders in the /ES, /NQ,
+    # Econ Calendar, and Earnings Watch analysis boxes shipped unfilled.
+    # Running this first means insert.json markers are matched against
+    # the untouched template, exactly as the analysis-pass authoring
+    # tooling builds them (byte-for-byte substrings of mmm_template.html).
+    if insert and "INJECTED_SECTIONS" in insert:
+        for marker, content in insert["INJECTED_SECTIONS"].items():
+            html = html.replace(marker, content)
+
     for key, val in values.items():
         html = html.replace("{{" + key + "}}", str(val))
 
@@ -673,10 +690,6 @@ def render(template: str, now: datetime.datetime, kpi: dict, insert: dict | None
         rows = build_futures_stats_rows(key, (schwab or {}).get(key) or {})
         if rows:
             html = re.sub(r"<!--\s*INJECT: /" + key + r" STATS.*?-->", lambda _m: rows, html, count=1, flags=re.S)
-
-    if insert and "INJECTED_SECTIONS" in insert:
-        for marker, content in insert["INJECTED_SECTIONS"].items():
-            html = html.replace(marker, content)
 
     if not (insert and "INJECTED_SECTIONS" in insert):
         # Replace every remaining INJECT comment block with an explicit,
