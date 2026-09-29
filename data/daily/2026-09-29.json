@@ -1,43 +1,43 @@
 {
-  "fetched_at": "2026-09-29T06:27:27.906290-07:00",
+  "fetched_at": "2026-09-29T06:51:00.442330-07:00",
   "quotes": {
     "VIX": {
-      "price": 15.8,
-      "change": -0.2,
-      "changePercentage": -1.43124,
+      "price": 16.0,
+      "change": -0.1,
+      "changePercentage": -0.68451,
       "color": "c-bad"
     },
     "SPX": {
-      "price": 7683.69,
-      "change": -59.72,
-      "changePercentage": -0.77124,
+      "price": 7680.74,
+      "change": -2.95,
+      "changePercentage": -0.03839301,
       "color": "c-bad"
     },
     "GOLD": {
-      "price": 4190.2,
-      "change": 21.8,
-      "changePercentage": 0.52298,
+      "price": 4192.2,
+      "change": 23.8,
+      "changePercentage": 0.57096,
       "color": "c-safe"
     },
     "BTC": {
-      "price": 84373.14,
-      "change": 885.14,
-      "changePercentage": 1.0602,
+      "price": 84173.27,
+      "change": 685.27,
+      "changePercentage": 0.8208,
       "color": "c-safe"
     },
     "ETH": {
-      "price": 2734.83,
-      "change": 47.22,
-      "changePercentage": 1.75679,
+      "price": 2725.7,
+      "change": 38.09,
+      "changePercentage": 1.41708,
       "color": "c-safe"
     }
   },
   "schwab_futures": {
     "ES": {
-      "price": 7756.0,
-      "change": 9.25,
-      "changePercentage": 0.11940491,
-      "color": "c-safe",
+      "price": 7740.75,
+      "change": -6.5,
+      "changePercentage": -0.08390615,
+      "color": "c-bad",
       "contract": "/ESZ26",
       "open": 7746.5,
       "prev_close": 7746.75,
@@ -97,9 +97,9 @@
       }
     },
     "NQ": {
-      "price": 30675.25,
-      "change": 108.25,
-      "changePercentage": 0.35414878,
+      "price": 30591.5,
+      "change": 25.5,
+      "changePercentage": 0.08342535,
       "color": "c-safe",
       "contract": "/NQZ26",
       "open": 30560.5,
@@ -136,7 +136,7 @@
           "bars": 390
         },
         "overnight": {
-          "high": 30717.75,
+          "high": 30725.5,
           "low": 30372.25
         },
         "turtle": {
