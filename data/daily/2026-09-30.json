@@ -1,0 +1,163 @@
+{
+  "fetched_at": "2026-09-30T06:25:02.659756-07:00",
+  "quotes": {
+    "VIX": {
+      "price": 15.8,
+      "change": -0.3,
+      "changePercentage": -1.68329,
+      "color": "c-bad"
+    },
+    "SPX": {
+      "price": 7670.84,
+      "change": -12.85,
+      "changePercentage": -0.16724,
+      "color": "c-bad"
+    },
+    "GOLD": {
+      "price": 4233.8,
+      "change": 54.1,
+      "changePercentage": 1.29435,
+      "color": "c-safe"
+    },
+    "BTC": {
+      "price": 85278.37,
+      "change": 1653.58,
+      "changePercentage": 1.97738,
+      "color": "c-safe"
+    },
+    "ETH": {
+      "price": 2724.17,
+      "change": 47.43,
+      "changePercentage": 1.7719,
+      "color": "c-safe"
+    }
+  },
+  "schwab_futures": {
+    "ES": {
+      "price": 7752.5,
+      "change": 21.0,
+      "changePercentage": 0.27159855,
+      "color": "c-safe",
+      "contract": "/ESZ26",
+      "open": 7739.0,
+      "prev_close": 7732.0,
+      "profile": {
+        "session_date": "2026-09-29",
+        "prev": {
+          "high": 7770.75,
+          "low": 7712.25,
+          "settle": 7738.25,
+          "range": 58.5,
+          "volume": 1535554
+        },
+        "adr5": 72.5,
+        "pivots": {
+          "PP": 7740.42,
+          "R1": 7768.58,
+          "S1": 7710.08,
+          "R2": 7798.92,
+          "S2": 7681.92,
+          "R3": 7827.08,
+          "S3": 7651.58
+        },
+        "rth_profile": {
+          "poc": 7719.0,
+          "vah": 7738.0,
+          "val": 7715.0,
+          "vwap": 7730.61,
+          "volume": 1211128,
+          "bin": 1.0,
+          "va_pct": 0.7,
+          "high": 7758.5,
+          "low": 7712.25,
+          "bars": 390
+        },
+        "overnight": {
+          "high": 7771.25,
+          "low": 7719.5
+        },
+        "turtle": {
+          "atr20": 77.61,
+          "n2": 155.22,
+          "half_n": 38.81,
+          "d20": {
+            "n": 20,
+            "hi": 7848.5,
+            "lo": 7575.0,
+            "bars": 20
+          },
+          "d55": {
+            "n": 55,
+            "hi": 7848.5,
+            "lo": 7324.0,
+            "bars": 55
+          }
+        },
+        "source": "Schwab /ES price history: daily + 1-min RTH bars"
+      }
+    },
+    "NQ": {
+      "price": 30710.5,
+      "change": 100.25,
+      "changePercentage": 0.32747258,
+      "color": "c-safe",
+      "contract": "/NQZ26",
+      "open": 30657.25,
+      "prev_close": 30613.25,
+      "profile": {
+        "session_date": "2026-09-29",
+        "prev": {
+          "high": 30725.5,
+          "low": 30372.25,
+          "settle": 30652.75,
+          "range": 353.25,
+          "volume": 572387
+        },
+        "adr5": 429.45,
+        "pivots": {
+          "PP": 30583.5,
+          "R1": 30794.75,
+          "S1": 30441.5,
+          "R2": 30936.75,
+          "S2": 30230.25,
+          "R3": 31148.0,
+          "S3": 30088.25
+        },
+        "rth_profile": {
+          "poc": 30620.0,
+          "vah": 30655.0,
+          "val": 30550.0,
+          "vwap": 30605.63,
+          "volume": 430191,
+          "bin": 5.0,
+          "va_pct": 0.7,
+          "high": 30725.5,
+          "low": 30504.5,
+          "bars": 390
+        },
+        "overnight": {
+          "high": 30779.5,
+          "low": 30512.25
+        },
+        "turtle": {
+          "atr20": 442.06,
+          "n2": 884.12,
+          "half_n": 221.03,
+          "d20": {
+            "n": 20,
+            "hi": 31094.75,
+            "lo": 28927.25,
+            "bars": 20
+          },
+          "d55": {
+            "n": 55,
+            "hi": 31094.75,
+            "lo": 27201.5,
+            "bars": 55
+          }
+        },
+        "source": "Schwab /NQ price history: daily + 1-min RTH bars"
+      }
+    }
+  }
+}
