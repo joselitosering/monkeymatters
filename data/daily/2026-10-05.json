@@ -1,43 +1,43 @@
 {
-  "fetched_at": "2026-10-05T06:25:42.618002-07:00",
+  "fetched_at": "2026-10-05T06:55:59.228458-07:00",
   "quotes": {
     "VIX": {
-      "price": 16.1,
-      "change": 0.8,
-      "changePercentage": 5.09471,
+      "price": 15.9,
+      "change": 0.6,
+      "changePercentage": 3.72306,
       "color": "c-safe"
     },
     "SPX": {
-      "price": 7722.72,
-      "change": 56.27,
-      "changePercentage": 0.73398,
+      "price": 7735.59,
+      "change": 12.87,
+      "changePercentage": 0.16665,
       "color": "c-safe"
     },
     "GOLD": {
-      "price": 4180.7,
-      "change": 18.4,
-      "changePercentage": 0.44206,
+      "price": 4163.7,
+      "change": 1.4,
+      "changePercentage": 0.03363525,
       "color": "c-safe"
     },
     "BTC": {
-      "price": 86021.78,
-      "change": -491.6,
-      "changePercentage": -0.56824,
+      "price": 86328.18,
+      "change": -185.2,
+      "changePercentage": -0.21407,
       "color": "c-bad"
     },
     "ETH": {
-      "price": 2718.27,
-      "change": -8.45,
-      "changePercentage": -0.31004,
+      "price": 2719.3,
+      "change": -7.42,
+      "changePercentage": -0.27227,
       "color": "c-bad"
     }
   },
   "schwab_futures": {
     "ES": {
-      "price": 7775.5,
-      "change": -1.75,
-      "changePercentage": -0.02250153,
-      "color": "c-bad",
+      "price": 7788.25,
+      "change": 10.0,
+      "changePercentage": 0.12858015,
+      "color": "c-safe",
       "contract": "/ESZ26",
       "open": 7781.5,
       "prev_close": 7777.25,
@@ -97,10 +97,10 @@
       }
     },
     "NQ": {
-      "price": 31022.75,
-      "change": -38.75,
-      "changePercentage": -0.1247515,
-      "color": "c-bad",
+      "price": 31173.0,
+      "change": 111.25,
+      "changePercentage": 0.35815754,
+      "color": "c-safe",
       "contract": "/NQZ26",
       "open": 31059.0,
       "prev_close": 31061.75,
@@ -136,7 +136,7 @@
           "bars": 390
         },
         "overnight": {
-          "high": 31221.25,
+          "high": 31229.5,
           "low": 30957.5
         },
         "turtle": {
