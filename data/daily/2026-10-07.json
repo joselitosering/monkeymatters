@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-07T14:27:44.723638-07:00",
+  "fetched_at": "2026-10-07T14:48:14.480694-07:00",
   "quotes": {
     "VIX": {
       "price": 15.1,
@@ -20,15 +20,15 @@
       "color": "c-bad"
     },
     "BTC": {
-      "price": 83297.37,
-      "change": -2248.86,
-      "changePercentage": -2.62882,
+      "price": 83153.66,
+      "change": -2392.57,
+      "changePercentage": -2.79682,
       "color": "c-bad"
     },
     "ETH": {
-      "price": 2569.33,
-      "change": -127.99,
-      "changePercentage": -4.74506,
+      "price": 2566.07,
+      "change": -131.25,
+      "changePercentage": -4.86592,
       "color": "c-bad"
     }
   },
