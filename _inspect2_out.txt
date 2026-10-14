@@ -1,0 +1,219 @@
+================================================================================
+MATCH AT 34649
+": VAH,POC,VAL,Prev VWAP. Markup: <tr><td>{{LABEL}}</td><td class="acc|good|bad">{{VALUE}}</td></tr>, subheads: <tr class="ftbl-sub"><td colspan="2">— {{NAME}} —</td></tr> -->
+</table>
+<p class="tfoot-note">Source: Schwab price history — daily bars (H/L/settle, classic pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at CME.com.</p>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">{{CA_STRATEGY}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+</div>
+</div>
+<!-- /NQ -->
+<div class="sm-card">
+<div class="card-hd">📈 /NQ — E-Mini Nasdaq-100 · {{PREV_DATE_SHORT}} Settlement</div>
+<table class="ftbl">
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="{{NQ_GAP_COLOR}}">{{NQ_GAP}}</td></tr>
+<!-- INJECT: /NQ STATS — same row order/markup as the /ES table above -->
+</table>
+<p class="tfoot-note">Source: Schwab price history — daily bars (H/L/settle, classic pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at CME.com.</p>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">{{CA_STRATEGY}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S St
+
+================================================================================
+MATCH AT 36113
+l">
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="{{NQ_GAP_COLOR}}">{{NQ_GAP}}</td></tr>
+<!-- INJECT: /NQ STATS — same row order/markup as the /ES table above -->
+</table>
+<p class="tfoot-note">Source: Schwab price history — daily bars (H/L/settle, classic pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at CME.com.</p>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">{{CA_STRATEGY}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+</div>
+</div>
+</div>
+<!-- ══ ECON + EARNINGS + SECTORS ══════════════════════════════ -->
+<div class="sec-label">06 — ECONOMIC CALENDAR · EARNINGS · SECTOR ROTATION</div>
+<div class="grid3">
+<!-- ECON CALENDAR -->
+<div class="sm-card card-cyan">
+<div class="card-hd cyan">📅 Economic Calendar</div>
+<table class="etbl">
+<tr><th>Time (PT)</th><th>Event</th><th>Est</th><th>Act</th></tr>
+<!-- INJECT: S06 ECON CALENDAR — repeat <tr> per event:
+  <tr>
+    <td>{{ECON_N_TIME}}</td>
+    <td><strong>{{ECON_N_EVENT}}</strong> <span class="chk">{{ECON_N_STATUS}}</span></td>
+    <td>{{ECON_N_EST}}</td>
+    <td class="{{ECON_N_COLOR}}">{{ECON_N_ACT}}</td>
+  </tr>
+-->
+</table>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span 
+
+================================================================================
+MATCH AT 37699
+Economic Calendar</div>
+<table class="etbl">
+<tr><th>Time (PT)</th><th>Event</th><th>Est</th><th>Act</th></tr>
+<!-- INJECT: S06 ECON CALENDAR — repeat <tr> per event:
+  <tr>
+    <td>{{ECON_N_TIME}}</td>
+    <td><strong>{{ECON_N_EVENT}}</strong> <span class="chk">{{ECON_N_STATUS}}</span></td>
+    <td>{{ECON_N_EST}}</td>
+    <td class="{{ECON_N_COLOR}}">{{ECON_N_ACT}}</td>
+  </tr>
+-->
+</table>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+</div>
+</div>
+<!-- EARNINGS -->
+<div class="sm-card card-safe">
+<div class="card-hd" style="color:var(--safe)">💰 Earnings Watch</div>
+<table class="erntbl">
+<!-- INJECT: S06 EARNINGS WATCH — repeat <tr> per ticker:
+  <tr>
+    <td>{{EARN_N_TICKER}}</td>
+    <td><span class="timing {{EARN_N_CLASS}}">{{EARN_N_TIMING}}</span></td>
+    <td class="{{EARN_N_COLOR}}" style="font-weight:700">{{EARN_N_MOVE}}</td>
+    <td style="font-size:10px;color:var(--sub)">{{EARN_N_NOTE}}</td>
+  </tr>
+-->
+</table>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+</div>
+</div>
+<!-- SECTORS -->
+<div class="sm-card">
+<div class="card-hd">🗂 Sector Performance — {{PREV_DATE_SHORT}}</div>
+<!-- INJECT: SECTORS — up to 7 rows: <div class="sector-row"
+
+================================================================================
+MATCH AT 39011
+--safe)">💰 Earnings Watch</div>
+<table class="erntbl">
+<!-- INJECT: S06 EARNINGS WATCH — repeat <tr> per ticker:
+  <tr>
+    <td>{{EARN_N_TICKER}}</td>
+    <td><span class="timing {{EARN_N_CLASS}}">{{EARN_N_TIMING}}</span></td>
+    <td class="{{EARN_N_COLOR}}" style="font-weight:700">{{EARN_N_MOVE}}</td>
+    <td style="font-size:10px;color:var(--sub)">{{EARN_N_NOTE}}</td>
+  </tr>
+-->
+</table>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+</div>
+</div>
+<!-- SECTORS -->
+<div class="sm-card">
+<div class="card-hd">🗂 Sector Performance — {{PREV_DATE_SHORT}}</div>
+<!-- INJECT: SECTORS — up to 7 rows: <div class="sector-row"><span class="sec-etf">{{ETF}}</span><span class="sec-name">{{NAME}}</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:{{BARPCT}}%;background:var(--safe|--danger)"></div></div><span class="sec-val c-safe|c-bad">{{PCT}}</span></div> -->
+<div class="ca" style="margin-top:8px">
+<div class="ca-row"><div class="ca-lbl">Rotation</div><div class="ca-val">{{CA_ROTATION}}</div></div>
+</div>
+</div>
+</div>
+<!-- ══ GAINERS + DECLINERS ════════════════════════════════════ -->
+<div class="sec-label">07 — PRE-MARKET MOVERS</div>
+<div class="grid2">
+<div class="sm-card card-safe">
+<div class="card-hd" style="color:var(--safe)">📈 Pre-Market Gainers</div>
+<table class="pmtbl">
+<!-- INJECT: S07 GAINERS — repeat <tr> per gainer:
+  <tr>
+    <td>{{GAINER_N_TICKER}}</td>
+    <td><span class="pm-cat pm-earn">{{GAINER_N_CAT1}}</span> <span class="pm-cat pm-beat">{{GAINER_N_CAT2}}</span></td>
+    <td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">{{GAINER_N_PCT}}</td>
+    <td style="font-size:10px;color:var(--sub)">{{GAINER_N_NOTE}}</td>
+  </tr>
+-->
+</table>
+</div>
+<div class="sm-card card-danger">
+<div class="card-hd" style="color:var(--danger)">📉 Pre-Market Decliners</div>
+<table class="pmtbl">
+<!-- INJECT: S07 DECLINERS — repeat <tr> per decliner:
+  <tr>
+
+
+================================================================================
+MATCH AT 40156
+s="sm-card">
+<div class="card-hd">🗂 Sector Performance — {{PREV_DATE_SHORT}}</div>
+<!-- INJECT: SECTORS — up to 7 rows: <div class="sector-row"><span class="sec-etf">{{ETF}}</span><span class="sec-name">{{NAME}}</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:{{BARPCT}}%;background:var(--safe|--danger)"></div></div><span class="sec-val c-safe|c-bad">{{PCT}}</span></div> -->
+<div class="ca" style="margin-top:8px">
+<div class="ca-row"><div class="ca-lbl">Rotation</div><div class="ca-val">{{CA_ROTATION}}</div></div>
+</div>
+</div>
+</div>
+<!-- ══ GAINERS + DECLINERS ════════════════════════════════════ -->
+<div class="sec-label">07 — PRE-MARKET MOVERS</div>
+<div class="grid2">
+<div class="sm-card card-safe">
+<div class="card-hd" style="color:var(--safe)">📈 Pre-Market Gainers</div>
+<table class="pmtbl">
+<!-- INJECT: S07 GAINERS — repeat <tr> per gainer:
+  <tr>
+    <td>{{GAINER_N_TICKER}}</td>
+    <td><span class="pm-cat pm-earn">{{GAINER_N_CAT1}}</span> <span class="pm-cat pm-beat">{{GAINER_N_CAT2}}</span></td>
+    <td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">{{GAINER_N_PCT}}</td>
+    <td style="font-size:10px;color:var(--sub)">{{GAINER_N_NOTE}}</td>
+  </tr>
+-->
+</table>
+</div>
+<div class="sm-card card-danger">
+<div class="card-hd" style="color:var(--danger)">📉 Pre-Market Decliners</div>
+<table class="pmtbl">
+<!-- INJECT: S07 DECLINERS — repeat <tr> per decliner:
+  <tr>
+    <td>{{DECLINER_N_TICKER}}</td>
+    <td><span class="pm-cat pm-earn">{{DECLINER_N_CAT1}}</span> <span class="pm-cat pm-miss">{{DECLINER_N_CAT2}}</span></td>
+    <td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">{{DECLINER_N_PCT}}</td>
+    <td style="font-size:10px;color:var(--sub)">{{DECLINER_N_NOTE}}</td>
+  </tr>
+-->
+</table>
+</div>
+</div>
+<!-- ══ SPOTLIGHT + OPTIONS IDEAS ════════════════════════════ -->
+<div class="sec-label">08 — SPOTLIGHT &amp; OPTIONS INTELLIGENCE</div>
+<div class="grid2">
+<div class="sm-card">
+<div class="card-hd">🔍 Spotlight</div>
+<!-- INJECT: SPOTLIGHT — up to 3: <div class="spot-item"><div class="spot-hd">{{TICKER}}</div><div class="spot-body">{{ANALYSIS}}</div></div> -->
+</div>
+<div class="sm-card card-orange">
+<div class="card-hd orange">🎯 Options Ideas</div>
+<!-- INJECT: OPTIONS IDEAS — up to 4: <div class="opt-item"><div class="opt-hd">{{TITLE}}</div><div class="opt-body">{{BODY}}</div></div> -->
+</div>
+</div>
+<!-- ══ MONEY FLOW + UNUSUAL OPTIONS ═════════════════════════ -->
+<div class="sec-label">09 — DARK POOL &amp; INSTITUTIONAL FLOW</div>
+<div cl
+

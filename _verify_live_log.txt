@@ -1,0 +1,10 @@
+returncode: 0 stderr: 
+LENGTH: 87166
+startswith DOCTYPE: True
+STRAY TOKENS (0): []
+PENDING count: 0
+TRADE ROWS <tr> count: 12
+ES_CA present: True
+NQ_CA present: True
+ECON_CA present: True
+EARNINGS_CA present: True

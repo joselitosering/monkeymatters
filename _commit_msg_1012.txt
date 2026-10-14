@@ -1,0 +1,13 @@
+mmm-insert: 2026-10-12 qualitative pass
+
+Schwab futures feed down today (refresh token stale, HTTP 400 on
+OAuth refresh - confirmed in this morning's data-pass log; schwab_futures
+is {} in data/daily/2026-10-12.json). /ES and /NQ analysis boxes disclose
+this explicitly and use SPX cash (FMP) + Yahoo Finance premarket futures
+snapshots instead of fabricated pivot/VAH/POC/VAL. Master trade table
+ships 3 grounded ideas (BTC/ETH mean-reversion computed from real FMP
+daily closes, CCC event-driven) rather than padding with invented
+futures setups.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01XhbdRgt8mRbVzDEJa8jj8f

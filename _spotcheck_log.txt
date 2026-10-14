@@ -1,0 +1,21 @@
+FIND "Schwab's /ES futures feed returned" -> idx=53274
+  CTX: ' value area, POC, VWAP). Verify settlement at CME.com.</p>\n<div class="ca">\n<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">Schwab\'s /ES futures feed returned \'HTTP Error 400: Bad Request\' on all three attempts during this morning\'s data pull, and the FMP cash-index fallback did not populate either &mdash; there is no real settlement, pivot, or value-area data for /ES today, and this report will not invent any. For conte'
+
+FIND "Schwab's /NQ futures feed failed" -> idx=56241
+  CTX: ' value area, POC, VWAP). Verify settlement at CME.com.</p>\n<div class="ca">\n<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">Schwab\'s /NQ futures feed failed the same way as /ES &mdash; \'HTTP Error 400: Bad Request\' on every attempt, no FMP fallback populated. No real settlement, pivot, or value-area numbers for /NQ today. For context only (not a futures substitute): the Nasdaq Composite closed Monday at a record 27,477.3'
+
+FIND 'Gap vs Settle' -> idx=52530
+  CTX: 'ass="grid2">\n<!-- /ES -->\n<div class="sm-card">\n<div class="card-hd">📈 /ES — E-Mini S&amp;P 500 · Oct 5 Settlement</div>\n<table class="ftbl">\n<tr><td>Gap vs Settle (open − prior settle)</td><td class="c-sub">N/A</td></tr>\n<!-- INJECT: /ES STATS — rows in order: Prev High(†), Prev Low(†), Settlement, Pre-Mkt Est., Gap/ADR ; sub "Pivot Levels (Classic Formula)": PP,R3,R2,R1,S1,S2,S3 ; sub "Volume Profile(†)": VAH,POC,VAL,Prev VWAP. Markup: <tr><td>'
+
+FIND 'E-Mini S&amp;P 500' -> idx=52457
+  CTX: '══════ -->\n<div class="sec-label">05 — FUTURES INTELLIGENCE</div>\n<div class="grid2">\n<!-- /ES -->\n<div class="sm-card">\n<div class="card-hd">📈 /ES — E-Mini S&amp;P 500 · Oct 5 Settlement</div>\n<table class="ftbl">\n<tr><td>Gap vs Settle (open − prior settle)</td><td class="c-sub">N/A</td></tr>\n<!-- INJECT: /ES STATS — rows in order: Prev High(†), Prev Low(†), Settlement, Pre-Mkt Est., Gap/ADR ; sub "Pivot Levels (Classic Formula)": PP,R3,R2,R1,S1'
+
+FIND 'E-Mini Nasdaq-100' -> idx=55713
+  CTX: ' lv-n">VWAP: N/A &mdash; no profile data today</span></div></div></div>\n</div>\n</div>\n<!-- /NQ -->\n<div class="sm-card">\n<div class="card-hd">📈 /NQ — E-Mini Nasdaq-100 · Oct 5 Settlement</div>\n<table class="ftbl">\n<tr><td>Gap vs Settle (open − prior settle)</td><td class="c-sub">N/A</td></tr>\n<!-- INJECT: /NQ STATS — same row order/markup as the /ES table above -->\n</table>\n<p class="tfoot-note">Source: Schwab price history — daily bars (H/L/sett'
+
+FIND 'MASTER TRADE IDEAS' -> idx=76198
+  CTX: 'LE ════════════════════════════════════ -->\n<div class="sec-label">10 — MASTER TRADE INTELLIGENCE</div>\n<div class="tbl-section">\n<div class="tbl-hd">MASTER TRADE IDEAS — <span>Tuesday, October 6, 2026</span></div>\n<div class="ttbl-controls">\n<span class="ttbl-filter-lbl">Filter:</span>\n<input class="ttbl-filter-input" id="fSymbol" oninput="apexFilterTable()" placeholder="Symbol…"/>\n<select class="ttbl-filter-select" id="fType" onchange="apexFilt'
+
+FIND 'apexTradeTable' -> idx=77337
+  CTX: '="ttbl-reset" onclick="apexResetFilters()">Reset</button>\n<span class="ttbl-count" id="tradeCount">0 / 0 trades</span>\n</div>\n<table class="ttbl" id="apexTradeTable">\n<thead>\n<tr>\n<th class="sortable" onclick="apexSortTable(0)">#</th>\n<th class="sortable" onclick="apexSortTable(1)">Symbol</th>\n<th class="sortable" onclick="apexSortTable(2)">Type</th>\n<th class="sortable" onclick="apexSortTable(3)">Direction</th>\n<th>Setup</th>\n<th class="sortable'
+

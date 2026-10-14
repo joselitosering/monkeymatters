@@ -1,0 +1,38 @@
+CARD-HD MATCH: '<div class="card-hd">📈 /ES — E-Mini S&amp;P 500 · {{PREV_DATE_SHORT}} Settlement</div>' at 33857
+CARD-HD MATCH: '<div class="card-hd">📈 /NQ — E-Mini Nasdaq-100 · {{PREV_DATE_SHORT}} Settlement</div>' at 35610
+
+
+======================================== BLOCK FOR /ES ========================================
+start=33857 end=35567 length=1710
+COUNT IN TEMPLATE: 1
+<div class="card-hd">📈 /ES — E-Mini S&amp;P 500 · {{PREV_DATE_SHORT}} Settlement</div>
+<table class="ftbl">
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="{{ES_GAP_COLOR}}">{{ES_GAP}}</td></tr>
+<!-- INJECT: /ES STATS — rows in order: Prev High(†), Prev Low(†), Settlement, Pre-Mkt Est., Gap/ADR ; sub "Pivot Levels (Classic Formula)": PP,R3,R2,R1,S1,S2,S3 ; sub "Volume Profile(†)": VAH,POC,VAL,Prev VWAP. Markup: <tr><td>{{LABEL}}</td><td class="acc|good|bad">{{VALUE}}</td></tr>, subheads: <tr class="ftbl-sub"><td colspan="2">— {{NAME}} —</td></tr> -->
+</table>
+<p class="tfoot-note">Source: Schwab price history — daily bars (H/L/settle, classic pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at CME.com.</p>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">{{CA_STRATEGY}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+</div>
+
+======================================== BLOCK FOR /NQ ========================================
+start=35610 end=37031 length=1421
+COUNT IN TEMPLATE: 1
+<div class="card-hd">📈 /NQ — E-Mini Nasdaq-100 · {{PREV_DATE_SHORT}} Settlement</div>
+<table class="ftbl">
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="{{NQ_GAP_COLOR}}">{{NQ_GAP}}</td></tr>
+<!-- INJECT: /NQ STATS — same row order/markup as the /ES table above -->
+</table>
+<p class="tfoot-note">Source: Schwab price history — daily bars (H/L/settle, classic pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at CME.com.</p>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">{{CA_STRATEGY}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+</div>
+

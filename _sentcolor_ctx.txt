@@ -1,0 +1,8 @@
+﻿
+  template\mmm_template.html:21:    {{VIX_VAL}}  {{FNG_VAL}}  {{PUTCALL_VAL}}
+  template\mmm_template.html:22:    {{BREADTH_VAL}}  {{AAII_VAL}}  {{SENTIMENT_VAL}}
+> template\mmm_template.html:23:    {{SENT_COLOR}} → c-safe | c-warn | c-bad
+  template\mmm_template.html:24:
+  template\mmm_template.html:25:  S02 ADVISORY:
+
+

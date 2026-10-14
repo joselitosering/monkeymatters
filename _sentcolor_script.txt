@@ -1,0 +1,18 @@
+﻿
+  scripts\fetch_mmm_data.py:547:
+  scripts\fetch_mmm_data.py:548:    vix = quotes.get("VIX")
+  scripts\fetch_mmm_data.py:549:    t["VIX_VAL"] = fmt(vix["price"]) if vix else "N/A"
+> scripts\fetch_mmm_data.py:550:    t["SENT_COLOR"] = vix["color"] if vix else "c-sub"   # legacy; tiles now use *_SEV
+  scripts\fetch_mmm_data.py:551:    t["VIX_SEV"] = vix_severity(vix)
+  scripts\fetch_mmm_data.py:552:
+  scripts\fetch_mmm_data.py:553:    fng = fetch_fear_greed()
+  scripts\fetch_mmm_data.py:628:        "ETH_PRICE": kpi.get("ETH_PRICE", "N/A"),
+  scripts\fetch_mmm_data.py:629:        "ETH_CHANGE": kpi.get("ETH_CHANGE", "N/A"), "ETH_COLOR": kpi.get("ETH_COLOR", 
+"c-sub"),
+  scripts\fetch_mmm_data.py:630:        "VIX_VAL": kpi.get("VIX_VAL", "N/A"), "VIX_LABEL": PENDING,
+> scripts\fetch_mmm_data.py:631:        "SENT_COLOR": kpi.get("SENT_COLOR", "c-sub"),
+  scripts\fetch_mmm_data.py:632:        # Severity classes (sv-bull .. sv-bear2). VIX is auto; the rest are
+  scripts\fetch_mmm_data.py:633:        # set by the analysis pass. Regime defaults neutral until analysed.
+  scripts\fetch_mmm_data.py:634:        "VIX_SEV": kpi.get("VIX_SEV", "sv-neut"),
+
+

@@ -1,0 +1,22 @@
+MMM 2026-10-07: analysis pass (strong $39B 10Y auction steadies the tape; Schwab /ES-/NQ feed down a 3rd straight session)
+
+S&P 500 and Nasdaq both closed -0.22% after a -0.71% intraday drop, as
+the 10Y spiked to a fresh 24-year high of 5.364% on hawkish Fed minutes
+before a strong $39B 10-year auction (5.300% stop, 2.77x bid-to-cover,
+80.3% foreign demand) pulled yields back and let equities claw back
+more than half their loss. Russell 2000 led losses (-1.31%); Nasdaq
+breadth was actually roughly balanced (3,283 adv/3,187 decl) even as
+the cap-weighted index fell -- a mega-cap-concentration story. Schwab's
+/ES and /NQ feed returned HTTP 400 on every attempt for a third
+consecutive session (10/5-10/7) with no FMP fallback on any of the
+three days -- disclosed honestly in both analysis boxes, the advisory
+body, and flagged as an operational issue needing attention rather
+than invented.
+
+All 19 INJECTED_SECTIONS markers verified byte-exact unique (count==1)
+against the pristine template before commit; local render simulation
+via the unmodified fetch_mmm_data.render()/validate() shows zero stray
+{{TOKENS}} and zero PENDING markers in visible output.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_019JNFHng6uya3okMgBeRB7d

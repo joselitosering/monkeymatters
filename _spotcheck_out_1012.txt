@@ -1,0 +1,58 @@
+﻿========== E-Mini S&amp;P 500 ==========
+E-Mini S&amp;P 500 · Oct 9 Settlement</div>
+<table class="ftbl">
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="warn">N/A — Schwab feed down</td></tr>
+<tr><td>SPX cash (FMP, live)</td><td class="acc">7,815.51 (+0.05%)</td></tr><tr><td>Fri settle (SPX cash)</td><td class="acc">7,811.54</td></tr><tr><td>52-wk high (SPX cash)</td><td class="acc">7,844.52</td></tr><tr><td>Yahoo /ES premkt snapshot</td><td class="good">7,861.25 (+1.50 / +0.02%)</td></tr><tr class="ftbl-sub"><td colspan="2">— Pivot / Volume Profile —</td></tr><tr><td>Status</td><td class="bad">UNAVAILABLE — Schwab refresh token stale (HTTP 400)</td></tr><tr><td>Action</td><td class="warn">No re-mint attempted — needs J
+
+========== E-Mini Nasdaq-100 ==========
+E-Mini Nasdaq-100 · Oct 9 Settlement</div>
+<table class="ftbl">
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="warn">N/A — Schwab feed down</td></tr>
+<tr><td>Yahoo /NQ premkt snapshot</td><td class="bad">31,036.00 (-72.75 / -0.23%)</td></tr><tr><td>NDX cash quote</td><td class="warn">Not sourced — gated on current FMP tier</td></tr><tr><td>Desk context (wk ahead)</td><td class="acc">NDX record close ~30,660 area last wk*</td></tr><tr class="ftbl-sub"><td colspan="2">— Pivot / Volume Profile —</td></tr><tr><td>Status</td><td class="bad">UNAVAILABLE — Schwab refresh token stale (HTTP 400)</td></tr><tr><td>Action</td><td class="warn">No re-mint attempted — needs Joe’s live OAuth; fl
+
+========== Economic Calendar ==========
+Economic Calendar</div>
+<table class="etbl">
+<tr><th>Time (PT)</th><th>Event</th><th>Est</th><th>Act</th></tr>
+<tr><td>ALL DAY</td><td><strong>Columbus Day</strong> <span class="chk">✓ bond mkt closed (SIFMA)</span></td><td>—</td><td class="c-warn">Equities trade normal hours</td></tr><tr><td>—</td><td><strong>No U.S. econ data today</strong></td><td>CPI Wed / PPI + Retail Sales Thu</td><td class="c-sub">—</td></tr>
+</table>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div>
+
+========== Earnings Watch ==========
+Earnings Watch</div>
+<table class="erntbl">
+<tr><td>JPM</td><td><span class="timing bmo">BMO</span></td><td class="c-acc" style="font-weight:700">EPS Est. $5.93</td><td style="font-size:10px;color:var(--sub)">Rev est. $51.23B — bank-earnings season opener</td></tr><tr><td>GS</td><td><span class="timing bmo">BMO</span></td><td class="c-acc" style="font-weight:700">EPS Est. $12.86</td><td style="font-size:10px;color:var(--sub)">Rev est. $16.83B</td></tr><tr><td>WFC</td><td><span class="timing bmo"
+
+========== MASTER TRADE IDEAS ==========
+MASTER TRADE IDEAS — <span>Monday, October 12, 2026</span></div>
+<div class="ttbl-controls">
+<span class="ttbl-filter-lbl">Filter:</span>
+<input class="ttbl-filter-input" id="fSymbol" oninput="apexFilterTable()" placeholder="Symbol…"/>
+<select class="ttbl-filter-select" id="fType" onchange="apexFilterTable()">
+<option value="">All Types</option>
+<option value="futures">Futures</option>
+<option value="stock">Stock</option>
+<option value="etf">ETF</option>
+<option value="options">Options</option>
+</select>
+<select class="ttbl-filter-select" id="fDir" onchange="apexFilterTable()">
+<option value="">All Directions</option>
+<option value="long">Long</option>
+<option value="short">Short</option>
+<option value="neut">Neutral</option>
+</select>
+<select class="ttbl-filter-select" id="fPri" onchange="apexFilterTable()">
+<option value="">All Priority</option>
+<option value="3">★★★ High</option>
+<option value="2">★★ Medium</option>
+<option value="1">★ Low</option>
+</select>
+<button class="ttbl-reset" onclick="apexResetFilters()">Reset</button>
+<span class="ttbl-count" id="tradeCount">0 / 0 trades</span>
+</div>
+<table class="ttbl" id="apexTradeTable">
+<thead>
+<tr>
+<th class="sortable" onclick="a
+

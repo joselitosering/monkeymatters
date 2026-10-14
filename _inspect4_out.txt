@@ -1,0 +1,39 @@
+COMMENT: '<!--\n═══════════════════════════════════════════════════════════════════\n  SHADOW MONKEY — MORNING MARKET MONITOR TEMPLATE v2.1\n  Style: APEX Dark / Lime-Green accent\n  Handler: Joe | Entity: Monkey Matters LLC / JVS Holdings LTD\n═══════════════════════════════════════════════════════════════════\n  ALL SECTIONS ARE DYNAMIC — replace every {{TOKEN}} with live data.\n  NO hardcoded values anywhere in this file.\n\n  GLOBAL TOKENS:\n    {{DATE_LONG}}       e.g. "Monday, August 18, 2026"\n    {{DATE_SHORT}}      e.g. "Aug 18"\n    {{DAY_OF_WEEK}}     e.g. "Monday"\n    {{SESSION_LABEL}}   e.g. "NY Session"\n    {{REGIME_LABEL}}    BULL | BEAR | MIXED\n    {{PRIMARY_CATALYST}} e.g. "BIDU EARNINGS BMO"\n\n  S01 SENTIMENT STRIP (6 tiles):\n    {{VIX_VAL}}  {{FNG_VAL}}  {{PUTCALL_VAL}}\n    {{BREADTH_VAL}}  {{AAII_VAL}}  {{SENTIMENT_VAL}}\n    {{SENT_COLOR}} → c-safe | c-warn | c-bad\n\n  S02 ADVISORY:\n    {{ADVISORY_VERDICT}} {{ADVISORY_BODY}}\n    {{SIGNAL_BULL}} {{SIGNAL_WATCH}} {{SIGNAL_CAUTION}} {{SIGNAL_AVOID}}\n\n  S03 BBM:\n    {{BBM_BULL_PCT}} / {{BBM_BEAR_PCT}} (0-100)\n    {{BBM_SIGNAL_NAME}} / {{BBM_SIGNAL_VAL}}\n\n  S04 KPI BAR (6 tiles):\n    {{ES_PREMARKET}} {{NQ_PREMARKET}} {{GOLD_PRICE}}\n    {{BTC_PRICE}} {{SPX_CLOSE}} {{ETH_PRICE}}\n    + {{*_CHANGE}} and {{*_COLOR}} per tile\n\n  S05–S10 ANALYSIS BLOCKS (.ca-val):\n    {{CA_ANALYSIS}} {{CA_SPEC_MOVE}} {{CA_TRADE_IDEA}}\n    {{CA_STRATEGY}} + Levels: {{ENTRY}} {{STOP}} {{TARGET}} {{PIVOT}} {{VWAP}}\n\n  {{PREV_DATE_SHORT}}   e.g. "Aug 15" — prior session date (S05/S06 settlement labels)\n\n  S06 ECON CALENDAR: inject <tr> per event using [ INJECT: S06 ECON CALENDAR ] comment\n    tokens: {{ECON_N_TIME}} {{ECON_N_EVENT}} {{ECON_N_STATUS}} {{ECON_N_EST}} {{ECON_N_ACT}} {{ECON_N_COLOR}}\n  S06 EARNINGS WATCH: inject <tr> per ticker using [ INJECT: S06 EARNINGS WATCH ] comment\n    tokens: {{EARN_N_TICKER}} {{EARN_N_TIMING}} {{EARN_N_CLASS}} {{EARN_N_MOVE}} {{EARN_N_COLOR}} {{EARN_N_NOTE}}\n  S07 GAINERS: inject <tr> per gainer using [ INJECT: S07 GAINERS ] comment\n    tokens: {{GAINER_N_TICKER}} {{GAINER_N_CAT1}} {{GAINER_N_CAT2}} {{GAINER_N_PCT}} {{GAINER_N_NOTE}}\n  S07 DECLINERS: inject <tr> per decliner using [ INJECT: S07 DECLINERS ] comment\n    tokens: {{DECLINER_N_TICKER}} {{DECLINER_N_CAT1}} {{DECLINER_N_CAT2}} {{DECLINER_N_PCT}} {{DECLINER_N_NOTE}}\n\n  ALL TABLES: inject rows per the [ INJECT ] comment in each tbody\n  TRADE TABLE: 20 rows, columns: #, Symbol, Type, Direction, Setup,\n               Entry, Stop, Target, R:R, Notes, Priority\n═══════════════════════════════════════════════════════════════════\n-->' at 17 count=1
+
+COMMENT: '<!-- ══ MASTER TRADE TABLE ════════════════════════════════════ -->' at 42950 count=1
+
+COMMENT: '<!-- INJECT UP TO 20 TRADE ROWS. Column order: #, Symbol, Type, Direction, Setup, Entry, Stop, Target, R:R, Notes, Priority -->' at 44779 count=1
+
+TABLE: '<table class="ftbl"' at 33944
+TABLE: '<table class="ftbl"' at 35696
+TABLE: '<table class="etbl"' at 37323
+TABLE: '<table class="erntbl"' at 38643
+TABLE: '<table class="pmtbl"' at 40561
+TABLE: '<table class="pmtbl"' at 41127
+TABLE: '<table class="ttbl"' at 44228
+
+
+CTX @1379: 'BLOCKS (.ca-val):\n    {{CA_ANALYSIS}} {{CA_SPEC_MOVE}} {{CA_TRADE_IDEA}}\n    {{CA_STRATEGY}} + Levels: {{ENTRY}} {{STOP}'
+CTX @2405: 'LES: inject rows per the [ INJECT ] comment in each tbody\n  TRADE TABLE: 20 rows, columns: #, Symbol, Type, Direction, S'
+CTX @21862: '1px; color: var(--sub); line-height: 1.4; }\n\n  /* ── MASTER TRADE TABLE ─────────────────────── */\n  .tbl-section { back'
+CTX @34908: '_MOVE}}</div></div>\n<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div><'
+CTX @34949: 'div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>\n<div class="ca-row"><div class="ca-'
+CTX @36372: '_MOVE}}</div></div>\n<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div><'
+CTX @36413: 'div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>\n<div class="ca-row"><div class="ca-'
+CTX @37958: '_MOVE}}</div></div>\n<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div><'
+CTX @37999: 'div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>\n<div class="ca-row"><div class="ca-'
+CTX @39165: 'LYSIS}}</div></div>\n<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div><'
+CTX @39206: 'div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>\n<div class="ca-row"><div class="ca-'
+CTX @42965: '">{{ANALYSIS}}</div></div> -->\n</div>\n</div>\n<!-- ══ MASTER TRADE TABLE ════════════════════════════════════ -->\n<div cl'
+CTX @43053: '════════════════════ -->\n<div class="sec-label">10 — MASTER TRADE INTELLIGENCE</div>\n<div class="tbl-section">\n<div clas'
+CTX @43131: '</div>\n<div class="tbl-section">\n<div class="tbl-hd">MASTER TRADE IDEAS — <span>{{DATE_LONG}}</span></div>\n<div class="t'
+CTX @44189: 'ResetFilters()">Reset</button>\n<span class="ttbl-count" id="tradeCount">0 / 0 trades</span>\n</div>\n<table class="ttbl" i'
+CTX @44207: 'set</button>\n<span class="ttbl-count" id="tradeCount">0 / 0 trades</span>\n</div>\n<table class="ttbl" id="apexTradeTable"'
+CTX @44256: 'unt">0 / 0 trades</span>\n</div>\n<table class="ttbl" id="apexTradeTable">\n<thead>\n<tr>\n<th class="sortable" onclick="apex'
+CTX @44800: ')">Priority</th>\n</tr>\n</thead>\n<tbody><!-- INJECT UP TO 20 TRADE ROWS. Column order: #, Symbol, Type, Direction, Setup,'
+CTX @45663: 'GS LTD<br/>PLATFORM: CLAUDE SONNET 5 // EYES ONLY<br/>† All trade ideas are informational only, not financial advice.</d'
+CTX @45823: "pt>\n(function(){\n  var tbody = document.querySelector('#apexTradeTable tbody');\n  var sortState = {col: -1, asc: true};\n"
+CTX @47348: "(ok) shown++;\n    });\n    var el = document.getElementById('tradeCount');\n    if(el) el.textContent = shown + ' / ' + to"
+CTX @47416: "nt');\n    if(el) el.textContent = shown + ' / ' + total + ' trades';\n  }\n  function applySort(col){\n    var rows = allRo"
+CTX @47620: "= {col: col, asc: asc};\n    document.querySelectorAll('#apexTradeTable th').forEach(function(th){ th.classList.remove('s"
+CTX @47755: "desc'); });\n    var allTh = document.querySelectorAll('#apexTradeTable th');\n    if(allTh[col]) allTh[col].classList.add"

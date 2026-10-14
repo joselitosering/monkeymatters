@@ -1,0 +1,14 @@
+MMM 2026-10-06: analysis pass (Schwab /ES+/NQ feed down, HTTP 400)
+
+Nasdaq's 23rd 2026 record close on narrow breadth (50.6%), 10Y easing
+off Monday's 2002-era 5.34% high, WTI easing on the G7 reserve release
+while Iran escalates Hormuz tanker attacks. Schwab's /ES and /NQ feed
+returned HTTP 400 on every attempt with no FMP fallback -- disclosed
+honestly in both analysis boxes and the advisory body rather than
+invented. All 19 INJECTED_SECTIONS markers verified byte-exact unique
+(count==1) against the pristine template before commit; local render
+simulation via the unmodified fetch_mmm_data.render()/validate() shows
+zero stray {{TOKENS}} and zero PENDING markers in visible output.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01152rqMYchcjAWxZT3WDQ6p

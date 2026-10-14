@@ -1,0 +1,44 @@
+real INJECT comments found: 16
+  @ 31332 '<!-- INJECT: BBM SIGNAL ROWS — repeat per signal, class bbm-sv-bull|bb'
+  @ 31710 '<!-- INJECT: ALERTS — up to 5 rows, <div class="alert-row"><div class='
+  @ 31986 '<!-- INJECT: EVENTS — up to 5 rows, same alert-row markup -->'
+  @ 32129 '<!-- INJECT: ACTIONABLES — up to 5 rows, same alert-row markup -->'
+  @ 33556 '<!-- INJECT: REGIME DETAILS — repeat <div class="reg-div"></div><div c'
+  @ 34063 '<!-- INJECT: /ES STATS — rows in order: Prev High(†), Prev Low(†), Set'
+  @ 35815 '<!-- INJECT: /NQ STATS — same row order/markup as the /ES table above '
+  @ 37410 '<!-- INJECT: S06 ECON CALENDAR — repeat <tr> per event:\n  <tr>\n    <td'
+  @ 38666 '<!-- INJECT: S06 EARNINGS WATCH — repeat <tr> per ticker:\n  <tr>\n    <'
+  @ 39839 '<!-- INJECT: SECTORS — up to 7 rows: <div class="sector-row"><span cla'
+  @ 40583 '<!-- INJECT: S07 GAINERS — repeat <tr> per gainer:\n  <tr>\n    <td>{{GA'
+  @ 41149 '<!-- INJECT: S07 DECLINERS — repeat <tr> per decliner:\n  <tr>\n    <td>'
+  @ 41820 '<!-- INJECT: SPOTLIGHT — up to 3: <div class="spot-item"><div class="s'
+  @ 42057 '<!-- INJECT: OPTIONS IDEAS — up to 4: <div class="opt-item"><div class'
+  @ 42443 '<!-- INJECT: MONEY FLOW — up to 7: <div class="mf-item"><div class="mf'
+  @ 42703 '<!-- INJECT: UNUSUAL OPTIONS — up to 7: <div class="uo-item"><div clas'
+OK BBM_ROWS count=1 len= 113
+OK ALERTS count=1 len= 183
+OK EVENTS count=1 len= 61
+OK ACTIONABLES count=1 len= 66
+OK REGIME_DETAILS count=1 len= 115
+OK SECTORS count=1 len= 311
+OK SPOTLIGHT count=1 len= 145
+OK OPTIONS_IDEAS count=1 len= 141
+OK MONEY_FLOW count=1 len= 157
+OK UNUSUAL_OPTIONS count=1 len= 232
+OK ECON_CALENDAR_ROWS count=1 len= 274
+OK EARNINGS_ROWS count=1 len= 330
+OK GAINERS_ROWS count=1 len= 415
+OK DECLINERS_ROWS count=1 len= 428
+OK TRADE_ROWS count=1 len= 127
+Simple + trade markers done. sections so far: 15
+OK ES_CA (full card block) count=1 len= 1710
+/ES block len= 1710 filled len= 3245
+OK NQ_CA (full card block) count=1 len= 1421
+/NQ block len= 1421 filled len= 2829
+OK ECON_CA (bare ca div) count=1 len= 821
+ECON_CA -> ca block len= 821 filled len= 2383
+OK EARNINGS_CA (bare ca div) count=1 len= 716
+EARNINGS_CA -> ca block len= 716 filled len= 1786
+TOTAL SECTIONS: 19
+TOTAL ERRORS: 0
+WROTE D:\Apps\DevOps\Github\monkeymatters\data\daily\2026-10-06.insert.json bytes= 50787

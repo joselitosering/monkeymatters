@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+
+<!--
+═══════════════════════════════════════════════════════════════════
+  SHADOW MONKEY — MORNING MARKET MONITOR TEMPLATE v2.1
+  Style: APEX Dark / Lime-Green accent
+  Handler: Joe | Entity: Monkey Matters LLC / JVS Holdings LTD
+═══════════════════════════════════════════════════════════════════
+  ALL SECTIONS ARE DYNAMIC — replace every {{TOKEN}} with live data.
+  NO hardcoded values anywhere in this file.
+
+  GLOBAL TOKENS:
+    Monday, October 12, 2026       e.g. "Monday, August 18, 2026"
+    Oct 12      e.g. "Aug 18"
+    Monday     e.g. "Monday"
+    NY Session   e.g. "NY Session"
+    MIXED    BULL | BEAR | MIXED
+    HOUTHI ESCALATION RISK — OIL/MIDEAST e.g. "BIDU EARNINGS BMO"
+
+  S01 SENTIMENT STRIP (6 tiles):
+    15.4  45  N/A
+    1.2:1 ADV  40.3/39.0  MIXED
+    c-safe → c-safe | c-warn | c-bad
+
+  S02 ADVISORY:
+    CHOP AT THE HIGHS — DON’T CHASE. SPX and Nasdaq are consolidating within a point of last week’s record highs, but the move is getting thinner underneath: the Nasdaq has logged more new 52-week lows than new highs for 30 straight sessions, and AAII bears (39.0%) still edge out bulls (40.3%) after 35 straight weeks of above-average pessimism. Overnight, a Houthi strike on Riyadh’s airport (13 dead) raises the odds of a U.S.-Saudi response against Yemen, while oil headlines whipsaw against a reported Russia-Ukraine energy-infrastructure truce. Bond markets are closed for Columbus Day, thinning liquidity into tomorrow’s bank-earnings open (JPM/GS/C/WFC/JNJ/UNH). Respect the uptrend, but size for chop, not conviction, until earnings and Wednesday’s CPI pick a direction.
+    SPX/NDX NEAR ATH BANK EARNINGS TUE NASDAQ 30-SESSION BREADTH STREAK CHASING GAPS — SCHWAB FEED DOWN
+
+  S03 BBM:
+    52 / 48 (0-100)
+    {{BBM_SIGNAL_NAME}} / {{BBM_SIGNAL_VAL}}
+
+  S04 KPI BAR (6 tiles):
+    7,861.25 31,036.00 $4,195.40
+    $82,399.99 7,811.54 $2,524.97
+    + {{*_CHANGE}} and {{*_COLOR}} per tile
+
+  S05–S10 ANALYSIS BLOCKS (.ca-val):
+    {{CA_ANALYSIS}} {{CA_SPEC_MOVE}} {{CA_TRADE_IDEA}}
+    {{CA_STRATEGY}} + Levels: {{ENTRY}} {{STOP}} {{TARGET}} {{PIVOT}} {{VWAP}}
+
+  Oct 9   e.g. "Aug 15" — prior session date (S05/S06 settlement labels)
+
+  S06 ECON CALENDAR: inject <tr> per event using [ INJECT: S06 ECON CALENDAR ] comment
+    tokens: {{ECON_N_TIME}} {{ECON_N_EVENT}} {{ECON_N_STATUS}} {{ECON_N_EST}} {{ECON_N_ACT}} {{ECON_N_COLOR}}
+  S06 EARNINGS WATCH: inject <tr> per ticker using [ INJECT: S06 EARNINGS WATCH ] comment
+    tokens: {{EARN_N_TICKER}} {{EARN_N_TIMING}} {{EARN_N_CLASS}} {{EARN_N_MOVE}} {{EARN_N_COLOR}} {{EARN_N_NOTE}}
+  S07 GAINERS: inject <tr> per gainer using [ INJECT: S07 GAINERS ] comment
+    tokens: {{GAINER_N_TICKER}} {{GAINER_N_CAT1}} {{GAINER_N_CAT2}} {{GAINER_N_PCT}} {{GAINER_N_NOTE}}
+  S07 DECLINERS: inject <tr> per decliner using [ INJECT: S07 DECLINERS ] comment
+    tokens: {{DECLINER_N_TICKER}} {{DECLINER_N_CAT1}} {{DECLINER_N_CAT2}} {{DECLINER_N_PCT}} {{DECLINER_N_NOTE}}
+
+  ALL TABLES: inject rows per the [ INJECT ] comment in each tbody
+  TRADE TABLE: 20 rows, columns: #, Symbol, Type, Direction, Setup,
+               Entry, Stop, Target, R:R, Notes, Priority
+═══════════════════════════════════════════════════════════════════
+-->
+<script id="cowork-artifact-meta" type="application/json">
+{
+  "name": "Morning Market Monitor Shadowmonkey",
+  "schemaVersion": 1,
+  "description": "Shadow Monkey Morning Market Monitor — reference template with Overall Sentiment (Section 1), Bitcoin & Ethereum (Section 4). Updated Aug 18, 2026.",
+  "mcpTools": [],
+  "mcpServerNames": []
+}
+</script>
+<script id="cowork-artifact-meta" type="application/json">
+{
+  "name": "Morning Market Monitor Shadowmonkey",
+  "schemaVersion": 1,
+  "description": "Shadow Monkey Morning Market Monitor — reference template with Overall Sentiment (Section 1), Bitcoin & Ethereum (Section 4). Updated Aug 18, 2026.",
+  "mcpTools": [],
+  "mcpServerNames": []
+}
+</script>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<title>SHADOW MONKEY // MORNING MARKET MONITOR — Monday, Monday, October 12, 2026</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --black:   #080808;
+    --surface: #0f0f0f;
+    --surface2:#161616;
+    --border:  #222;
+    --accent:  #c8ff00;
+    --accent2: #ff4d00;
+    --accent3: #00d4ff;
+    --text:    #ffffff;
+    --muted:   #aaaaaa;
+    --danger:  #ff3333;
+    --safe:    #00ff88;
+    --warn:    #ffb800;
+    --sub:     #cccccc;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  /* SCANLINE */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background: repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.04) 2px,rgba(0,0,0,0.04) 4px);
+    pointer-events: none; z-index: 9999;
+  }
+
+  body {
+    background: var(--black);
+    color: var(--text);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    font-size: 13px;
+    line-height: 1.55;
+    padding: 12px;
+  }
+
+  .wrap { max-width: 1240px; margin: 0 auto; }
+
+  /* ── HEADER ─────────────────────────────────── */
+  .hdr {
+    border: 1px solid var(--border);
+    border-top: 3px solid var(--accent);
+    background: var(--surface);
+    padding: 20px 24px 18px;
+    margin-bottom: 8px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hdr::after {
+    content: 'CLASSIFIED';
+    position: absolute; right: -18px; top: 50%;
+    transform: translateY(-50%) rotate(90deg);
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; color: var(--accent2);
+    letter-spacing: 8px; opacity: 0.35;
+  }
+  .hdr-top { display: flex; justify-content: space-between; align-items: flex-start; }
+  .hdr-classification { display: flex; gap: 8px; align-items: center; margin-bottom: 14px; }
+  .tag {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 3px;
+    text-transform: uppercase; padding: 2px 8px;
+    border: 1px solid;
+  }
+  .tag-red   { border-color: var(--accent2); color: var(--accent2); }
+  .tag-green { border-color: var(--accent);  color: var(--accent);  }
+  .tag-blue  { border-color: var(--accent3); color: var(--accent3); }
+  .tag-muted { border-color: var(--muted);   color: var(--muted);   }
+  .tag-warn  { border-color: var(--warn);    color: var(--warn);    }
+
+  .hdr-title-block { flex: 1; }
+  .hdr-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 0.9;
+    letter-spacing: 2px;
+    color: var(--text);
+  }
+  .hdr-brand span { color: var(--accent); }
+  .hdr-subtitle {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; color: var(--muted);
+    letter-spacing: 3px; text-transform: uppercase;
+    margin-top: 8px;
+  }
+  .hdr-meta-grid {
+    display: grid; grid-template-columns: repeat(4, 1fr);
+    gap: 1px; background: var(--border);
+    margin-top: 16px;
+  }
+  .hdr-meta-cell { background: var(--surface2); padding: 10px 14px; }
+  .hm-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 2px;
+    color: var(--muted); text-transform: uppercase; margin-bottom: 3px;
+  }
+  .hm-val {
+    font-family: 'Space Mono', monospace;
+    font-size: 12px; color: var(--accent);
+  }
+  .hdr-badges { display: flex; flex-direction: column; gap: 6px; align-items: flex-end; }
+  .sm-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 2px;
+    text-transform: uppercase; padding: 4px 10px;
+    border: 1px solid;
+  }
+  .sm-badge-live { border-color: var(--safe);    color: var(--safe); }
+  .sm-badge-warn { border-color: var(--warn);    color: var(--warn); }
+  .sm-badge-info { border-color: var(--accent3); color: var(--accent3); }
+
+  /* ── SECTION LABEL ───────────────────────────── */
+  .sec-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 3px;
+    color: var(--accent2); text-transform: uppercase;
+    margin-bottom: 6px; display: flex; align-items: center; gap: 8px;
+  }
+  .sec-label::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+  /* ── SENTIMENT STRIP ────────────────────────── */
+  .sent-strip { display: grid; grid-template-columns: repeat(6,1fr); gap: 1px; background: var(--border); margin-bottom: 8px; }
+  .sent-tile { background: var(--surface); padding: 10px 12px; text-align: center; }
+  .st-lbl { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+  .st-val { font-family: 'Bebas Neue', sans-serif; font-size: 28px; line-height: 1; color: var(--text); }
+  .st-sub { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 1px; margin-top: 2px; }
+  .c-safe  { color: var(--safe)!important; }
+  .c-warn  { color: var(--warn)!important; }
+  .c-bad   { color: var(--danger)!important; }
+  .c-acc   { color: var(--accent)!important; }
+  .c-acc3  { color: var(--accent3)!important; }
+  .c-sub   { color: var(--sub)!important; }
+  /* ── SEVERITY GRADIENT (sentiment tiles + regime) ── green=bullish · lime=lean-bull · yellow=neutral · orange=caution · orange-red=bearish · red=strong bear */
+  .sv-bull      { color:#7dff5a!important; }
+  .sv-lean-bull { color:#c8ff00!important; }
+  .sv-neut      { color:#ffe600!important; }
+  .sv-caution   { color:#ff9a00!important; }
+  .sv-bear      { color:#ff4d00!important; }
+  .sv-bear2     { color:#ff1f1f!important; }
+  .sent-tile.sv-bull, .sent-tile.sv-lean-bull, .sent-tile.sv-neut, .sent-tile.sv-caution, .sent-tile.sv-bear, .sent-tile.sv-bear2 { border-bottom: 3px solid currentColor; }
+  .reg-badge.sv-bull, .reg-badge.sv-lean-bull, .reg-badge.sv-neut, .reg-badge.sv-caution, .reg-badge.sv-bear, .reg-badge.sv-bear2 { border-color: currentColor; }
+
+  .c-good  { color: var(--safe)!important; }
+
+  /* ── SURFACE CARD ───────────────────────────── */
+  .sm-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 16px;
+    position: relative;
+  }
+  .sm-card::before {
+    content: ''; position: absolute; top: 0; left: 0;
+    width: 3px; height: 100%; background: var(--accent);
+  }
+  .sm-card.card-orange::before { background: var(--accent2); }
+  .sm-card.card-cyan::before   { background: var(--accent3); }
+  .sm-card.card-safe::before   { background: var(--safe); }
+  .sm-card.card-danger::before { background: var(--danger); }
+
+  .card-hd {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px; letter-spacing: 2px;
+    color: var(--accent); text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .card-hd.orange { color: var(--accent2); }
+  .card-hd.cyan   { color: var(--accent3); }
+
+  /* ── LAYOUTS ────────────────────────────────── */
+  .grid2  { display: grid; grid-template-columns: 1fr 1fr;     gap: 1px; background: var(--border); margin-bottom: 8px; }
+  .grid3  { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1px; background: var(--border); margin-bottom: 8px; }
+  .adv-row { display: grid; grid-template-columns: 3fr 1fr; gap: 1px; background: var(--border); margin-bottom: 8px; }
+  .alert-bbm { display: grid; grid-template-columns: 2fr 1fr; gap: 1px; background: var(--border); margin-bottom: 8px; }
+  .mi { display: grid; grid-template-columns: 2fr 1.2fr 1.4fr; gap: 1px; background: var(--border); margin-bottom: 8px; }
+
+  /* ── KPI BAR ────────────────────────────────── */
+  .kpi-bar { display: grid; grid-template-columns: repeat(6,1fr); gap: 1px; background: var(--border); margin-bottom: 8px; }
+  .kpi { background: var(--surface); padding: 10px 14px; }
+  .kpi-lbl { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; margin-bottom: 4px; }
+  .kpi-val { font-family: 'Bebas Neue', sans-serif; font-size: 26px; line-height: 1; }
+  .kpi-ch  { font-family: 'Space Mono', monospace; font-size: 10px; margin-top: 2px; }
+
+  /* ── REGIME BAR ─────────────────────────────── */
+  .regime {
+    background: var(--surface); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 10px 16px; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+    font-family: 'Space Mono', monospace;
+  }
+  .reg-badge {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; font-weight: 700; padding: 3px 10px;
+    text-transform: uppercase; letter-spacing: 2px; border: 1px solid;
+  }
+  .reg-bull   { border-color: var(--safe);    color: var(--safe); }
+  .reg-bear   { border-color: var(--danger);  color: var(--danger); }
+  .reg-mixed  { border-color: var(--warn);    color: var(--warn); }
+  .reg-item   { font-size: 10px; color: var(--sub); }
+  .reg-item strong { color: var(--text); }
+  .reg-div    { width: 1px; height: 16px; background: var(--border); }
+
+  /* ── STAT TABLE (FUTURES) ───────────────────── */
+  .ftbl { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; }
+  .ftbl td { padding: 4px 6px; border-bottom: 1px solid var(--border); font-size: 10px; }
+  .ftbl td:first-child { color: var(--sub); font-size: 9px; text-transform: uppercase; letter-spacing: 1px; width: 120px; }
+  .ftbl td:last-child  { text-align: right; color: var(--text); }
+  .ftbl td.good  { color: var(--safe)!important; }
+  .ftbl td.bad   { color: var(--danger)!important; }
+  .ftbl td.warn  { color: var(--warn)!important; }
+  .ftbl td.acc   { color: var(--accent)!important; }
+  .ftbl td.acc3  { color: var(--accent3)!important; }
+
+  /* section sub-header within ftbl */
+  .ftbl-sub td {
+    font-family: 'Space Mono', monospace;
+    font-size: 8px; letter-spacing: 2px;
+    color: var(--accent2); text-transform: uppercase;
+    padding-top: 10px; border-bottom: none;
+    background: var(--surface2);
+  }
+
+  /* ── ANALYSIS BLOCK ─────────────────────────── */
+  .ca { border-top: 1px solid var(--border); margin: 14px -16px -16px; }
+  .ca-row {
+    display: grid; grid-template-columns: 80px 1fr;
+    gap: 8px; padding: 7px 16px;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+  }
+  .ca-row:last-child { border-bottom: none; }
+  .ca-lbl { font-family: 'Space Mono', monospace; font-size: 8px; letter-spacing: 2px; color: var(--accent); text-transform: uppercase; padding-top: 2px; }
+  .ca-val { color: var(--sub); line-height: 1.5; }
+  .ca-val strong { color: var(--text); }
+  .ca-lvls { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 4px; }
+  .lv { font-family: 'Space Mono', monospace; font-size: 9px; padding: 2px 6px; font-weight: 700; white-space: nowrap; border: 1px solid; }
+  .lv-e { border-color: #1e3868; color: var(--accent3); background: #0a1428; }
+  .lv-s { border-color: #4a1212; color: var(--danger);  background: #200808; }
+  .lv-t { border-color: #0a3018; color: var(--safe);    background: #081a0a; }
+  .lv-n { border-color: var(--border); color: var(--sub); background: var(--surface2); }
+
+  /* ── ALERT BOXES ────────────────────────────── */
+  .alert-row { display: flex; gap: 8px; align-items: flex-start; margin-bottom: 7px; font-size: 11px; }
+  .alert-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; margin-top: 4px; }
+  .adot-r { background: var(--danger); box-shadow: 0 0 6px var(--danger); }
+  .adot-y { background: var(--warn);   box-shadow: 0 0 5px var(--warn); }
+  .adot-g { background: var(--safe);   box-shadow: 0 0 5px var(--safe); }
+  .alert-txt { color: var(--sub); line-height: 1.45; }
+  .alert-txt strong { color: var(--text); }
+
+  /* ── ADVISORY CARD ──────────────────────────── */
+  .adv-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; letter-spacing: 2px;
+    color: var(--muted); text-transform: uppercase;
+    margin-top: 10px; margin-bottom: 4px;
+  }
+  .adv-signal { font-size: 12px; color: var(--sub); line-height: 1.5; }
+  .adv-chips { display: flex; gap: 5px; flex-wrap: wrap; margin-top: 6px; }
+  .sig-chip {
+    font-family: 'Space Mono', monospace;
+    font-size: 9px; padding: 2px 7px;
+    text-transform: uppercase; letter-spacing: 1px; border: 1px solid;
+  }
+  .sig-lean    { border-color: var(--safe);    color: var(--safe); }
+  .sig-watch   { border-color: var(--accent3); color: var(--accent3); }
+  .sig-caution { border-color: var(--warn);    color: var(--warn); }
+  .sig-avoid   { border-color: var(--danger);  color: var(--danger); }
+
+  /* ── BULL VS BEAR METER ─────────────────────── */
+  .bbm-labels { display: flex; justify-content: space-between; font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; margin-bottom: 6px; }
+  .bbm-bar-wrap { position: relative; height: 16px; background: var(--surface2); border: 1px solid var(--border); margin: 0 0 8px; overflow: hidden; }
+  .bbm-bull { height: 100%; background: linear-gradient(90deg, #0a2a14, var(--safe)); }
+  .bbm-bear { position: absolute; right: 0; top: 0; height: 100%; background: linear-gradient(270deg, #3a0a0a, var(--danger)); }
+  .bbm-signal-row { display: flex; justify-content: space-between; align-items: center; font-family: 'Space Mono', monospace; font-size: 9px; padding: 3px 0; border-bottom: 1px solid var(--border); }
+  .bbm-signal-row:last-child { border-bottom: none; }
+  .bbm-sn      { color: var(--sub); }
+  .bbm-sv-bull { color: var(--safe); font-weight: 700; }
+  .bbm-sv-bear { color: var(--danger); font-weight: 700; }
+  .bbm-sv-neut { color: var(--warn); font-weight: 700; }
+
+  /* ── ECON TABLE ─────────────────────────────── */
+  .etbl { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 10px; }
+  .etbl th { color: var(--muted); font-size: 8px; text-transform: uppercase; letter-spacing: 1.5px; padding: 4px 6px; border-bottom: 1px solid var(--border); text-align: left; font-weight: 400; }
+  .etbl td { padding: 5px 6px; border-bottom: 1px solid var(--border); color: var(--sub); }
+  .etbl td:first-child { color: var(--muted); font-size: 9px; white-space: nowrap; }
+  .etbl td strong { color: var(--text); }
+  .chk { color: var(--safe); }
+
+  /* ── EARNINGS TABLE ─────────────────────────── */
+  .erntbl { width: 100%; border-collapse: collapse; font-family: 'Space Mono', monospace; font-size: 10px; }
+  .erntbl td { padding: 5px 6px; border-bottom: 1px solid var(--border); color: var(--sub); }
+  .erntbl td:first-child { color: var(--text); font-weight: 700; }
+  .timing { font-size: 8px; padding: 2px 5px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border: 1px solid; }
+  .bmo      { border-color: #1a3060; color: var(--accent3); }
+  .amc      { border-color: #2e1e50; color: #c4b5fd; }
+  .reported { border-color: #0a3018; color: var(--safe); }
+
+  /* ── SECTOR ─────────────────────────────────── */
+  .sector-row { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .sector-row:last-child { border-bottom: none; }
+  .sec-etf  { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--text); font-weight: 700; width: 46px; }
+  .sec-name { font-family: 'DM Sans', sans-serif; color: var(--sub); flex: 1; font-size: 11px; }
+  .sec-bar-wrap { width: 80px; height: 3px; background: var(--surface2); border: 1px solid var(--border); margin: 0 10px; }
+  .sec-bar  { height: 3px; }
+  .sec-val  { font-family: 'Space Mono', monospace; font-weight: 700; font-size: 10px; width: 48px; text-align: right; }
+
+  /* ── GAINERS / DECLINERS ────────────────────── */
+  .pmtbl { width: 100%; border-collapse: collapse; }
+  .pmtbl td { padding: 5px 6px; border-bottom: 1px solid var(--border); }
+  .pmtbl td:first-child { font-family: 'Space Mono', monospace; font-size: 11px; color: var(--text); font-weight: 700; width: 52px; }
+  .pm-cat { font-family: 'Space Mono', monospace; font-size: 8px; padding: 1px 5px; font-weight: 700; letter-spacing: 1px; border: 1px solid; text-transform: uppercase; margin-right: 3px; }
+  .pm-earn { border-color: #1a3060; color: var(--accent3); }
+  .pm-ai   { border-color: var(--accent3); color: var(--accent3); background: rgba(0,212,255,0.06); }
+  .pm-beat { border-color: #0a3018; color: var(--safe); }
+  .pm-miss { border-color: #4a1212; color: var(--danger); }
+  .pm-geo  { border-color: #3a2810; color: var(--warn); }
+
+  /* ── SPOTLIGHT ──────────────────────────────── */
+  .spot-item { margin-bottom: 12px; padding-bottom: 12px; border-bottom: 1px solid var(--border); }
+  .spot-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .spot-hd { display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+  .spot-tk { font-family: 'Bebas Neue', sans-serif; font-size: 20px; color: var(--accent); letter-spacing: 1px; }
+  .spot-mv { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; }
+  .spot-body { font-size: 11px; color: var(--sub); line-height: 1.5; }
+
+  /* ── OPTIONS IDEAS ──────────────────────────── */
+  .opt-item { margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .opt-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .opt-hd { display: flex; gap: 8px; align-items: baseline; margin-bottom: 3px; }
+  .opt-tk  { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--accent); letter-spacing: 1px; }
+  .opt-str { font-family: 'Space Mono', monospace; font-size: 10px; color: var(--accent3); }
+  .opt-body { font-size: 11px; color: var(--sub); line-height: 1.45; }
+
+  /* ── MONEY FLOW ─────────────────────────────── */
+  .mf-item { display: flex; justify-content: space-between; align-items: center; padding: 5px 0; border-bottom: 1px solid var(--border); }
+  .mf-item:last-child { border-bottom: none; }
+  .mf-name { color: var(--sub); font-size: 11px; flex: 1; }
+  .mf-name strong { color: var(--text); }
+  .mf-val  { font-family: 'Space Mono', monospace; font-size: 10px; font-weight: 700; }
+
+  /* ── UNUSUAL OPTIONS ────────────────────────── */
+  .uo-item { margin-bottom: 8px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
+  .uo-item:last-child { border-bottom: none; margin-bottom: 0; padding-bottom: 0; }
+  .uo-hd  { display: flex; gap: 8px; align-items: center; margin-bottom: 2px; }
+  .uo-tk  { font-family: 'Bebas Neue', sans-serif; font-size: 18px; color: var(--accent); letter-spacing: 1px; }
+  .uo-exp { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); }
+  .uo-body { font-size: 11px; color: var(--sub); line-height: 1.4; }
+
+  /* ── MASTER TRADE TABLE ─────────────────────── */
+  .tbl-section { background: var(--surface); border: 1px solid var(--border); border-top: 2px solid var(--accent); padding: 16px; margin-bottom: 10px; overflow-x: auto; }
+  .tbl-hd { font-family: 'Bebas Neue', sans-serif; font-size: 28px; color: var(--text); letter-spacing: 2px; margin-bottom: 12px; }
+  .tbl-hd span { color: var(--accent); }
+
+  .ttbl-controls {
+    display: flex; gap: 8px; flex-wrap: wrap; align-items: center;
+    margin-bottom: 10px; padding: 8px 12px;
+    background: var(--surface2); border: 1px solid var(--border);
+  }
+  .ttbl-filter-lbl { font-family: 'Space Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--muted); text-transform: uppercase; white-space: nowrap; }
+  .ttbl-filter-input {
+    background: var(--black); border: 1px solid var(--border);
+    padding: 4px 8px; color: var(--text); font-size: 10px;
+    width: 100px; outline: none; font-family: 'Space Mono', monospace;
+  }
+  .ttbl-filter-input::placeholder { color: var(--muted); }
+  .ttbl-filter-input:focus { border-color: var(--accent); }
+  .ttbl-filter-select {
+    background: var(--black); border: 1px solid var(--border);
+    padding: 4px 8px; color: var(--sub);
+    font-size: 10px; cursor: pointer; outline: none;
+    font-family: 'Space Mono', monospace;
+  }
+  .ttbl-filter-select:focus { border-color: var(--accent); }
+  .ttbl-reset {
+    background: var(--surface2); border: 1px solid var(--border);
+    padding: 4px 10px; color: var(--muted); font-size: 10px;
+    cursor: pointer; font-family: 'Space Mono', monospace;
+    text-transform: uppercase; letter-spacing: 1px;
+  }
+  .ttbl-reset:hover { color: var(--accent); border-color: var(--accent); }
+  .ttbl-count { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); margin-left: auto; white-space: nowrap; }
+
+  .ttbl { width: 100%; border-collapse: collapse; min-width: 980px; font-family: 'Space Mono', monospace; }
+  .ttbl th {
+    background: var(--surface2); color: var(--accent);
+    font-size: 9px; text-transform: uppercase; letter-spacing: 2px;
+    padding: 8px 8px; text-align: left;
+    border-bottom: 2px solid var(--accent); white-space: nowrap;
+  }
+  .ttbl td { padding: 6px 8px; border-bottom: 1px solid var(--border); font-size: 10px; }
+  .ttbl tr:hover td { background: var(--surface2); }
+
+  .t-type { font-size: 8px; padding: 1px 6px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; border: 1px solid; white-space: nowrap; }
+  .tf { border-color: #1a3060; color: var(--accent3); }
+  .ts { border-color: var(--border); color: var(--sub); }
+  .te { border-color: #0a3018; color: var(--safe); background: rgba(0,255,136,0.04); }
+  .to { border-color: #3a2808; color: var(--warn); }
+  .t-long  { color: var(--safe);    font-weight: 700; }
+  .t-short { color: var(--danger);  font-weight: 700; }
+  .t-neut  { color: var(--accent3); font-weight: 700; }
+  .t-rr    { color: var(--warn);    font-weight: 700; }
+  .mono    { font-family: 'Space Mono', monospace; font-size: 10px; }
+  .ttbl th.sortable { cursor: pointer; user-select: none; }
+  .ttbl th.sortable:hover { color: var(--text); }
+  .ttbl th.sort-asc::after  { content: ' ▲'; font-size: 7px; opacity: .8; }
+  .ttbl th.sort-desc::after { content: ' ▼'; font-size: 7px; opacity: .8; }
+
+  /* ── TFOOT NOTE ─────────────────────────────── */
+  .tfoot-note { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); margin-top: 6px; }
+
+  /* ── HIGHLIGHT BOX ──────────────────────────── */
+  .highlight-box {
+    background: var(--surface2); border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    padding: 12px 14px; font-family: 'Space Mono', monospace;
+    font-size: 10px; color: var(--sub); line-height: 1.8;
+  }
+  .highlight-box.orange { border-left-color: var(--accent2); }
+  .highlight-box.cyan   { border-left-color: var(--accent3); }
+
+  /* ── VERDICT ALERT ──────────────────────────── */
+  .verdict-alert {
+    border: 1px solid; padding: 10px 14px; margin-top: 8px;
+    font-family: 'Space Mono', monospace; font-size: 10px; line-height: 1.6;
+  }
+  .verdict-bull   { border-color: var(--safe);   color: var(--safe); }
+  .verdict-bear   { border-color: var(--danger); color: var(--danger); }
+  .verdict-warn   { border-color: var(--warn);   color: var(--warn); }
+
+  /* ── FOOTER ─────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border); margin-top: 16px;
+    padding: 20px 0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 22px; color: var(--muted); letter-spacing: 4px; }
+  .footer-meta { font-family: 'Space Mono', monospace; font-size: 9px; color: var(--muted); letter-spacing: 1px; text-align: right; line-height: 1.9; }
+
+  /* ── RESPONSIVE ─────────────────────────────── */
+  @media (max-width: 900px) {
+    .sent-strip, .kpi-bar { grid-template-columns: repeat(3,1fr); }
+    .grid2, .grid3, .mi, .adv-row, .alert-bbm { grid-template-columns: 1fr; }
+    .hdr-meta-grid { grid-template-columns: repeat(2,1fr); }
+  }
+  @media (max-width: 520px) {
+    .sent-strip, .kpi-bar { grid-template-columns: repeat(2,1fr); }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+<!-- ══ HEADER ══════════════════════════════════════════════ -->
+<div class="hdr">
+<div class="hdr-classification">
+<span class="tag tag-red">EYES ONLY</span>
+<span class="tag tag-green">OPERATIVE: SHADOW MONKEY</span>
+<span class="tag tag-muted">HANDLER: JOE</span>
+<span class="tag tag-blue">MONKEY MATTERS LLC</span>
+</div>
+<div class="hdr-top">
+<div class="hdr-title-block">
+<div class="hdr-brand">MORNING<br/><span>MARKET</span><br/>MONITOR</div>
+<div class="hdr-subtitle">Monday, October 12, 2026  ·  NY Session  ·  MONKEY MATTERS LLC</div>
+</div>
+<div class="hdr-badges">
+<span class="sm-badge sm-badge-warn">● LIVE — Oct 12</span>
+<span class="sm-badge sm-badge-live">⚡ HOUTHI ESCALATION RISK — OIL/MIDEAST</span>
+</div>
+</div>
+<div class="hdr-meta-grid">
+<div class="hdr-meta-cell"><div class="hm-label">Session</div><div class="hm-val">Monday, October 12, 2026</div></div>
+<div class="hdr-meta-cell"><div class="hm-label">Primary Entity</div><div class="hm-val">Monkey Matters LLC</div></div>
+<div class="hdr-meta-cell"><div class="hm-label">Regime</div><div class="hm-val sv-caution">MIXED</div></div>
+<div class="hdr-meta-cell"><div class="hm-label">Prime Directive</div><div class="hm-val" style="color:var(--accent2)">SURVIVE. COMPOUND. LEGACY.</div></div>
+</div>
+</div>
+<!-- ══ SENTIMENT STRIP ══════════════════════════════════════ -->
+<div class="sec-label">01 — MARKET SENTIMENT INDICATORS</div>
+<div class="sent-strip">
+<div class="sent-tile sv-neut">
+<div class="st-lbl">VIX</div>
+<div class="st-val sv-neut">15.4</div>
+<div class="st-sub sv-neut">LOW, RISING +4%</div>
+</div>
+<div class="sent-tile sv-neut">
+<div class="st-lbl">Fear &amp; Greed</div>
+<div class="st-val sv-neut">45</div>
+<div class="st-sub sv-neut">NEUTRAL (Fri)</div>
+</div>
+<div class="sent-tile sv-neut">
+<div class="st-lbl">Put/Call</div>
+<div class="st-val sv-neut">N/A</div>
+<div class="st-sub sv-neut">NOT SOURCED TODAY</div>
+</div>
+<div class="sent-tile sv-caution">
+<div class="st-lbl">NYSE Breadth</div>
+<div class="st-val sv-caution">1.2:1 ADV</div>
+<div class="st-sub sv-caution">NYSE WK; NASDAQ WEAK</div>
+</div>
+<div class="sent-tile sv-caution">
+<div class="st-lbl">AAII Bull/Bear</div>
+<div class="st-val sv-caution">40.3/39.0</div>
+<div class="st-sub sv-caution">BULL/BEAR — BEARS >AVG 35WK</div>
+</div>
+<div class="sent-tile sv-caution">
+<div class="st-lbl">Overall Sentiment</div>
+<div class="st-val sv-caution">MIXED</div>
+<div class="st-sub sv-caution">PRICE BULL, BREADTH BEAR</div>
+</div>
+</div>
+<!-- ══ TOP OF MIND ADVISORY + BULL VS BEAR ══════════════════ -->
+<div class="sec-label">02 — OPERATIVE ADVISORY &amp; POSITIONING METER</div>
+<div class="adv-row">
+<div class="sm-card">
+<div class="card-hd">🧠 Top of Mind Advisory — Monday, October 12, 2026</div>
+<div class="adv-label">Market Temperament</div>
+<div class="adv-signal"><strong style="color:var(--text)">CHOP AT THE HIGHS — DON’T CHASE.</strong> SPX and Nasdaq are consolidating within a point of last week’s record highs, but the move is getting thinner underneath: the Nasdaq has logged more new 52-week lows than new highs for 30 straight sessions, and AAII bears (39.0%) still edge out bulls (40.3%) after 35 straight weeks of above-average pessimism. Overnight, a Houthi strike on Riyadh’s airport (13 dead) raises the odds of a U.S.-Saudi response against Yemen, while oil headlines whipsaw against a reported Russia-Ukraine energy-infrastructure truce. Bond markets are closed for Columbus Day, thinning liquidity into tomorrow’s bank-earnings open (JPM/GS/C/WFC/JNJ/UNH). Respect the uptrend, but size for chop, not conviction, until earnings and Wednesday’s CPI pick a direction.</div>
+<div class="adv-label">Direction &amp; Posture</div>
+<div class="adv-signal"><strong style="color:var(--text)">CHOP AT THE HIGHS — DON’T CHASE.</strong> SPX and Nasdaq are consolidating within a point of last week’s record highs, but the move is getting thinner underneath: the Nasdaq has logged more new 52-week lows than new highs for 30 straight sessions, and AAII bears (39.0%) still edge out bulls (40.3%) after 35 straight weeks of above-average pessimism. Overnight, a Houthi strike on Riyadh’s airport (13 dead) raises the odds of a U.S.-Saudi response against Yemen, while oil headlines whipsaw against a reported Russia-Ukraine energy-infrastructure truce. Bond markets are closed for Columbus Day, thinning liquidity into tomorrow’s bank-earnings open (JPM/GS/C/WFC/JNJ/UNH). Respect the uptrend, but size for chop, not conviction, until earnings and Wednesday’s CPI pick a direction.</div>
+<div class="adv-label">Key Signals to Watch</div>
+<div class="adv-chips"><span class="sig-chip sig-lean">SPX/NDX NEAR ATH</span><span class="sig-chip sig-watch">BANK EARNINGS TUE</span><span class="sig-chip sig-caution">NASDAQ 30-SESSION BREADTH STREAK</span><span class="sig-chip sig-avoid">CHASING GAPS — SCHWAB FEED DOWN</span></div>
+<div class="adv-label" style="margin-top:8px">Operative Verdict</div>
+<div class="verdict-alert verdict-bull">⬡ MIXED REGIME. The tape wants to go higher, the plumbing says be careful. Stand down on fresh futures risk until the Schwab data feed is restored (see Section 05 Pipeline Note); trade equities/crypto off real levels only, and let tomorrow’s bank earnings and Wednesday’s CPI set the week’s real direction.</div>
+</div>
+<div class="sm-card card-orange">
+<div class="card-hd orange">⚖ Bull vs Bear Meter — Oct 12</div>
+<div class="bbm-labels">
+<span class="bbm-sv-bull">▲ BULL 52%</span>
+<span class="bbm-sv-bear">BEAR 48% ▼</span>
+</div>
+<div class="bbm-bar-wrap">
+<div class="bbm-bull" style="width:52%"></div>
+<div class="bbm-bear" style="width:48%"></div>
+</div>
+<div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px;letter-spacing:1px">PRICE TREND BULLISH, INTERNALS LEANING BEARISH — CALL IT A COIN FLIP WITH AN UPWARD DRIFT</div>
+<div class="bbm-signal-row"><span class="bbm-sn">Price Trend (SPX/NDX near ATH)</span><span class="bbm-sv-bull">BULL</span></div><div class="bbm-signal-row"><span class="bbm-sn">Nasdaq Breadth (30-session new-low streak)</span><span class="bbm-sv-bear">BEAR</span></div><div class="bbm-signal-row"><span class="bbm-sn">AAII (39.0% bear vs 40.3% bull, 35wk above-avg pessimism)</span><span class="bbm-sv-neut">NEUT</span></div><div class="bbm-signal-row"><span class="bbm-sn">VIX (15.4, +4% but sub-16)</span><span class="bbm-sv-neut">NEUT</span></div><div class="bbm-signal-row"><span class="bbm-sn">Geopolitical (Houthi/Saudi escalation risk)</span><span class="bbm-sv-bear">CAUTION</span></div><div class="bbm-signal-row"><span class="bbm-sn">Rates (10Y 5.24%, near cycle highs)</span><span class="bbm-sv-neut">CAUTION</span></div>
+</div>
+</div>
+<!-- ══ THREE INTEL CARDS ══════════════════════════════════════ -->
+<div class="sec-label">03 — CATALYST ALERTS &amp; PRE-MARKET ACTIONABLES</div>
+<div class="mi">
+<div class="sm-card card-orange">
+<div class="card-hd orange">⚡ Catalyst Alert</div>
+<div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>Houthi strike on Riyadh airport.</strong> 13 killed in the weekend attack; Trump signaled the U.S. may join Saudi Arabia’s campaign against the Houthis. Two tankers were also attacked — Mideast crude-export risk is live.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Russia-Ukraine energy truce reported.</strong> Trump says both sides agreed to stop targeting energy infrastructure; Zelenskiy is awaiting details and Russia hasn’t commented. Oil headlines are whipsawing between this and the Houthi risk.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Schwab data feed down.</strong> Refresh token is stale (HTTP 400) — no real /ES or /NQ futures ticks today. Needs a live OAuth re-mint from Joe; not something this pipeline can self-heal.</div></div>
+</div>
+<div class="sm-card card-cyan">
+<div class="card-hd cyan">📅 Today's Key Events</div>
+<div class="alert-row"><div class="alert-dot adot-g"></div><div class="alert-txt"><strong>Bond market closed.</strong> Columbus Day — SIFMA-recommended full close for USD fixed income. Equities trade regular hours, no early close.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>No U.S. econ data today.</strong> CPI due Wednesday, PPI + retail sales Thursday. Today’s calendar is empty by design.</div></div><div class="alert-row"><div class="alert-dot adot-g"></div><div class="alert-txt"><strong>Bank earnings tomorrow.</strong> JPM, GS, WFC, C, JNJ and UNH all report BMO Tuesday — the quarter’s first real test.</div></div>
+</div>
+<div class="sm-card">
+<div class="card-hd">⚡ Pre-Market Actionables</div>
+<div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>Don’t size /ES or /NQ off any ‘pivot’ you see today.</strong> Schwab feed is down; any precise intraday level circulating isn’t coming from this pipeline’s real data.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Watch 7,736 / 7,844.52 on SPX cash.</strong> Support / all-time-high band from the weekend desk read — sourced technical context, not a futures pivot.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Respect the TLT/XLU crowded trade.</strong> Record call volume in both — a hot CPI Wednesday could force a fast long-duration unwind.</div></div>
+</div>
+</div>
+<!-- ══ KPI BAR ════════════════════════════════════════════════ -->
+<div class="sec-label">04 — PRE-MARKET KEY PRICE LEVELS</div>
+<div class="kpi-bar">
+<div class="kpi"><div class="kpi-lbl">/ES Pre-Mkt</div><div class="kpi-val c-safe">7,861.25</div><div class="kpi-ch c-safe">+1.50 (+0.02%)</div></div>
+<div class="kpi"><div class="kpi-lbl">/NQ Open</div><div class="kpi-val c-bad">31,036.00</div><div class="kpi-ch c-bad">-72.75 (-0.23%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Gold (GCUSD)</div><div class="kpi-val c-bad">$4,195.40</div><div class="kpi-ch c-bad">-20.90 (-0.50%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Bitcoin (BTC)</div><div class="kpi-val c-bad">$82,399.99</div><div class="kpi-ch c-bad">-1,273.02 (-1.52%)</div></div>
+<div class="kpi"><div class="kpi-lbl">S&amp;P 500 Close</div><div class="kpi-val c-safe">7,811.54</div><div class="kpi-ch c-safe">+46.18 (+0.59%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Ethereum (ETH)</div><div class="kpi-val c-bad">$2,524.97</div><div class="kpi-ch c-bad">-9.33 (-0.37%)</div></div>
+</div>
+<!-- ══ REGIME BAR ════════════════════════════════════════════ -->
+<div class="regime">
+<span class="reg-badge sv-caution">MIXED — INDEX STRENGTH, WEAK INTERNALS</span>
+<div class="reg-div"></div><div class="reg-item">Earnings season opens Tue — JPM/GS/C/WFC/JNJ/UNH (all BMO)</div><div class="reg-div"></div><div class="reg-item">10Y yield 5.24%, near the 5.40% resistance flagged for the week</div><div class="reg-div"></div><div class="reg-item">Bond mkt closed today (Columbus Day, SIFMA rec.)</div><div class="reg-div"></div><div class="reg-item">Nasdaq internals: 209 new lows vs. 41 highs Fri — 30th straight session of more lows than highs</div>
+</div>
+<!-- ══ FUTURES ANALYSIS ══════════════════════════════════════ -->
+<div class="sec-label">05 — FUTURES INTELLIGENCE</div>
+<div class="grid2">
+<!-- /ES -->
+<div class="sm-card">
+<div class="card-hd">📈 /ES — E-Mini S&amp;P 500 · Oct 9 Settlement</div>
+<table class="ftbl">
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="warn">N/A — Schwab feed down</td></tr>
+<tr><td>SPX cash (FMP, live)</td><td class="acc">7,815.51 (+0.05%)</td></tr><tr><td>Fri settle (SPX cash)</td><td class="acc">7,811.54</td></tr><tr><td>52-wk high (SPX cash)</td><td class="acc">7,844.52</td></tr><tr><td>Yahoo /ES premkt snapshot</td><td class="good">7,861.25 (+1.50 / +0.02%)</td></tr><tr class="ftbl-sub"><td colspan="2">— Pivot / Volume Profile —</td></tr><tr><td>Status</td><td class="bad">UNAVAILABLE — Schwab refresh token stale (HTTP 400)</td></tr><tr><td>Action</td><td class="warn">No re-mint attempted — needs Joe’s live OAuth; flagged below</td></tr>
+</table>
+<p class="tfoot-note">Source: Schwab price history — daily bars (H/L/settle, classic pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at CME.com.</p>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">No real Schwab futures print today — the refresh token is stale (HTTP 400 on this morning’s OAuth call, confirmed in the data-pass log; schwab_futures came back {} in data/daily/2026-10-12.json). Working off cash-index and sourced snapshots instead: SPX cash (FMP) is at 7,815.51, essentially flat (+0.05%) just above Friday’s 7,811.54 settle and within 0.4% of the 7,844.52 52-week high. Yahoo Finance’s live blog had /ES around 7,861.25 (+0.02%) in early trade. Per the weekend desk read, ES reclaimed its daily 20/50-MA cluster last week and is consolidating in the upper half of its ascending channel off the April 2025 lows, with ~7,736 flagged as the support to lose. No real pivots/VAH/POC/VAL today — don’t trust any precise intraday level you see elsewhere until the feed is back.</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">Bond markets are closed for Columbus Day and there’s no U.S. econ data today, so the swing factor is geopolitical: a confirmed/escalated U.S.-Saudi response to the Houthi strike on Riyadh’s airport is the biggest risk-premium driver for /ES into the close. A holding Russia-Ukraine energy-infrastructure truce is the offsetting bull case for a push at 7,844.52.</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">No sized /ES idea today — the data to grade one (real settlement, VAH/POC/VAL, 1-min RTH bars) isn’t flowing. Watching the SPX cash reaction at 7,844.52 / 7,736 into tomorrow’s bank-earnings open instead of forcing a futures entry blind.</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">Stand aside on /ES until the Schwab token is re-minted — that needs Joe’s live OAuth, not something this pipeline can self-heal. Trading the cash/ETF proxy instead: respect 7,736 as the line in the sand, 7,844.52 as the level that matters on a breakout attempt.</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: N/A</span><span class="lv lv-s">L Stop: N/A</span><span class="lv lv-t">L Target: N/A</span><span class="lv lv-e">S Entry: N/A</span><span class="lv lv-s">S Stop: N/A</span><span class="lv lv-t">S Target: N/A</span><span class="lv lv-n">PP: N/A</span><span class="lv lv-n">VWAP: N/A</span></div></div></div>
+</div>
+</div>
+<!-- /NQ -->
+<div class="sm-card">
+<div class="card-hd">📈 /NQ — E-Mini Nasdaq-100 · Oct 9 Settlement</div>
+<table class="ftbl">
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="warn">N/A — Schwab feed down</td></tr>
+<tr><td>Yahoo /NQ premkt snapshot</td><td class="bad">31,036.00 (-72.75 / -0.23%)</td></tr><tr><td>NDX cash quote</td><td class="warn">Not sourced — gated on current FMP tier</td></tr><tr><td>Desk context (wk ahead)</td><td class="acc">NDX record close ~30,660 area last wk*</td></tr><tr class="ftbl-sub"><td colspan="2">— Pivot / Volume Profile —</td></tr><tr><td>Status</td><td class="bad">UNAVAILABLE — Schwab refresh token stale (HTTP 400)</td></tr><tr><td>Action</td><td class="warn">No re-mint attempted — needs Joe’s live OAuth; flagged below</td></tr>
+</table>
+<p class="tfoot-note">Source: Schwab price history — daily bars (H/L/settle, classic pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at CME.com.</p>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">Same Schwab outage hits /NQ — schwab_futures is empty in today’s JSON (refresh token stale, HTTP 400). No independent NDX cash quote was available on today’s FMP tier either, so the only real NQ-adjacent print is Yahoo Finance’s live-blog /NQ snapshot: ~31,036.00, down 72.75 (-0.23%) in early trade — mixed versus /ES’s flat-to-firm tape. *Desk context: weekend sourcing put Nasdaq-100 near a ~30,660 record-area close last week, with the SOX semiconductor index down 4.3% on the week still weighing on tech leadership. No real pivots/VAH/POC/VAL today.</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">Another weak SOX print or soft AI-capex commentary ahead of tomorrow’s bank earnings could extend the Nasdaq’s 30-straight-session streak of more new 52-week lows than highs. A ‘good news is bad news’ yield spike off strong bank numbers would hit duration-sensitive tech hardest.</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">No sized /NQ idea today for the same data reason as /ES — won’t force a futures trade without real tick data.</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">Stand aside on /NQ until Schwab is restored. If trading NDX-linked equities/ETFs, watch for SOX stabilization as the tell that tech leadership — and breadth — is actually turning, not just price.</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: N/A</span><span class="lv lv-s">L Stop: N/A</span><span class="lv lv-t">L Target: N/A</span><span class="lv lv-e">S Entry: N/A</span><span class="lv lv-s">S Stop: N/A</span><span class="lv lv-t">S Target: N/A</span><span class="lv lv-n">PP: N/A</span><span class="lv lv-n">VWAP: N/A</span></div></div></div>
+</div>
+</div>
+</div>
+<!-- ══ ECON + EARNINGS + SECTORS ══════════════════════════════ -->
+<div class="sec-label">06 — ECONOMIC CALENDAR · EARNINGS · SECTOR ROTATION</div>
+<div class="grid3">
+<!-- ECON CALENDAR -->
+<div class="sm-card card-cyan">
+<div class="card-hd cyan">📅 Economic Calendar</div>
+<table class="etbl">
+<tr><th>Time (PT)</th><th>Event</th><th>Est</th><th>Act</th></tr>
+<tr><td>ALL DAY</td><td><strong>Columbus Day</strong> <span class="chk">✓ bond mkt closed (SIFMA)</span></td><td>—</td><td class="c-warn">Equities trade normal hours</td></tr><tr><td>—</td><td><strong>No U.S. econ data today</strong></td><td>CPI Wed / PPI + Retail Sales Thu</td><td class="c-sub">—</td></tr>
+</table>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">Today is thin by design: Columbus Day closes the U.S. bond market (SIFMA recommendation) while equities trade full hours, and there’s no scheduled U.S. econ release. The real calendar risk is mid-week — September CPI Wednesday, then PPI and retail sales Thursday — with the 10-year yield already at 5.24% (up from 5.22% Wednesday-prior) and 5.40% flagged as resistance for the week.</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">Thin bond liquidity today raises the odds of an exaggerated futures/rates reaction to any geopolitical headline (Houthi/Saudi escalation, oil) that active two-way bond flow would otherwise dampen.</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">No econ-data trade today — nothing scheduled to trade around. Save the ammo for Wednesday’s CPI.</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: N/A</span><span class="lv lv-s">L Stop: N/A</span><span class="lv lv-t">L Target: N/A</span><span class="lv lv-e">S Entry: N/A</span><span class="lv lv-s">S Stop: N/A</span><span class="lv lv-t">S Target: N/A</span><span class="lv lv-n">PP: N/A</span><span class="lv lv-n">VWAP: N/A</span></div></div></div>
+</div>
+</div>
+<!-- EARNINGS -->
+<div class="sm-card card-safe">
+<div class="card-hd" style="color:var(--safe)">💰 Earnings Watch</div>
+<table class="erntbl">
+<tr><td>JPM</td><td><span class="timing bmo">BMO</span></td><td class="c-acc" style="font-weight:700">EPS Est. $5.93</td><td style="font-size:10px;color:var(--sub)">Rev est. $51.23B — bank-earnings season opener</td></tr><tr><td>GS</td><td><span class="timing bmo">BMO</span></td><td class="c-acc" style="font-weight:700">EPS Est. $12.86</td><td style="font-size:10px;color:var(--sub)">Rev est. $16.83B</td></tr><tr><td>WFC</td><td><span class="timing bmo">BMO</span></td><td class="c-acc" style="font-weight:700">EPS Est. $1.85</td><td style="font-size:10px;color:var(--sub)">Rev est. $22.31B</td></tr><tr><td>C</td><td><span class="timing bmo">BMO</span></td><td class="c-acc" style="font-weight:700">EPS Est. $2.65</td><td style="font-size:10px;color:var(--sub)">Rev est. $23.72B</td></tr><tr><td>JNJ</td><td><span class="timing bmo">BMO</span></td><td class="c-acc" style="font-weight:700">EPS Est. $2.52</td><td style="font-size:10px;color:var(--sub)">Rev est. $25.38B</td></tr><tr><td>UNH</td><td><span class="timing bmo">BMO</span></td><td class="c-acc" style="font-weight:700">EPS Est. $4.14</td><td style="font-size:10px;color:var(--sub)">Rev est. $111.31B</td></tr>
+</table>
+<div class="ca">
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">Nothing reports today. Tomorrow (Tue 10/13, all BMO) is the real test: JPMorgan, Goldman Sachs, Wells Fargo and Citi open bank-earnings season, with Johnson &amp; Johnson and UnitedHealth also out. Sell-side commentary cited ~30% aggregate EPS growth for the quarter, though described as highly concentrated — a soft bank print would hit the ‘earnings can keep funding these valuations’ thesis directly.</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">No earnings trade today. Into tomorrow’s open: banks are a sentiment tell for the whole tape, not just financials — a credit-quality miss or weak NII guide from JPM/WFC would compound the Nasdaq’s already-weak breadth.</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: N/A</span><span class="lv lv-s">L Stop: N/A</span><span class="lv lv-t">L Target: N/A</span><span class="lv lv-e">S Entry: N/A</span><span class="lv lv-s">S Stop: N/A</span><span class="lv lv-t">S Target: N/A</span><span class="lv lv-n">PP: N/A</span><span class="lv lv-n">VWAP: N/A</span></div></div></div>
+</div>
+</div>
+<!-- SECTORS -->
+<div class="sm-card">
+<div class="card-hd">🗂 Sector Performance — Oct 9</div>
+<div class="sector-row"><span class="sec-etf">XLU</span><span class="sec-name">Utilities</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:100%;background:var(--safe)"></div></div><span class="sec-val c-safe">+2.78%</span></div><div class="sector-row"><span class="sec-etf">XLV</span><span class="sec-name">Healthcare</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:76%;background:var(--safe)"></div></div><span class="sec-val c-safe">+2.10%</span></div><div class="sector-row"><span class="sec-etf">XLY</span><span class="sec-name">Consumer Cyclical</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:45%;background:var(--safe)"></div></div><span class="sec-val c-safe">+1.26%</span></div><div class="sector-row"><span class="sec-etf">XLRE</span><span class="sec-name">Real Estate</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:34%;background:var(--safe)"></div></div><span class="sec-val c-safe">+0.95%</span></div><div class="sector-row"><span class="sec-etf">XLB</span><span class="sec-name">Basic Materials</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:33%;background:var(--safe)"></div></div><span class="sec-val c-safe">+0.93%</span></div><div class="sector-row"><span class="sec-etf">XLI</span><span class="sec-name">Industrials</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:32%;background:var(--danger)"></div></div><span class="sec-val c-bad">-0.88%</span></div><div class="sector-row"><span class="sec-etf">XLK</span><span class="sec-name">Technology</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:23%;background:var(--danger)"></div></div><span class="sec-val c-bad">-0.63%</span></div>
+<div class="ca" style="margin-top:8px">
+<div class="ca-row"><div class="ca-lbl">Rotation</div><div class="ca-val">Friday’s tape rotated defensive: Utilities (+2.78%) and Healthcare (+2.10%) led, Consumer Cyclical (+1.26%) and Real Estate (+0.95%) followed — classic late-cycle / rate-hedge leadership. Technology (-0.63%) and Industrials (-0.88%) lagged. That’s a ‘rising index, cautious rotation’ tape, not a clean risk-on breadth thrust.</div></div>
+</div>
+</div>
+</div>
+<!-- ══ GAINERS + DECLINERS ════════════════════════════════════ -->
+<div class="sec-label">07 — PRE-MARKET MOVERS</div>
+<div class="grid2">
+<div class="sm-card card-safe">
+<div class="card-hd" style="color:var(--safe)">📈 Pre-Market Gainers</div>
+<table class="pmtbl">
+<tr><td>CCC</td><td><span class="pm-cat pm-earn">M&amp;A</span> <span class="pm-cat pm-beat">TALKS</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+9.5%</td><td style="font-size:10px;color:var(--sub)">GTCR/Elliott buyout talks reported — TheStreet</td></tr><tr><td>CRM</td><td><span class="pm-cat pm-earn">UPGRADE</span> <span class="pm-cat pm-beat">BOFA BUY</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+4.3%</td><td style="font-size:10px;color:var(--sub)">BofA upgrade, $285 PT — TheStreet</td></tr><tr><td>SBUX</td><td><span class="pm-cat pm-earn">DENIAL</span> <span class="pm-cat pm-beat">NO DEAL</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+1.3%</td><td style="font-size:10px;color:var(--sub)">Denied Chipotle buyout rumor — TheStreet</td></tr>
+</table>
+</div>
+<div class="sm-card card-danger">
+<div class="card-hd" style="color:var(--danger)">📉 Pre-Market Decliners</div>
+<table class="pmtbl">
+<tr><td>ADBE</td><td><span class="pm-cat pm-earn">DOWNGRADE</span> <span class="pm-cat pm-miss">WF UW</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-4.0%</td><td style="font-size:10px;color:var(--sub)">Wells Fargo cut to Underweight, $225 PT — TheStreet</td></tr><tr><td>ALB</td><td><span class="pm-cat pm-earn">GUIDANCE</span> <span class="pm-cat pm-miss">WEAK</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-4.3%</td><td style="font-size:10px;color:var(--sub)">Weak lithium pricing outlook — TheStreet</td></tr><tr><td>CMG</td><td><span class="pm-cat pm-earn">RUMOR</span> <span class="pm-cat pm-miss">FALLOUT</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-2.8%</td><td style="font-size:10px;color:var(--sub)">Fell on SBUX buyout-rumor denial — TheStreet</td></tr><tr><td>IONQ</td><td><span class="pm-cat pm-earn">M&amp;A</span> <span class="pm-cat pm-miss">DILUTIVE</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-3.0%</td><td style="font-size:10px;color:var(--sub)">Buying Elisity for up to $1.3B in stock — TheStreet</td></tr>
+</table>
+</div>
+</div>
+<!-- ══ SPOTLIGHT + OPTIONS IDEAS ════════════════════════════ -->
+<div class="sec-label">08 — SPOTLIGHT &amp; OPTIONS INTELLIGENCE</div>
+<div class="grid2">
+<div class="sm-card">
+<div class="card-hd">🔍 Spotlight</div>
+<div class="spot-item"><div class="spot-hd"><span class="spot-tk">CCC</span></div><div class="spot-body">+9.5% Fri (real, FMP) on reports of advanced buyout talks with GTCR and Elliott Investment Management (TheStreet). Binary catalyst — a signed deal or a denial both move it hard from here; headline risk, not a technical setup.</div></div><div class="spot-item"><div class="spot-hd"><span class="spot-tk">ADBE / CRM</span></div><div class="spot-body">Wells Fargo cut Adobe to Underweight ($225 PT) the same day BofA upgraded Salesforce to Buy ($285 PT) — per TheStreet. The Street is picking winners and losers inside software, not dumping the group wholesale.</div></div><div class="spot-item"><div class="spot-hd"><span class="spot-tk">BTC / ETH</span></div><div class="spot-body">BTC is at $82,400, down 1.5% and ~4.8% off its Oct 4 local high of $86,507; ETH at $2,525 is tracking a similar pullback from its Sep 21-area high. Both remain well above their mid-September lows — reads as a garden-variety pullback inside an uptrend, not a trend break.</div></div>
+</div>
+<div class="sm-card card-orange">
+<div class="card-hd orange">🎯 Options Ideas</div>
+<div class="opt-item"><div class="opt-hd"><span class="opt-tk">TLT / XLU crowded calls</span></div><div class="opt-body">Record call volume hit TLT (~15M contracts) and XLU (~2.2M) last week — the Street is betting heavily on lower long-term yields via rate-sensitive proxies. That’s crowded: the 10-year already sits at 5.24% with 5.40% flagged as resistance, and a hot CPI print Wednesday could force a fast unwind. Read it as a sentiment gauge, not a signal to join.</div></div><div class="opt-item"><div class="opt-hd"><span class="opt-tk">Earnings-season vol</span></div><div class="opt-body">No sized options idea into tomorrow’s bank earnings — current IV/skew wasn’t sourced today. Note only: IV on JPM/GS/WFC/C typically richens into the print and crushes after; a long-premium bet needs a real directional edge, not just the calendar.</div></div>
+</div>
+</div>
+<!-- ══ MONEY FLOW + UNUSUAL OPTIONS ═════════════════════════ -->
+<div class="sec-label">09 — DARK POOL &amp; INSTITUTIONAL FLOW</div>
+<div class="grid2">
+<div class="sm-card">
+<div class="card-hd">💸 Dark Pool / Money Flow</div>
+<div class="mf-item"><div class="mf-name">Dark Pool / Block Prints</div><div class="mf-val c-warn">NOT SOURCED TODAY</div></div>
+</div>
+<div class="sm-card card-orange">
+<div class="card-hd orange">⚡ Unusual Options Activity</div>
+<div class="uo-item"><div class="uo-hd"><span class="uo-tk">TLT</span><span class="uo-exp">Weekly call volume</span></div><div class="uo-body c-warn">~15M contracts last week (record) — crowded long-duration bet via calls; weekend-desk sourced, not a live chain read today.</div></div><div class="uo-item"><div class="uo-hd"><span class="uo-tk">XLU</span><span class="uo-exp">Weekly call volume</span></div><div class="uo-body c-warn">~2.2M contracts (record) — same rate-cut-conviction trade via utilities; unwind risk if yields extend toward 5.40%.</div></div>
+</div>
+</div>
+<!-- ══ MASTER TRADE TABLE ════════════════════════════════════ -->
+<div class="sec-label">10 — MASTER TRADE INTELLIGENCE</div>
+<div class="tbl-section">
+<div class="tbl-hd">MASTER TRADE IDEAS — <span>Monday, October 12, 2026</span></div>
+<div class="ttbl-controls">
+<span class="ttbl-filter-lbl">Filter:</span>
+<input class="ttbl-filter-input" id="fSymbol" oninput="apexFilterTable()" placeholder="Symbol…"/>
+<select class="ttbl-filter-select" id="fType" onchange="apexFilterTable()">
+<option value="">All Types</option>
+<option value="futures">Futures</option>
+<option value="stock">Stock</option>
+<option value="etf">ETF</option>
+<option value="options">Options</option>
+</select>
+<select class="ttbl-filter-select" id="fDir" onchange="apexFilterTable()">
+<option value="">All Directions</option>
+<option value="long">Long</option>
+<option value="short">Short</option>
+<option value="neut">Neutral</option>
+</select>
+<select class="ttbl-filter-select" id="fPri" onchange="apexFilterTable()">
+<option value="">All Priority</option>
+<option value="3">★★★ High</option>
+<option value="2">★★ Medium</option>
+<option value="1">★ Low</option>
+</select>
+<button class="ttbl-reset" onclick="apexResetFilters()">Reset</button>
+<span class="ttbl-count" id="tradeCount">0 / 0 trades</span>
+</div>
+<table class="ttbl" id="apexTradeTable">
+<thead>
+<tr>
+<th class="sortable" onclick="apexSortTable(0)">#</th>
+<th class="sortable" onclick="apexSortTable(1)">Symbol</th>
+<th class="sortable" onclick="apexSortTable(2)">Type</th>
+<th class="sortable" onclick="apexSortTable(3)">Direction</th>
+<th>Setup</th>
+<th class="sortable" onclick="apexSortTable(5)">Entry</th>
+<th>Stop</th>
+<th>Target</th>
+<th class="sortable" onclick="apexSortTable(8)">R:R</th>
+<th>Notes</th>
+<th class="sortable" onclick="apexSortTable(10)">Priority</th>
+</tr>
+</thead>
+<tbody><!-- INJECT UP TO 20 TRADE ROWS. Column order: #, Symbol, Type, Direction, Setup, Entry, Stop, Target, R:R, Notes, Priority --><tr><td>1</td><td><strong>BTC</strong></td><td><span class="t-type ts">STOCK</span></td><td class="t-long">LONG</td><td>Mean-reversion to 20d SMA</td><td class="mono">82,000</td><td class="mono c-bad">81,192.79</td><td class="mono c-safe">84,228.92</td><td class="t-rr">1:2.8</td><td>Pullback within uptrend; SMA20/swing-low computed from FMP daily closes.</td><td class="t-pri">★★</td></tr><tr><td>2</td><td><strong>ETH</strong></td><td><span class="t-type ts">STOCK</span></td><td class="t-long">LONG</td><td>Mean-reversion to 20d SMA</td><td class="mono">2,500</td><td class="mono c-bad">2,442.89</td><td class="mono c-safe">2,650.55</td><td class="t-rr">1:2.6</td><td>Same setup as BTC, tracking the Sep 21 high pullback.</td><td class="t-pri">★★</td></tr><tr><td>3</td><td><strong>CCC</strong></td><td><span class="t-type ts">STOCK</span></td><td class="t-long">LONG</td><td>M&amp;A speculation (event-driven)</td><td class="mono">7.69</td><td class="mono c-bad">7.00</td><td class="mono c-safe">8.50</td><td class="t-rr">1:1.2</td><td>Binary — GTCR/Elliott buyout talks (TheStreet). Size small; full-loss risk if talks collapse.</td><td class="t-pri">★</td></tr><tr><td colspan="11" style="color:var(--muted);font-size:9px;padding-top:10px">/ES and /NQ futures setups omitted today — Schwab refresh token is stale (HTTP 400), no real settlement/pivot/VAH/POC/VAL to grade against. See Section 05 Pipeline Note.</td></tr>
+<!-- <tr><td>{{N}}</td><td><strong>{{TICKER}}</strong></td><td><span class="t-type tf|ts|te|to">{{TYPE}}</span></td><td class="t-long|t-short|t-neut">{{DIRECTION}}</td><td>{{SETUP}}</td><td class="mono">{{ENTRY}}</td><td class="mono c-bad">{{STOP}}</td><td class="mono c-safe">{{TARGET}}</td><td class="t-rr">{{RR}}</td><td>{{NOTES}}</td><td class="t-pri">{{PRIORITY}}</td></tr> --></tbody>
+</table>
+</div>
+<!-- ══ FOOTER ════════════════════════════════════════════════ -->
+<footer><div class="footer-logo">SHADOW MONKEY</div><div class="footer-meta">MORNING MARKET MONITOR — Monday, Monday, October 12, 2026<br/>OPERATIVE: SHADOW MONKEY // HANDLER: JOE<br/>ENTITY: MONKEY MATTERS LLC / JVS HOLDINGS LTD<br/>PLATFORM: CLAUDE SONNET 5 // EYES ONLY<br/>† All trade ideas are informational only, not financial advice.</div></footer>
+</div><!-- /.wrap -->
+<script>
+(function(){
+  var tbody = document.querySelector('#apexTradeTable tbody');
+  var sortState = {col: -1, asc: true};
+  function allRows(){ return Array.from(tbody.querySelectorAll('tr')); }
+  function cellVal(row, col){ var c = row.cells[col]; return c ? c.textContent.trim() : ''; }
+  function applyFilter(){
+    var sym  = (document.getElementById('fSymbol').value || '').toLowerCase().trim();
+    var type = (document.getElementById('fType').value || '').toLowerCase();
+    var dir  = (document.getElementById('fDir').value || '').toLowerCase();
+    var pri  = (document.getElementById('fPri').value || '');
+    var shown = 0, total = 0;
+    allRows().forEach(function(row){
+      total++;
+      var ok = true;
+      if(sym && cellVal(row,1).toLowerCase().indexOf(sym) === -1) ok = false;
+      if(ok && type){
+        var ttext = cellVal(row,2).toLowerCase();
+        if(type === 'etf'){ if(ttext.indexOf('etf') === -1) ok = false; }
+        else { if(ttext.indexOf(type) === -1) ok = false; }
+      }
+      if(ok && dir){
+        var dcls = row.cells[3] ? (row.cells[3].className || '') : '';
+        if(dir === 'long'  && dcls.indexOf('t-long')  === -1) ok = false;
+        if(dir === 'short' && dcls.indexOf('t-short') === -1) ok = false;
+        if(dir === 'neut'  && dcls.indexOf('t-neut')  === -1) ok = false;
+      }
+      if(ok && pri){
+        var stars = (cellVal(row,10).match(/★/g) || []).length.toString();
+        if(stars !== pri) ok = false;
+      }
+      row.style.display = ok ? '' : 'none';
+      if(ok) shown++;
+    });
+    var el = document.getElementById('tradeCount');
+    if(el) el.textContent = shown + ' / ' + total + ' trades';
+  }
+  function applySort(col){
+    var rows = allRows();
+    var asc  = (sortState.col === col) ? !sortState.asc : true;
+    sortState = {col: col, asc: asc};
+    document.querySelectorAll('#apexTradeTable th').forEach(function(th){ th.classList.remove('sort-asc','sort-desc'); });
+    var allTh = document.querySelectorAll('#apexTradeTable th');
+    if(allTh[col]) allTh[col].classList.add(asc ? 'sort-asc' : 'sort-desc');
+    rows.sort(function(a,b){
+      var va = cellVal(a,col), vb = cellVal(b,col);
+      var mult = asc ? 1 : -1;
+      if(col === 0) return mult*(parseInt(va)-parseInt(vb));
+      if(col === 10){ var sa=(va.match(/★/g)||[]).length; var sb=(vb.match(/★/g)||[]).length; return mult*(sa-sb); }
+      if(col === 8){ var na=va==='Event'?-1:(parseFloat(va.replace('1:',''))||0); var nb=vb==='Event'?-1:(parseFloat(vb.replace('1:',''))||0); return mult*(na-nb); }
+      return mult*va.toLowerCase().localeCompare(vb.toLowerCase());
+    });
+    rows.forEach(function(r){ tbody.appendChild(r); });
+    applyFilter();
+  }
+  window.apexFilterTable  = applyFilter;
+  window.apexResetFilters = function(){
+    ['fSymbol','fType','fDir','fPri'].forEach(function(id){ var el=document.getElementById(id); if(el) el.value=''; });
+    applyFilter();
+  };
+  window.apexSortTable = applySort;
+  applyFilter();
+})();
+</script>
+</body>
+</html>

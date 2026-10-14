@@ -1,0 +1,14 @@
+HTML length: 101823
+STRAY TOKENS IN VISIBLE CONTENT (0 unique): []
+PENDING occurrences in visible content: 0
+CHECK '7,801.77' -> count=6
+CHECK '27,538.69' -> count=6
+CHECK '5.300%' -> count=12
+CHECK 'third consecutive session' -> count=4
+CHECK 'third straight session' -> count=6
+CHECK '80.3% foreign' -> count=11
+CHECK 'Worthington Steel' -> count=11
+CHECK '3,283' -> count=9
+CHECK 'Levi Strauss' -> count=2
+CHECK 'PepsiCo' -> count=8
+Trade rows (t-pri count): 14

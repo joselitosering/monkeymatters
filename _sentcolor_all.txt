@@ -1,0 +1,4 @@
+﻿
+template\mmm_template.html:23:    {{SENT_COLOR}} → c-safe | c-warn | c-bad
+
+

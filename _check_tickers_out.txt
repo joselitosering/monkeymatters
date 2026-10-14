@@ -1,0 +1,13 @@
+MAT</strong> -> 1
+SWKS</strong> -> 1
+FLUT</strong> -> 1
+STZ</strong> -> 1
+CAT</strong> -> 1
+>DE</strong> -> 1
+Worthington Steel -> 14
+>PR</strong> -> 1
+GOLD (GC)</strong> -> 1
+>TLT</strong> -> 1
+>BTC</strong> -> 1
+>QQQ</strong> -> 1
+Russell 2000)</strong> -> 1

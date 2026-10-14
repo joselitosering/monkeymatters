@@ -1,0 +1,5 @@
+﻿OK: all 19 prior markers match the current template exactly once.
+All 19 marker keys resolved.
+Wrote D:\Apps\DevOps\Github\monkeymatters\data\daily\2026-10-13.insert.json (38833 bytes)
+Stray tokens: ['{{BBM_SIGNAL_NAME}}', '{{BBM_SIGNAL_VAL}}', '{{CA_ANALYSIS}}', '{{CA_SPEC_MOVE}}', '{{CA_STRATEGY}}', '{{CA_TRADE_IDEA}}', '{{DECLINER_N_CAT1}}', '{{DECLINER_N_CAT2}}', '{{DECLINER_N_NOTE}}', '{{DECLINER_N_PCT}}', '{{DECLINER_N_TICKER}}', '{{DIRECTION}}', '{{EARN_N_CLASS}}', '{{EARN_N_COLOR}}', '{{EARN_N_MOVE}}', '{{EARN_N_NOTE}}', '{{EARN_N_TICKER}}', '{{EARN_N_TIMING}}', '{{ECON_N_ACT}}', '{{ECON_N_COLOR}}', '{{ECON_N_EST}}', '{{ECON_N_EVENT}}', '{{ECON_N_STATUS}}', '{{ECON_N_TIME}}', '{{ENTRY}}', '{{GAINER_N_CAT1}}', '{{GAINER_N_CAT2}}', '{{GAINER_N_NOTE}}', '{{GAINER_N_PCT}}', '{{GAINER_N_TICKER}}', '{{NOTES}}', '{{N}}', '{{PIVOT}}', '{{PRIORITY}}', '{{RR}}', '{{SENT_COLOR}}', '{{SETUP}}', '{{STOP}}', '{{TARGET}}', '{{TICKER}}', '{{TOKEN}}', '{{TYPE}}', '{{VWAP}}']
+Contains PENDING: False

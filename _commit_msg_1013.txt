@@ -1,0 +1,11 @@
+Add MMM insert content for 2026-10-13
+
+Bank/healthcare earnings (JPM, GS, WFC, C, JNJ, UNH), chip-sector
+selloff spreading from Asia, Hormuz/Houthi geopolitical risk, and
+two data-grounded BTC/ETH trade ideas. Schwab futures feed stale
+for a 2nd consecutive session (HTTP 400) - ES/NQ premarket levels
+flagged N/A rather than fabricated; FMP cash-index proxy used for
+KPI tokens only.
+
+Co-Authored-By: Claude Sonnet 5 <noreply@anthropic.com>
+Claude-Session: https://claude.ai/code/session_01LPSXBg8koK2qXmdPHH5hbS

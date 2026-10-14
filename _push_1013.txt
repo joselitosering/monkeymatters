@@ -1,0 +1,8 @@
+﻿git : To https://github.com/joselitosering/monkeymatters.git
+At line:1 char:53
++ ... \Apps\DevOps\Github\monkeymatters'; git push origin main 2>&1 | Out-F ...
++                                         ~~~~~~~~~~~~~~~~~~~~~~~~~
+    + CategoryInfo          : NotSpecified: (To https://gith...nkeymatters.git:String) [], RemoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+   3bf7a3d..a273a59  main -> main

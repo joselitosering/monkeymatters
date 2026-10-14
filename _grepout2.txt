@@ -1,0 +1,39 @@
+﻿
+> _live_page_pre.html:660:<div class="card-hd">≡ƒôê /ES ΓÇö E-Mini S&amp;P 500 ┬╖ Oct 5 Settlement</div>
+  _live_page_pre.html:661:<table class="ftbl">
+> _live_page_pre.html:662:<tr><td>Gap vs Settle (open ΓêÆ prior settle)</td><td class="c-sub">N/A</td></tr>
+  _live_page_pre.html:663:<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING ΓÇö awaiting 
+analysis pass</td></tr>
+  _live_page_pre.html:664:</table>
+  _live_page_pre.html:665:<p class="tfoot-note">Source: Schwab price history ΓÇö daily bars (H/L/settle, classic 
+pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at 
+CME.com.</p>
+  _live_page_pre.html:666:<div class="ca">
+  _live_page_pre.html:667:<div class="ca-row"><div class="ca-lbl">Analysis</div><div 
+class="ca-val">{{CA_ANALYSIS}}</div></div>
+  _live_page_pre.html:668:<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div 
+class="ca-val">{{CA_SPEC_MOVE}}</div></div>
+  _live_page_pre.html:669:<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div 
+class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+  _live_page_pre.html:670:<div class="ca-row"><div class="ca-lbl">Strategy</div><div 
+class="ca-val">{{CA_STRATEGY}}</div></div>
+> _live_page_pre.html:676:<div class="card-hd">≡ƒôê /NQ ΓÇö E-Mini Nasdaq-100 ┬╖ Oct 5 Settlement</div>
+  _live_page_pre.html:677:<table class="ftbl">
+> _live_page_pre.html:678:<tr><td>Gap vs Settle (open ΓêÆ prior settle)</td><td class="c-sub">N/A</td></tr>
+  _live_page_pre.html:679:<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING ΓÇö awaiting 
+analysis pass</td></tr>
+  _live_page_pre.html:680:</table>
+  _live_page_pre.html:681:<p class="tfoot-note">Source: Schwab price history ΓÇö daily bars (H/L/settle, classic 
+pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at 
+CME.com.</p>
+  _live_page_pre.html:682:<div class="ca">
+  _live_page_pre.html:683:<div class="ca-row"><div class="ca-lbl">Analysis</div><div 
+class="ca-val">{{CA_ANALYSIS}}</div></div>
+  _live_page_pre.html:684:<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div 
+class="ca-val">{{CA_SPEC_MOVE}}</div></div>
+  _live_page_pre.html:685:<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div 
+class="ca-val">{{CA_TRADE_IDEA}}</div></div>
+  _live_page_pre.html:686:<div class="ca-row"><div class="ca-lbl">Strategy</div><div 
+class="ca-val">{{CA_STRATEGY}}</div></div>
+
+
