@@ -13,26 +13,26 @@
     Wednesday, October 14, 2026       e.g. "Monday, August 18, 2026"
     Oct 14      e.g. "Aug 18"
     Wednesday     e.g. "Monday"
-    NY Session (pre-open)   e.g. "NY Session"
-    PENDING    BULL | BEAR | MIXED
-    PENDING — awaiting analysis pass e.g. "BIDU EARNINGS BMO"
+    NY Session   e.g. "NY Session"
+    RISK-OFF    BULL | BEAR | MIXED
+    SEPT CPI HOT (3.7% Y/Y) — 10YR YIELD TOPS 5.3%, FED HIKE ODDS ~22%→47% INTO OCT 28 FOMC e.g. "BIDU EARNINGS BMO"
 
   S01 SENTIMENT STRIP (6 tiles):
-    16.90  32  N/A
-    N/A  N/A  N/A
+    16.9  N/A  N/A
+    N/A  40.3/39.0  RISK-OFF
     c-safe → c-safe | c-warn | c-bad
 
   S02 ADVISORY:
-    PENDING PENDING — awaiting analysis pass
-    — — — —
+    HOT CPI BREAKS THE DISINFLATION NARRATIVE — AND TAKES THE AI-CAPEX TRADE DOWN WITH IT. September CPI printed hot this morning — 3.7% year-over-year versus a 3.6% consensus, with core CPI at 2.6% versus 2.5% expected — and it broke the market’s working assumption that the Fed was finished tightening. Odds of an October rate hike jumped from roughly 22% to 47.1% intraday, Citi now models a December hike rather than a cut, and the 10-year Treasury yield briefly topped 5.32%, its highest print since 2007; FMP’s own treasury-rates feed already had the 10-year at 5.24% as of Oct 9, up from 4.96% in late September, so today’s spike extends a real, building trend rather than appearing from nowhere. The S&amp;P 500 closed at 7,720.97, down 1.08%; the Nasdaq Composite was hit harder, down 1.88% to 26,692.87; the Dow held up best, down just 0.09% to 51,621.48 — a classic ‘duration matters more for growth stocks’ split. The real carnage was in the AI-capex trade: CoreWeave -15%, Dell -12% (Barclays cut to equal-weight), HPE -7.6% (same downgrade), Oracle -7.3%, and Nebius -10%, as a Gartner note flagged up to $3.5 trillion in AI infrastructure investment at impairment risk by 2030 and OpenAI’s reported annualized revenue run-rate (~$50B) came in below the ~$70B some outlets had cited (Bloomberg separately reports OpenAI expects to reach or exceed $70B by year-end). The Philadelphia Semiconductor Index fell nearly 4% for a sixth straight losing session; Taiwan Semi slid 3.4% into its own print tomorrow. Bank of America missed on both lines (EPS $1.08 vs. $1.10 est., revenue $30.0B vs. $30.58B est.) on heavy conduct/litigation charges and fell 4.76% to $51.39; UnitedHealth was the one large-cap bright spot, +4.73% to $395.62. Gold (-1.66%) and both BTC (-1.93%) and ETH (-3.64%) sold off in sympathy rather than acting as a hedge — a real-rate repricing day hits every duration-sensitive asset at once, equities, metal, and crypto alike. Schwab’s feed is down a third straight session (stale refresh token, HTTP 400) — still no real /ES or /NQ settlement, pivots, or VAH/POC/VAL; that needs Joe’s live OAuth via schwab_auth.py, not something this pipeline can self-heal.
+    UNH +4.7% — LONE LARGE-CAP BRIGHT SPOT TSM EARNINGS TOMORROW (OCT 15) — CHIP BELLWETHER AFTER TODAY’S AI-CAPEX ROUT 10YR YIELD >5.3% — FED HIKE ODDS ~47% INTO OCT 28 FOMC SIZING /ES OR /NQ — SCHWAB FEED DOWN 3RD STRAIGHT SESSION
 
   S03 BBM:
-    50 / 50 (0-100)
+    22 / 78 (0-100)
     {{BBM_SIGNAL_NAME}} / {{BBM_SIGNAL_VAL}}
 
   S04 KPI BAR (6 tiles):
-    7,720.97 N/A 4,107.90
-    81,605.99 7,720.97 2,415.60
+    N/A N/A $4,107.90
+    $81,605.99 7,720.97 $2,415.60
     + {{*_CHANGE}} and {{*_COLOR}} per tile
 
   S05–S10 ANALYSIS BLOCKS (.ca-val):
@@ -545,17 +545,17 @@
 <div class="hdr-top">
 <div class="hdr-title-block">
 <div class="hdr-brand">MORNING<br/><span>MARKET</span><br/>MONITOR</div>
-<div class="hdr-subtitle">Wednesday, October 14, 2026  ·  NY Session (pre-open)  ·  MONKEY MATTERS LLC</div>
+<div class="hdr-subtitle">Wednesday, October 14, 2026  ·  NY Session  ·  MONKEY MATTERS LLC</div>
 </div>
 <div class="hdr-badges">
 <span class="sm-badge sm-badge-warn">● LIVE — Oct 14</span>
-<span class="sm-badge sm-badge-live">⚡ PENDING — awaiting analysis pass</span>
+<span class="sm-badge sm-badge-live">⚡ SEPT CPI HOT (3.7% Y/Y) — 10YR YIELD TOPS 5.3%, FED HIKE ODDS ~22%→47% INTO OCT 28 FOMC</span>
 </div>
 </div>
 <div class="hdr-meta-grid">
 <div class="hdr-meta-cell"><div class="hm-label">Session</div><div class="hm-val">Wednesday, October 14, 2026</div></div>
 <div class="hdr-meta-cell"><div class="hm-label">Primary Entity</div><div class="hm-val">Monkey Matters LLC</div></div>
-<div class="hdr-meta-cell"><div class="hm-label">Regime</div><div class="hm-val sv-neut">PENDING</div></div>
+<div class="hdr-meta-cell"><div class="hm-label">Regime</div><div class="hm-val sv-bear">RISK-OFF</div></div>
 <div class="hdr-meta-cell"><div class="hm-label">Prime Directive</div><div class="hm-val" style="color:var(--accent2)">SURVIVE. COMPOUND. LEGACY.</div></div>
 </div>
 </div>
@@ -564,33 +564,33 @@
 <div class="sent-strip">
 <div class="sent-tile sv-caution">
 <div class="st-lbl">VIX</div>
-<div class="st-val sv-caution">16.90</div>
-<div class="st-sub sv-caution">PENDING — awaiting analysis pass</div>
+<div class="st-val sv-caution">16.9</div>
+<div class="st-sub sv-caution">LOW LEVEL, SHARP SPIKE — +10.5%</div>
 </div>
-<div class="sent-tile sv-bear">
+<div class="sent-tile sv-neut">
 <div class="st-lbl">Fear &amp; Greed</div>
-<div class="st-val sv-bear">32</div>
-<div class="st-sub sv-bear">Fear (-13 vs prior close) -- CNN Fear & Greed, live</div>
+<div class="st-val sv-neut">N/A</div>
+<div class="st-sub sv-neut">NOT SOURCED TODAY</div>
 </div>
 <div class="sent-tile sv-neut">
 <div class="st-lbl">Put/Call</div>
 <div class="st-val sv-neut">N/A</div>
-<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+<div class="st-sub sv-neut">NOT SOURCED TODAY</div>
 </div>
-<div class="sent-tile sv-neut">
+<div class="sent-tile sv-bear">
 <div class="st-lbl">NYSE Breadth</div>
-<div class="st-val sv-neut">N/A</div>
-<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+<div class="st-val sv-bear">N/A</div>
+<div class="st-sub sv-bear">A/D LINE NOT SOURCED — 9 OF 11 S&P SECTORS CLOSED RED</div>
 </div>
-<div class="sent-tile sv-neut">
+<div class="sent-tile sv-caution">
 <div class="st-lbl">AAII Bull/Bear</div>
-<div class="st-val sv-neut">N/A</div>
-<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+<div class="st-val sv-caution">40.3/39.0</div>
+<div class="st-sub sv-caution">BULL/BEAR — WK OF OCT 7, STILL LATEST RELEASE</div>
 </div>
-<div class="sent-tile sv-neut">
+<div class="sent-tile sv-bear">
 <div class="st-lbl">Overall Sentiment</div>
-<div class="st-val sv-neut">N/A</div>
-<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+<div class="st-val sv-bear">RISK-OFF</div>
+<div class="st-sub sv-bear">HOT CPI + AI-CAPEX DOUBTS DRIVE A CROSS-ASSET SELLOFF</div>
 </div>
 </div>
 <!-- ══ TOP OF MIND ADVISORY + BULL VS BEAR ══════════════════ -->
@@ -599,26 +599,26 @@
 <div class="sm-card">
 <div class="card-hd">🧠 Top of Mind Advisory — Wednesday, October 14, 2026</div>
 <div class="adv-label">Market Temperament</div>
-<div class="adv-signal"><strong style="color:var(--text)">PENDING</strong> PENDING — awaiting analysis pass</div>
+<div class="adv-signal"><strong style="color:var(--text)">HOT CPI BREAKS THE DISINFLATION NARRATIVE — AND TAKES THE AI-CAPEX TRADE DOWN WITH IT.</strong> September CPI printed hot this morning — 3.7% year-over-year versus a 3.6% consensus, with core CPI at 2.6% versus 2.5% expected — and it broke the market’s working assumption that the Fed was finished tightening. Odds of an October rate hike jumped from roughly 22% to 47.1% intraday, Citi now models a December hike rather than a cut, and the 10-year Treasury yield briefly topped 5.32%, its highest print since 2007; FMP’s own treasury-rates feed already had the 10-year at 5.24% as of Oct 9, up from 4.96% in late September, so today’s spike extends a real, building trend rather than appearing from nowhere. The S&amp;P 500 closed at 7,720.97, down 1.08%; the Nasdaq Composite was hit harder, down 1.88% to 26,692.87; the Dow held up best, down just 0.09% to 51,621.48 — a classic ‘duration matters more for growth stocks’ split. The real carnage was in the AI-capex trade: CoreWeave -15%, Dell -12% (Barclays cut to equal-weight), HPE -7.6% (same downgrade), Oracle -7.3%, and Nebius -10%, as a Gartner note flagged up to $3.5 trillion in AI infrastructure investment at impairment risk by 2030 and OpenAI’s reported annualized revenue run-rate (~$50B) came in below the ~$70B some outlets had cited (Bloomberg separately reports OpenAI expects to reach or exceed $70B by year-end). The Philadelphia Semiconductor Index fell nearly 4% for a sixth straight losing session; Taiwan Semi slid 3.4% into its own print tomorrow. Bank of America missed on both lines (EPS $1.08 vs. $1.10 est., revenue $30.0B vs. $30.58B est.) on heavy conduct/litigation charges and fell 4.76% to $51.39; UnitedHealth was the one large-cap bright spot, +4.73% to $395.62. Gold (-1.66%) and both BTC (-1.93%) and ETH (-3.64%) sold off in sympathy rather than acting as a hedge — a real-rate repricing day hits every duration-sensitive asset at once, equities, metal, and crypto alike. Schwab’s feed is down a third straight session (stale refresh token, HTTP 400) — still no real /ES or /NQ settlement, pivots, or VAH/POC/VAL; that needs Joe’s live OAuth via schwab_auth.py, not something this pipeline can self-heal.</div>
 <div class="adv-label">Direction &amp; Posture</div>
-<div class="adv-signal"><strong style="color:var(--text)">PENDING</strong> PENDING — awaiting analysis pass</div>
+<div class="adv-signal"><strong style="color:var(--text)">HOT CPI BREAKS THE DISINFLATION NARRATIVE — AND TAKES THE AI-CAPEX TRADE DOWN WITH IT.</strong> September CPI printed hot this morning — 3.7% year-over-year versus a 3.6% consensus, with core CPI at 2.6% versus 2.5% expected — and it broke the market’s working assumption that the Fed was finished tightening. Odds of an October rate hike jumped from roughly 22% to 47.1% intraday, Citi now models a December hike rather than a cut, and the 10-year Treasury yield briefly topped 5.32%, its highest print since 2007; FMP’s own treasury-rates feed already had the 10-year at 5.24% as of Oct 9, up from 4.96% in late September, so today’s spike extends a real, building trend rather than appearing from nowhere. The S&amp;P 500 closed at 7,720.97, down 1.08%; the Nasdaq Composite was hit harder, down 1.88% to 26,692.87; the Dow held up best, down just 0.09% to 51,621.48 — a classic ‘duration matters more for growth stocks’ split. The real carnage was in the AI-capex trade: CoreWeave -15%, Dell -12% (Barclays cut to equal-weight), HPE -7.6% (same downgrade), Oracle -7.3%, and Nebius -10%, as a Gartner note flagged up to $3.5 trillion in AI infrastructure investment at impairment risk by 2030 and OpenAI’s reported annualized revenue run-rate (~$50B) came in below the ~$70B some outlets had cited (Bloomberg separately reports OpenAI expects to reach or exceed $70B by year-end). The Philadelphia Semiconductor Index fell nearly 4% for a sixth straight losing session; Taiwan Semi slid 3.4% into its own print tomorrow. Bank of America missed on both lines (EPS $1.08 vs. $1.10 est., revenue $30.0B vs. $30.58B est.) on heavy conduct/litigation charges and fell 4.76% to $51.39; UnitedHealth was the one large-cap bright spot, +4.73% to $395.62. Gold (-1.66%) and both BTC (-1.93%) and ETH (-3.64%) sold off in sympathy rather than acting as a hedge — a real-rate repricing day hits every duration-sensitive asset at once, equities, metal, and crypto alike. Schwab’s feed is down a third straight session (stale refresh token, HTTP 400) — still no real /ES or /NQ settlement, pivots, or VAH/POC/VAL; that needs Joe’s live OAuth via schwab_auth.py, not something this pipeline can self-heal.</div>
 <div class="adv-label">Key Signals to Watch</div>
-<div class="adv-chips"><span class="sig-chip sig-lean">—</span><span class="sig-chip sig-watch">—</span><span class="sig-chip sig-caution">—</span><span class="sig-chip sig-avoid">—</span></div>
+<div class="adv-chips"><span class="sig-chip sig-lean">UNH +4.7% — LONE LARGE-CAP BRIGHT SPOT</span><span class="sig-chip sig-watch">TSM EARNINGS TOMORROW (OCT 15) — CHIP BELLWETHER AFTER TODAY’S AI-CAPEX ROUT</span><span class="sig-chip sig-caution">10YR YIELD >5.3% — FED HIKE ODDS ~47% INTO OCT 28 FOMC</span><span class="sig-chip sig-avoid">SIZING /ES OR /NQ — SCHWAB FEED DOWN 3RD STRAIGHT SESSION</span></div>
 <div class="adv-label" style="margin-top:8px">Operative Verdict</div>
-<div class="verdict-alert verdict-bull">⬡ PENDING — awaiting analysis pass</div>
+<div class="verdict-alert verdict-bull">⬡ RISK-OFF REGIME, BROAD AND CROSS-ASSET. This isn’t a sector-specific wobble like Monday — hot CPI repriced the Fed from ‘easing cycle’ toward ‘might hike again,’ and every duration-sensitive asset took the hit together: equities (Nasdaq -1.9%), gold (-1.7%), and crypto (BTC -1.9%, ETH -3.6%) all sold off in the same direction — the real tell that this is a rates story, not a flight-to-safety rotation. The AI-capex trade (CoreWeave, Dell, Oracle, HPE, Nebius) took the worst of it on genuine impairment-risk math, not just rate sensitivity. Don’t fight the tape by bottom-fishing chip/cloud names into a still-hawkish repricing, and don’t size /ES or /NQ blind — Schwab feed is down a third straight session. TSMC’s print tomorrow and the October 28 FOMC are the two real catalysts from here.</div>
 </div>
 <div class="sm-card card-orange">
 <div class="card-hd orange">⚖ Bull vs Bear Meter — Oct 14</div>
 <div class="bbm-labels">
-<span class="bbm-sv-bull">▲ BULL 50%</span>
-<span class="bbm-sv-bear">BEAR 50% ▼</span>
+<span class="bbm-sv-bull">▲ BULL 22%</span>
+<span class="bbm-sv-bear">BEAR 78% ▼</span>
 </div>
 <div class="bbm-bar-wrap">
-<div class="bbm-bull" style="width:50%"></div>
-<div class="bbm-bear" style="width:50%"></div>
+<div class="bbm-bull" style="width:22%"></div>
+<div class="bbm-bear" style="width:78%"></div>
 </div>
-<div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px;letter-spacing:1px">PENDING — awaiting analysis pass</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px;letter-spacing:1px">HOT CPI REPRICES THE FED TOWARD A HIKE, AND THE SELLOFF IS CROSS-ASSET — STOCKS, GOLD, AND CRYPTO ALL RED TOGETHER — TIPPING THIS DECISIVELY BEARISH, NOT JUST SECTOR-SPECIFIC</div>
+<div class="bbm-signal-row"><span class="bbm-sn">Price Trend (SPX -1.1%, Nasdaq -1.9%, Dow -0.1%)</span><span class="bbm-sv-bear">BEAR</span></div><div class="bbm-signal-row"><span class="bbm-sn">Rates/CPI (hot print, 10yr >5.3%, hike odds ~47%)</span><span class="bbm-sv-bear">BEAR</span></div><div class="bbm-signal-row"><span class="bbm-sn">AI-Capex/Chip Selloff (CRWV -15%, DELL -12%, ORCL -7.3%)</span><span class="bbm-sv-bear">BEAR</span></div><div class="bbm-signal-row"><span class="bbm-sn">Bank Earnings (BAC miss, -4.76%)</span><span class="bbm-sv-bear">BEAR</span></div><div class="bbm-signal-row"><span class="bbm-sn">Cross-Asset (Gold -1.7%, BTC -1.9%, ETH -3.6% — no hedge bid)</span><span class="bbm-sv-bear">BEAR</span></div><div class="bbm-signal-row"><span class="bbm-sn">Geopolitical (Hormuz/Iran tanker risk still live)</span><span class="bbm-sv-bear">BEAR</span></div><div class="bbm-signal-row"><span class="bbm-sn">AAII (40.3% bull / 39.0% bear, wk of Oct 7, stale)</span><span class="bbm-sv-neut">NEUT</span></div><div class="bbm-signal-row"><span class="bbm-sn">VIX (16.9, still sub-20 despite the spike)</span><span class="bbm-sv-bull">BULL</span></div>
 </div>
 </div>
 <!-- ══ THREE INTEL CARDS ══════════════════════════════════════ -->
@@ -626,31 +626,31 @@
 <div class="mi">
 <div class="sm-card card-orange">
 <div class="card-hd orange">⚡ Catalyst Alert</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>Hot CPI reprices the Fed toward a hike.</strong> September CPI 3.7% y/y (vs 3.6% est.), core 2.6% (vs 2.5% est.); October hike odds jumped ~22%→47.1% intraday; 10yr yield briefly topped 5.32%, highest since 2007.</div></div><div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>AI-capex doubt rout hits chips/cloud hard.</strong> CoreWeave -15%, Dell -12%, HPE -7.6%, Oracle -7.3%, Nebius -10% on a Gartner note flagging up to $3.5T in AI infrastructure investment at impairment risk by 2030.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Bank of America misses on both lines.</strong> EPS $1.08 vs $1.10 est., revenue $30.0B vs $30.58B est.; Q3 profit just $168M (vs $2.5B y/y) on heavy conduct/litigation charges; shares -4.76%.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Schwab data feed down a third straight session.</strong> Refresh token remains stale (HTTP 400); no real /ES or /NQ futures ticks today either.</div></div>
 </div>
 <div class="sm-card card-cyan">
 <div class="card-hd cyan">📅 Today's Key Events</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>September CPI release.</strong> Hot print (3.7% y/y, core 2.6%) was today’s dominant catalyst — see Catalyst Alert and Economic Calendar.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>TSMC earnings before tomorrow’s open.</strong> Est. EPS $4.45 / revenue $45.67B — the real test of whether AI-chip demand is actually slowing.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>October 28 FOMC now live again as a swing factor.</strong> Hike odds jumped to ~47% on today’s data; Citi models a December hike rather than a cut.</div></div>
 </div>
 <div class="sm-card">
 <div class="card-hd">⚡ Pre-Market Actionables</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>Don’t bottom-fish AI-capex names into this repricing.</strong> CoreWeave -15%, Dell -12%, Nebius -10%, HPE -7.6%, Oracle -7.3% — the Gartner impairment-risk thesis is a real re-rating, not just a rate scare.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Don’t size /ES or /NQ off any ‘pivot’ today.</strong> Schwab feed is down a 3rd straight session; cash-index levels only (SPX 7,720.97 -1.08%, Nasdaq Composite 26,692.87 -1.88%).</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Watch TSM into tomorrow’s open.</strong> Stock already down 3.4% today heading into its own print — the cleanest read on whether this AI-capex rout extends or reverses.</div></div>
 </div>
 </div>
 <!-- ══ KPI BAR ════════════════════════════════════════════════ -->
 <div class="sec-label">04 — PRE-MARKET KEY PRICE LEVELS</div>
 <div class="kpi-bar">
-<div class="kpi"><div class="kpi-lbl">/ES Pre-Mkt</div><div class="kpi-val c-bad">7,720.97</div><div class="kpi-ch c-bad">-84.48 (-1.08%)</div></div>
-<div class="kpi"><div class="kpi-lbl">/NQ Open</div><div class="kpi-val c-sub">N/A</div><div class="kpi-ch c-sub">N/A</div></div>
-<div class="kpi"><div class="kpi-lbl">Gold (GCUSD)</div><div class="kpi-val c-bad">4,107.90</div><div class="kpi-ch c-bad">-69.40 (-1.66%)</div></div>
-<div class="kpi"><div class="kpi-lbl">Bitcoin (BTC)</div><div class="kpi-val c-bad">81,605.99</div><div class="kpi-ch c-bad">-1,605.72 (-1.93%)</div></div>
+<div class="kpi"><div class="kpi-lbl">/ES Pre-Mkt</div><div class="kpi-val c-bad">N/A</div><div class="kpi-ch c-bad">-84.48 (-1.08%)</div></div>
+<div class="kpi"><div class="kpi-lbl">/NQ Open</div><div class="kpi-val c-bad">N/A</div><div class="kpi-ch c-bad">-511.51 (-1.88%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Gold (GCUSD)</div><div class="kpi-val c-bad">$4,107.90</div><div class="kpi-ch c-bad">-69.40 (-1.66%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Bitcoin (BTC)</div><div class="kpi-val c-bad">$81,605.99</div><div class="kpi-ch c-bad">-1,605.72 (-1.93%)</div></div>
 <div class="kpi"><div class="kpi-lbl">S&amp;P 500 Close</div><div class="kpi-val c-bad">7,720.97</div><div class="kpi-ch c-bad">-84.48 (-1.08%)</div></div>
-<div class="kpi"><div class="kpi-lbl">Ethereum (ETH)</div><div class="kpi-val c-bad">2,415.60</div><div class="kpi-ch c-bad">-91.13 (-3.64%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Ethereum (ETH)</div><div class="kpi-val c-bad">$2,415.60</div><div class="kpi-ch c-bad">-91.13 (-3.64%)</div></div>
 </div>
 <!-- ══ REGIME BAR ════════════════════════════════════════════ -->
 <div class="regime">
-<span class="reg-badge sv-neut">{{REGIME_SIGNAL}}</span>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<span class="reg-badge sv-bear">RISK-OFF — HOT CPI REPRICES FED TOWARD A HIKE, AI-CAPEX DOUBTS GUT CHIPS/CLOUD</span>
+<div class="reg-div"></div><div class="reg-item">Sept CPI hot — 3.7% y/y vs 3.6% est., core 2.6% vs 2.5% est.</div><div class="reg-div"></div><div class="reg-item">Fed Oct hike odds ~22%→47%; 10yr yield briefly >5.32%, highest since 2007</div><div class="reg-div"></div><div class="reg-item">AI-capex doubt rout — CoreWeave -15%, Dell -12%, HPE -7.6%, Oracle -7.3%, Nebius -10%</div><div class="reg-div"></div><div class="reg-item">Bank of America misses both lines, -4.76%; UnitedHealth the lone bright spot, +4.73%</div><div class="reg-div"></div><div class="reg-item">TSMC earnings + Oct 28 FOMC are the next two real catalysts</div>
 </div>
 <!-- ══ FUTURES ANALYSIS ══════════════════════════════════════ -->
 <div class="sec-label">05 — FUTURES INTELLIGENCE</div>
@@ -659,32 +659,32 @@
 <div class="sm-card">
 <div class="card-hd">📈 /ES — E-Mini S&amp;P 500 · Oct 13 Settlement</div>
 <table class="ftbl">
-<tr><td>Gap vs Settle (open − prior settle)</td><td class="c-sub">N/A</td></tr>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="warn">N/A — Schwab feed down (3rd session)</td></tr>
+<tr><td>SPX cash close (FMP)</td><td class="bad">7,720.97 (-1.08%)</td></tr><tr><td>Tue close (SPX cash)</td><td class="acc">7,807.24</td></tr><tr><td>Independent close check (ABC News wire)</td><td class="bad">7,718.94 (-1.1%)</td></tr><tr class="ftbl-sub"><td colspan="2">— Pivot / Volume Profile —</td></tr><tr><td>Status</td><td class="bad">UNAVAILABLE — Schwab refresh token stale (HTTP 400), 3rd straight session</td></tr><tr><td>Action</td><td class="warn">No re-mint attempted — needs Joe’s live OAuth; flagged below</td></tr>
 </table>
 <p class="tfoot-note">Source: Schwab price history — daily bars (H/L/settle, classic pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at CME.com.</p>
 <div class="ca">
-<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">{{CA_STRATEGY}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">Third straight session without real Schwab futures data — the refresh token is still stale (HTTP 400), and schwab_futures came back {} again in today’s JSON. Working off cash-index data instead: SPX cash closed today at 7,720.97, down 1.08% on the hot September CPI print (3.7% y/y vs. 3.6% est.), which repriced October rate-hike odds from ~22% to ~47.1% and sent the 10-year Treasury yield briefly above 5.32% (highest since 2007). An independent close check (ABC News wire) had the S&amp;P 500 at 7,718.94, down 1.1% — consistent with FMP’s own print. No real pivots/VAH/POC/VAL today — don’t trust any precise intraday level you see elsewhere until the feed is back.</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">TSMC reports tomorrow (Oct 15, est. EPS $4.45 / revenue $45.67B) — a real read on whether AI-chip demand is actually slowing or whether today’s selloff was purely a rates/impairment-risk story. The October 28 FOMC is the other swing factor now that hike odds have jumped to ~47%.</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">No sized /ES idea today — third straight session without real settlement, VAH/POC/VAL, or 1-min RTH bars to grade against. Watching SPX cash’s reaction to TSMC’s print tomorrow instead of forcing a futures entry blind.</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">Stand aside on /ES until the Schwab token is re-minted — that needs Joe’s live OAuth, not something this pipeline can self-heal. Trading the cash/ETF proxy instead: today’s hot-CPI repricing is a real regime shift, not noise — don’t fade it mechanically, and don’t add fresh long risk ahead of tomorrow’s TSMC print or the Oct 28 FOMC.</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: N/A</span><span class="lv lv-s">L Stop: N/A</span><span class="lv lv-t">L Target: N/A</span><span class="lv lv-e">S Entry: N/A</span><span class="lv lv-s">S Stop: N/A</span><span class="lv lv-t">S Target: N/A</span><span class="lv lv-n">PP: N/A</span><span class="lv lv-n">VWAP: N/A</span></div></div></div>
 </div>
 </div>
 <!-- /NQ -->
 <div class="sm-card">
 <div class="card-hd">📈 /NQ — E-Mini Nasdaq-100 · Oct 13 Settlement</div>
 <table class="ftbl">
-<tr><td>Gap vs Settle (open − prior settle)</td><td class="c-sub">N/A</td></tr>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="warn">N/A — Schwab feed down (3rd session)</td></tr>
+<tr><td>Nasdaq Composite close (FMP ^IXIC)</td><td class="bad">26,692.87 (-1.88%)</td></tr><tr><td>Desk context</td><td class="warn">AI-capex/datacenter names leading the decline (CRWV, DELL, ORCL, HPE, NBIS)</td></tr><tr><td>Philadelphia Semiconductor Index</td><td class="bad">~-4% (6th straight losing session)</td></tr><tr class="ftbl-sub"><td colspan="2">— Pivot / Volume Profile —</td></tr><tr><td>Status</td><td class="bad">UNAVAILABLE — Schwab refresh token stale (HTTP 400), 3rd straight session</td></tr><tr><td>Action</td><td class="warn">No re-mint attempted — needs Joe’s live OAuth; flagged below</td></tr>
 </table>
 <p class="tfoot-note">Source: Schwab price history — daily bars (H/L/settle, classic pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at CME.com.</p>
 <div class="ca">
-<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">{{CA_STRATEGY}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">Same Schwab outage hits /NQ for a third straight session — schwab_futures empty again in today’s JSON. Nasdaq Composite closed today at 26,692.87, down 1.88% (511.51 points), the worst of the three major cash indexes. This is almost entirely an AI-capex-doubt story: CoreWeave -15%, Dell -12% (Barclays downgraded to equal-weight alongside HPE), HPE -7.6%, Oracle -7.3%, and Nebius -10%, after a Gartner note flagged up to $3.5 trillion in AI infrastructure investment at impairment risk by 2030 and OpenAI’s reported annualized revenue run-rate (~$50B) landed below the ~$70B some outlets had cited. Taiwan Semi fell 3.4% ahead of its own print tomorrow. No real pivots/VAH/POC/VAL today.</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">TSMC’s Oct 15 print (est. EPS $4.45, revenue $45.67B) is the single biggest overnight risk for /NQ — a clean beat-and-raise would argue today’s rout was a rates/sentiment overreaction; a cautious capex outlook would confirm the Gartner impairment-risk thesis and likely extend the slide.</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">No sized /NQ idea today for the same data reason as /ES. Watching whether CRWV/DELL/ORCL/HPE/NBIS stabilize intraday tomorrow — that’s the tell the AI-capex rout is done extending, not the TSMC headline number alone.</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">Stand aside on /NQ until Schwab is restored. If trading chip/cloud names directly, size for the fact that this is a real repricing of AI-capex economics (Gartner’s $3.5T impairment-risk framing), not just a one-day rate scare — the move may not be done just because it already happened today.</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: N/A</span><span class="lv lv-s">L Stop: N/A</span><span class="lv lv-t">L Target: N/A</span><span class="lv lv-e">S Entry: N/A</span><span class="lv lv-s">S Stop: N/A</span><span class="lv lv-t">S Target: N/A</span><span class="lv lv-n">PP: N/A</span><span class="lv lv-n">VWAP: N/A</span></div></div></div>
 </div>
 </div>
 </div>
@@ -696,33 +696,33 @@
 <div class="card-hd cyan">📅 Economic Calendar</div>
 <table class="etbl">
 <tr><th>Time (PT)</th><th>Event</th><th>Est</th><th>Act</th></tr>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>8:30 AM ET</td><td><strong>September CPI</strong> <span class="chk">✓ reported</span></td><td>3.6% y/y, core 2.5%</td><td class="c-bad">3.7% y/y, core 2.6% — hot</td></tr><tr><td>TOMORROW</td><td><strong>TSMC earnings (BMO)</strong></td><td>EPS $4.45 / Rev $45.67B</td><td class="c-sub">—</td></tr><tr><td>TOMORROW</td><td><strong>Weekly initial jobless claims</strong></td><td>Not sourced today</td><td class="c-sub">—</td></tr>
 </table>
 <div class="ca">
-<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">September CPI was today’s real event, not a side dish — 3.7% y/y (vs. 3.6% est.), core 2.6% y/y (vs. 2.5% est.). It broke the market’s working assumption that the Fed was done tightening: odds of an October hike jumped from ~22% to ~47.1% intraday, and Citi now models a December hike rather than a cut. The next FOMC decision lands October 28.</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">Thursday brings the standard weekly initial jobless claims print (no estimate independently sourced today); TSMC’s earnings before Thursday’s open is the bigger near-term catalyst given today’s AI-capex rout.</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">No econ-data trade today — the print already happened and is baked into the tape. Save the ammo for TSMC tomorrow and the Oct 28 FOMC.</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: N/A</span><span class="lv lv-s">L Stop: N/A</span><span class="lv lv-t">L Target: N/A</span><span class="lv lv-e">S Entry: N/A</span><span class="lv lv-s">S Stop: N/A</span><span class="lv lv-t">S Target: N/A</span><span class="lv lv-n">PP: N/A</span><span class="lv lv-n">VWAP: N/A</span></div></div></div>
 </div>
 </div>
 <!-- EARNINGS -->
 <div class="sm-card card-safe">
 <div class="card-hd" style="color:var(--safe)">💰 Earnings Watch</div>
 <table class="erntbl">
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>BAC</td><td><span class="timing reported">REPORTED</span></td><td class="c-bad" style="font-weight:700">Miss both lines</td><td style="font-size:10px;color:var(--sub)">EPS $1.08 vs $1.10 est.; rev $30.0B vs $30.58B est.; Q3 profit $168M vs $2.5B y/y on heavy conduct charges; shares -4.76%</td></tr><tr><td>TSM</td><td><span class="timing bmo">BMO TOMORROW</span></td><td class="c-warn" style="font-weight:700">Est. EPS $4.45</td><td style="font-size:10px;color:var(--sub)">Est. revenue $45.67B; stock -3.4% today heading in — chip-sector bellwether after today’s AI-capex rout</td></tr>
 </table>
 <div class="ca">
-<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">Bank of America was the only major name on today’s earnings slate and it missed on both lines — EPS $1.08 vs. $1.10 est., revenue $30.0B vs. $30.58B est. — with Q3 profit of just $168M against $2.5B a year ago after absorbing large conduct/litigation charges. Shares fell 4.76% to $51.39. TSMC reports tomorrow before the open — the real tell for whether today’s AI-capex rout (CRWV, DELL, ORCL, HPE, NBIS) is overdone or just getting started.</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">No new earnings trade sized today on BAC — the move already happened. Watching TSMC’s print (est. EPS $4.45, revenue $45.67B) tomorrow before the open as the next real earnings-adjacent catalyst; not sized here given no live options/chain data.</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: N/A</span><span class="lv lv-s">L Stop: N/A</span><span class="lv lv-t">L Target: N/A</span><span class="lv lv-e">S Entry: N/A</span><span class="lv lv-s">S Stop: N/A</span><span class="lv lv-t">S Target: N/A</span><span class="lv lv-n">PP: N/A</span><span class="lv lv-n">VWAP: N/A</span></div></div></div>
 </div>
 </div>
 <!-- SECTORS -->
 <div class="sm-card">
 <div class="card-hd">🗂 Sector Performance — Oct 13</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="sector-row"><span class="sec-etf">XLU</span><span class="sec-name">Utilities</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:100%;background:var(--danger)"></div></div><span class="sec-val c-bad">-3.04%</span></div><div class="sector-row"><span class="sec-etf">XLC</span><span class="sec-name">Communication Services</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:85%;background:var(--danger)"></div></div><span class="sec-val c-bad">-2.58%</span></div><div class="sector-row"><span class="sec-etf">XLE</span><span class="sec-name">Energy</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:67%;background:var(--danger)"></div></div><span class="sec-val c-bad">-2.04%</span></div><div class="sector-row"><span class="sec-etf">XLRE</span><span class="sec-name">Real Estate</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:60%;background:var(--danger)"></div></div><span class="sec-val c-bad">-1.81%</span></div><div class="sector-row"><span class="sec-etf">XLK</span><span class="sec-name">Technology</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:59%;background:var(--danger)"></div></div><span class="sec-val c-bad">-1.80%</span></div><div class="sector-row"><span class="sec-etf">XLP</span><span class="sec-name">Consumer Defensive</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:100%;background:var(--safe)"></div></div><span class="sec-val c-safe">+1.97%</span></div><div class="sector-row"><span class="sec-etf">XLV</span><span class="sec-name">Healthcare</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:68%;background:var(--safe)"></div></div><span class="sec-val c-safe">+1.34%</span></div>
 <div class="ca" style="margin-top:8px">
-<div class="ca-row"><div class="ca-lbl">Rotation</div><div class="ca-val">{{CA_ROTATION}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Rotation</div><div class="ca-val">Today’s closing sector tape (FMP sector snapshot) was broadly risk-off — 9 of 11 S&amp;P sectors closed red. Utilities (-3.04%) and Communication Services (-2.58%) led the decline, with Energy (-2.04%) and Real Estate (-1.81%) also hit hard as rate-sensitive, long-duration groups took the brunt of the yield spike. Technology closed a relatively contained -1.80% at the sector-average level, but that masks a far uglier story underneath: the AI-capex/datacenter names (Oracle, CoreWeave, Dell, HPE, Nebius) each fell 7-15%, far worse than the blended sector number. Only Consumer Defensive (+1.97%) and Healthcare (+1.34%, UnitedHealth-led) closed green — a textbook defensive rotation — with Financial Services essentially flat (+0.03%) despite Bank of America’s earnings miss. This reads as broad participation on the way down, not an isolated pocket of weakness.</div></div>
 </div>
 </div>
 </div>
@@ -732,13 +732,13 @@
 <div class="sm-card card-safe">
 <div class="card-hd" style="color:var(--safe)">📈 Pre-Market Gainers</div>
 <table class="pmtbl">
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>UNH</td><td><span class="pm-cat pm-earn">HEALTHCARE</span> <span class="pm-cat pm-beat">BUCKED TREND</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+4.73%</td><td style="font-size:10px;color:var(--sub)">Close $395.62; only large-cap standing out on a broad down day — GuruFocus</td></tr><tr><td>PLTR</td><td><span class="pm-cat pm-ai">AI</span> <span class="pm-cat pm-beat">RELATIVE STRENGTH</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-3.69%</td><td style="font-size:10px;color:var(--sub)">Still fell on the day (FMP close $200.97) but intraday held up near +2% per Beinsure before fading with the broader tape — relative outperformer within AI, not an outright gainer</td></tr>
 </table>
 </div>
 <div class="sm-card card-danger">
 <div class="card-hd" style="color:var(--danger)">📉 Pre-Market Decliners</div>
 <table class="pmtbl">
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>CRWV</td><td><span class="pm-cat pm-ai">AI-CAPEX</span> <span class="pm-cat pm-miss">IMPAIRMENT FEAR</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-15%</td><td style="font-size:10px;color:var(--sub)">Gartner flagged up to $3.5T in AI infra investment at impairment risk by 2030 — Beinsure</td></tr><tr><td>DELL</td><td><span class="pm-cat pm-ai">AI-CAPEX</span> <span class="pm-cat pm-miss">DOWNGRADE</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-12%</td><td style="font-size:10px;color:var(--sub)">Barclays cut to equal-weight alongside HPE — Beinsure</td></tr><tr><td>NBIS</td><td><span class="pm-cat pm-ai">AI-CAPEX</span> <span class="pm-cat pm-miss">SECTOR ROUT</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-10%</td><td style="font-size:10px;color:var(--sub)">Same AI-capex-doubt wave hitting cloud/neocloud names — Beinsure</td></tr><tr><td>HPE</td><td><span class="pm-cat pm-ai">AI-CAPEX</span> <span class="pm-cat pm-miss">DOWNGRADE</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-7.6%</td><td style="font-size:10px;color:var(--sub)">Barclays cut to equal-weight alongside Dell — Beinsure</td></tr><tr><td>ORCL</td><td><span class="pm-cat pm-ai">AI-CAPEX</span> <span class="pm-cat pm-miss">IMPAIRMENT FEAR</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-7.3%</td><td style="font-size:10px;color:var(--sub)">Part of the same datacenter-capex repricing — Beinsure</td></tr><tr><td>BAC</td><td><span class="pm-cat pm-earn">EARNINGS</span> <span class="pm-cat pm-miss">MISS</span></td><td class="c-bad" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">-4.76%</td><td style="font-size:10px;color:var(--sub)">EPS $1.08 vs $1.10 est., revenue light, heavy conduct charges — FMP / GlobalCapital</td></tr>
 </table>
 </div>
 </div>
@@ -747,11 +747,11 @@
 <div class="grid2">
 <div class="sm-card">
 <div class="card-hd">🔍 Spotlight</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="spot-item"><div class="spot-hd"><span class="spot-tk">AI-Capex Complex</span></div><div class="spot-body">CoreWeave -15%, Dell -12%, HPE -7.6%, Oracle -7.3%, and Nebius -10% all sold off together on a Gartner note warning up to $3.5 trillion in AI infrastructure investment faces impairment risk by 2030, compounded by OpenAI’s reported annualized revenue run-rate (~$50B) landing below the ~$70B some outlets had floated. Barclays downgraded Dell and HPE to equal-weight. This reads as a genuine re-rating of AI-capex economics, not just a rate-driven multiple compression — watch TSMC’s guidance tomorrow for the real-world demand signal.</div></div><div class="spot-item"><div class="spot-hd"><span class="spot-tk">Rates / Fed</span></div><div class="spot-body">Today’s hot CPI (3.7% y/y, core 2.6%) is the single biggest catalyst of the week — it moved October hike odds from ~22% to ~47.1% intraday and pushed the 10-year Treasury yield above 5.32% for the first time since 2007. Citi now models a December hike rather than a cut. The October 28 FOMC just became a much bigger event than it was yesterday.</div></div><div class="spot-item"><div class="spot-hd"><span class="spot-tk">BAC / UNH</span></div><div class="spot-body">A clean divergence pair: Bank of America missed on EPS and revenue and absorbed large conduct/litigation charges (Q3 profit just $168M vs $2.5B a year ago), falling 4.76%, while UnitedHealth was the market’s lone large-cap bright spot at +4.73% with no single reported catalyst beyond investor confidence in its underlying business.</div></div>
 </div>
 <div class="sm-card card-orange">
 <div class="card-hd orange">🎯 Options Ideas</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="opt-item"><div class="opt-hd"><span class="opt-tk">AI-capex vol</span></div><div class="opt-body">No sized options idea into today’s CRWV/DELL/ORCL/HPE/NBIS rout — current IV/skew wasn’t independently sourced today. Note only: realized vol in this complex just expanded sharply, so any premium-selling approach into TSMC’s print tomorrow needs to size for a genuinely higher-vol regime, not yesterday’s.</div></div><div class="opt-item"><div class="opt-hd"><span class="opt-tk">Rate-repricing vol</span></div><div class="opt-body">The jump in Fed hike odds (~22%→47%) into the Oct 28 FOMC is a real volatility catalyst for duration-sensitive sectors (utilities, real estate, long-duration tech) — worth tracking into the meeting even without a live chain read today.</div></div>
 </div>
 </div>
 <!-- ══ MONEY FLOW + UNUSUAL OPTIONS ═════════════════════════ -->
@@ -759,11 +759,11 @@
 <div class="grid2">
 <div class="sm-card">
 <div class="card-hd">💸 Dark Pool / Money Flow</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="mf-item"><div class="mf-name">Dark Pool / Block Prints</div><div class="mf-val c-warn">NOT SOURCED TODAY</div></div>
 </div>
 <div class="sm-card card-orange">
 <div class="card-hd orange">⚡ Unusual Options Activity</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="uo-item"><div class="uo-hd"><span class="uo-tk">N/A</span><span class="uo-exp">No live chain data</span></div><div class="uo-body c-warn">No real-time options-flow/unusual-activity feed sourced today — not fabricating a precise-looking figure. Watch TSM and the AI-capex complex (CRWV, DELL, ORCL, HPE, NBIS) into tomorrow’s open for where flow actually shows up.</div></div>
 </div>
 </div>
 <!-- ══ MASTER TRADE TABLE ════════════════════════════════════ -->
@@ -811,7 +811,7 @@
 <th class="sortable" onclick="apexSortTable(10)">Priority</th>
 </tr>
 </thead>
-<tbody><tr><td colspan="11" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tbody><!-- INJECT UP TO 20 TRADE ROWS. Column order: #, Symbol, Type, Direction, Setup, Entry, Stop, Target, R:R, Notes, Priority --><tr><td>1</td><td><strong>BTC</strong></td><td><span class="t-type ts">STOCK</span></td><td class="t-long">LONG</td><td>Testing 50-day avg support after hot-CPI risk-off dip</td><td class="mono">81,653</td><td class="mono c-bad">80,900.00</td><td class="mono c-safe">85,500.00</td><td class="t-rr">1:2.9</td><td>Price ($81,653) sitting right on its 50d avg ($81,102) per FMP, day low $81,482 held above it; stop below the 50d avg, target retests this week’s pre-selloff area near $86,500. Macro backdrop (hawkish Fed repricing) is a real headwind, not a clean dip-buy — keep size modest.</td><td class="t-pri">★</td></tr><tr><td colspan="11" style="color:var(--muted);font-size:9px;padding-top:10px">/ES and /NQ futures setups omitted today (3rd straight session) — Schwab refresh token is stale (HTTP 400), no real settlement/pivot/VAH/POC/VAL to grade against. No ETH idea today — price is trading ~5.5% below its $2,555.95 50-day avg per FMP with no clean technical level nearby, and no sized AI-capex-complex or BAC trade given no live options/chain data. See Section 05 Pipeline Note.</td></tr>
 <!-- <tr><td>{{N}}</td><td><strong>{{TICKER}}</strong></td><td><span class="t-type tf|ts|te|to">{{TYPE}}</span></td><td class="t-long|t-short|t-neut">{{DIRECTION}}</td><td>{{SETUP}}</td><td class="mono">{{ENTRY}}</td><td class="mono c-bad">{{STOP}}</td><td class="mono c-safe">{{TARGET}}</td><td class="t-rr">{{RR}}</td><td>{{NOTES}}</td><td class="t-pri">{{PRIORITY}}</td></tr> --></tbody>
 </table>
 </div>
