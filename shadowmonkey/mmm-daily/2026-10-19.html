@@ -13,26 +13,26 @@
     Monday, October 19, 2026       e.g. "Monday, August 18, 2026"
     Oct 19      e.g. "Aug 18"
     Monday     e.g. "Monday"
-    NY Session (pre-open)   e.g. "NY Session"
-    PENDING    BULL | BEAR | MIXED
-    PENDING — awaiting analysis pass e.g. "BIDU EARNINGS BMO"
+    NY Session   e.g. "NY Session"
+    RISK-ON REBOUND    BULL | BEAR | MIXED
+    FUTURES +0.4% TO +1.3% AS INTC/MU/SNDK REBOUND; TRUMP EO PAUSES RUSSIA SANCTIONS e.g. "BIDU EARNINGS BMO"
 
   S01 SENTIMENT STRIP (6 tiles):
-    18.30  26  N/A
-    N/A  N/A  N/A
+    18.3  N/A  N/A
+    N/A  N/A  RISK-ON REBOUND
     c-bad → c-safe | c-warn | c-bad
 
   S02 ADVISORY:
-    PENDING PENDING — awaiting analysis pass
-    — — — —
+    FRIDAY’S CAPITULATION MEETS AN OVERNIGHT RELIEF BID — A BOUNCE INTO REAL CROSSWINDS, NOT A CLEAN ALL-CLEAR. Friday closed ugly: the S&amp;P 500 fell 1.1% to 7,659.44, the Nasdaq Composite dropped 2.1% (572.99 points) to 26,140.03, and the Dow held up best at 52,002.41 (-0.3%) as “more drops for big tech companies weighed on the market” (AP wire). Chip names did the damage — Micron fell 5.6% and Intel lost 5.8% — on deepening worries about how long the AI-buildout frenzy can run; FMP’s own sector snapshot for Friday shows Technology -2.21% and Communication Services -2.83% as the session’s worst performers, with only Energy (+1.62%) and Basic Materials (+0.95%) closing green. It capped the S&amp;P and Nasdaq’s worst week since June (S&amp;P -1.9% WTD, Nasdaq -4.5% WTD) even as both remain up double digits YTD (S&amp;P +11.9%, Nasdaq +12.5%). The VIX spiked to an intraday high of 22.31 before settling at 19.99 (+24.8% on the day, per FMP’s own historical bar) — it’s since pulled back 8.4% to 18.3 in this morning’s premarket quote. TSMC’s Oct 15 report was a genuine beat — revenue NT$1.494 trillion (+50.9% y/y, above its own $44.6–45.8B guidance range), EPS NT$29.43 / $4.60 per ADR (+68.7% y/y), a sixth straight record-profit quarter, HPC now 68% of revenue versus 57% a year ago — but shares slipped anyway on margin cooling (66.4% gross vs. 67.7% the prior quarter) and spending-outlook worries, reinforcing rather than resolving the AI-capex doubt that’s been building since Oct 14. Overnight, the tape reversed hard: Trump signed an executive order (per TradingKey, dated last Friday) waiving sanctions and tariffs under what the article names the “Lindsey O. Graham Sanctions Against Russia and Iran Act” targeting Russia’s energy trade — a pause, not a repeal — which eased oil (WTI and Brent both down roughly 0.7–1.6% across this morning’s premarket snapshots) and came alongside Treasury yields that have already eased to 5.09% on the 10-year (Oct 16 close, per FMP) from the Oct 14 CPI-shock peak above 5.32%. JPMorgan upgraded Intel to Neutral from Underweight (PT $85) on reduced valuation risk and AI-driven server-CPU demand, sending INTC +4.2% premarket; Micron’s Taiwan union clarified that today’s shop-floor event was a rally, not a strike, easing production-disruption fears (MU +3.4%); SanDisk bounced +3.9% on bargain-hunting after Friday’s 6.85% drop. Related AI-infrastructure names followed: Super Micro +3.5%, CoreWeave +2.9%, Nvidia +1.5%. China’s Q3 GDP printed +4.5% y/y (vs. +4.3% in Q2), beating on strong exports despite a weak property sector and soft domestic demand. Across three premarket snapshots taken between roughly 2:36am and late morning ET, S&amp;P futures ranged +0.43% to +0.80% and Nasdaq 100 futures +0.99% to +1.32% — directionally consistent — but Dow futures were the outlier, ranging from -0.21% to +0.54% depending on source and capture time, the one genuinely mixed signal in an otherwise green tape. None of this resolves the real overhang: Shafaq News reported (dateline Oct 15) that at least 10 vessels had been attacked in or near the Strait of Hormuz in the three days since Sunday — the highest three-day total since the US-Israel-Iran war began February 28, 2026 — and Benzinga flagged a separately reported tanker mine strike plus Iranian FM Araghchi’s rhetoric accusing Netanyahu of pushing toward war, all while “Black Monday” 1987-anniversary chatter trended on social media (the Kobeissi Letter called the fear “overdone”, arguing the S&amp;P should hit 8,000 soon — a commentator’s opinion, not a data point). Treasury Secretary Bessent called September’s hot CPI print a temporary “energy shock” tied to the Iran conflict. Schwab’s futures feed remains down — schwab_futures came back empty again in today’s JSON — and this is now a persistent, multi-week outage (first documented Oct 1, recurring on at least six sessions since) with no real /ES or /NQ settlement, pivots, or VAH/POC/VAL; it needs Joe’s live OAuth via schwab_auth.py, not something this pipeline can self-heal.
+    INTC +4.2% PREMKT ON JPM UPGRADE (UW→N, PT $85) TSLA &amp; META EARNINGS WED (OCT 21) — NFLX/GM/UAL TUE HORMUZ ESCALATION — 10 VESSELS ATTACKED IN 3 DAYS, HIGHEST SINCE FEB WAR START SIZING /ES OR /NQ — SCHWAB FEED DOWN, NOW A MULTI-WEEK OUTAGE
 
   S03 BBM:
-    50 / 50 (0-100)
+    60 / 40 (0-100)
     {{BBM_SIGNAL_NAME}} / {{BBM_SIGNAL_VAL}}
 
   S04 KPI BAR (6 tiles):
-    7,659.44 N/A 4,181.30
-    82,442.44 7,659.44 2,420.57
+    N/A N/A $4,181.30
+    $82,442.44 7,659.44 $2,420.57
     + {{*_CHANGE}} and {{*_COLOR}} per tile
 
   S05–S10 ANALYSIS BLOCKS (.ca-val):
@@ -545,52 +545,52 @@
 <div class="hdr-top">
 <div class="hdr-title-block">
 <div class="hdr-brand">MORNING<br/><span>MARKET</span><br/>MONITOR</div>
-<div class="hdr-subtitle">Monday, October 19, 2026  ·  NY Session (pre-open)  ·  MONKEY MATTERS LLC</div>
+<div class="hdr-subtitle">Monday, October 19, 2026  ·  NY Session  ·  MONKEY MATTERS LLC</div>
 </div>
 <div class="hdr-badges">
 <span class="sm-badge sm-badge-warn">● LIVE — Oct 19</span>
-<span class="sm-badge sm-badge-live">⚡ PENDING — awaiting analysis pass</span>
+<span class="sm-badge sm-badge-live">⚡ FUTURES +0.4% TO +1.3% AS INTC/MU/SNDK REBOUND; TRUMP EO PAUSES RUSSIA SANCTIONS</span>
 </div>
 </div>
 <div class="hdr-meta-grid">
 <div class="hdr-meta-cell"><div class="hm-label">Session</div><div class="hm-val">Monday, October 19, 2026</div></div>
 <div class="hdr-meta-cell"><div class="hm-label">Primary Entity</div><div class="hm-val">Monkey Matters LLC</div></div>
-<div class="hdr-meta-cell"><div class="hm-label">Regime</div><div class="hm-val sv-neut">PENDING</div></div>
+<div class="hdr-meta-cell"><div class="hm-label">Regime</div><div class="hm-val sv-lean-bull">RISK-ON REBOUND</div></div>
 <div class="hdr-meta-cell"><div class="hm-label">Prime Directive</div><div class="hm-val" style="color:var(--accent2)">SURVIVE. COMPOUND. LEGACY.</div></div>
 </div>
 </div>
 <!-- ══ SENTIMENT STRIP ══════════════════════════════════════ -->
 <div class="sec-label">01 — MARKET SENTIMENT INDICATORS</div>
 <div class="sent-strip">
-<div class="sent-tile sv-caution">
+<div class="sent-tile sv-lean-bull">
 <div class="st-lbl">VIX</div>
-<div class="st-val sv-caution">18.30</div>
-<div class="st-sub sv-caution">PENDING — awaiting analysis pass</div>
+<div class="st-val sv-lean-bull">18.3</div>
+<div class="st-sub sv-lean-bull">DOWN 8.4% PREMKT OFF FRI’S INTRADAY SPIKE TO 22.3</div>
 </div>
-<div class="sent-tile sv-bear">
+<div class="sent-tile sv-neut">
 <div class="st-lbl">Fear &amp; Greed</div>
-<div class="st-val sv-bear">26</div>
-<div class="st-sub sv-bear">Fear (+8 vs prior close) -- CNN Fear & Greed, live</div>
+<div class="st-val sv-neut">N/A</div>
+<div class="st-sub sv-neut">NOT SOURCED TODAY</div>
 </div>
 <div class="sent-tile sv-neut">
 <div class="st-lbl">Put/Call</div>
 <div class="st-val sv-neut">N/A</div>
-<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+<div class="st-sub sv-neut">NOT SOURCED TODAY</div>
 </div>
-<div class="sent-tile sv-neut">
+<div class="sent-tile sv-caution">
 <div class="st-lbl">NYSE Breadth</div>
-<div class="st-val sv-neut">N/A</div>
-<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+<div class="st-val sv-caution">N/A</div>
+<div class="st-sub sv-caution">A/D NOT SOURCED — FRI: TECH LED DECLINE, NASDAQ WORST WK SINCE JUNE</div>
 </div>
 <div class="sent-tile sv-neut">
 <div class="st-lbl">AAII Bull/Bear</div>
 <div class="st-val sv-neut">N/A</div>
-<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+<div class="st-sub sv-neut">LATEST RELEASE NOT INDEPENDENTLY SOURCED TODAY</div>
 </div>
-<div class="sent-tile sv-neut">
+<div class="sent-tile sv-lean-bull">
 <div class="st-lbl">Overall Sentiment</div>
-<div class="st-val sv-neut">N/A</div>
-<div class="st-sub sv-neut">PENDING — awaiting analysis pass</div>
+<div class="st-val sv-lean-bull">RISK-ON REBOUND</div>
+<div class="st-sub sv-lean-bull">OVERNIGHT DE-ESCALATION SPARKS A BOUNCE AFTER FRI’S CAPITULATION</div>
 </div>
 </div>
 <!-- ══ TOP OF MIND ADVISORY + BULL VS BEAR ══════════════════ -->
@@ -599,26 +599,26 @@
 <div class="sm-card">
 <div class="card-hd">🧠 Top of Mind Advisory — Monday, October 19, 2026</div>
 <div class="adv-label">Market Temperament</div>
-<div class="adv-signal"><strong style="color:var(--text)">PENDING</strong> PENDING — awaiting analysis pass</div>
+<div class="adv-signal"><strong style="color:var(--text)">FRIDAY’S CAPITULATION MEETS AN OVERNIGHT RELIEF BID — A BOUNCE INTO REAL CROSSWINDS, NOT A CLEAN ALL-CLEAR.</strong> Friday closed ugly: the S&amp;P 500 fell 1.1% to 7,659.44, the Nasdaq Composite dropped 2.1% (572.99 points) to 26,140.03, and the Dow held up best at 52,002.41 (-0.3%) as “more drops for big tech companies weighed on the market” (AP wire). Chip names did the damage — Micron fell 5.6% and Intel lost 5.8% — on deepening worries about how long the AI-buildout frenzy can run; FMP’s own sector snapshot for Friday shows Technology -2.21% and Communication Services -2.83% as the session’s worst performers, with only Energy (+1.62%) and Basic Materials (+0.95%) closing green. It capped the S&amp;P and Nasdaq’s worst week since June (S&amp;P -1.9% WTD, Nasdaq -4.5% WTD) even as both remain up double digits YTD (S&amp;P +11.9%, Nasdaq +12.5%). The VIX spiked to an intraday high of 22.31 before settling at 19.99 (+24.8% on the day, per FMP’s own historical bar) — it’s since pulled back 8.4% to 18.3 in this morning’s premarket quote. TSMC’s Oct 15 report was a genuine beat — revenue NT$1.494 trillion (+50.9% y/y, above its own $44.6–45.8B guidance range), EPS NT$29.43 / $4.60 per ADR (+68.7% y/y), a sixth straight record-profit quarter, HPC now 68% of revenue versus 57% a year ago — but shares slipped anyway on margin cooling (66.4% gross vs. 67.7% the prior quarter) and spending-outlook worries, reinforcing rather than resolving the AI-capex doubt that’s been building since Oct 14. Overnight, the tape reversed hard: Trump signed an executive order (per TradingKey, dated last Friday) waiving sanctions and tariffs under what the article names the “Lindsey O. Graham Sanctions Against Russia and Iran Act” targeting Russia’s energy trade — a pause, not a repeal — which eased oil (WTI and Brent both down roughly 0.7–1.6% across this morning’s premarket snapshots) and came alongside Treasury yields that have already eased to 5.09% on the 10-year (Oct 16 close, per FMP) from the Oct 14 CPI-shock peak above 5.32%. JPMorgan upgraded Intel to Neutral from Underweight (PT $85) on reduced valuation risk and AI-driven server-CPU demand, sending INTC +4.2% premarket; Micron’s Taiwan union clarified that today’s shop-floor event was a rally, not a strike, easing production-disruption fears (MU +3.4%); SanDisk bounced +3.9% on bargain-hunting after Friday’s 6.85% drop. Related AI-infrastructure names followed: Super Micro +3.5%, CoreWeave +2.9%, Nvidia +1.5%. China’s Q3 GDP printed +4.5% y/y (vs. +4.3% in Q2), beating on strong exports despite a weak property sector and soft domestic demand. Across three premarket snapshots taken between roughly 2:36am and late morning ET, S&amp;P futures ranged +0.43% to +0.80% and Nasdaq 100 futures +0.99% to +1.32% — directionally consistent — but Dow futures were the outlier, ranging from -0.21% to +0.54% depending on source and capture time, the one genuinely mixed signal in an otherwise green tape. None of this resolves the real overhang: Shafaq News reported (dateline Oct 15) that at least 10 vessels had been attacked in or near the Strait of Hormuz in the three days since Sunday — the highest three-day total since the US-Israel-Iran war began February 28, 2026 — and Benzinga flagged a separately reported tanker mine strike plus Iranian FM Araghchi’s rhetoric accusing Netanyahu of pushing toward war, all while “Black Monday” 1987-anniversary chatter trended on social media (the Kobeissi Letter called the fear “overdone”, arguing the S&amp;P should hit 8,000 soon — a commentator’s opinion, not a data point). Treasury Secretary Bessent called September’s hot CPI print a temporary “energy shock” tied to the Iran conflict. Schwab’s futures feed remains down — schwab_futures came back empty again in today’s JSON — and this is now a persistent, multi-week outage (first documented Oct 1, recurring on at least six sessions since) with no real /ES or /NQ settlement, pivots, or VAH/POC/VAL; it needs Joe’s live OAuth via schwab_auth.py, not something this pipeline can self-heal.</div>
 <div class="adv-label">Direction &amp; Posture</div>
-<div class="adv-signal"><strong style="color:var(--text)">PENDING</strong> PENDING — awaiting analysis pass</div>
+<div class="adv-signal"><strong style="color:var(--text)">FRIDAY’S CAPITULATION MEETS AN OVERNIGHT RELIEF BID — A BOUNCE INTO REAL CROSSWINDS, NOT A CLEAN ALL-CLEAR.</strong> Friday closed ugly: the S&amp;P 500 fell 1.1% to 7,659.44, the Nasdaq Composite dropped 2.1% (572.99 points) to 26,140.03, and the Dow held up best at 52,002.41 (-0.3%) as “more drops for big tech companies weighed on the market” (AP wire). Chip names did the damage — Micron fell 5.6% and Intel lost 5.8% — on deepening worries about how long the AI-buildout frenzy can run; FMP’s own sector snapshot for Friday shows Technology -2.21% and Communication Services -2.83% as the session’s worst performers, with only Energy (+1.62%) and Basic Materials (+0.95%) closing green. It capped the S&amp;P and Nasdaq’s worst week since June (S&amp;P -1.9% WTD, Nasdaq -4.5% WTD) even as both remain up double digits YTD (S&amp;P +11.9%, Nasdaq +12.5%). The VIX spiked to an intraday high of 22.31 before settling at 19.99 (+24.8% on the day, per FMP’s own historical bar) — it’s since pulled back 8.4% to 18.3 in this morning’s premarket quote. TSMC’s Oct 15 report was a genuine beat — revenue NT$1.494 trillion (+50.9% y/y, above its own $44.6–45.8B guidance range), EPS NT$29.43 / $4.60 per ADR (+68.7% y/y), a sixth straight record-profit quarter, HPC now 68% of revenue versus 57% a year ago — but shares slipped anyway on margin cooling (66.4% gross vs. 67.7% the prior quarter) and spending-outlook worries, reinforcing rather than resolving the AI-capex doubt that’s been building since Oct 14. Overnight, the tape reversed hard: Trump signed an executive order (per TradingKey, dated last Friday) waiving sanctions and tariffs under what the article names the “Lindsey O. Graham Sanctions Against Russia and Iran Act” targeting Russia’s energy trade — a pause, not a repeal — which eased oil (WTI and Brent both down roughly 0.7–1.6% across this morning’s premarket snapshots) and came alongside Treasury yields that have already eased to 5.09% on the 10-year (Oct 16 close, per FMP) from the Oct 14 CPI-shock peak above 5.32%. JPMorgan upgraded Intel to Neutral from Underweight (PT $85) on reduced valuation risk and AI-driven server-CPU demand, sending INTC +4.2% premarket; Micron’s Taiwan union clarified that today’s shop-floor event was a rally, not a strike, easing production-disruption fears (MU +3.4%); SanDisk bounced +3.9% on bargain-hunting after Friday’s 6.85% drop. Related AI-infrastructure names followed: Super Micro +3.5%, CoreWeave +2.9%, Nvidia +1.5%. China’s Q3 GDP printed +4.5% y/y (vs. +4.3% in Q2), beating on strong exports despite a weak property sector and soft domestic demand. Across three premarket snapshots taken between roughly 2:36am and late morning ET, S&amp;P futures ranged +0.43% to +0.80% and Nasdaq 100 futures +0.99% to +1.32% — directionally consistent — but Dow futures were the outlier, ranging from -0.21% to +0.54% depending on source and capture time, the one genuinely mixed signal in an otherwise green tape. None of this resolves the real overhang: Shafaq News reported (dateline Oct 15) that at least 10 vessels had been attacked in or near the Strait of Hormuz in the three days since Sunday — the highest three-day total since the US-Israel-Iran war began February 28, 2026 — and Benzinga flagged a separately reported tanker mine strike plus Iranian FM Araghchi’s rhetoric accusing Netanyahu of pushing toward war, all while “Black Monday” 1987-anniversary chatter trended on social media (the Kobeissi Letter called the fear “overdone”, arguing the S&amp;P should hit 8,000 soon — a commentator’s opinion, not a data point). Treasury Secretary Bessent called September’s hot CPI print a temporary “energy shock” tied to the Iran conflict. Schwab’s futures feed remains down — schwab_futures came back empty again in today’s JSON — and this is now a persistent, multi-week outage (first documented Oct 1, recurring on at least six sessions since) with no real /ES or /NQ settlement, pivots, or VAH/POC/VAL; it needs Joe’s live OAuth via schwab_auth.py, not something this pipeline can self-heal.</div>
 <div class="adv-label">Key Signals to Watch</div>
-<div class="adv-chips"><span class="sig-chip sig-lean">—</span><span class="sig-chip sig-watch">—</span><span class="sig-chip sig-caution">—</span><span class="sig-chip sig-avoid">—</span></div>
+<div class="adv-chips"><span class="sig-chip sig-lean">INTC +4.2% PREMKT ON JPM UPGRADE (UW→N, PT $85)</span><span class="sig-chip sig-watch">TSLA &amp; META EARNINGS WED (OCT 21) — NFLX/GM/UAL TUE</span><span class="sig-chip sig-caution">HORMUZ ESCALATION — 10 VESSELS ATTACKED IN 3 DAYS, HIGHEST SINCE FEB WAR START</span><span class="sig-chip sig-avoid">SIZING /ES OR /NQ — SCHWAB FEED DOWN, NOW A MULTI-WEEK OUTAGE</span></div>
 <div class="adv-label" style="margin-top:8px">Operative Verdict</div>
-<div class="verdict-alert verdict-bull">⬡ PENDING — awaiting analysis pass</div>
+<div class="verdict-alert verdict-bull">⬡ TENTATIVE RISK-ON BOUNCE, NOT A CLEAN REVERSAL. Friday’s capitulation (Nasdaq -2.1%, worst week since June) met a genuine overnight relief bid — a Russia-sanctions pause easing oil, a JPMorgan upgrade on Intel, and Micron’s Taiwan union walking back strike fears all rebuilt some of last week’s damage specifically in chips and memory. But three different premarket snapshots disagree on the Dow (-0.21% to +0.54%), which is the tell this bounce isn’t unanimous yet, and the Hormuz escalation (10 vessel attacks in 3 days) plus TSMC’s still-open margin/capex questions are real, unresolved risks sitting underneath the tape. Don’t chase the “Black Monday” dismissal narrative blind, and don’t size /ES or /NQ off anything — Schwab’s feed is still down. Let the cash open confirm direction before adding risk; Tuesday’s NFLX/GM/UAL prints and Wednesday’s TSLA/META doubleheader are this week’s real tells.</div>
 </div>
 <div class="sm-card card-orange">
 <div class="card-hd orange">⚖ Bull vs Bear Meter — Oct 19</div>
 <div class="bbm-labels">
-<span class="bbm-sv-bull">▲ BULL 50%</span>
-<span class="bbm-sv-bear">BEAR 50% ▼</span>
+<span class="bbm-sv-bull">▲ BULL 60%</span>
+<span class="bbm-sv-bear">BEAR 40% ▼</span>
 </div>
 <div class="bbm-bar-wrap">
-<div class="bbm-bull" style="width:50%"></div>
-<div class="bbm-bear" style="width:50%"></div>
+<div class="bbm-bull" style="width:60%"></div>
+<div class="bbm-bear" style="width:40%"></div>
 </div>
-<div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px;letter-spacing:1px">PENDING — awaiting analysis pass</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div style="font-family:'Space Mono',monospace;font-size:9px;color:var(--muted);margin-bottom:10px;letter-spacing:1px">OVERNIGHT DE-ESCALATION (RUSSIA SANCTIONS PAUSE, CHIP/MEMORY REBOUND) SPARKS A RELIEF BID INTO THE OPEN, BUT HORMUZ ESCALATION AND LAST WEEK’S WORST-SINCE-JUNE DAMAGE KEEP THIS A TENTATIVE BOUNCE, NOT A CLEAN REVERSAL</div>
+<div class="bbm-signal-row"><span class="bbm-sn">Price Trend (Fri: S&amp;P -1.1%, Nasdaq -2.1%, Dow -0.3%)</span><span class="bbm-sv-bear">BEAR</span></div><div class="bbm-signal-row"><span class="bbm-sn">Premarket Futures (S&amp;P +0.4–0.8%, NQ100 +1.0–1.3%, Dow mixed -0.2 to +0.5%)</span><span class="bbm-sv-bull">BULL</span></div><div class="bbm-signal-row"><span class="bbm-sn">Chip/Memory Rebound (INTC +4.2%, MU +3.4%, SNDK +3.9%, SMCI +3.5%, CRWV +2.9%, NVDA +1.5%)</span><span class="bbm-sv-bull">BULL</span></div><div class="bbm-signal-row"><span class="bbm-sn">Russia Sanctions Pause / Oil (WTI &amp; Brent down ~0.7–1.6%)</span><span class="bbm-sv-bull">BULL</span></div><div class="bbm-signal-row"><span class="bbm-sn">Rates (10yr eased to 5.09%, down from 5.32% CPI-shock peak)</span><span class="bbm-sv-bull">BULL</span></div><div class="bbm-signal-row"><span class="bbm-sn">Geopolitical (Hormuz: 10 vessel attacks in 3 days, highest since Feb war start)</span><span class="bbm-sv-bear">BEAR</span></div><div class="bbm-signal-row"><span class="bbm-sn">AI-Capex Margin Debate (TSMC beat, but margin/capex worries persist)</span><span class="bbm-sv-neut">NEUT</span></div><div class="bbm-signal-row"><span class="bbm-sn">VIX (18.3, down 8.4% premkt off Fri’s spike to 22.3)</span><span class="bbm-sv-bull">BULL</span></div>
 </div>
 </div>
 <!-- ══ THREE INTEL CARDS ══════════════════════════════════════ -->
@@ -626,31 +626,31 @@
 <div class="mi">
 <div class="sm-card card-orange">
 <div class="card-hd orange">⚡ Catalyst Alert</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>Russia sanctions pause eases oil, sparks a chip/memory premarket bid.</strong> Trump signed an EO (per TradingKey) waiving sanctions/tariffs under the “Lindsey O. Graham Sanctions Against Russia and Iran Act” targeting Russia’s energy trade — a pause, not a repeal; WTI and Brent both fell roughly 0.7–1.6% across premarket snapshots.</div></div><div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>Strait of Hormuz attacks escalate.</strong> Shafaq News reported at least 10 vessels attacked in 3 days since Sunday (as of Oct 15) — the highest 3-day total since the US-Israel-Iran war began Feb 28, 2026; a reported tanker mine strike and heated Iranian FM rhetoric add to the risk.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>TSMC beats but slips on margin worries.</strong> Q3 revenue NT$1.494T (+50.9% y/y, above guidance), EPS NT$29.43/$4.60 ADR (+68.7% y/y) — a sixth straight record-profit quarter — but shares fell on gross-margin cooling (66.4% vs 67.7% prior Q) and capex-spending concerns.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Schwab futures feed outage is now multi-week.</strong> First documented Oct 1, recurring on at least six sessions since; no real /ES or /NQ settlement, pivots, or VAH/POC/VAL again today.</div></div><div class="alert-row"><div class="alert-dot adot-g"></div><div class="alert-txt"><strong>“Black Monday” chatter trends, dismissed by at least one desk.</strong> Social-media fear tied to the 1987 crash’s 39th anniversary; the Kobeissi Letter called it “overdone”, projecting the S&amp;P toward 8,000 — a commentator’s opinion, not a data point.</div></div>
 </div>
 <div class="sm-card card-cyan">
 <div class="card-hd cyan">📅 Today's Key Events</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>NAHB Housing Market Index, 10:00am ET.</strong> Expected to dip from 32 to 31.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>3-month &amp; 6-month Treasury bill auctions, 11:30am ET.</strong></div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Tuesday: Netflix, GM, United Airlines earnings.</strong></div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Wednesday: Tesla and Meta both report — the week’s real catalyst.</strong> FMP consensus: TSLA EPS $0.448/rev $27.94B; META EPS $6.60/rev $63.34B.</div></div><div class="alert-row"><div class="alert-dot adot-r"></div><div class="alert-txt"><strong>October 28 FOMC still the dominant macro event.</strong> 10yr yield eased to 5.09% (Oct 16) from its Oct 14 CPI-shock peak above 5.32%, but last week’s hike-odds repricing hasn’t fully unwound.</div></div>
 </div>
 <div class="sm-card">
 <div class="card-hd">⚡ Pre-Market Actionables</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Don’t size /ES or /NQ off any “pivot” today.</strong> Schwab feed down a multi-week stretch; cash-index levels only (SPX 7,659.44 -1.1%, Nasdaq Composite 26,140.03 -2.1%, both Friday’s close).</div></div><div class="alert-row"><div class="alert-dot adot-g"></div><div class="alert-txt"><strong>Chip/memory premarket bid (INTC, MU, SNDK, SMCI, CRWV, NVDA) is real but unconfirmed into the cash open.</strong> Watch whether it holds past 9:30am ET before treating it as more than a relief bounce.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Don’t dismiss Hormuz risk because of the “Black Monday” narrative.</strong> 10 vessel attacks in 3 days is a genuine escalation, independent of equity-market sentiment.</div></div><div class="alert-row"><div class="alert-dot adot-y"></div><div class="alert-txt"><strong>Watch Dow futures specifically.</strong> Three premarket sources disagree (-0.21% to +0.54%) — the one indicator that hasn’t confirmed the bounce yet.</div></div>
 </div>
 </div>
 <!-- ══ KPI BAR ════════════════════════════════════════════════ -->
 <div class="sec-label">04 — PRE-MARKET KEY PRICE LEVELS</div>
 <div class="kpi-bar">
-<div class="kpi"><div class="kpi-lbl">/ES Pre-Mkt</div><div class="kpi-val c-bad">7,659.44</div><div class="kpi-ch c-bad">-84.62 (-1.09%)</div></div>
-<div class="kpi"><div class="kpi-lbl">/NQ Open</div><div class="kpi-val c-sub">N/A</div><div class="kpi-ch c-sub">N/A</div></div>
-<div class="kpi"><div class="kpi-lbl">Gold (GCUSD)</div><div class="kpi-val c-safe">4,181.30</div><div class="kpi-ch c-safe">+0.20 (+0.00%)</div></div>
-<div class="kpi"><div class="kpi-lbl">Bitcoin (BTC)</div><div class="kpi-val c-safe">82,442.44</div><div class="kpi-ch c-safe">+430.10 (+0.52%)</div></div>
+<div class="kpi"><div class="kpi-lbl">/ES Pre-Mkt</div><div class="kpi-val c-bad">N/A</div><div class="kpi-ch c-bad">-84.62 (-1.09%)</div></div>
+<div class="kpi"><div class="kpi-lbl">/NQ Open</div><div class="kpi-val c-bad">N/A</div><div class="kpi-ch c-bad">-572.99 (-2.14%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Gold (GCUSD)</div><div class="kpi-val c-safe">$4,181.30</div><div class="kpi-ch c-safe">+0.20 (+0.00%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Bitcoin (BTC)</div><div class="kpi-val c-safe">$82,442.44</div><div class="kpi-ch c-safe">+430.10 (+0.52%)</div></div>
 <div class="kpi"><div class="kpi-lbl">S&amp;P 500 Close</div><div class="kpi-val c-bad">7,659.44</div><div class="kpi-ch c-bad">-84.62 (-1.09%)</div></div>
-<div class="kpi"><div class="kpi-lbl">Ethereum (ETH)</div><div class="kpi-val c-safe">2,420.57</div><div class="kpi-ch c-safe">+12.31 (+0.51%)</div></div>
+<div class="kpi"><div class="kpi-lbl">Ethereum (ETH)</div><div class="kpi-val c-safe">$2,420.57</div><div class="kpi-ch c-safe">+12.31 (+0.51%)</div></div>
 </div>
 <!-- ══ REGIME BAR ════════════════════════════════════════════ -->
 <div class="regime">
-<span class="reg-badge sv-neut">{{REGIME_SIGNAL}}</span>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<span class="reg-badge sv-lean-bull">RISK-ON REBOUND — CHIP/MEMORY NAMES SNAP BACK, RUSSIA SANCTIONS PAUSE EASES OIL, BUT HORMUZ ESCALATION STAYS LIVE AFTER THE WORST WEEK SINCE JUNE</span>
+<div class="reg-div"></div><div class="reg-item">Fri close: S&amp;P -1.1% to 7,659.44, Nasdaq -2.1% to 26,140.03 — worst week since June</div><div class="reg-div"></div><div class="reg-item">VIX spiked to 22.3 intraday Fri, settled 19.99 (+24.8%); down 8.4% to 18.3 in Monday’s premarket</div><div class="reg-div"></div><div class="reg-item">Trump EO pauses Russia sanctions/tariffs — oil down ~0.7–1.6%, chip/memory names rebound (INTC +4.2%, MU +3.4%, SNDK +3.9%)</div><div class="reg-div"></div><div class="reg-item">TSMC Q3 beat (rev +50.9% y/y, EPS +68.7% y/y) but slipped on margin/capex worries</div><div class="reg-div"></div><div class="reg-item">Strait of Hormuz: 10 vessel attacks in 3 days, highest since Feb 28 war start</div><div class="reg-div"></div><div class="reg-item">10yr yield eased to 5.09% (Oct 16) from Oct 14’s CPI-shock peak above 5.32%</div>
 </div>
 <!-- ══ FUTURES ANALYSIS ══════════════════════════════════════ -->
 <div class="sec-label">05 — FUTURES INTELLIGENCE</div>
@@ -659,32 +659,34 @@
 <div class="sm-card">
 <div class="card-hd">📈 /ES — E-Mini S&amp;P 500 · Oct 16 Settlement</div>
 <table class="ftbl">
-<tr><td>Gap vs Settle (open − prior settle)</td><td class="c-sub">N/A</td></tr>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="warn">N/A — Schwab feed down (multi-week outage)</td></tr>
+<tr><td>SPX cash close (FMP)</td><td class="bad">7,659.44 (-1.09%)</td></tr><tr><td>Thu close (SPX cash, derived)</td><td class="acc">7,744.06</td></tr><tr><td>Independent close check (AP via LA Nacion wire)</td><td class="bad">7,659.44 (-1.1%) — matches FMP exactly</td></tr><tr class="ftbl-sub"><td colspan="2">— Pivot / Volume Profile —</td></tr><tr><td>Status</td><td class="bad">UNAVAILABLE — Schwab refresh token stale (HTTP 400), now a multi-week outage</td></tr><tr><td>Action</td><td class="warn">No re-mint attempted — needs Joe’s live OAuth; flagged below</td></tr>
 </table>
 <p class="tfoot-note">Source: Schwab price history — daily bars (H/L/settle, classic pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at CME.com.</p>
 <div class="ca">
-<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">{{CA_STRATEGY}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">Schwab’s futures feed remains down — schwab_futures came back empty again in today’s JSON, now a persistent, multi-week outage first documented Oct 1 and recurring on at least six sessions since (Oct 6, 7, 12, 13, 14, and today). Working off cash-index data instead: SPX cash closed Friday at 7,659.44, down 1.1% (confirmed independently via the AP wire), capping the S&amp;P’s worst week since June (-1.9% WTD) even as it holds +11.9% YTD. Three premarket snapshots this morning put S&amp;P 500 futures at +0.43%, +0.49%, and +0.80% — directionally consistent but not identical, likely reflecting different capture times across an actively moving overnight session. No real pivots/VAH/POC/VAL today — don’t trust any precise intraday level you see elsewhere until the feed is back.</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">Tuesday brings Netflix, GM, and United Airlines earnings; Wednesday is the week’s real test with Tesla and Meta both reporting (FMP consensus: TSLA EPS $0.448 / revenue $27.94B; META EPS $6.60 / revenue $63.34B). The October 28 FOMC remains the bigger macro swing factor given last week’s hot-CPI hike repricing, though the 10-year yield has already eased to 5.09% (Oct 16 close) from its Oct 14 CPI-shock peak above 5.32%.</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">No sized /ES idea today — the Schwab outage is now multi-week, with no real settlement, VAH/POC/VAL, or 1-min RTH bars to grade against. Watching whether the premarket chip/memory bid (INTC, MU, SNDK) holds into the cash open as the cleaner read on whether this is a real reversal or a one-session relief bounce.</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">Stand aside on /ES until Schwab is restored — that needs Joe’s live OAuth via schwab_auth.py, now overdue given how long this outage has run. Trading the cash/ETF proxy instead: the overnight bid is real (sanctions pause, chip upgrade, easing yields) but Dow futures disagree across sources and the Hormuz/AI-capex overhangs are unresolved — size small into the open rather than assume the bounce holds.</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: N/A</span><span class="lv lv-s">L Stop: N/A</span><span class="lv lv-t">L Target: N/A</span><span class="lv lv-e">S Entry: N/A</span><span class="lv lv-s">S Stop: N/A</span><span class="lv lv-t">S Target: N/A</span><span class="lv lv-n">PP: N/A</span><span class="lv lv-n">VWAP: N/A</span></div></div></div>
+</div>
 </div>
 </div>
 <!-- /NQ -->
 <div class="sm-card">
 <div class="card-hd">📈 /NQ — E-Mini Nasdaq-100 · Oct 16 Settlement</div>
 <table class="ftbl">
-<tr><td>Gap vs Settle (open − prior settle)</td><td class="c-sub">N/A</td></tr>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>Gap vs Settle (open − prior settle)</td><td class="warn">N/A — Schwab feed down (multi-week outage)</td></tr>
+<tr><td>Nasdaq Composite close (FMP ^IXIC)</td><td class="bad">26,140.03 (-2.14%)</td></tr><tr><td>Desk context</td><td class="warn">Chip/memory names led the decline (MU -5.6%, INTC -5.8%)</td></tr><tr><td>Weekly context</td><td class="bad">Nasdaq -4.5% WTD — worst week since June</td></tr><tr class="ftbl-sub"><td colspan="2">— Pivot / Volume Profile —</td></tr><tr><td>Status</td><td class="bad">UNAVAILABLE — Schwab refresh token stale (HTTP 400), now a multi-week outage</td></tr><tr><td>Action</td><td class="warn">No re-mint attempted — needs Joe’s live OAuth; flagged below</td></tr>
 </table>
 <p class="tfoot-note">Source: Schwab price history — daily bars (H/L/settle, classic pivots, 5-day ADR, ATR-20 N, Donchian 20/55) + 1-min RTH bars (70% value area, POC, VWAP). Verify settlement at CME.com.</p>
 <div class="ca">
-<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">{{CA_STRATEGY}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">Same Schwab outage hits /NQ for a multi-week stretch — schwab_futures empty again in today’s JSON. Nasdaq Composite closed Friday at 26,140.03, down 2.1% (572.99 points), the worst of the three major cash indexes and enough to mark its worst week since June (-4.5% WTD) despite still holding +12.5% YTD. Micron (-5.6%) and Intel (-5.8%) led Friday’s chip-sector slide on deepening AI-buildout-duration worries, compounding TSMC’s Oct 15 margin/spending-outlook concerns even though TSMC’s actual results beat on every headline metric (revenue +50.9% y/y, EPS +68.7% y/y, a sixth straight record-profit quarter). Overnight, that exact complex reversed: JPMorgan’s Intel upgrade (Underweight→Neutral, PT $85) and Micron’s Taiwan union clarifying Monday’s shop-floor event was a rally, not a strike, sent INTC +4.2% and MU +3.4% premarket, with SanDisk +3.9%, Super Micro +3.5%, CoreWeave +2.9%, and Nvidia +1.5% riding along.</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">Nasdaq 100 futures were the strongest of the three major indexes across all three premarket snapshots (+0.99% to +1.32%) — the chip/memory bid is the dominant overnight story. Tesla and Meta both report Wednesday; Lam Research reports Thursday, giving two more direct AI-capex-adjacent data points this week.</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">No sized /NQ idea today for the same data reason as /ES. Watching whether INTC, MU, SNDK, SMCI, CRWV, and NVDA hold their premarket gains into the open — that’s the tell on whether chips are done correcting, not the headline futures number alone.</div></div>
+<div class="ca-row"><div class="ca-lbl">Strategy</div><div class="ca-val">Stand aside on /NQ until Schwab is restored. If trading chip/memory names directly, size for the fact that Friday’s 5-6% moves in MU and INTC were a real repricing of AI-capex durability questions that TSMC’s beat-but-cautious print didn’t fully resolve — a one-day premarket bounce on an upgrade and a clarified non-strike doesn’t erase that debate.</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: N/A</span><span class="lv lv-s">L Stop: N/A</span><span class="lv lv-t">L Target: N/A</span><span class="lv lv-e">S Entry: N/A</span><span class="lv lv-s">S Stop: N/A</span><span class="lv lv-t">S Target: N/A</span><span class="lv lv-n">PP: N/A</span><span class="lv lv-n">VWAP: N/A</span></div></div></div>
+</div>
 </div>
 </div>
 </div>
@@ -696,33 +698,33 @@
 <div class="card-hd cyan">📅 Economic Calendar</div>
 <table class="etbl">
 <tr><th>Time (PT)</th><th>Event</th><th>Est</th><th>Act</th></tr>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>10:00 AM ET</td><td><strong>NAHB Housing Market Index</strong> <span class="chk">pending</span></td><td>31 (prior 32)</td><td class="c-sub">—</td></tr><tr><td>11:30 AM ET</td><td><strong>3-Mo &amp; 6-Mo T-Bill Auctions</strong> <span class="chk">pending</span></td><td>Not sourced today</td><td class="c-sub">—</td></tr><tr><td>TUESDAY</td><td><strong>Netflix / GM / United earnings</strong></td><td>See Earnings Watch</td><td class="c-sub">—</td></tr><tr><td>WEDNESDAY</td><td><strong>Tesla &amp; Meta earnings</strong></td><td>TSLA $0.448 EPS / META $6.60 EPS (FMP consensus)</td><td class="c-sub">—</td></tr>
 </table>
 <div class="ca">
-<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">{{CA_SPEC_MOVE}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">Today’s calendar is light — the NAHB Housing Market Index (10:00am ET, expected to dip from 32 to 31) and 3-month/6-month Treasury bill auctions (11:30am ET) are the only scheduled US releases Monday. The real catalysts were Friday’s AP-confirmed close and overnight news: Treasury Secretary Bessent calling September’s hot CPI print a temporary “energy shock” tied to the Iran conflict, and China’s Q3 GDP beating at +4.5% y/y (vs. +4.3% in Q2) on strong exports.</div></div>
+<div class="ca-row"><div class="ca-lbl">Spec. Move</div><div class="ca-val">Weekly initial jobless claims and the earnings docket (NFLX/GM/UAL Tuesday, TSLA/META Wednesday) are bigger near-term catalysts than Monday’s thin data slate. The October 28 FOMC is still the dominant macro event this cycle given last week’s hike-odds repricing, even with yields easing since.</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">No econ-data trade today — nothing on the calendar is market-moving enough to size against. Save the ammo for Wednesday’s TSLA/META doubleheader and the Oct 28 FOMC.</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: N/A</span><span class="lv lv-s">L Stop: N/A</span><span class="lv lv-t">L Target: N/A</span><span class="lv lv-e">S Entry: N/A</span><span class="lv lv-s">S Stop: N/A</span><span class="lv lv-t">S Target: N/A</span><span class="lv lv-n">PP: N/A</span><span class="lv lv-n">VWAP: N/A</span></div></div></div>
 </div>
 </div>
 <!-- EARNINGS -->
 <div class="sm-card card-safe">
 <div class="card-hd" style="color:var(--safe)">💰 Earnings Watch</div>
 <table class="erntbl">
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>TSM</td><td><span class="timing reported">REPORTED OCT 15</span></td><td class="c-warn" style="font-weight:700">Beat, but slipped</td><td style="font-size:10px;color:var(--sub)">Rev NT$1.494T (+50.9% y/y, above guidance); EPS NT$29.43/$4.60 ADR (+68.7% y/y); shares fell on margin/capex-spending worries — FMP/Vested Finance</td></tr><tr><td>NFLX</td><td><span class="timing amc">AMC TUE</span></td><td class="c-sub" style="font-weight:700">Est. EPS $0.821</td><td style="font-size:10px;color:var(--sub)">Est. revenue $12.87B — FMP consensus</td></tr><tr><td>GM</td><td><span class="timing bmo">BMO TUE</span></td><td class="c-sub" style="font-weight:700">Est. EPS $3.70</td><td style="font-size:10px;color:var(--sub)">Est. revenue $48.83B — FMP consensus</td></tr><tr><td>TSLA</td><td><span class="timing amc">AMC WED</span></td><td class="c-sub" style="font-weight:700">Est. EPS $0.448</td><td style="font-size:10px;color:var(--sub)">Est. revenue $27.94B — FMP consensus; the week’s real AI-capex/EV read-through</td></tr><tr><td>META</td><td><span class="timing amc">AMC WED</span></td><td class="c-sub" style="font-weight:700">Est. EPS $6.60</td><td style="font-size:10px;color:var(--sub)">Est. revenue $63.34B — FMP consensus; ad-spend and AI-capex read-through</td></tr>
 </table>
 <div class="ca">
-<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">{{CA_ANALYSIS}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">{{CA_TRADE_IDEA}}</div></div>
-<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: {{ENTRY}}</span><span class="lv lv-s">L Stop: {{STOP}}</span><span class="lv lv-t">L Target: {{TARGET}}</span><span class="lv lv-e">S Entry: {{S_ENTRY}}</span><span class="lv lv-s">S Stop: {{S_STOP}}</span><span class="lv lv-t">S Target: {{S_TARGET}}</span><span class="lv lv-n">PP: {{PIVOT}}</span><span class="lv lv-n">VWAP: {{VWAP}}</span></div></div></div>
+<div class="ca-row"><div class="ca-lbl">Analysis</div><div class="ca-val">No confirmed earnings today (Monday). This week’s real docket: Netflix, GM, and United Airlines report Tuesday; Tesla and Meta both report Wednesday (FMP consensus: TSLA EPS $0.448 / revenue $27.94B; META EPS $6.60 / revenue $63.34B); Lockheed Martin, American Airlines, and Nokia report Thursday. TSMC’s Oct 15 report already landed — a genuine beat (revenue NT$1.494T, +50.9% y/y, above its own $44.6–45.8B guidance range; EPS NT$29.43 / $4.60 ADR, +68.7% y/y) that still saw shares slip on margin cooling (66.4% gross vs. 67.7% the prior quarter) and spending-outlook worries, feeding last week’s broader AI-capex doubt rather than resolving it.</div></div>
+<div class="ca-row"><div class="ca-lbl">Trade Idea</div><div class="ca-val">No new earnings trade sized today — nothing reports before Tuesday. Watching Tesla and Meta Wednesday as this week’s real AI-capex and ad-spend read-throughs; not sized here given no live options/chain data.</div></div>
+<div class="ca-row"><div class="ca-lbl">Levels</div><div class="ca-val"><div class="ca-lvls"><span class="lv lv-e">L Entry: N/A</span><span class="lv lv-s">L Stop: N/A</span><span class="lv lv-t">L Target: N/A</span><span class="lv lv-e">S Entry: N/A</span><span class="lv lv-s">S Stop: N/A</span><span class="lv lv-t">S Target: N/A</span><span class="lv lv-n">PP: N/A</span><span class="lv lv-n">VWAP: N/A</span></div></div></div>
 </div>
 </div>
 <!-- SECTORS -->
 <div class="sm-card">
 <div class="card-hd">🗂 Sector Performance — Oct 16</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="sector-row"><span class="sec-etf">XLC</span><span class="sec-name">Communication Services</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:100%;background:var(--danger)"></div></div><span class="sec-val c-bad">-2.83%</span></div><div class="sector-row"><span class="sec-etf">XLY</span><span class="sec-name">Consumer Cyclical</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:86%;background:var(--danger)"></div></div><span class="sec-val c-bad">-2.44%</span></div><div class="sector-row"><span class="sec-etf">XLK</span><span class="sec-name">Technology</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:78%;background:var(--danger)"></div></div><span class="sec-val c-bad">-2.21%</span></div><div class="sector-row"><span class="sec-etf">XLV</span><span class="sec-name">Healthcare</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:63%;background:var(--danger)"></div></div><span class="sec-val c-bad">-1.78%</span></div><div class="sector-row"><span class="sec-etf">XLRE</span><span class="sec-name">Real Estate</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:41%;background:var(--danger)"></div></div><span class="sec-val c-bad">-1.17%</span></div><div class="sector-row"><span class="sec-etf">XLP</span><span class="sec-name">Consumer Defensive</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:23%;background:var(--safe)"></div></div><span class="sec-val c-safe">+0.66%</span></div><div class="sector-row"><span class="sec-etf">XLE</span><span class="sec-name">Energy</span><div class="sec-bar-wrap"><div class="sec-bar" style="width:57%;background:var(--safe)"></div></div><span class="sec-val c-safe">+1.62%</span></div>
 <div class="ca" style="margin-top:8px">
-<div class="ca-row"><div class="ca-lbl">Rotation</div><div class="ca-val">{{CA_ROTATION}}</div></div>
+<div class="ca-row"><div class="ca-lbl">Rotation</div><div class="ca-val">Friday’s closing sector tape (FMP sector snapshot, Oct 16) was broadly risk-off — only Energy (+1.62%) and Basic Materials (+0.95%) closed green, with Consumer Defensive (+0.66%) and Utilities (-0.18%) roughly flat. Communication Services (-2.83%) and Technology (-2.21%) led the decline, with Consumer Cyclical (-2.44%), Healthcare (-1.78%), Real Estate (-1.17%), and Industrials (-1.16%) also hit hard. That’s a continuation of the AI-capex-doubt rotation that’s been building since Oct 14 rather than a new signal — chip and memory names (Micron -5.6%, Intel -5.8%) did the real damage inside the Technology bucket. Monday’s premarket action reverses the worst of that specifically in chips/memory (INTC, MU, SNDK, SMCI, CRWV, NVDA all bid), but there’s no fresh sector-close data yet to confirm whether the rotation itself has turned — that’s an open question into today’s cash session.</div></div>
 </div>
 </div>
 </div>
@@ -732,13 +734,13 @@
 <div class="sm-card card-safe">
 <div class="card-hd" style="color:var(--safe)">📈 Pre-Market Gainers</div>
 <table class="pmtbl">
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>GL</td><td><span class="pm-cat pm-earn">EARNINGS</span> <span class="pm-cat pm-beat">SPECULATIVE</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+8.53%</td><td style="font-size:10px;color:var(--sub)">Premarket to $168.77; GuruFocus attributes it to “renewed investor confidence” ahead of Oct 21 earnings — unconfirmed, no company news found</td></tr><tr><td>INTC</td><td><span class="pm-cat pm-ai">SEMIS</span> <span class="pm-cat pm-beat">UPGRADE</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+4.2%</td><td style="font-size:10px;color:var(--sub)">JPMorgan upgraded to Neutral from Underweight, PT $85, on eased valuation risk and AI server-CPU demand — TradingKey</td></tr><tr><td>SNDK</td><td><span class="pm-cat pm-ai">SEMIS</span> <span class="pm-cat pm-beat">BARGAIN BID</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+3.9%</td><td style="font-size:10px;color:var(--sub)">Bouncing after Friday’s -6.85%; Goldman Sachs cited maintaining Buy (PT unverified) — TradingKey</td></tr><tr><td>MU</td><td><span class="pm-cat pm-ai">SEMIS</span> <span class="pm-cat pm-beat">STRIKE FEARS EASE</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+3.4%</td><td style="font-size:10px;color:var(--sub)">Taiwan union says Monday’s event was a rally, not a strike — TradingKey</td></tr><tr><td>SMCI</td><td><span class="pm-cat pm-ai">AI-INFRA</span> <span class="pm-cat pm-beat">SECTOR REBOUND</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+3.5%</td><td style="font-size:10px;color:var(--sub)">Riding the broader chip/memory bounce — TradingKey</td></tr><tr><td>CRWV</td><td><span class="pm-cat pm-ai">AI-INFRA</span> <span class="pm-cat pm-beat">SECTOR REBOUND</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+2.9%</td><td style="font-size:10px;color:var(--sub)">Same AI-infra bounce after a brutal prior week — TradingKey</td></tr><tr><td>NVDA</td><td><span class="pm-cat pm-ai">AI</span> <span class="pm-cat pm-beat">SECTOR REBOUND</span></td><td class="c-safe" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">+1.5%</td><td style="font-size:10px;color:var(--sub)">Smallest mover of the complex but still green — TradingKey</td></tr>
 </table>
 </div>
 <div class="sm-card card-danger">
 <div class="card-hd" style="color:var(--danger)">📉 Pre-Market Decliners</div>
 <table class="pmtbl">
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tr><td>N/A</td><td><span class="pm-cat pm-earn">NOT SOURCED</span></td><td class="c-sub" style="font-weight:700;text-align:right;font-family:'Space Mono',monospace">—</td><td style="font-size:10px;color:var(--sub)">No confirmed premarket decliners independently sourced today — every named mover in the sources reviewed (GL, INTC, MU, SNDK, SMCI, CRWV, NVDA) was green. Verify against a live scanner before trading the short side blind; this does not mean nothing is down, only that nothing down was sourced.</td></tr>
 </table>
 </div>
 </div>
@@ -747,11 +749,11 @@
 <div class="grid2">
 <div class="sm-card">
 <div class="card-hd">🔍 Spotlight</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="spot-item"><div class="spot-hd"><span class="spot-tk">Chip/Memory Complex</span></div><div class="spot-body">Intel, Micron, SanDisk, Super Micro, CoreWeave, and Nvidia all bid premarket (+1.5% to +4.2%) after Friday’s rout, driven by a JPMorgan upgrade on Intel (Underweight→Neutral, PT $85) and Micron’s Taiwan union clarifying that Monday’s shop-floor event was a rally, not a strike. This reverses the worst of Friday’s specific damage (MU -5.6%, INTC -5.8%) but doesn’t resolve the broader AI-capex-duration debate that’s been building since TSMC’s Oct 14 analysis and Oct 15 earnings.</div></div><div class="spot-item"><div class="spot-hd"><span class="spot-tk">TSMC</span></div><div class="spot-body">Q3 2026 results beat on every headline line — revenue NT$1.494 trillion (+50.9% y/y, above its own $44.6–45.8B guidance range), net income NT$763.06 billion (+68.7% y/y), EPS NT$29.43/$4.60 per ADR, a sixth straight record-profit quarter, HPC now 68% of revenue versus 57% a year ago. Shares still slipped on gross-margin cooling (66.4% vs. 67.7% the prior quarter) and spending-outlook worries — a “beat but cautious” print that fed last week’s AI-capex doubt rather than resolving it.</div></div><div class="spot-item"><div class="spot-hd"><span class="spot-tk">Hormuz / Rates</span></div><div class="spot-body">Shafaq News reported at least 10 vessel attacks in the Strait of Hormuz in the 3 days since Sunday (as of Oct 15) — the highest 3-day total since the US-Israel-Iran war began Feb 28, 2026. Treasury Secretary Bessent framed September’s hot CPI print as a temporary “energy shock” tied to that conflict; the 10-year yield has eased to 5.09% (Oct 16) from its Oct 14 CPI-shock peak above 5.32%, suggesting the market isn’t (yet) pricing the geopolitical risk as a fresh inflation shock.</div></div>
 </div>
 <div class="sm-card card-orange">
 <div class="card-hd orange">🎯 Options Ideas</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="opt-item"><div class="opt-hd"><span class="opt-tk">Chip/memory vol</span></div><div class="opt-body">No sized options idea into today’s INTC/MU/SNDK/SMCI/CRWV bounce — current IV/skew wasn’t independently sourced today. Note only: realized vol in this complex just expanded sharply in both directions (Friday’s rout, Monday’s premarket reversal), so any premium-selling approach into Tuesday’s/Wednesday’s earnings needs to size for a genuinely wider range than two weeks ago.</div></div><div class="opt-item"><div class="opt-hd"><span class="opt-tk">Rate-relief vol</span></div><div class="opt-body">The 10-year yield’s pullback to 5.09% from its Oct 14 CPI-shock peak above 5.32% is worth tracking into the Oct 28 FOMC even without a live chain read today — duration-sensitive sectors (utilities, real estate) were among Friday’s worst performers and would be the first to re-rate if yields keep easing.</div></div>
 </div>
 </div>
 <!-- ══ MONEY FLOW + UNUSUAL OPTIONS ═════════════════════════ -->
@@ -759,11 +761,11 @@
 <div class="grid2">
 <div class="sm-card">
 <div class="card-hd">💸 Dark Pool / Money Flow</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="mf-item"><div class="mf-name">Dark Pool / Block Prints</div><div class="mf-val c-warn">NOT SOURCED TODAY</div></div>
 </div>
 <div class="sm-card card-orange">
 <div class="card-hd orange">⚡ Unusual Options Activity</div>
-<tr><td colspan="4" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<div class="uo-item"><div class="uo-hd"><span class="uo-tk">N/A</span><span class="uo-exp">No live chain data</span></div><div class="uo-body c-warn">No real-time options-flow/unusual-activity feed sourced today — not fabricating a precise-looking figure. Watch the chip/memory complex (INTC, MU, SNDK, SMCI, CRWV, NVDA) and Wednesday’s TSLA/META doubleheader for where flow actually shows up.</div></div>
 </div>
 </div>
 <!-- ══ MASTER TRADE TABLE ════════════════════════════════════ -->
@@ -811,7 +813,7 @@
 <th class="sortable" onclick="apexSortTable(10)">Priority</th>
 </tr>
 </thead>
-<tbody><tr><td colspan="11" style="color:var(--muted);font-style:italic">PENDING — awaiting analysis pass</td></tr>
+<tbody><!-- INJECT UP TO 20 TRADE ROWS. Column order: #, Symbol, Type, Direction, Setup, Entry, Stop, Target, R:R, Notes, Priority --><tr><td>1</td><td><strong>BTC</strong></td><td><span class="t-type ts">STOCK</span></td><td class="t-long">LONG</td><td>Holding above its 50-day avg after a bounce — premarket +0.52%</td><td class="mono">82,442</td><td class="mono c-bad">80,400.00</td><td class="mono c-safe">86,500.00</td><td class="t-rr">1:2.0</td><td>Price ($82,442, per FMP) sits about 1.3% above its 50-day average ($81,396, computed from FMP daily closes Aug 30–Oct 18) after bouncing off Friday/weekend support in the $80,565–81,500 zone; stop below both the 50-day avg and that support shelf, target revisits the early-Oct swing-high area near $86,500–87,000. Overnight risk-on tone (yields easing, equity futures bid) is a tailwind, but this is a crypto-specific technical setup, not a macro call — keep size modest given the broader tape is still unsettled.</td><td class="t-pri">★</td></tr><tr><td colspan="11" style="color:var(--muted);font-size:9px;padding-top:10px">/ES and /NQ futures setups omitted today — Schwab refresh token is stale (HTTP 400), now a multi-week outage with no real settlement/pivot/VAH/POC/VAL to grade against. No ETH idea today — price ($2,420.57) is trading about 5.1% below its $2,550 50-day avg per FMP, the same unclean setup as the last published edition. No chip/memory-complex trade (INTC, MU, SNDK, SMCI, CRWV, NVDA, GL) sized today — every premarket move sourced was percentage-only from secondary sources with no confirmed live price level. No options-flow data sourced today. See Section 05 Pipeline Note for the Schwab outage detail.</td></tr>
 <!-- <tr><td>{{N}}</td><td><strong>{{TICKER}}</strong></td><td><span class="t-type tf|ts|te|to">{{TYPE}}</span></td><td class="t-long|t-short|t-neut">{{DIRECTION}}</td><td>{{SETUP}}</td><td class="mono">{{ENTRY}}</td><td class="mono c-bad">{{STOP}}</td><td class="mono c-safe">{{TARGET}}</td><td class="t-rr">{{RR}}</td><td>{{NOTES}}</td><td class="t-pri">{{PRIORITY}}</td></tr> --></tbody>
 </table>
 </div>
