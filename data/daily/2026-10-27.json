@@ -1,35 +1,35 @@
 {
-  "fetched_at": "2026-10-27T06:27:02.452983-07:00",
+  "fetched_at": "2026-10-27T07:00:48.063716-07:00",
   "quotes": {
     "VIX": {
-      "price": 17.9,
-      "change": -0.5,
-      "changePercentage": -2.71887,
+      "price": 18.0,
+      "change": -0.4,
+      "changePercentage": -2.06634,
       "color": "c-bad"
     },
     "SPX": {
-      "price": 7676.77,
-      "change": 53.09,
-      "changePercentage": 0.69638,
+      "price": 7684.75,
+      "change": 7.98,
+      "changePercentage": 0.10395,
       "color": "c-safe"
     },
     "GOLD": {
-      "price": 4037.2,
-      "change": -1.2,
-      "changePercentage": -0.02971474,
-      "color": "c-bad"
+      "price": 4038.8,
+      "change": 0.4,
+      "changePercentage": 0.00990491,
+      "color": "c-safe"
     },
     "BTC": {
-      "price": 80038.92,
-      "change": 29.42,
-      "changePercentage": 0.03677298,
-      "color": "c-safe"
+      "price": 79848.3,
+      "change": -161.2,
+      "changePercentage": -0.20148,
+      "color": "c-bad"
     },
     "ETH": {
-      "price": 2323.39,
-      "change": 2.98,
-      "changePercentage": 0.12855,
-      "color": "c-safe"
+      "price": 2315.86,
+      "change": -4.55,
+      "changePercentage": -0.19597,
+      "color": "c-bad"
     }
   },
   "schwab_futures": {}
