@@ -1,5 +1,5 @@
 {
-  "fetched_at": "2026-10-28T15:56:29.728837-07:00",
+  "fetched_at": "2026-10-28T16:11:45.985850-07:00",
   "quotes": {
     "VIX": {
       "price": 16.9,
@@ -14,21 +14,21 @@
       "color": "c-safe"
     },
     "GOLD": {
-      "price": 4066.6,
-      "change": 15,
-      "changePercentage": 0.37022,
+      "price": 4065.1,
+      "change": 13.5,
+      "changePercentage": 0.3332,
       "color": "c-safe"
     },
     "BTC": {
-      "price": 81207.11,
-      "change": 406.69,
-      "changePercentage": 0.50333,
+      "price": 81214.74,
+      "change": 414.32,
+      "changePercentage": 0.51277,
       "color": "c-safe"
     },
     "ETH": {
-      "price": 2358.71,
-      "change": 11.36,
-      "changePercentage": 0.48379,
+      "price": 2358.76,
+      "change": 11.4,
+      "changePercentage": 0.48584,
       "color": "c-safe"
     }
   },
