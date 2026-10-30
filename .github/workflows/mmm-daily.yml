@@ -85,11 +85,21 @@ jobs:
         # transiently fail. One flaky call must not blank a real trading
         # day's numbers before 6:25am -- retry up to 3x with backoff.
         run: |
+          # FIX 2026-10-30: this loop used to end on `sleep`, which always
+          # exits 0, so a run where all 3 attempts failed (e.g. sanitize.py
+          # rejecting the output) still counted as success and the next step
+          # committed whatever was on disk. Track success explicitly and fail
+          # the step if no attempt succeeded, so "Commit and push" is skipped.
+          ok=0
           for i in 1 2 3; do
-            python scripts/fetch_mmm_data.py && break
+            if python scripts/fetch_mmm_data.py; then ok=1; break; fi
             echo "Attempt $i failed, retrying in 20s..."
             sleep 20
           done
+          if [ "$ok" -ne 1 ]; then
+            echo "All 3 attempts failed -- failing step so nothing is committed." >&2
+            exit 1
+          fi
 
       - name: Commit and push
         run: |
