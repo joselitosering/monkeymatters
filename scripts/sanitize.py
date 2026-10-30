@@ -19,6 +19,22 @@ FORBIDDEN = [
 TEXT_EXTS = {".html",".htm",".json",".md",".py",".js",".ts",
              ".tsx",".css",".yml",".yaml",".txt",".j2",".jinja2"}
 SKIP_DIRS = {".git",".venv","venv","__pycache__","node_modules"}
+
+# Path-scoped exemptions (2026-10-30, per Joe): HHH report pages are
+# intentionally published holdings data, so the "HIVE cost basis" pattern is
+# not applied under these directories. Every other pattern still applies
+# there, and this pattern stays fully active everywhere else.
+EXEMPT_LABEL_DIRS = {
+    "HIVE cost basis": [("shadowmonkey", "hhh-daily"), ("shadowmonkey", "hhh-weekly")],
+}
+
+def _exempt(path: Path, label: str) -> bool:
+    parts = path.resolve().parts
+    for seq in EXEMPT_LABEL_DIRS.get(label, []):
+        n = len(seq)
+        if any(parts[i:i+n] == seq for i in range(len(parts) - n + 1)):
+            return True
+    return False
 SELF_PATH = Path(__file__).resolve()
 
 def check_file(path: Path) -> list:
@@ -33,7 +49,7 @@ def check_file(path: Path) -> list:
     except Exception:
         return []
     return [f"{path}: [{label}]" for pat, label in FORBIDDEN
-            if re.search(pat, text, re.IGNORECASE)]
+            if re.search(pat, text, re.IGNORECASE) and not _exempt(path, label)]
 
 def check_tree(root: Path) -> list:
     violations = []
